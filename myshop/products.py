@@ -6,3 +6,4 @@ products = Blueprint('products', __name__, template_folder='templates/products')
 @products.route('/')
 def product():
     return render_template('products.html')
+
