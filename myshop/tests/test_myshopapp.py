@@ -45,7 +45,7 @@ class TestCreateApp(unittest.TestCase):
         # Test that the app can be shut down without errors
         with self.app.test_client() as client:
             response = client.get('/shutdown')
-            self.assertEqual(response.status_code, 5504)
+            self.assertEqual(response.status_code, 404)
 
 
 if __name__ == '__main__':
