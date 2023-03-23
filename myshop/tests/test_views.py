@@ -1,3 +1,5 @@
+""" Libor Havránek App Copyright (C)  23.3 2023 """
+
 import unittest
 
 from myshop import create_app
