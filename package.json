@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  "test": "mocha myshop/tests/*.py"
+"scripts": {
+  "test": "python -m unittest discover myshop/tests"
 },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/liborhavranek/FlaskShop/issues"
   },
-  "homepage": "https://github.com/liborhavranek/FlaskShop#readme"
+  "homepage": "https://github.com/liborhavranek/FlaskShop#readme",
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  }
 }
