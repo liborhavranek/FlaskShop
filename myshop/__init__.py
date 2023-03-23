@@ -1,3 +1,5 @@
+""" Libor Havránek App Copyright (C)  23.3 2023 """
+
 from flask import Flask
 from flask_assets import Environment, Bundle
 
