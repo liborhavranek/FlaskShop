@@ -4,5 +4,5 @@ admin = Blueprint('admin', __name__, template_folder='templates')
 
 
 @admin.route('/')
-def admin_page():
+def admin_page() -> str:
     return render_template('admin.html')
