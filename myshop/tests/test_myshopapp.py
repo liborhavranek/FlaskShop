@@ -47,6 +47,8 @@ class TestCreateApp(unittest.TestCase):
             response = client.get('/shutdown')
             self.assertEqual(response.status_code, 404)
 
+# TODO write tests for bundless
+
 
 if __name__ == '__main__':
     unittest.main()
