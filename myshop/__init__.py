@@ -3,6 +3,7 @@
 from os import path
 from flask import Flask
 from flask_migrate import Migrate
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_assets import Environment, Bundle
 
@@ -10,6 +11,7 @@ from flask_assets import Environment, Bundle
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
 migrate = Migrate()
+login_manager = LoginManager()
 
 
 def create_app():
@@ -23,6 +25,13 @@ def create_app():
 
     from .models import Customer
     create_database(app)
+
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(id):
+        return Customer.query.get(id)
 
     assets = Environment(app)
     bundles = {  # define nested Bundle
