@@ -4,12 +4,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from os import path
+from flask_assets import Environment, Bundle
 
 
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
-
 migrate = Migrate()
+
 
 def create_app():
     app = Flask(__name__)
@@ -23,7 +24,25 @@ def create_app():
     from .models import Costumer
     create_database(app)
 
-
+    assets = Environment(app)
+    bundles = {  # define nested Bundle
+        'index_style': Bundle(
+            'SCSS/index.scss',
+            filters='libsass',
+            output='Gen/index.css',
+        ),
+        'register_style': Bundle(
+            'SCSS/register.scss',
+            filters='libsass',
+            output='Gen/register.css',
+        ),
+        'product_style': Bundle(
+            'SCSS/product.scss',
+            filters='libsass',
+            output='Gen/product.css',
+        )
+    }
+    assets.register(bundles)
 
     from .admin import admin
     from .products import products
