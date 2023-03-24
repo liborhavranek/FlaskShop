@@ -1,11 +1,10 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-import unittest
 import os
-from flask_assets import Environment, Bundle
-from webassets.filter import get_filter
-
+import unittest
 from myshop import create_app
+from webassets.filter import get_filter
+from flask_assets import Environment, Bundle
 
 
 class TestCreateApp(unittest.TestCase):

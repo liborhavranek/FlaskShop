@@ -1,9 +1,9 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from os import path
+from flask import Flask
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from flask_assets import Environment, Bundle
 
 
