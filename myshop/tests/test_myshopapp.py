@@ -2,8 +2,10 @@
 
 import os
 import unittest
-from myshop import create_app
+from myshop import create_app, db
+from myshop.models import Customer
 from webassets.filter import get_filter
+from flask_login import FlaskLoginClient
 from flask_assets import Environment, Bundle
 
 
@@ -13,6 +15,7 @@ class TestCreateApp(unittest.TestCase):
         self.app = create_app()
         self.app.testing = True
         self.client = self.app.test_client()
+        self.app.test_client_class = FlaskLoginClient
 
     def set_bundles(self):
         self.assets = Environment(self.app)

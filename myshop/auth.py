@@ -1,7 +1,7 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, flash
-from flask_login import login_user, current_user
+from flask import Blueprint, render_template, request, flash, redirect
+from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from myshop import db
@@ -39,7 +39,7 @@ def register():
             flash('Profil byl úspěšně vytvořen.', category='success')
             return render_template('login.html', costumer=current_user)
 
-    return render_template('register.html', costumer=current_user)
+    return render_template('register.html', customer=current_user)
 
 
 
@@ -48,8 +48,6 @@ def login():
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        print(email)
-        print(password)
         costumer = Customer.query.filter_by(email=email).first()
         if costumer:
             if check_password_hash(costumer.password, password):
@@ -61,4 +59,28 @@ def login():
         else:
             flash('Email neexistuje', category='error')
 
-    return render_template("login.html", costumer=current_user)
+    return render_template("login.html", customer=current_user)
+
+
+@auth.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return render_template("login.html", customer=current_user)
+
+@auth.route('/create-customers')
+def create_test_data():
+    password1 = "test"
+    users = [
+        {"username": "ctiborekskutr", "email": "liborhavranek91@gmail.com"},
+        {"username": "hanicka", "email": "hana@gmail.com"},
+    ]
+    for user in users:
+        customer = Customer(
+            username=user["username"],
+            email=user["email"],
+            password=generate_password_hash(password1, method='sha256')
+        )
+        db.session.add(customer)
+    db.session.commit()
+    return render_template("auth.html", customer=current_user)

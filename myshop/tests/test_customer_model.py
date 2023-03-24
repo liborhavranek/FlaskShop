@@ -1,6 +1,7 @@
 import unittest
 
 from sqlalchemy.exc import IntegrityError
+from flask_login import FlaskLoginClient, login_user, current_user
 
 from myshop import create_app, db
 from myshop.models import Customer
@@ -21,9 +22,9 @@ class TestCostumerAddModel(unittest.TestCase):
         db.drop_all()
 
     def create_costumer(self):
-        self.costumer = Customer(username='test_user', email='test@example.com', phone_code='+1', phone='123456789',
+        self.customer = Customer(username='test_user', email='test@example.com', phone_code='+1', phone='123456789',
                                  password='password')
-        db.session.add(self.costumer)
+        db.session.add(self.customer)
         db.session.commit()
 
     def test_costumer_have_username(self):
