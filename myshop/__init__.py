@@ -21,7 +21,7 @@ def create_app():
 
     migrate.init_app(app, db, compare_type=True)
 
-    from .models import Costumer
+    from .models import Customer
     create_database(app)
 
     assets = Environment(app)

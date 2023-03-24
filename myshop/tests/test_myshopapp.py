@@ -1,7 +1,7 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
 import unittest
-
+import os
 from flask_assets import Environment, Bundle
 from webassets.filter import get_filter
 
@@ -112,6 +112,16 @@ class TestCreateApp(unittest.TestCase):
             if filter_name == 'libsass':
                 sass_filter = get_filter(filter_name)
                 self.assertIsNotNone(sass_filter)
+
+    def test_sqlalchemy_database_is_set(self):
+        self.assertEqual(self.app.config['SQLALCHEMY_DATABASE_URI'], "sqlite:///myshop.db")
+
+    def test_database_created_if_not_exists(self):
+        db_name = "myshop.db"
+        db_file_path = os.path.join(os.getcwd(), 'myshop', db_name)
+        if os.path.exists(db_file_path):
+            os.remove(db_file_path)
+        self.assertFalse(os.path.exists(db_file_path))
 
 
 if __name__ == '__main__':

@@ -2,7 +2,8 @@
 
 from . import db
 
-class Costumer(db.Model):
+
+class Customer(db.Model):
     #  -------------------Uzivatel-------------------
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True)
