@@ -62,7 +62,6 @@ class TestCustomerAddModel(unittest.TestCase):
         self.second_customer.phone = '123456789'
         self.second_customer.password = 'password'
 
-
     def test_load_login_manager(self):
         customer = Customer()
         customer.username = "test_user"
@@ -280,7 +279,6 @@ class TestCustomerAddModel(unittest.TestCase):
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
-
 
     def test_in_db_can_be_save_users_when_the_same_faktura_city(self):
         self.create_customer()
