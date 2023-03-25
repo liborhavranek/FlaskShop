@@ -119,6 +119,31 @@ class TestCostumerAddModel(unittest.TestCase):
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.password, 'password')
 
+    def test_costumer_have_faktura_first_name(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.faktura_first_name, 'faktura_first_name')
+
+    def test_costumer_have_faktura_last_name(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.faktura_last_name, 'faktura_last_name')
+
+    def test_costumer_have_faktura_city(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.faktura_city, 'faktura_city')
+
+    def test_costumer_have_faktura_street(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.faktura_street, 'faktura_street')
+
+    def test_costumer_have_faktura_zipcode(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.faktura_zipcode, '58')
+
     def test_second_user_have_id_two(self):
         self.create_costumer()
         second_customer = Customer()
