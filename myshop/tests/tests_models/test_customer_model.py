@@ -55,6 +55,14 @@ class TestCustomerAddModel(unittest.TestCase):
         db.session.add(self.customer)
         db.session.commit()
 
+    def create_second_customer(self):
+        self.second_customer = Customer()
+        self.second_customer.username = 'second_customer'
+        self.second_customer.email = 'test2@example.com'
+        self.second_customer.phone = '123456789'
+        self.second_customer.password = 'password'
+
+
     def test_load_login_manager(self):
         customer = Customer()
         customer.username = "test_user"
@@ -257,26 +265,18 @@ class TestCustomerAddModel(unittest.TestCase):
 
     def test_in_db_can_be_save_users_when_the_same_faktura_first_name(self):
         self.create_customer()
-        second_customer = Customer()
-        second_customer.username = 'second_customer'
-        second_customer.email = 'test2@example.com'
-        second_customer.phone = '123456789'
-        second_customer.password = 'password'
-        second_customer.faktura_first_name = 'faktura_first_name'
-        db.session.add(second_customer)
+        self.create_second_customer()
+        self.second_customer.faktura_first_name = 'faktura_first_name'
+        db.session.add(self.second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
     def test_in_db_can_be_save_users_when_the_same_faktura_last_name(self):
         self.create_customer()
-        second_customer = Customer()
-        second_customer.username = 'second_customer'
-        second_customer.email = 'test2@example.com'
-        second_customer.phone = '123456789'
-        second_customer.password = 'password'
-        second_customer.faktura_last_name = 'faktura_last_name'
-        db.session.add(second_customer)
+        self.create_second_customer
+        self.second_customer.faktura_last_name = 'faktura_last_name'
+        db.session.add(self.second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
@@ -284,31 +284,93 @@ class TestCustomerAddModel(unittest.TestCase):
 
     def test_in_db_can_be_save_users_when_the_same_faktura_city(self):
         self.create_customer()
-        second_customer = Customer()
-        second_customer.username = 'second_customer'
-        second_customer.email = 'test2@example.com'
-        second_customer.phone = '123456789'
-        second_customer.password = 'password'
-        second_customer.faktura_city = 'faktura_city'
-        db.session.add(second_customer)
+        self.create_second_customer()
+        self.second_customer.faktura_city = 'faktura_city'
+        db.session.add(self.second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
     def test_in_db_can_be_save_users_when_the_same_faktura_street(self):
         self.create_customer()
-        second_customer = Customer()
-        second_customer.username = 'second_customer'
-        second_customer.email = 'test2@example.com'
-        second_customer.phone = '123456789'
-        second_customer.password = 'password'
-        second_customer.faktura_street = 'faktura_street'
-        db.session.add(second_customer)
+        self.create_second_customer()
+        self.second_customer.faktura_street = 'faktura_street'
+        db.session.add(self.second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
+    def test_in_db_can_be_save_users_when_the_same_faktura_zipcode(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.faktura_zipcode = '58'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
 
+    def test_in_db_can_be_save_users_when_the_same_dodej_first_name(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_first_name = 'dodej_first_name'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_last_name(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_last_name = 'dodej_last_name'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_company(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_company = 'dodej_company'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_city(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_city = 'dodej_city'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_street(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_street = 'dodej_street'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_zipcode(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_zipcode = '58'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_info(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_info = 'dodej_info'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
 
     # TODO after set passwords add tests to match password
 
