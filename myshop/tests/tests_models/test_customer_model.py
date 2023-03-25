@@ -30,6 +30,28 @@ class TestCostumerAddModel(unittest.TestCase):
         self.customer.phone_code = '+1'
         self.customer.phone = '123456789'
         self.customer.password = 'password'
+
+        self.customer.faktura_first_name = 'faktura_first_name'
+        self.customer.faktura_last_name = 'faktura_last_name'
+        self.customer.faktura_city = 'faktura_city'
+        self.customer.faktura_street = 'faktura_street'
+        self.customer.faktura_zipcode = '58'
+
+        self.customer.dodej_first_name = 'dodej_first_name'
+        self.customer.dodej_last_name = 'dodej_last_name'
+        self.customer.dodej_company = 'dodej_company'
+        self.customer.dodej_city = 'dodej_city'
+        self.customer.dodej_street = 'dodej_street'
+        self.customer.dodej_zipcode = '58'
+        self.customer.dodej_info = 'dodej_info'
+        self.customer.dodej_phone_code = '+1'
+        self.customer.dodej_phone = '987654321'
+
+        self.customer.firma_ico = '88888888'
+        self.customer.firma_dic = '9999999999'
+        self.customer.firma_bank_acc = '1234567890'
+        self.customer.firma_bank_number = '0800'
+        self.customer.firma_spec_symbol = '55555'
         db.session.add(self.customer)
         db.session.commit()
 
@@ -157,6 +179,8 @@ class TestCostumerAddModel(unittest.TestCase):
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
+
+
 
     # TODO after set passwords add tests to match password
 
