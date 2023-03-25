@@ -260,7 +260,7 @@ class TestCustomerAddModel(unittest.TestCase):
     # TODO after set passwords add tests to match password
 
 
-class TestCostumerChangeModel(unittest.TestCase):
+class TestCustomerChangeModel(unittest.TestCase):
 
     def setUp(self):
         app = create_app()
@@ -274,7 +274,7 @@ class TestCostumerChangeModel(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def create_costumer(self):
+    def create_customer(self):
         self.costumer = Customer()
         self.costumer.username = 'first_user'
         self.costumer.email = 'test@example.com'
@@ -284,7 +284,7 @@ class TestCostumerChangeModel(unittest.TestCase):
         db.session.add(self.costumer)
         db.session.commit()
 
-    def create_second_costumers(self):
+    def create_second_customers(self):
         self.second_user = Customer()
         self.second_user.username = 'second_user'
         self.second_user.email = 'test2@example.com'
@@ -295,46 +295,46 @@ class TestCostumerChangeModel(unittest.TestCase):
         db.session.commit()
 
     def test_update_username_when_username_is_not_used(self):
-        self.create_costumer()
-        self.create_second_costumers()
+        self.create_customer()
+        self.create_second_customers()
         self.second_user.username = "changed_username"
         db.session.commit()
         result = self.second_user.username
         self.assertEqual(result, 'changed_username')
 
     def test_update_username_when_username_is_used(self):
-        self.create_costumer()
-        self.create_second_costumers()
+        self.create_customer()
+        self.create_second_customers()
         with self.assertRaises(IntegrityError):
             self.second_user.username = "first_user"
             db.session.commit()
 
     def test_update_username_when_email_is_not_used(self):
-        self.create_costumer()
-        self.create_second_costumers()
+        self.create_customer()
+        self.create_second_customers()
         self.second_user.email = "changed@email.com"
         db.session.commit()
         result = self.second_user.email
         self.assertEqual(result, "changed@email.com")
 
     def test_update_username_when_email_is_used(self):
-        self.create_costumer()
-        self.create_second_costumers()
+        self.create_customer()
+        self.create_second_customers()
         with self.assertRaises(IntegrityError):
             self.second_user.email = "test@example.com"
             db.session.commit()
 
     def test_update_username_when_phone_is_not_used(self):
-        self.create_costumer()
-        self.create_second_costumers()
+        self.create_customer()
+        self.create_second_customers()
         self.second_user.phone = "111999111"
         db.session.commit()
         result = self.second_user.phone
         self.assertEqual(result, "111999111")
 
     def test_update_username_when_phone_used(self):
-        self.create_costumer()
-        self.create_second_costumers()
+        self.create_customer()
+        self.create_second_customers()
         self.second_user.phone = "123456789"
         db.session.commit()
         result = self.second_user.phone
@@ -342,8 +342,8 @@ class TestCostumerChangeModel(unittest.TestCase):
 
     # TODO IF if it will possible add tests for change password
 
-    def test_delete_costumer(self):
-        self.create_costumer()
+    def test_delete_customer(self):
+        self.create_customer()
         db.session.delete(self.costumer)
         db.session.commit()
         result = Customer.query.filter_by(username='test_user').first()
