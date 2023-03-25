@@ -2,8 +2,7 @@
 
 import os
 import unittest
-from myshop import create_app, db
-from myshop.models import Customer
+from myshop import create_app
 from webassets.filter import get_filter
 from flask_login import FlaskLoginClient
 from flask_assets import Environment, Bundle
