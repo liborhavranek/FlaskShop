@@ -274,7 +274,7 @@ class TestCustomerAddModel(unittest.TestCase):
 
     def test_in_db_can_be_save_users_when_the_same_faktura_last_name(self):
         self.create_customer()
-        self.create_second_customer
+        self.create_second_customer()
         self.second_customer.faktura_last_name = 'faktura_last_name'
         db.session.add(self.second_customer)
         db.session.commit()
