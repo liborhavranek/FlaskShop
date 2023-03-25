@@ -136,18 +136,24 @@ class TestCostumerAddModel(unittest.TestCase):
 
     def test_in_db_can_be_save_users_when_the_same_phonenumber(self):
         self.create_costumer()
-        second_user = Customer(username='second_user', email='test2@example.com', password='password',
-                               phone='123456789')
-        db.session.add(second_user)
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        db.session.add(second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
     def test_in_db_can_be_save_users_when_the_same_password(self):
         self.create_costumer()
-        second_user = Customer(username='second_user', email='test2@example.com', password='password',
-                               phone='123456789')
-        db.session.add(second_user)
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        db.session.add(second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
@@ -170,8 +176,12 @@ class TestCostumerChangeModel(unittest.TestCase):
         db.drop_all()
 
     def create_costumer(self):
-        self.costumer = Customer(username='first_user', email='test@example.com', phone_code='+1', phone='123456789',
-                                 password='password')
+        self.costumer = Customer()
+        self.costumer.username = 'first_user'
+        self.costumer.email = 'test@example.com'
+        self.costumer.phone_code = '+1'
+        self.costumer.phone = '123456789'
+        self.costumer.password = 'password'
         db.session.add(self.costumer)
         db.session.commit()
 
