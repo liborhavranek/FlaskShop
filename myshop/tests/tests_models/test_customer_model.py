@@ -255,6 +255,59 @@ class TestCustomerAddModel(unittest.TestCase):
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
+    def test_in_db_can_be_save_users_when_the_same_faktura_first_name(self):
+        self.create_customer()
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        second_customer.faktura_first_name = 'faktura_first_name'
+        db.session.add(second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_faktura_last_name(self):
+        self.create_customer()
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        second_customer.faktura_last_name = 'faktura_last_name'
+        db.session.add(second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+
+    def test_in_db_can_be_save_users_when_the_same_faktura_city(self):
+        self.create_customer()
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        second_customer.faktura_city = 'faktura_city'
+        db.session.add(second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_faktura_street(self):
+        self.create_customer()
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        second_customer.faktura_street = 'faktura_street'
+        db.session.add(second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
 
 
     # TODO after set passwords add tests to match password
