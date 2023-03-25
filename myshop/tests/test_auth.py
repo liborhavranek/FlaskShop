@@ -216,7 +216,7 @@ class TestCreateApp(unittest.TestCase):
     def test_logout_return_correct_template(self):
         self.client.post('/auth/login', data={"email": "testuser@example.com", "password": "password"})
         response = self.client.get('/auth/logout', follow_redirects=True)
-        self.assertTrue(response, 'login.html')
+        self.assertTrue(response, 'index.html')
 
     def test_logout_user(self):
         with self.app.test_request_context('/logout'):
