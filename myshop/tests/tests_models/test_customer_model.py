@@ -6,7 +6,7 @@ from myshop import create_app, db
 from myshop.models import Customer
 
 
-class TestCostumerAddModel(unittest.TestCase):
+class TestCustomerAddModel(unittest.TestCase):
 
     def setUp(self):
         app = create_app()
@@ -23,7 +23,7 @@ class TestCostumerAddModel(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def create_costumer(self):
+    def create_customer(self):
         self.customer = Customer()
         self.customer.username = 'test_user'
         self.customer.email = 'test@example.com'
@@ -66,17 +66,17 @@ class TestCostumerAddModel(unittest.TestCase):
         self.assertEqual(loaded_user, customer.id)
 
     def test_load_user(self):
-        self.create_costumer()
+        self.create_customer()
         db.session.add(self.customer)
         db.session.commit()
-        costumer_id = self.customer.id
+        customer_id = self.customer.id
 
-        loaded_user = Customer.query.get(costumer_id)
+        loaded_user = Customer.query.get(customer_id)
 
         self.assertEqual(loaded_user, self.customer)
 
     def test_load_user_id(self, id=1):
-        self.create_costumer()
+        self.create_customer()
         db.session.add(self.customer)
         db.session.commit()
 
@@ -85,7 +85,7 @@ class TestCostumerAddModel(unittest.TestCase):
         self.assertEqual(loaded_user, self.customer)
 
     def test_load_user_with_valid_id(self):
-        self.create_costumer()
+        self.create_customer()
         db.session.add(self.customer)
         db.session.commit()
         customer_id = self.customer.id
@@ -94,116 +94,121 @@ class TestCostumerAddModel(unittest.TestCase):
 
         self.assertEqual(loaded_customer, customer_id)
 
-    def test_costumer_have_username(self):
-        self.create_costumer()
+    def test_customer_have_username(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.username, 'test_user')
 
-    def test_costumer_have_email(self):
-        self.create_costumer()
+    def test_customer_have_email(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.email, 'test@example.com')
 
-    def test_costumer_have_phone_code(self):
-        self.create_costumer()
+    def test_customer_have_phone_code(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.phone_code, '+1')
 
-    def test_costumer_have_phone(self):
-        self.create_costumer()
+    def test_customer_have_phone(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.phone, '123456789')
 
-    def test_costumer_have_password(self):
-        self.create_costumer()
+    def test_customer_have_password(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.password, 'password')
 
-    def test_costumer_have_faktura_first_name(self):
-        self.create_costumer()
+    def test_customer_have_faktura_first_name(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.faktura_first_name, 'faktura_first_name')
 
-    def test_costumer_have_faktura_last_name(self):
-        self.create_costumer()
+    def test_customer_have_faktura_last_name(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.faktura_last_name, 'faktura_last_name')
 
-    def test_costumer_have_faktura_city(self):
-        self.create_costumer()
+    def test_customer_have_faktura_city(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.faktura_city, 'faktura_city')
 
-    def test_costumer_have_faktura_street(self):
-        self.create_costumer()
+    def test_customer_have_faktura_street(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.faktura_street, 'faktura_street')
 
-    def test_costumer_have_faktura_zipcode(self):
-        self.create_costumer()
+    def test_customer_have_faktura_zipcode(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.faktura_zipcode, '58')
 
-    def test_costumer_have_dodej_first_name(self):
-        self.create_costumer()
+    def test_customer_have_dodej_first_name(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_first_name, 'dodej_first_name')
 
-    def test_costumer_have_dodej_last_name(self):
-        self.create_costumer()
+    def test_customer_have_dodej_last_name(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_last_name, 'dodej_last_name')
 
-    def test_costumer_have_dodej_company(self):
-        self.create_costumer()
+    def test_customer_have_dodej_company(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_company, 'dodej_company')
 
-    def test_costumer_have_dodej_city(self):
-        self.create_costumer()
+    def test_customer_have_dodej_city(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_city, 'dodej_city')
 
-    def test_costumer_have_dodej_street(self):
-        self.create_costumer()
+    def test_customer_have_dodej_street(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_street, 'dodej_street')
 
-    def test_costumer_have_dodej_zipcode(self):
-        self.create_costumer()
+    def test_customer_have_dodej_zipcode(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_zipcode, '58')
 
-    def test_costumer_have_dodej_info(self):
-        self.create_costumer()
+    def test_customer_have_dodej_info(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_info, 'dodej_info')
 
-    def test_costumer_have_dodej_phone_code(self):
-        self.create_costumer()
+    def test_customer_have_dodej_phone_code(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_phone_code, '+1')
 
-    def test_costumer_have_dodej_phone(self):
-        self.create_costumer()
+    def test_customer_have_dodej_phone(self):
+        self.create_customer()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.dodej_phone, '987654321')
 
+    def test_customer_have_firma_ico(self):
+        self.create_customer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.firma_ico, '88888888')
+
     def test_second_user_have_id_two(self):
-        self.create_costumer()
+        self.create_customer()
         second_customer = Customer()
-        second_customer.username = 'second_costumer'
+        second_customer.username = 'second_customer'
         second_customer.email = 'second_email@example.com'
         second_customer.phone_code = '+1'
         second_customer.phone = '987654321'
         second_customer.password = 'password'
         db.session.add(second_customer)
         db.session.commit()
-        result = Customer.query.filter_by(username='second_costumer').first()
+        result = Customer.query.filter_by(username='second_customer').first()
         self.assertEqual(result.id, 2)
 
     def test_in_db_cant_be_save_user_when_the_same_username(self):
-        self.create_costumer()
+        self.create_customer()
 
         # try to create a user with the same username
         with self.assertRaises(IntegrityError):
@@ -215,7 +220,7 @@ class TestCostumerAddModel(unittest.TestCase):
             db.session.commit()
 
     def test_in_db_cant_be_save_user_when_the_same_email(self):
-        self.create_costumer()
+        self.create_customer()
 
         # try to create a user with the same username
         with self.assertRaises(IntegrityError):
@@ -227,7 +232,7 @@ class TestCostumerAddModel(unittest.TestCase):
             db.session.commit()
 
     def test_in_db_can_be_save_users_when_the_same_phonenumber(self):
-        self.create_costumer()
+        self.create_customer()
         second_customer = Customer()
         second_customer.username = 'second_customer'
         second_customer.email = 'test2@example.com'
@@ -239,7 +244,7 @@ class TestCostumerAddModel(unittest.TestCase):
         self.assertEqual(len(customers), 2)
 
     def test_in_db_can_be_save_users_when_the_same_password(self):
-        self.create_costumer()
+        self.create_customer()
         second_customer = Customer()
         second_customer.username = 'second_customer'
         second_customer.email = 'test2@example.com'
