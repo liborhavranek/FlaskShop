@@ -51,13 +51,13 @@ def login():
         costumer = Customer.query.filter_by(email=email).first()
         if costumer:
             if check_password_hash(costumer.password, password):
-                flash("Úspěšně jsi se přihlásil", category='success')
+                flash("Úspěšně jsi se přihlásil.", category='success')
                 login_user(costumer, remember=True)
                 return render_template("index.html", costumer=current_user)
             else:
-                flash('Zadal jsi nesprávné heslo', category='error')
+                flash('Zadal jsi nesprávné heslo.', category='error')
         else:
-            flash('Email neexistuje', category='error')
+            flash('Email neexistuje.', category='error')
 
     return render_template("login.html", customer=current_user)
 

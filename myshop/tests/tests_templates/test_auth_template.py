@@ -5,7 +5,8 @@ import unittest
 from myshop import create_app
 
 
-class TestAuthTemplate(unittest.TestCase):
+class TestAuthTemplateAllTemplates(unittest.TestCase):
+    """ Test tags and things what will have almost all templates """
 
     def setUp(self):
         self.app = create_app()
@@ -42,6 +43,46 @@ class TestAuthTemplate(unittest.TestCase):
         response = self.client.get('/auth', follow_redirects=True)
         self.assertIn(b'<html lang="en">', response.data)
         self.assertTrue(b'</html>' in response.data)
+
+    def test_template_have_set_index_css(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'<link rel="stylesheet" type="text/css" href="/static/Gen/index.css', response.data)
+
+    def test_template_have_set_product_css(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'<link rel="stylesheet" type="text/css" href="/static/Gen/product.css', response.data)
+
+    def test_template_have_set_register_css(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'<link rel="stylesheet" type="text/css" href="/static/Gen/register.css', response.data)
+
+    def test_template_have_bootstrap(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"',
+                      response.data)
+
+    def test_template_have_bootstrap_scripts(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"',
+                      response.data)
+
+    def test_template_have_jquery_scripts(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>',
+                      response.data)
+
+
+class TestAuthTemplateOnlyAuthTemplate(unittest.TestCase):
+    """Test what are specific only for this template"""
+
+    def setUp(self):
+        self.app = create_app()
+        self.app.testing = True
+        self.client = self.app.test_client()
+
+    def test_response_status(self):
+        response = self.client.get('/auth', follow_redirects=True)
+        self.assertIn(b'auth web', response.data)
 
 
 if __name__ == '__main__':
