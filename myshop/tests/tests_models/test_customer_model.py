@@ -372,6 +372,69 @@ class TestCustomerAddModel(unittest.TestCase):
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
+    def test_in_db_can_be_save_users_when_the_same_dodej_phone_code(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_phone_code = '+1'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_dodej_phone(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.dodej_phone = '987654321'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_firma_ico(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.firma_ico = '88888888'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_firma_dic(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.firma_dic = '9999999999'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_firma_bank_acc(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.firma_bank_acc = '1234567890'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_firma_bank_number(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.firma_bank_number = '0800'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
+    def test_in_db_can_be_save_users_when_the_same_spec_symbol(self):
+        self.create_customer()
+        self.create_second_customer()
+        self.second_customer.firma_spec_symbol = '55555'
+        db.session.add(self.second_customer)
+        db.session.commit()
+        customers = Customer.query.all()
+        self.assertEqual(len(customers), 2)
+
     # TODO after set passwords add tests to match password
 
 
