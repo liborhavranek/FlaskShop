@@ -1,8 +1,7 @@
 import unittest
 
 from sqlalchemy.exc import IntegrityError
-from flask_login import FlaskLoginClient, login_user, current_user
-
+from flask_login import LoginManager
 from myshop import create_app, db
 from myshop.models import Customer
 
@@ -17,15 +16,60 @@ class TestCostumerAddModel(unittest.TestCase):
         app_context.push()
         db.create_all()
 
+        self.login_manager = LoginManager()
+        self.login_manager.init_app(app)
+
     def tearDown(self):
         db.session.remove()
         db.drop_all()
 
     def create_costumer(self):
-        self.customer = Customer(username='test_user', email='test@example.com', phone_code='+1', phone='123456789',
-                                 password='password')
+        self.customer = Customer()
+        self.customer.username = 'test_user'
+        self.customer.email = 'test@example.com'
+        self.customer.phone_code = '+1'
+        self.customer.phone = '123456789'
+        self.customer.password = 'password'
         db.session.add(self.customer)
         db.session.commit()
+
+    def test_load_login_manager(self):
+        customer = Customer(username='test_user')
+        db.session.add(customer)
+        db.session.commit()
+
+        loaded_user = self.login_manager.user_loader(customer.id)
+
+        self.assertEqual(loaded_user, customer.id)
+
+    def test_load_user(self):
+        self.create_costumer()
+        db.session.add(self.customer)
+        db.session.commit()
+        costumer_id = self.customer.id
+
+        loaded_user = Customer.query.get(costumer_id)
+
+        self.assertEqual(loaded_user, self.customer)
+
+    def test_load_user_id(self, id=1):
+        self.create_costumer()
+        db.session.add(self.customer)
+        db.session.commit()
+
+        loaded_user = Customer.query.get(id)
+
+        self.assertEqual(loaded_user, self.customer)
+
+    def test_load_user_with_valid_id(self):
+        self.create_costumer()
+        db.session.add(self.customer)
+        db.session.commit()
+        customer_id = self.customer.id
+
+        loaded_customer = self.login_manager.user_loader(customer_id)
+
+        self.assertEqual(loaded_customer, customer_id)
 
     def test_costumer_have_username(self):
         self.create_costumer()

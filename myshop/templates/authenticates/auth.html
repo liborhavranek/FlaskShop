@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html'%}
+    {% block content %}
+
 {{current_user.username}}<br>
 auth web
 
 <a href="/auth/create-customers">create users</a>
 
 <a class="nav-link mx-2 text-uppercase" href="/auth/logout">Logout({{current_user.username}})</a>
-</body>
-</html>
+
+
+
+{%endblock content %}

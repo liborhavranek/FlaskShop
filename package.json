@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
  "scripts": {
-  "test": "python -m unittest discover myshop/tests"
+  "test": "python -m unittest discover myshop/tests -s myshop/tests"
 },
   "repository": {
     "type": "git",

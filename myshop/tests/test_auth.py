@@ -16,6 +16,20 @@ class TestCreateApp(unittest.TestCase):
             response = client.get('/auth')
             self.assertTrue(response, 'auth.html')
 
+    def test_auth_route_returns_auth_template(self):
+        with self.app.test_client() as client:
+            response = client.get('/auth', follow_redirects=True)
+            print(response.data)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.content_type, 'text/html; charset=utf-8')
+            self.assertTrue(b'<!DOCTYPE html>' in response.data)
+            self.assertTrue(b'<title>Flask shop</title>' in response.data)
+            self.assertTrue(b'</head>' in response.data)
+            self.assertTrue(b'<body>' in response.data)
+            self.assertTrue(b'</body>' in response.data)
+            self.assertTrue(b'</html>' in response.data)
+
+
 
 if __name__ == '__main__':
     unittest.main()
