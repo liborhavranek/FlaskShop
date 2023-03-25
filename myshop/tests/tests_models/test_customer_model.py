@@ -34,7 +34,8 @@ class TestCostumerAddModel(unittest.TestCase):
         db.session.commit()
 
     def test_load_login_manager(self):
-        customer = Customer(username='test_user')
+        customer = Customer()
+        customer.username = "test_user"
         db.session.add(customer)
         db.session.commit()
 
@@ -98,9 +99,13 @@ class TestCostumerAddModel(unittest.TestCase):
 
     def test_second_user_have_id_two(self):
         self.create_costumer()
-        second_costumer = Customer(username='second_costumer', email='second_email@example.com', phone_code='+1',
-                                   phone='987654321', password='password')
-        db.session.add(second_costumer)
+        second_customer = Customer()
+        second_customer.username = 'second_costumer'
+        second_customer.email = 'second_email@example.com'
+        second_customer.phone_code = '+1'
+        second_customer.phone = '987654321'
+        second_customer.password = 'password'
+        db.session.add(second_customer)
         db.session.commit()
         result = Customer.query.filter_by(username='second_costumer').first()
         self.assertEqual(result.id, 2)
@@ -110,8 +115,11 @@ class TestCostumerAddModel(unittest.TestCase):
 
         # try to create a user with the same username
         with self.assertRaises(IntegrityError):
-            second_user = Customer(username='test_user', email='test2@example.com', password='password')
-            db.session.add(second_user)
+            second_customer = Customer()
+            second_customer.username = 'test_user'
+            second_customer.email = 'test2@example.com'
+            second_customer.password = 'password'
+            db.session.add(second_customer)
             db.session.commit()
 
     def test_in_db_cant_be_save_user_when_the_same_email(self):
@@ -119,24 +127,33 @@ class TestCostumerAddModel(unittest.TestCase):
 
         # try to create a user with the same username
         with self.assertRaises(IntegrityError):
-            second_user = Customer(username='test_user', email='test@example.com', password='password')
-            db.session.add(second_user)
+            second_customer = Customer()
+            second_customer.username = 'test_user'
+            second_customer.email = 'test@example.com'
+            second_customer.password = 'password'
+            db.session.add(second_customer)
             db.session.commit()
 
     def test_in_db_can_be_save_users_when_the_same_phonenumber(self):
         self.create_costumer()
-        second_user = Customer(username='second_user', email='test2@example.com', password='password',
-                               phone='123456789')
-        db.session.add(second_user)
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        db.session.add(second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
 
     def test_in_db_can_be_save_users_when_the_same_password(self):
         self.create_costumer()
-        second_user = Customer(username='second_user', email='test2@example.com', password='password',
-                               phone='123456789')
-        db.session.add(second_user)
+        second_customer = Customer()
+        second_customer.username = 'second_customer'
+        second_customer.email = 'test2@example.com'
+        second_customer.phone = '123456789'
+        second_customer.password = 'password'
+        db.session.add(second_customer)
         db.session.commit()
         customers = Customer.query.all()
         self.assertEqual(len(customers), 2)
@@ -159,14 +176,22 @@ class TestCostumerChangeModel(unittest.TestCase):
         db.drop_all()
 
     def create_costumer(self):
-        self.costumer = Customer(username='first_user', email='test@example.com', phone_code='+1', phone='123456789',
-                                 password='password')
+        self.costumer = Customer()
+        self.costumer.username = 'first_user'
+        self.costumer.email = 'test@example.com'
+        self.costumer.phone_code = '+1'
+        self.costumer.phone = '123456789'
+        self.costumer.password = 'password'
         db.session.add(self.costumer)
         db.session.commit()
 
     def create_second_costumers(self):
-        self.second_user = Customer(username='second_user', email='test2@example.com', password='password',
-                                    phone='987654321')
+        self.second_user = Customer()
+        self.second_user.username = 'second_user'
+        self.second_user.email = 'test2@example.com'
+        self.second_user.phone_code = '+1'
+        self.second_user.phone = '987654321'
+        self.costumer.password = 'password'
         db.session.add(self.second_user)
         db.session.commit()
 
