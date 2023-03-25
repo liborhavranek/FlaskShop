@@ -186,8 +186,12 @@ class TestCostumerChangeModel(unittest.TestCase):
         db.session.commit()
 
     def create_second_costumers(self):
-        self.second_user = Customer(username='second_user', email='test2@example.com', password='password',
-                                    phone='987654321')
+        self.second_user = Customer()
+        self.second_user.username = 'second_user'
+        self.second_user.email = 'test2@example.com'
+        self.second_user.phone_code = '+1'
+        self.second_user.phone = '987654321'
+        self.costumer.password = 'password'
         db.session.add(self.second_user)
         db.session.commit()
 
