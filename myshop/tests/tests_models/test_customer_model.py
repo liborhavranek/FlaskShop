@@ -275,13 +275,13 @@ class TestCustomerChangeModel(unittest.TestCase):
         db.drop_all()
 
     def create_customer(self):
-        self.costumer = Customer()
-        self.costumer.username = 'first_user'
-        self.costumer.email = 'test@example.com'
-        self.costumer.phone_code = '+1'
-        self.costumer.phone = '123456789'
-        self.costumer.password = 'password'
-        db.session.add(self.costumer)
+        self.customer = Customer()
+        self.customer.username = 'first_user'
+        self.customer.email = 'test@example.com'
+        self.customer.phone_code = '+1'
+        self.customer.phone = '123456789'
+        self.customer.password = 'password'
+        db.session.add(self.customer)
         db.session.commit()
 
     def create_second_customers(self):
@@ -290,7 +290,7 @@ class TestCustomerChangeModel(unittest.TestCase):
         self.second_user.email = 'test2@example.com'
         self.second_user.phone_code = '+1'
         self.second_user.phone = '987654321'
-        self.costumer.password = 'password'
+        self.customer.password = 'password'
         db.session.add(self.second_user)
         db.session.commit()
 
@@ -344,7 +344,7 @@ class TestCustomerChangeModel(unittest.TestCase):
 
     def test_delete_customer(self):
         self.create_customer()
-        db.session.delete(self.costumer)
+        db.session.delete(self.customer)
         db.session.commit()
         result = Customer.query.filter_by(username='test_user').first()
         self.assertIsNone(result)
