@@ -144,6 +144,51 @@ class TestCostumerAddModel(unittest.TestCase):
         result = Customer.query.filter_by(username='test_user').first()
         self.assertEqual(result.faktura_zipcode, '58')
 
+    def test_costumer_have_dodej_first_name(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_first_name, 'dodej_first_name')
+
+    def test_costumer_have_dodej_last_name(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_last_name, 'dodej_last_name')
+
+    def test_costumer_have_dodej_company(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_company, 'dodej_company')
+
+    def test_costumer_have_dodej_city(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_city, 'dodej_city')
+
+    def test_costumer_have_dodej_street(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_street, 'dodej_street')
+
+    def test_costumer_have_dodej_zipcode(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_zipcode, '58')
+
+    def test_costumer_have_dodej_info(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_info, 'dodej_info')
+
+    def test_costumer_have_dodej_phone_code(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_phone_code, '+1')
+
+    def test_costumer_have_dodej_phone(self):
+        self.create_costumer()
+        result = Customer.query.filter_by(username='test_user').first()
+        self.assertEqual(result.dodej_phone, '987654321')
+
     def test_second_user_have_id_two(self):
         self.create_costumer()
         second_customer = Customer()
