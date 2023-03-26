@@ -573,6 +573,70 @@ class TestCustomerChangeModel(unittest.TestCase):
         result = self.customer.faktura_zipcode
         self.assertEqual(result, "333")
 
+    def test_dodej_first_name_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_first_name = 'dodej_first_name_changed'
+        db.session.commit()
+        result = self.customer.dodej_first_name
+        self.assertEqual(result, "dodej_first_name_changed")
+
+    def test_dodej_last_name_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_last_name = 'dodej_last_name_changed'
+        db.session.commit()
+        result = self.customer.dodej_last_name
+        self.assertEqual(result, "dodej_last_name_changed")
+
+    def test_dodej_company_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_company = 'dodej_company_changed'
+        db.session.commit()
+        result = self.customer.dodej_company
+        self.assertEqual(result, "dodej_company_changed")
+
+    def test_dodej_city_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_city = 'dodej_city_changed'
+        db.session.commit()
+        result = self.customer.dodej_city
+        self.assertEqual(result, "dodej_city_changed")
+
+    def test_dodej_street_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_street = 'dodej_street_changed'
+        db.session.commit()
+        result = self.customer.dodej_street
+        self.assertEqual(result, "dodej_street_changed")
+
+    def test_dodej_zipcode_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_zipcode = '444'
+        db.session.commit()
+        result = self.customer.dodej_zipcode
+        self.assertEqual(result, "444")
+
+    def test_dodej_info_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_info = 'dodej_info_changed'
+        db.session.commit()
+        result = self.customer.dodej_info
+        self.assertEqual(result, "dodej_info_changed")
+
+    def test_dodej_phone_code_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_phone_code = '420'
+        db.session.commit()
+        result = self.customer.dodej_phone_code
+        self.assertEqual(result, "420")
+
+    def test_dodej_phone_can_be_changed(self):
+        self.create_customer()
+        self.customer.dodej_phone = '123456789'
+        db.session.commit()
+        result = self.customer.dodej_phone
+        self.assertEqual(result, "123456789")
+
+
     # TODO IF if it will possible add tests for change password
 
     def test_delete_customer(self):
