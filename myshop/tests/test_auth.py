@@ -11,6 +11,10 @@ from myshop.models import Customer
 
 class TestCreateApp(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
     def setUp(self):
         self.app = create_app()
         self.app.testing = True
@@ -18,6 +22,7 @@ class TestCreateApp(unittest.TestCase):
         app_context = self.app.app_context()
         app_context.push()
         db.create_all()
+        print(f"Running test: {self.test_name} - {self._testMethodName}")
 
     def tearDown(self):
         db.session.remove()

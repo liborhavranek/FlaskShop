@@ -8,10 +8,15 @@ from myshop import create_app
 class TestAuthTemplateAllTemplates(unittest.TestCase):
     """ Test tags and things what will have almost all templates """
 
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
     def setUp(self):
         self.app = create_app()
         self.app.testing = True
         self.client = self.app.test_client()
+        print(f"Running test: {self.test_name} - {self._testMethodName}")
 
     def test_response_status(self):
         response = self.client.get('/auth', follow_redirects=True)
@@ -75,10 +80,15 @@ class TestAuthTemplateAllTemplates(unittest.TestCase):
 class TestAuthTemplateOnlyAuthTemplate(unittest.TestCase):
     """Test what are specific only for this template"""
 
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
     def setUp(self):
         self.app = create_app()
         self.app.testing = True
         self.client = self.app.test_client()
+        print(f"Running test: {self.test_name} - {self._testMethodName}")
 
     def test_response_status(self):
         response = self.client.get('/auth', follow_redirects=True)
