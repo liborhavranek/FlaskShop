@@ -7,6 +7,9 @@ from myshop.models import Customer
 
 
 class TestCustomerAddModel(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
 
     def setUp(self):
         app = create_app()
@@ -18,6 +21,7 @@ class TestCustomerAddModel(unittest.TestCase):
 
         self.login_manager = LoginManager()
         self.login_manager.init_app(app)
+        print(f"Running test: {self.test_name} - {self._testMethodName}")
 
     def tearDown(self):
         db.session.remove()
@@ -438,6 +442,10 @@ class TestCustomerAddModel(unittest.TestCase):
 
 class TestCustomerChangeModel(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
     def setUp(self):
         app = create_app()
         app.testing = True
@@ -445,6 +453,7 @@ class TestCustomerChangeModel(unittest.TestCase):
         app_context = app.app_context()
         app_context.push()
         db.create_all()
+        print(f"Running test: {self.test_name} - {self._testMethodName}")
 
     def tearDown(self):
         db.session.remove()
@@ -636,6 +645,40 @@ class TestCustomerChangeModel(unittest.TestCase):
         result = self.customer.dodej_phone
         self.assertEqual(result, "123456789")
 
+    def test_firma_ico_can_be_changed(self):
+        self.create_customer()
+        self.customer.firma_ico = '66666666'
+        db.session.commit()
+        result = self.customer.firma_ico
+        self.assertEqual(result, "66666666")
+
+    def test_firma_dic_can_be_changed(self):
+        self.create_customer()
+        self.customer.firma_dic = '1111111111'
+        db.session.commit()
+        result = self.customer.firma_dic
+        self.assertEqual(result, "1111111111")
+
+    def test_firma_bank_acc_can_be_changed(self):
+        self.create_customer()
+        self.customer.firma_bank_acc = '0987654321'
+        db.session.commit()
+        result = self.customer.firma_bank_acc
+        self.assertEqual(result, "0987654321")
+
+    def test_firma_bank_number_can_be_changed(self):
+        self.create_customer()
+        self.customer.firma_bank_number = '5000'
+        db.session.commit()
+        result = self.customer.firma_bank_number
+        self.assertEqual(result, "5000")
+
+    def test_firma_spec_symbol_can_be_changed(self):
+        self.create_customer()
+        self.customer.firma_spec_symbol = '77777'
+        db.session.commit()
+        result = self.customer.firma_spec_symbol
+        self.assertEqual(result, "77777")
 
     # TODO IF if it will possible add tests for change password
 

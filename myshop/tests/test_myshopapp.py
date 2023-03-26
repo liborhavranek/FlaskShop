@@ -10,11 +10,16 @@ from flask_assets import Environment, Bundle
 
 class TestCreateApp(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
     def setUp(self):
         self.app = create_app()
         self.app.testing = True
         self.client = self.app.test_client()
         self.app.test_client_class = FlaskLoginClient
+        print(f"Running test: {self.test_name} - {self._testMethodName}")
 
     def set_bundles(self):
         self.assets = Environment(self.app)
