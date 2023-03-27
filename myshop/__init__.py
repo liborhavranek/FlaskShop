@@ -70,5 +70,3 @@ def create_database(app):
     if not path.exists('myshop/' + DB_NAME):
         with app.app_context():
             db.create_all()
-#            print('table created')
-#        print('Created Database!')

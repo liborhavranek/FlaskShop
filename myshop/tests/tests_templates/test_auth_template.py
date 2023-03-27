@@ -3,9 +3,10 @@
 import unittest
 
 from myshop import create_app
+from myshop.tests.my_test_mixin import TestMixin
 
 
-class TestAuthTemplateAllTemplates(unittest.TestCase):
+class TestAuthTemplateAllTemplates(TestMixin, unittest.TestCase):
     """ Test tags and things what will have almost all templates """
 
     @classmethod
@@ -16,7 +17,7 @@ class TestAuthTemplateAllTemplates(unittest.TestCase):
         self.app = create_app()
         self.app.testing = True
         self.client = self.app.test_client()
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def test_response_status(self):
         response = self.client.get('/auth', follow_redirects=True)
@@ -77,7 +78,7 @@ class TestAuthTemplateAllTemplates(unittest.TestCase):
                       response.data)
 
 
-class TestAuthTemplateOnlyAuthTemplate(unittest.TestCase):
+class TestAuthTemplateOnlyAuthTemplate(TestMixin, unittest.TestCase):
     """Test what are specific only for this template"""
 
     @classmethod
@@ -88,7 +89,7 @@ class TestAuthTemplateOnlyAuthTemplate(unittest.TestCase):
         self.app = create_app()
         self.app.testing = True
         self.client = self.app.test_client()
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def test_response_status(self):
         response = self.client.get('/auth', follow_redirects=True)

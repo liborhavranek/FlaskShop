@@ -4,12 +4,13 @@ import unittest
 
 from flask_login import current_user, logout_user
 from werkzeug.security import generate_password_hash
+from myshop.tests.my_test_mixin import TestMixin
 
 from myshop import create_app, db
 from myshop.models import Customer
 
 
-class TestCreateApp(unittest.TestCase):
+class TestAuthRegister(TestMixin, unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -22,7 +23,7 @@ class TestCreateApp(unittest.TestCase):
         app_context = self.app.app_context()
         app_context.push()
         db.create_all()
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def tearDown(self):
         db.session.remove()
@@ -48,7 +49,7 @@ class TestCreateApp(unittest.TestCase):
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_auth_register_return_correct_template_when_match_passwords(self):
+    def test_auth_register_return_template_when_match_passwords(self):
         data = {
             "username": "testuser",
             "email": "testuser@example.com",
@@ -107,6 +108,29 @@ class TestCreateApp(unittest.TestCase):
         }
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertTrue(response, 'login.html')
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+class TestAuth(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app()
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
 
     def test_login_with_valid_credentials_return_correct_status_code(self):
         password = "password"

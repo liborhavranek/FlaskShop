@@ -1,9 +1,11 @@
 {% extends 'base.html'%}
     {% block content %}
 
+<h1 class="text-center">Registrace</h1>
+
 <form method="POST" action="{{ url_for('auth.register') }}">
   <div class="form-group">
-    <label for="username">Username</label>
+    <label for="username">Přihlašovací jméno:</label>
     <input type="text" class="form-control" id="username" name="username" required>
   </div>
   <div class="form-group">
@@ -26,6 +28,15 @@
     <label for="password2">Confirm Password</label>
     <input type="password" class="form-control" id="password2" name="password2" required>
   </div>
+
+  <h1 class="text-center">Fakturaci udaje</h1>
+
+    <div class="form-group">
+    <label for="phone">Jméno:</label>
+    <input type="text" class="form-control" id="faktura_first_name" name="faktura_first_name" required>
+  </div>
+
+<br>
   <button type="submit" class="btn btn-primary">Register</button>
 </form>
 

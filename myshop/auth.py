@@ -1,6 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect
 from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -66,7 +66,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return render_template("index.html", customer=current_user)
+    return redirect("/")
 
 
 @auth.route('/create-customers')

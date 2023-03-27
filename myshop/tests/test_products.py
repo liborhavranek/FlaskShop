@@ -3,6 +3,7 @@
 import unittest
 
 from myshop import create_app
+from myshop.tests.my_test_mixin import TestMixin
 
 
 class TestCreateApp(unittest.TestCase):
@@ -14,7 +15,7 @@ class TestCreateApp(unittest.TestCase):
     def setUp(self):
         self.app = create_app()
         self.app.testing = True
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def test_view_have_set_correct_template(self):
         with self.app.test_client() as client:
