@@ -11,10 +11,10 @@ class TestMixin:
 
         print(
             f"Running test: {self.test_name} - "
-            f"{self._testMethodName} - {time.monotonic() - self.start_time:.3f} seconds")
- #       time.sleep(0.1)
-        print("\033[32m" + f"{self._testMethodName} - completed.\n\n" + "\033[0m")
+            f"{self._testMethodName} - TESTED")
         time.sleep(0.1)
+        print("\033[32m" + f"{self._testMethodName} - completed.\n\n" + "\033[0m")
+        time.sleep(0.8)
 
     def setUp(self):
         super().setUp()

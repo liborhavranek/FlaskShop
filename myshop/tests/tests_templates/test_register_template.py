@@ -127,6 +127,12 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.assertIn(b'<input type="password" class="form-control" id="password2" name="password2" required>',
                       response.data)
 
+    def test_register_form_has_faktura_first_name_input(self):
+        response = self.client.get('/auth/register', follow_redirects=True)
+        self.assertIn(
+            b'<input type="text" class="form-control" id="faktura_first_name" name="faktura_first_name" required>',
+            response.data)
+
     def test_register_form_has_register_button(self):
         response = self.client.get('/auth/register', follow_redirects=True)
         self.assertIn(b'<button type="submit" class="btn btn-primary">Register</button>', response.data)
