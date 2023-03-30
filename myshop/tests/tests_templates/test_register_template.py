@@ -2,6 +2,7 @@
 
 import unittest
 from myshop import create_app
+from bs4 import BeautifulSoup
 from myshop.tests.my_test_mixin import TestMixin
 
 
@@ -136,6 +137,59 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
     def test_register_form_has_register_button(self):
         response = self.client.get('/auth/register', follow_redirects=True)
         self.assertIn(b'<button type="submit" class="btn btn-primary">Register</button>', response.data)
+
+    def test_register_form_have_closed_form_tags(self):
+        response = self.client.get('/auth/register', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+
+        # Check that the form tag exists
+        form_tag = soup.find('form', {'method': 'POST', 'action': '/auth/register'})
+        print(form_tag)
+        self.assertIsNotNone(form_tag)
+
+        # Check that the form tag is properly closed
+        self.assertFalse(form_tag.is_empty_element)
+
+        # Check that the form contains the expected input fields
+        expected_fields = ['username', 'email', 'phone_code', 'phone', 'password1', 'password2', 'faktura_first_name']
+        form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
+        self.assertCountEqual(expected_fields, form_input_fields)
+
+        expected_labels = {
+            'username': 'Přihlašovací jméno:',
+            'email': 'Email:',
+            'phone_code': 'Phone Code',
+            'phone': 'Phone Number',
+            'password1': 'Password',
+            'password2': 'Confirm Password',
+            'faktura_first_name': 'Jméno:'
+        }
+        for field_name, expected_label in expected_labels.items():
+            label = soup.find('label', {'for': field_name})
+            self.assertIsNotNone(label)
+            self.assertEqual(label.text.strip(), expected_label)
+
+    def test_register_form_has_submit_button(self):
+        response = self.client.get('/auth/register', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+
+        # Check that the form contains a submit button
+        submit_button = soup.find('button', {'type': 'submit'})
+        self.assertIsNotNone(submit_button)
+        self.assertEqual(submit_button.text.strip(), 'Register')
+
+    # def test_register_form_has_open_and_close_form_tags(self):
+    #     response = self.client.get('/auth/register', follow_redirects=True)
+    #     soup = BeautifulSoup(response.data, 'html.parser')
+    #
+    #     # Check that the form has an opening tag
+    #     form_open_tag = soup.find('form', {'method': 'POST', 'action': '/auth/register'})
+    #     self.assertIsNotNone(form_open_tag)
+    #
+    #     # Check that the form has a closing tag
+    #     form_close_tag = form_open_tag.find_next('form')
+    #     print(response.data)  # Add this line to print out the HTML response
+    #     self.assertIsNotNone(form_close_tag)
 
 
 if __name__ == '__main__':
