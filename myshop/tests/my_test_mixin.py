@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from unittest import TestResult
 
 
 class TestMixin:
@@ -47,4 +48,3 @@ class TestMixin:
     def subTest(self, **params):
         self.start_test()
         return super().subTest(**params)
-

@@ -29,6 +29,38 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    @staticmethod
+    def create_user() -> Customer:
+        new_customer = Customer()
+
+        new_customer.username = 'john_doe'
+        new_customer.email = 'john.doe@example.com'
+        new_customer.phone_code = '1'
+        new_customer.phone = '1234567890'
+        new_customer.password = generate_password_hash('mypassword', method='sha256')
+        new_customer.faktura_first_name = 'John'
+        new_customer.faktura_last_name = 'Doe'
+        new_customer.faktura_city = 'New York'
+        new_customer.faktura_street = '123 Main St'
+        new_customer.faktura_zipcode = '10001'
+        new_customer.dodej_first_name = 'John'
+        new_customer.dodej_last_name = 'Doe'
+        new_customer.dodej_company = 'ACME Inc.'
+        new_customer.dodej_city = 'New York'
+        new_customer.dodej_street = '123 Main St'
+        new_customer.dodej_zipcode = '10001'
+        new_customer.dodej_info = 'Delivery instructions'
+        new_customer.dodej_phone_code = '1'
+        new_customer.dodej_phone = '1234567890'
+        new_customer.firma_ico = '123456789'
+        new_customer.firma_dic = '987654321'
+        new_customer.firma_bank_acc = '0123456789'
+        new_customer.firma_bank_number = '0800'
+        new_customer.firma_spec_symbol = '1234'
+
+        db.session.add(new_customer)
+        db.session.commit()
+
     def test_view_have_set_correct_template(self):
         response = self.client.get('/auth')
         self.assertTrue(response, 'auth.html')
@@ -109,6 +141,121 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertTrue(response, 'login.html')
 
+    def test_username_is_save_username_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.username, 'john_doe')
+
+    def test_username_is_save_email_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.email, 'john.doe@example.com')
+
+    def test_username_is_save_phone_code_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.phone_code, '1')
+
+    def test_username_is_save_phone_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.phone, '1234567890')
+
+    def test_username_is_save_faktura_first_name_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.faktura_first_name, 'John')
+
+    def test_username_is_save_faktura_last_name_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.faktura_last_name, 'Doe')
+
+    def test_username_is_save_faktura_city_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.faktura_city, 'New York')
+
+    def test_username_is_save_faktura_street_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.faktura_street, '123 Main St')
+
+    def test_username_is_save_faktura_zipcode_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.faktura_zipcode, '10001')
+
+    def test_username_is_save_dodej_first_name_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_first_name, 'John')
+
+    def test_username_is_save_dodej_last_name_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_last_name, 'Doe')
+
+    def test_username_is_save_dodej_company_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_company, 'ACME Inc.')
+
+    def test_username_is_save_dodej_city_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_city, 'New York')
+
+    def test_username_is_save_dodejstreet_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_street, '123 Main St')
+
+    def test_username_is_save_dodej_zipcode_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_zipcode, '10001')
+
+    def test_username_is_save_dodej_info_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_info, 'Delivery instructions')
+
+    def test_username_is_save_dodej_phone_code_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_phone_code, '1')
+
+    def test_username_is_save_dodej_phone_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.dodej_phone, '1234567890')
+
+    def test_username_is_save_firma_ico_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.firma_ico, '123456789')
+
+    def test_username_is_save_firma_dic_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.firma_dic, '987654321')
+
+    def test_username_is_save_firma_bank_acc_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.firma_bank_acc, '0123456789')
+
+    def test_username_is_save_firma_bank_number_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.firma_bank_number, '0800')
+
+    def test_username_is_save_firma_spec_szmbol_in_database_when_create_account(self):
+        self.create_user()
+        new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
+        self.assertEqual(new_customer.firma_spec_symbol, '1234')
+
 
 if __name__ == '__main__':
     unittest.main()
@@ -127,6 +274,7 @@ class TestAuth(TestMixin, unittest.TestCase):
         app_context = self.app.app_context()
         app_context.push()
         db.create_all()
+        super().setUp()
 
     def tearDown(self):
         db.session.remove()
