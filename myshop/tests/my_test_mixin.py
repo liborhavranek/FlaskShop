@@ -9,9 +9,16 @@ class TestMixin:
 #        time.sleep(0.1)
         os.environ.pop('FLASK_ENV', None)
 
-        print(
-            f"Running test: {self.test_name} - "
-            f"{self._testMethodName} - TESTED")
+        if self._outcome.success:
+            print(
+                f"Running test: {self.test_name} - "
+                f"{self._testMethodName} - \033[32mPASSED\033[0m")
+
+        else:
+            print(
+                f"Running test: {self.test_name} - "
+                f"{self._testMethodName} - \033[31mFAILED\033[0m")
+
         time.sleep(0.1)
         if self._outcome.success:
             print("\033[32m" + f"{self._testMethodName} - passed." + "\033[0m")
