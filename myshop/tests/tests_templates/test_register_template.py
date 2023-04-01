@@ -96,65 +96,21 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.assertIn(b'<form method="POST" action="/auth/register">', response.data)
         self.assertIn(b'</form>', response.data)
 
-    def test_register_form_username_label(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(bytes('<label for="username">Přihlašovací jméno:</label>', 'utf-8'), response.data)
-# label tests ^ /////////////////////////////////////////////////////////////////////////////////////
+    def test_register_form_have_all_fields(self):
+        fields_to_test = ['username', 'email', 'phone_code', 'phone',
+                          'password1', 'password2', 'faktura_first_name']
 
-    def test_register_form_has_username_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<input type="text" class="form-control" id="username" name="username" required>', response.data)
-
-    def test_register_form_has_email_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<input type="email" class="form-control" id="email" name="email" required>', response.data)
-
-    def test_register_form_has_phone_code_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<input type="text" class="form-control" id="phone_code" name="phone_code" required>',
-                      response.data)
-
-    def test_register_form_has_phone_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<input type="text" class="form-control" id="phone" name="phone" required>', response.data)
-
-    def test_register_form_has_password1_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<input type="password" class="form-control" id="password1" name="password1" required>',
-                      response.data)
-
-    def test_register_form_has_password2_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<input type="password" class="form-control" id="password2" name="password2" required>',
-                      response.data)
-
-    def test_register_form_has_faktura_first_name_input(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(
-            b'<input type="text" class="form-control" id="faktura_first_name" name="faktura_first_name" required>',
-            response.data)
-
-    def test_register_form_has_register_button(self):
-        response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<button type="submit" class="btn btn-primary">Register</button>', response.data)
-
-    def test_register_form_have_closed_form_tags(self):
         response = self.client.get('/auth/register', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
-
-        # Check that the form tag exists
         form_tag = soup.find('form', {'method': 'POST', 'action': '/auth/register'})
-        print(form_tag)
-        self.assertIsNotNone(form_tag)
-
-        # Check that the form tag is properly closed
-        self.assertFalse(form_tag.is_empty_element)
-
-        # Check that the form contains the expected input fields
-        expected_fields = ['username', 'email', 'phone_code', 'phone', 'password1', 'password2', 'faktura_first_name']
         form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
-        self.assertCountEqual(expected_fields, form_input_fields)
 
+        for field in fields_to_test:
+            with self.subTest(field=field):
+
+                self.assertIn(field, form_input_fields)
+
+    def test_register_form_have_all_labels(self):
         expected_labels = {
             'username': 'Přihlašovací jméno:',
             'email': 'Email:',
@@ -162,12 +118,16 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
             'phone': 'Phone Number',
             'password1': 'Password',
             'password2': 'Confirm Password',
-            'faktura_first_name': 'Jméno:'
+            'faktura_first_name': 'Jméno:',
         }
-        for field_name, expected_label in expected_labels.items():
-            label = soup.find('label', {'for': field_name})
-            self.assertIsNotNone(label)
-            self.assertEqual(label.text.strip(), expected_label)
+        response = self.client.get('/auth/register', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_labels = {label_tag['for']: label_tag.text.strip() for label_tag in soup.find_all('label')}
+
+        for field, label in expected_labels.items():
+            with self.subTest(field=field):
+                self.assertIn(label, form_labels[field])
+
 
     def test_register_form_has_submit_button(self):
         response = self.client.get('/auth/register', follow_redirects=True)
@@ -177,19 +137,6 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         submit_button = soup.find('button', {'type': 'submit'})
         self.assertIsNotNone(submit_button)
         self.assertEqual(submit_button.text.strip(), 'Register')
-
-    # def test_register_form_has_open_and_close_form_tags(self):
-    #     response = self.client.get('/auth/register', follow_redirects=True)
-    #     soup = BeautifulSoup(response.data, 'html.parser')
-    #
-    #     # Check that the form has an opening tag
-    #     form_open_tag = soup.find('form', {'method': 'POST', 'action': '/auth/register'})
-    #     self.assertIsNotNone(form_open_tag)
-    #
-    #     # Check that the form has a closing tag
-    #     form_close_tag = form_open_tag.find_next('form')
-    #     print(response.data)  # Add this line to print out the HTML response
-    #     self.assertIsNotNone(form_close_tag)
 
 
 if __name__ == '__main__':

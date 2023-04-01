@@ -20,4 +20,6 @@ class TestMixin:
         super().setUp()
         self.start_test()
 
-
+    def subTest(self, **params):
+        self.start_test()
+        return super().subTest(**params)
