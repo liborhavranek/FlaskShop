@@ -13,8 +13,16 @@ class TestMixin:
             f"Running test: {self.test_name} - "
             f"{self._testMethodName} - TESTED")
         time.sleep(0.1)
-        print("\033[32m" + f"{self._testMethodName} - completed.\n\n" + "\033[0m")
+        if self._outcome.success:
+            print("\033[32m" + f"{self._testMethodName} - passed." + "\033[0m")
+            print("\033[32m" + f"{self._testMethodName} - completed.\n\n" + "\033[0m")
+
+        else:
+            print("\033[31m" + f"{self._testMethodName} - failed." + "\033[0m")
+            print("\033[31m" + f"{self._testMethodName} - completed.\n\n" + "\033[0m")
+
         time.sleep(0.8)
+
 
     def setUp(self):
         super().setUp()
@@ -23,3 +31,4 @@ class TestMixin:
     def subTest(self, **params):
         self.start_test()
         return super().subTest(**params)
+

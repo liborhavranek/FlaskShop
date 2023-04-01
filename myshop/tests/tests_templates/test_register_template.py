@@ -114,10 +114,10 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         expected_labels = {
             'username': 'Přihlašovací jméno:',
             'email': 'Email:',
-            'phone_code': 'Phone Code',
-            'phone': 'Phone Number',
-            'password1': 'Password',
-            'password2': 'Confirm Password',
+            'phone_code': 'Kód:',
+            'phone': 'Telefonní číslo:',
+            'password1': 'Heslo:',
+            'password2': 'Potvrdit heslo:',
             'faktura_first_name': 'Jméno:',
         }
         response = self.client.get('/auth/register', follow_redirects=True)
