@@ -97,8 +97,13 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.assertIn(b'</form>', response.data)
 
     def test_register_form_have_all_fields(self):
-        fields_to_test = ['username', 'email', 'phone_code', 'phone',
-                          'password1', 'password2', 'faktura_first_name']
+        fields_to_test = [
+            'username', 'email', 'phone_code', 'phone', 'password1', 'password2', 'faktura_first_name',
+            "faktura_last_name", "faktura_city", "faktura_street", "faktura_zipcode", "dodej_first_name",
+            "dodej_last_name", "dodej_company", "dodej_city", "dodej_street", "dodej_zipcode",
+            "dodej_info", "dodej_phone_code", "dodej_phone", "firma_ico", "firma_dic", "firma_bank_acc",
+            "firma_bank_number", "firma_spec_symbol"
+                          ]
 
         response = self.client.get('/auth/register', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
@@ -115,10 +120,28 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
             'username': 'Přihlašovací jméno:',
             'email': 'Email:',
             'phone_code': 'Kód:',
-            'phone': 'Telefonní číslo:',
+            'phone': 'Telefon:',
             'password1': 'Heslo:',
             'password2': 'Potvrdit heslo:',
             'faktura_first_name': 'Jméno:',
+            'faktura_last_name': 'Příjmení:',
+            "faktura_city": "Město:",
+            'faktura_street': 'Ulice:',
+            'faktura_zipcode': 'PSČ:',
+            'dodej_first_name': 'Jméno:',
+            'dodej_last_name': 'Příjmení:',
+            'dodej_company': 'Firma:',
+            "dodej_city": "Město:",
+            'dodej_street': 'Ulice:',
+            'dodej_zipcode': 'PSČ:',
+            'dodej_info': 'Info(např. patro):',
+            'dodej_phone_code': 'Kód:',
+            'dodej_phone': 'Telefon:',
+            'firma_ico': 'IČO:',
+            'firma_dic': 'DIČ:',
+            'firma_bank_acc': 'Číslo účtu:',
+            'firma_bank_number': 'Kód banky:',
+            'firma_spec_symbol': 'Specifický symbol:',
         }
         response = self.client.get('/auth/register', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
@@ -127,7 +150,6 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         for field, label in expected_labels.items():
             with self.subTest(field=field):
                 self.assertIn(label, form_labels[field])
-
 
     def test_register_form_has_submit_button(self):
         response = self.client.get('/auth/register', follow_redirects=True)
