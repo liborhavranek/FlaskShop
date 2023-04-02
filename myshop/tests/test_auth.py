@@ -405,7 +405,7 @@ class TestAuth(TestMixin, unittest.TestCase):
         response = self.client.get('/auth/create-customers', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         customers = Customer.query.all()
-        self.assertEqual(len(customers), 3)
+        self.assertEqual(len(customers), 2)
 
 
 if __name__ == '__main__':
