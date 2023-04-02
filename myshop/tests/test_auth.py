@@ -93,19 +93,6 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertTrue(response, 'index.html')
 
-    # def test_register_with_matching_passwords_return_correct_message(self):
-    #     data = {
-    #         "username": "testuser",
-    #         "email": "testuser@example.com",
-    #         "phone_code": "+1",
-    #         "phone": "1234567890",
-    #         "password": "password",
-    #         "confirm_password": "password"
-    #     }
-    #     response = self.client.post('/auth/register', data=data, follow_redirects=True)
-    #     self.assertIn(bytes("Profil byl úspěšně vytvořen.", "utf-8"), response.data)
-    #     TODO fix that test
-
     def test_auth_register_return_correct_correct_status_code_when_mismatch_passwords(self):
         data = {
             "username": "testuser",
