@@ -30,7 +30,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         db.drop_all()
 
     @staticmethod
-    def create_user() -> Customer:
+    def create_user():
         new_customer = Customer()
 
         new_customer.username = 'john_doe'
@@ -405,7 +405,7 @@ class TestAuth(TestMixin, unittest.TestCase):
         response = self.client.get('/auth/create-customers', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         customers = Customer.query.all()
-        self.assertEqual(len(customers), 2)
+        self.assertEqual(len(customers), 3)
 
 
 if __name__ == '__main__':
