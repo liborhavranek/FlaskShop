@@ -1,5 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
+import warnings
 from os import path
 from flask import Flask
 from flask_migrate import Migrate
@@ -22,6 +23,8 @@ def create_app():
     db.init_app(app)
 
     migrate.init_app(app, db, compare_type=True)
+
+    warnings.simplefilter("ignore", category=DeprecationWarning)
 
     from .models import Customer
     create_database(app)
@@ -70,5 +73,3 @@ def create_database(app):
     if not path.exists('myshop/' + DB_NAME):
         with app.app_context():
             db.create_all()
-#            print('table created')
-#        print('Created Database!')

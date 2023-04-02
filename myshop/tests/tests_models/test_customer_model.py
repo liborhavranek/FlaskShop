@@ -4,9 +4,10 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import LoginManager
 from myshop import create_app, db
 from myshop.models import Customer
+from myshop.tests.my_test_mixin import TestMixin
 
 
-class TestCustomerAddModel(unittest.TestCase):
+class TestCustomerAddModel(TestMixin, unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.test_name = cls.__name__
@@ -21,7 +22,7 @@ class TestCustomerAddModel(unittest.TestCase):
 
         self.login_manager = LoginManager()
         self.login_manager.init_app(app)
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def tearDown(self):
         db.session.remove()
@@ -440,7 +441,7 @@ class TestCustomerAddModel(unittest.TestCase):
     # TODO after set passwords add tests to match password
 
 
-class TestCustomerChangeModel(unittest.TestCase):
+class TestCustomerChangeModel(TestMixin, unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -453,7 +454,7 @@ class TestCustomerChangeModel(unittest.TestCase):
         app_context = app.app_context()
         app_context.push()
         db.create_all()
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def tearDown(self):
         db.session.remove()

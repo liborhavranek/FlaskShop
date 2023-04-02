@@ -6,9 +6,10 @@ from myshop import create_app
 from webassets.filter import get_filter
 from flask_login import FlaskLoginClient
 from flask_assets import Environment, Bundle
+from myshop.tests.my_test_mixin import TestMixin
 
 
-class TestCreateApp(unittest.TestCase):
+class TestCreateApp(TestMixin, unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -19,7 +20,7 @@ class TestCreateApp(unittest.TestCase):
         self.app.testing = True
         self.client = self.app.test_client()
         self.app.test_client_class = FlaskLoginClient
-        print(f"Running test: {self.test_name} - {self._testMethodName}")
+        super().setUp()
 
     def set_bundles(self):
         self.assets = Environment(self.app)
