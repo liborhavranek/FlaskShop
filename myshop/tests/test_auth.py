@@ -2,8 +2,13 @@
 
 import unittest
 
+from flask import url_for
 from flask_login import current_user, logout_user
+from werkzeug.datastructures import MultiDict
 from werkzeug.security import generate_password_hash
+
+from myshop.auth import auth
+from myshop.forms.forms import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
 from myshop import create_app, db

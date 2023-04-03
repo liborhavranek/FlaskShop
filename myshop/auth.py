@@ -27,7 +27,6 @@ def register():
         phone_code = request.form.get("phone_code")
         phone = request.form.get("phone")
         password = request.form.get("password")
-        confirm_password = request.form.get("confirm_password")
         # --------------- Fakturacni udaje ---------------------
         faktura_first_name = request.form.get("faktura_first_name")
         faktura_last_name = request.form.get("faktura_last_name")
