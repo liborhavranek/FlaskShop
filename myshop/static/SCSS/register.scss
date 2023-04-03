@@ -3,3 +3,16 @@ $green: green;
 .greencolor{
     color: green;
 }
+
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+
+.register-form-container{
+    background-image: url('../images/formbg8.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    height: auto;
+}
