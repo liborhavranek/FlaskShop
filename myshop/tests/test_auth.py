@@ -13,7 +13,6 @@ from myshop.models import Customer
 
 
 class TestAuthRegister(TestMixin, unittest.TestCase):
-    # test
 
     @classmethod
     def setUpClass(cls):
