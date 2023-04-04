@@ -2,7 +2,7 @@
 
 import unittest
 from myshop import create_app
-from myshop.forms.forms import RegistrationForm
+from myshop.forms.registration_form import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
 

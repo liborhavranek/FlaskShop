@@ -5,7 +5,7 @@ import unittest
 from flask_login import current_user, logout_user
 from werkzeug.security import generate_password_hash
 
-from myshop.forms.forms import RegistrationForm
+from myshop.forms.registration_form import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
 from myshop import create_app, db
@@ -69,7 +69,14 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
     def create_registration_form_data(self):
         csrf_token = 'test_csrf_token'
         self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='123456789',
-                                     password='password', confirm_password='password', faktura_first_name='John',)
+                                     password='password', confirm_password='password', faktura_first_name='John',
+                                     faktura_last_name='Doe', faktura_city='New York', faktura_street='Main Street',
+                                     faktura_zipcode='37010', dodej_first_name='John', dodej_last_name='Doe',
+                                     dodej_city='New York', dodej_street='Main Street', dodej_zipcode='37010',
+                                     dodej_info='3rd floor', dodej_phone_code='123', dodej_phone='987654321',
+                                     firma_ico='88888888', firma_dic='1234567890', firma_bank_acc='0987654321',
+                                     firma_bank_number='0800', firma_spec_symbol='1234'
+                                     )
         self.form.csrf_token.data = csrf_token
 
     def test_view_have_set_correct_template(self):
@@ -301,6 +308,125 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             client.post('auth/register', data=self.form.data)
             user = Customer.query.filter_by(username='testuser').first()
             self.assertEqual(user.faktura_first_name, "John")
+
+    def test_register_form_return_faktura_last_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_last_name, "Doe")
+
+    def test_register_form_return_faktura_city_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_city, "New York")
+
+    def test_register_form_return_faktura_street_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_street, "Main Street")
+
+    def test_register_form_return_faktura_zipcode_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_zipcode, "37010")
+
+    def test_register_form_return_dodej_first_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_first_name, "John")
+
+    def test_register_form_return_dodej_last_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_last_name, "Doe")
+
+    def test_register_form_return_dodej_city_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_city, "New York")
+
+    def test_register_form_return_dodej_street_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_street, "Main Street")
+
+    def test_register_form_return_dodej_zipcode_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_zipcode, "37010")
+
+    def test_register_form_return_dodej_info_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_info, "3rd floor")
+
+    def test_register_form_return_dodej_phone_code_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_phone_code, "123")
+
+    def test_register_form_return_dodej_phone_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_phone, "987654321")
+
+    def test_register_form_return_firma_ico_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_ico, "88888888")
+
+    def test_register_form_return_firma_dic_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_dic, "1234567890")
+
+    def test_register_form_return_firma_bank_acc_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_bank_acc, "0987654321")
+
+    def test_register_form_return_firma_bank_number_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_bank_number, "0800")
+
+    def test_register_form_return_firma_spec_symbol_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_spec_symbol, "1234")
 
 
 if __name__ == '__main__':

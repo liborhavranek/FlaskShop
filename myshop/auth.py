@@ -5,7 +5,7 @@ from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from myshop import db
-from .forms.forms import RegistrationForm
+from .forms.registration_form import RegistrationForm
 from .models import Customer
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
