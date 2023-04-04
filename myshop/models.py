@@ -11,7 +11,7 @@ class Customer(db.Model, UserMixin):
     email = db.Column(db.String(50), unique=True)
     phone_code = db.Column(db.String(50), unique=False)
     phone = db.Column(db.String(50), unique=False)
-    password = db.Column(db.String(200), unique=False)
+    user_password = db.Column(db.String(200), unique=False)
 
     # --------------- Fakturacni udaje ---------------------
     faktura_first_name = db.Column(db.String(50), unique=False, nullable=True)

@@ -93,12 +93,12 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
 
     def test_register_form_have_closed_form_tag(self):
         response = self.client.get('/auth/register', follow_redirects=True)
-        self.assertIn(b'<form method="POST" action="/auth/register">', response.data)
+        self.assertIn(b'<form method="POST">', response.data)
         self.assertIn(b'</form>', response.data)
 
     def test_register_form_have_all_fields(self):
         fields_to_test = [
-            'username', 'email', 'phone_code', 'phone', 'password1', 'password2', 'faktura_first_name',
+            'username', 'email', 'phone_code', 'phone', 'password', 'confirm_password', 'faktura_first_name',
             "faktura_last_name", "faktura_city", "faktura_street", "faktura_zipcode", "dodej_first_name",
             "dodej_last_name", "dodej_company", "dodej_city", "dodej_street", "dodej_zipcode",
             "dodej_info", "dodej_phone_code", "dodej_phone", "firma_ico", "firma_dic", "firma_bank_acc",
@@ -107,7 +107,7 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
 
         response = self.client.get('/auth/register', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
-        form_tag = soup.find('form', {'method': 'POST', 'action': '/auth/register'})
+        form_tag = soup.find('form', {'method': 'POST'})
         form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
 
         for field in fields_to_test:
@@ -121,8 +121,8 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
             'email': 'Email:',
             'phone_code': 'Kód:',
             'phone': 'Telefon:',
-            'password1': 'Heslo:',
-            'password2': 'Potvrdit heslo:',
+            'password': 'Heslo:',
+            'confirm_password': 'Potvrdit heslo:',
             'faktura_first_name': 'Jméno:',
             'faktura_last_name': 'Příjmení:',
             "faktura_city": "Město:",
@@ -156,9 +156,8 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         soup = BeautifulSoup(response.data, 'html.parser')
 
         # Check that the form contains a submit button
-        submit_button = soup.find('button', {'type': 'submit'})
+        submit_button = soup.find('input', {'type': 'submit', 'value': 'Registrovat'})
         self.assertIsNotNone(submit_button)
-        self.assertEqual(submit_button.text.strip(), 'Register')
 
 
 if __name__ == '__main__':

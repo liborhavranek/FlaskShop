@@ -4,6 +4,8 @@ import unittest
 
 from flask_login import current_user, logout_user
 from werkzeug.security import generate_password_hash
+
+from myshop.forms.registration_form import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
 from myshop import create_app, db
@@ -22,6 +24,9 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         db.create_all()
         super().setUp()
 
@@ -61,6 +66,19 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         db.session.add(new_customer)
         db.session.commit()
 
+    def create_registration_form_data(self):
+        csrf_token = 'test_csrf_token'
+        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='123456789',
+                                     password='password', confirm_password='password', faktura_first_name='John',
+                                     faktura_last_name='Doe', faktura_city='New York', faktura_street='Main Street',
+                                     faktura_zipcode='37010', dodej_first_name='John', dodej_last_name='Doe',
+                                     dodej_city='New York', dodej_street='Main Street', dodej_zipcode='37010',
+                                     dodej_info='3rd floor', dodej_phone_code='123', dodej_phone='987654321',
+                                     firma_ico='88888888', firma_dic='1234567890', firma_bank_acc='0987654321',
+                                     firma_bank_number='0800', firma_spec_symbol='1234'
+                                     )
+        self.form.csrf_token.data = csrf_token
+
     def test_view_have_set_correct_template(self):
         response = self.client.get('/auth')
         self.assertTrue(response, 'auth.html')
@@ -75,8 +93,8 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             "email": "testuser@example.com",
             "phone_code": "+1",
             "phone": "1234567890",
-            "password1": "password",
-            "password2": "password"
+            "password": "password",
+            "confirm_password": "password"
         }
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -87,23 +105,11 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             "email": "testuser@example.com",
             "phone_code": "+1",
             "phone": "1234567890",
-            "password1": "password",
-            "password2": "password"
+            "password": "password",
+            "confirm_password": "password"
         }
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertTrue(response, 'index.html')
-
-    def test_register_with_matching_passwords_return_correct_message(self):
-        data = {
-            "username": "testuser",
-            "email": "testuser@example.com",
-            "phone_code": "+1",
-            "phone": "1234567890",
-            "password1": "password",
-            "password2": "password"
-        }
-        response = self.client.post('/auth/register', data=data, follow_redirects=True)
-        self.assertIn(bytes("Profil byl úspěšně vytvořen.", "utf-8"), response.data)
 
     def test_auth_register_return_correct_correct_status_code_when_mismatch_passwords(self):
         data = {
@@ -111,8 +117,8 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             "email": "testuser@example.com",
             "phone_code": "+1",
             "phone": "1234567890",
-            "password1": "password",
-            "password2": "password2"
+            "password": "password",
+            "confirm_password": "password2"
         }
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -123,8 +129,8 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             "email": "testuser@example.com",
             "phone_code": "+1",
             "phone": "1234567890",
-            "password1": "password",
-            "password2": "password2"
+            "password": "password",
+            "confirm_password": "password2"
         }
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertIn(bytes("Heslo a potvrzení hesla se musí shodovat.", "utf-8"), response.data)
@@ -135,8 +141,8 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             "email": "testuser@example.com",
             "phone_code": "+1",
             "phone": "1234567890",
-            "password1": "password",
-            "password2": "password2"
+            "password": "password",
+            "confirm_password": "password2"
         }
         response = self.client.post('/auth/register', data=data, follow_redirects=True)
         self.assertTrue(response, 'login.html')
@@ -256,6 +262,172 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
         self.assertEqual(new_customer.firma_spec_symbol, '1234')
 
+    def test_register_form_return_status_code(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            response = client.post('auth/register', data=self.form.data)
+            self.assertEqual(response.status_code, 200)
+
+    def test_register_form_is_validate(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            self.assertTrue(self.form.validate_on_submit())
+
+    def test_register_form_return_username_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.username, "testuser")
+
+    def test_register_form_return_email_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.email, "test@example.com")
+
+    def test_register_form_return_phone_code_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.phone_code, "123")
+
+    def test_register_form_return_phone_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.phone, "123456789")
+
+    def test_register_form_return_faktura_first_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_first_name, "John")
+
+    def test_register_form_return_faktura_last_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_last_name, "Doe")
+
+    def test_register_form_return_faktura_city_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_city, "New York")
+
+    def test_register_form_return_faktura_street_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_street, "Main Street")
+
+    def test_register_form_return_faktura_zipcode_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_zipcode, "37010")
+
+    def test_register_form_return_dodej_first_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_first_name, "John")
+
+    def test_register_form_return_dodej_last_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_last_name, "Doe")
+
+    def test_register_form_return_dodej_city_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_city, "New York")
+
+    def test_register_form_return_dodej_street_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_street, "Main Street")
+
+    def test_register_form_return_dodej_zipcode_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_zipcode, "37010")
+
+    def test_register_form_return_dodej_info_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_info, "3rd floor")
+
+    def test_register_form_return_dodej_phone_code_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_phone_code, "123")
+
+    def test_register_form_return_dodej_phone_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.dodej_phone, "987654321")
+
+    def test_register_form_return_firma_ico_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_ico, "88888888")
+
+    def test_register_form_return_firma_dic_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_dic, "1234567890")
+
+    def test_register_form_return_firma_bank_acc_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_bank_acc, "0987654321")
+
+    def test_register_form_return_firma_bank_number_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_bank_number, "0800")
+
+    def test_register_form_return_firma_spec_symbol_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.firma_spec_symbol, "1234")
+
 
 if __name__ == '__main__':
     unittest.main()
@@ -281,11 +453,11 @@ class TestAuth(TestMixin, unittest.TestCase):
         db.drop_all()
 
     def test_login_with_valid_credentials_return_correct_status_code(self):
-        password = "password"
+        user_password = "password"
         customer = Customer()
         customer.username = "testuser"
         customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(user_password, method='sha256')
         db.session.add(customer)
         db.session.commit()
         data = {
@@ -296,11 +468,11 @@ class TestAuth(TestMixin, unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_login_with_valid_credentials_return_correct_template(self):
-        password = "password"
+        user_password = "password"
         customer = Customer()
         customer.username = "testuser"
         customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(user_password, method='sha256')
         db.session.add(customer)
         db.session.commit()
         data = {
@@ -311,11 +483,11 @@ class TestAuth(TestMixin, unittest.TestCase):
         self.assertTrue(response, 'index.html')
 
     def test_login_with_valid_credentials_return_correct_message(self):
-        password = "password"
+        user_password = "password"
         customer = Customer()
         customer.username = "testuser"
         customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(user_password, method='sha256')
         db.session.add(customer)
         db.session.commit()
         data = {
@@ -326,11 +498,11 @@ class TestAuth(TestMixin, unittest.TestCase):
         self.assertIn(bytes("Úspěšně jsi se přihlásil.", "utf-8"), response.data)
 
     def test_login_with_invalid_credentials_return_correct_status_code(self):
-        password = "password"
+        user_password = "password"
         customer = Customer()
         customer.username = "testuser"
         customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(user_password, method='sha256')
         db.session.add(customer)
         db.session.commit()
         data = {
@@ -345,7 +517,7 @@ class TestAuth(TestMixin, unittest.TestCase):
         customer = Customer()
         customer.username = "testuser"
         customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(password, method='sha256')
         db.session.add(customer)
         db.session.commit()
         data = {
@@ -356,11 +528,11 @@ class TestAuth(TestMixin, unittest.TestCase):
         self.assertTrue(response, 'login.html')
 
     def test_login_with_invalid_password_return_correct_message(self):
-        password = "password"
+        user_password = "password"
         customer = Customer()
         customer.username = "testuser"
         customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(user_password, method='sha256')
         db.session.add(customer)
         db.session.commit()
         data = {

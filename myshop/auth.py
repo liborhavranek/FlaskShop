@@ -5,6 +5,7 @@ from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from myshop import db
+from .forms.registration_form import RegistrationForm
 from .models import Customer
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
@@ -17,90 +18,51 @@ def authenticate() -> str:
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        # ______________user_____________________
-        username = request.form.get("username")
-        email = request.form.get("email")
-        phone_code = request.form.get("phone_code")
-        phone = request.form.get("phone")
-        password1 = request.form.get("password1")
-        password2 = request.form.get("password2")
-        # --------------- Fakturacni udaje ---------------------
-        faktura_first_name = request.form.get("faktura_first_name")
-        faktura_last_name = request.form.get("faktura_last_name")
-        faktura_city = request.form.get("faktura_city")
-        faktura_street = request.form.get("faktura_street")
-        faktura_zipcode = request.form.get("faktura_zipcode")
-
-        # ---------------Dodaci udaje ---------------------------------
-
-        dodej_first_name = request.form.get("dodej_first_name")
-        dodej_last_name = request.form.get("dodej_last_name")
-        dodej_company = request.form.get("dodej_company")
-        dodej_city = request.form.get("dodej_city")
-        dodej_street = request.form.get("dodej_street")
-        dodej_zipcode = request.form.get("dodej_zipcode")
-        dodej_info = request.form.get("dodej_info")
-        dodej_phone_code = request.form.get("dodej_phone_code")
-        dodej_phone = request.form.get("dodej_phone")
-
-        # -------------------Firemní údaje -------------------------------------
-
-        firma_ico = request.form.get("firma_ico")
-        firma_dic = request.form.get("firma_dic")
-        firma_bank_acc = request.form.get("firma_bank_acc")
-        firma_bank_number = request.form.get("firma_bank_number")
-        firma_spec_symbol = request.form.get("firma_spec_symbol")
-
-        if password1 != password2:
-            flash('Heslo a potvrzení hesla se musí shodovat.', category='error')
-        else:
-            new_costumer = Customer()
-            new_costumer.username = username
-            new_costumer.email = email
-            new_costumer.phone_code = phone_code
-            new_costumer.phone = phone
-            new_costumer.password = generate_password_hash(password1, method='sha256')
-
-            new_costumer.faktura_first_name = faktura_first_name
-            new_costumer.faktura_last_name = faktura_last_name
-            new_costumer.faktura_city = faktura_city
-            new_costumer.faktura_street = faktura_street
-            new_costumer.faktura_zipcode = faktura_zipcode
-
-            new_costumer.dodej_first_name = dodej_first_name
-            new_costumer.dodej_last_name = dodej_last_name
-            new_costumer.dodej_info = dodej_company
-            new_costumer.dodej_city = dodej_city
-            new_costumer.dodej_street = dodej_street
-            new_costumer.dodej_zipcode = dodej_zipcode
-            new_costumer.dodej_info = dodej_info
-            new_costumer.dodej_phone_code = dodej_phone_code
-            new_costumer.dodej_phone = dodej_phone
-
-            new_costumer.firma_ico = firma_ico
-            new_costumer.firma_dic = firma_dic
-            new_costumer.firma_bank_acc = firma_bank_acc
-            new_costumer.firma_bank_number = firma_bank_number
-            new_costumer.firma_spec_symbol = firma_spec_symbol
-
-            db.session.add(new_costumer)
-            db.session.commit()
-            login_user(new_costumer, remember=True)
-            flash('Profil byl úspěšně vytvořen.', category='success')
-            return render_template('login.html', costumer=current_user)
-
-    return render_template('register.html', customer=current_user)
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        customer_data = {
+            'username': request.form.get('username'),
+            'email': request.form.get('email'),
+            'phone_code': request.form.get('phone_code'),
+            'phone': request.form.get('phone'),
+            'user_password': generate_password_hash(request.form.get('password'), method='sha256'),
+            'faktura_first_name': request.form.get('faktura_first_name'),
+            'faktura_last_name': request.form.get('faktura_last_name'),
+            'faktura_city': request.form.get('faktura_city'),
+            'faktura_street': request.form.get('faktura_street'),
+            'faktura_zipcode': request.form.get('faktura_zipcode'),
+            'dodej_first_name': request.form.get('dodej_first_name'),
+            'dodej_last_name': request.form.get('dodej_last_name'),
+            'dodej_company': request.form.get('dodej_company'),
+            'dodej_city': request.form.get('dodej_city'),
+            'dodej_street': request.form.get('dodej_street'),
+            'dodej_zipcode': request.form.get('dodej_zipcode'),
+            'dodej_info': request.form.get('dodej_info'),
+            'dodej_phone_code': request.form.get('dodej_phone_code'),
+            'dodej_phone': request.form.get('dodej_phone'),
+            'firma_ico': request.form.get('firma_ico'),
+            'firma_dic': request.form.get('firma_dic'),
+            'firma_bank_acc': request.form.get('firma_bank_acc'),
+            'firma_bank_number': request.form.get('firma_bank_number'),
+            'firma_spec_symbol': request.form.get('firma_spec_symbol')
+        }
+        new_customer = Customer(**customer_data)
+        db.session.add(new_customer)
+        db.session.commit()
+        login_user(new_customer, remember=True)
+        flash('Profil byl úspěšně vytvořen.', category='success')
+        return render_template('login.html')
+    return render_template('register.html', form=form)
 
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get("email")
-        password = request.form.get("password")
+        user_password = request.form.get("password")
         costumer = Customer.query.filter_by(email=email).first()
         if costumer:
-            if check_password_hash(costumer.password, password):
+            if check_password_hash(costumer.user_password, user_password):
                 flash("Úspěšně jsi se přihlásil.", category='success')
                 login_user(costumer, remember=True)
                 return render_template("index.html", costumer=current_user)

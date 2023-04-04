@@ -1,139 +1,122 @@
 {% extends 'base.html'%}
     {% block content %}
+<div class="container-fluid register-form-container">
+<div class="container w-50">
 
 <h1 class="text-center">Registrace</h1>
 
-<form method="POST" action="{{ url_for('auth.register') }}">
-  <div class="form-group">
-    <label for="username">Přihlašovací jméno:</label>
-    <input type="text" class="form-control" id="username" name="username" required>
-  </div>
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input type="email" class="form-control" id="email" name="email" required>
-  </div>
-  <div class="form-group">
-    <label for="phone_code">Kód:</label>
-    <input type="text" class="form-control" id="phone_code" name="phone_code" required>
-  </div>
-  <div class="form-group">
-    <label for="phone">Telefon:</label>
-    <input type="text" class="form-control" id="phone" name="phone" required>
-  </div>
-  <div class="form-group">
-    <label for="password1">Heslo:</label>
-    <input type="password" class="form-control" id="password1" name="password1" required>
-  </div>
-  <div class="form-group">
-    <label for="password2">Potvrdit heslo:</label>
-    <input type="password" class="form-control" id="password2" name="password2" required>
-  </div>
+ <form method="POST">
+      {{ form.csrf_token }}
+      <div class="form-group">
+        {{ form.username.label }}
+        {{ form.username(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.phone_code.label }}
+        {{ form.phone_code(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.phone.label }}
+        {{ form.phone(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.password.label }}
+        {{ form.password(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.confirm_password.label }}
+        {{ form.confirm_password(class="form-control mb-3") }}
+      </div>
+      <h2>Fakturacni udaje</h2>
+      <div class="form-group">
+        {{ form.faktura_first_name.label }}
+        {{ form.faktura_first_name(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.faktura_last_name.label }}
+        {{ form.faktura_last_name(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.faktura_city.label }}
+        {{ form.faktura_city(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.faktura_street.label }}
+        {{ form.faktura_street(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.faktura_zipcode.label }}
+        {{ form.faktura_zipcode(class="form-control mb-3") }}
+      </div>
+      <h2>Dodaci udaje</h2>
+      <div class="form-group">
+        {{ form.dodej_first_name.label }}
+        {{ form.dodej_first_name(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_last_name.label }}
+        {{ form.dodej_last_name(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_company.label }}
+        {{ form.dodej_company(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_city.label }}
+        {{ form.dodej_city(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_street.label }}
+        {{ form.dodej_street(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_zipcode.label }}
+        {{ form.dodej_zipcode(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_info.label }}
+        {{ form.dodej_info(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_phone_code.label }}
+        {{ form.dodej_phone_code(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.dodej_phone.label }}
+        {{ form.dodej_phone(class="form-control mb-3") }}
+      </div>
+      <h2>Firemní udaje</h2>
+      <div class="form-group">
+        {{ form.firma_ico.label }}
+        {{ form.firma_ico(class="form-control mb-3") }}
+      </div>
+      <div class="form-group">
+        {{ form.firma_dic.label }}
+        {{ form.firma_dic(class="form-control mb-3") }}
+      </div>
+     <div class="form-group">
+        {{ form.firma_bank_acc.label }}
+        {{ form.firma_bank_acc(class="form-control mb-3") }}
+     </div>
+     <div class="form-group">
+        {{ form.firma_bank_number.label }}
+        {{ form.firma_bank_number(class="form-control mb-3") }}
+     </div>
+     <div class="form-group">
+        {{ form.firma_spec_symbol.label }}
+        {{ form.firma_spec_symbol(class="form-control mb-3") }}
+     </div>
+     <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+     </div>
+ </form>
 
-  <h1 class="text-center">Fakturacni udaje</h1>
-
-  <div class="form-group">
-    <label for="faktura_first_name">Jméno:</label>
-    <input type="text" class="form-control" id="faktura_first_name" name="faktura_first_name">
-  </div>
-
-  <div class="form-group">
-    <label for="faktura_last_name">Příjmení:</label>
-    <input type="text" class="form-control" id="faktura_last_name" name="faktura_last_name">
-  </div>
-
-  <div class="form-group">
-    <label for="faktura_city">Město:</label>
-    <input type="text" class="form-control" id="faktura_city" name="faktura_city">
-  </div>
-
-  <div class="form-group">
-    <label for="faktura_street">Ulice:</label>
-    <input type="text" class="form-control" id="faktura_street" name="faktura_street">
-  </div>
-
-  <div class="form-group">
-    <label for="faktura_zipcode">PSČ:</label>
-    <input type="text" class="form-control" id="faktura_zipcode" name="faktura_zipcode">
-  </div>
-
-    <h1 class="text-center">Dodaci udaje</h1>
-
-  <div class="form-group">
-    <label for="dodej_first_name">Jméno:</label>
-    <input type="text" class="form-control" id="dodej_first_name" name="dodej_first_name">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_last_name">Příjmení:</label>
-    <input type="text" class="form-control" id="dodej_last_name" name="dodej_last_name">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_company">Firma:</label>
-    <input type="text" class="form-control" id="dodej_company" name="dodej_company">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_city">Město:</label>
-    <input type="text" class="form-control" id="dodej_city" name="dodej_city">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_street">Ulice:</label>
-    <input type="text" class="form-control" id="dodej_street" name="dodej_street">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_zipcode">PSČ:</label>
-    <input type="text" class="form-control" id="dodej_zipcode" name="dodej_zipcode">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_info">Info(např. patro):</label>
-    <input type="text" class="form-control" id="dodej_info" name="dodej_info">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_phone_code">Kód:</label>
-    <input type="text" class="form-control" id="dodej_phone_code" name="dodej_phone_code">
-  </div>
-
-  <div class="form-group">
-    <label for="dodej_phone">Telefon:</label>
-    <input type="text" class="form-control" id="dodej_phone" name="dodej_phone">
-  </div>
-
-    <h1 class="text-center">Firemni udaje</h1>
-
-
-  <div class="form-group">
-    <label for="firma_ico">IČO:</label>
-    <input type="text" class="form-control" id="firma_ico" name="firma_ico">
-  </div>
-
-  <div class="form-group">
-    <label for="firma_dic">DIČ:</label>
-    <input type="text" class="form-control" id="firma_dic" name="firma_dic">
-  </div>
-
-  <div class="form-group">
-    <label for="firma_bank_acc">Číslo účtu:</label>
-    <input type="text" class="form-control" id="firma_bank_acc" name="firma_bank_acc">
-  </div>
-
-  <div class="form-group">
-    <label for="firma_bank_number">Kód banky:</label>
-    <input type="text" class="form-control" id="firma_bank_number" name="firma_bank_number">
-  </div>
-
-  <div class="form-group">
-    <label for="firma_spec_symbol">Specifický symbol:</label>
-    <input type="text" class="form-control" id="firma_spec_symbol" name="firma_spec_symbol">
-  </div>
-
-<br>
-  <button type="submit" class="btn btn-primary">Register</button>
-</form>
+</div>
+</div>
 
 
 {%endblock content %}
