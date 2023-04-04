@@ -77,6 +77,12 @@ class TestRegisterTemplateAllTemplates(TestMixin, unittest.TestCase):
         self.assertIn(b'<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>',
                       response.data)
 
+    def test_template_have_top_nav_bar(self):
+        response = self.client.get('/auth/register', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        navbar = soup.find('nav', class_='navbar')
+        self.assertIsNotNone(navbar)
+
 
 class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
     """Test what are specific only for this template"""
