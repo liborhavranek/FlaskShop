@@ -2,12 +2,9 @@
 
 import unittest
 
-from flask import url_for
 from flask_login import current_user, logout_user
-from werkzeug.datastructures import MultiDict
 from werkzeug.security import generate_password_hash
 
-from myshop.auth import auth
 from myshop.forms.forms import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -27,6 +24,9 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         db.create_all()
         super().setUp()
 
@@ -248,6 +248,19 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         self.create_user()
         new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
         self.assertEqual(new_customer.firma_spec_symbol, '1234')
+
+    def test_register_form(self):
+        with self.app.test_client() as client:
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='456',
+                                    password='password', confirm_password='password')
+            # Set the CSRF token directly in the form data
+            form.csrf_token.data = csrf_token
+            response = client.post('auth/register', data=form.data)
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(form.validate_on_submit())
+
+
 
 
 if __name__ == '__main__':

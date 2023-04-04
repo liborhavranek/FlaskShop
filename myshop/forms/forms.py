@@ -2,11 +2,12 @@
 
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
 class RegistrationForm(FlaskForm):
+    csrf_token = HiddenField()
     username = StringField('Přihlašovací jméno:', validators=[DataRequired(), Length(min=4, max=30)])
     email = StringField('Email:', validators=[DataRequired(), Email()])
     phone_code = StringField('Kód:')

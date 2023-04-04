@@ -18,78 +18,41 @@ def authenticate() -> str:
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-
     form = RegistrationForm()
     if form.validate_on_submit():
-        # ______________user_____________________
-        username = request.form.get("username")
-        email = request.form.get("email")
-        phone_code = request.form.get("phone_code")
-        phone = request.form.get("phone")
-        password = request.form.get("password")
-        # --------------- Fakturacni udaje ---------------------
-        faktura_first_name = request.form.get("faktura_first_name")
-        faktura_last_name = request.form.get("faktura_last_name")
-        faktura_city = request.form.get("faktura_city")
-        faktura_street = request.form.get("faktura_street")
-        faktura_zipcode = request.form.get("faktura_zipcode")
-
-        # ---------------Dodaci udaje ---------------------------------
-
-        dodej_first_name = request.form.get("dodej_first_name")
-        dodej_last_name = request.form.get("dodej_last_name")
-        dodej_company = request.form.get("dodej_company")
-        dodej_city = request.form.get("dodej_city")
-        dodej_street = request.form.get("dodej_street")
-        dodej_zipcode = request.form.get("dodej_zipcode")
-        dodej_info = request.form.get("dodej_info")
-        dodej_phone_code = request.form.get("dodej_phone_code")
-        dodej_phone = request.form.get("dodej_phone")
-
-        # -------------------Firemní údaje -------------------------------------
-
-        firma_ico = request.form.get("firma_ico")
-        firma_dic = request.form.get("firma_dic")
-        firma_bank_acc = request.form.get("firma_bank_acc")
-        firma_bank_number = request.form.get("firma_bank_number")
-        firma_spec_symbol = request.form.get("firma_spec_symbol")
-
-        new_costumer = Customer()
-        new_costumer.username = username
-        new_costumer.email = email
-        new_costumer.phone_code = phone_code
-        new_costumer.phone = phone
-        new_costumer.user_password = generate_password_hash(password, method='sha256')
-
-        new_costumer.faktura_first_name = faktura_first_name
-        new_costumer.faktura_last_name = faktura_last_name
-        new_costumer.faktura_city = faktura_city
-        new_costumer.faktura_street = faktura_street
-        new_costumer.faktura_zipcode = faktura_zipcode
-
-        new_costumer.dodej_first_name = dodej_first_name
-        new_costumer.dodej_last_name = dodej_last_name
-        new_costumer.dodej_info = dodej_company
-        new_costumer.dodej_city = dodej_city
-        new_costumer.dodej_street = dodej_street
-        new_costumer.dodej_zipcode = dodej_zipcode
-        new_costumer.dodej_info = dodej_info
-        new_costumer.dodej_phone_code = dodej_phone_code
-        new_costumer.dodej_phone = dodej_phone
-
-        new_costumer.firma_ico = firma_ico
-        new_costumer.firma_dic = firma_dic
-        new_costumer.firma_bank_acc = firma_bank_acc
-        new_costumer.firma_bank_number = firma_bank_number
-        new_costumer.firma_spec_symbol = firma_spec_symbol
-
-        db.session.add(new_costumer)
+        customer_data = {
+            'username': request.form.get('username'),
+            'email': request.form.get('email'),
+            'phone_code': request.form.get('phone_code'),
+            'phone': request.form.get('phone'),
+            'user_password': generate_password_hash(request.form.get('password'), method='sha256'),
+            'faktura_first_name': request.form.get('faktura_first_name'),
+            'faktura_last_name': request.form.get('faktura_last_name'),
+            'faktura_city': request.form.get('faktura_city'),
+            'faktura_street': request.form.get('faktura_street'),
+            'faktura_zipcode': request.form.get('faktura_zipcode'),
+            'dodej_first_name': request.form.get('dodej_first_name'),
+            'dodej_last_name': request.form.get('dodej_last_name'),
+            'dodej_company': request.form.get('dodej_company'),
+            'dodej_city': request.form.get('dodej_city'),
+            'dodej_street': request.form.get('dodej_street'),
+            'dodej_zipcode': request.form.get('dodej_zipcode'),
+            'dodej_info': request.form.get('dodej_info'),
+            'dodej_phone_code': request.form.get('dodej_phone_code'),
+            'dodej_phone': request.form.get('dodej_phone'),
+            'firma_ico': request.form.get('firma_ico'),
+            'firma_dic': request.form.get('firma_dic'),
+            'firma_bank_acc': request.form.get('firma_bank_acc'),
+            'firma_bank_number': request.form.get('firma_bank_number'),
+            'firma_spec_symbol': request.form.get('firma_spec_symbol')
+        }
+        new_customer = Customer(**customer_data)
+        db.session.add(new_customer)
         db.session.commit()
-        login_user(new_costumer, remember=True)
+        login_user(new_customer, remember=True)
         flash('Profil byl úspěšně vytvořen.', category='success')
-        return render_template('login.html', costumer=current_user)
-
-    return render_template('register.html', customer=current_user, form=form)
+        return render_template('login.html')
+    return render_template('register.html', form=form)
 
 
 @auth.route("/login", methods=['GET', 'POST'])
