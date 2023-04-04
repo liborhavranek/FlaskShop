@@ -428,6 +428,29 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             user = Customer.query.filter_by(username='testuser').first()
             self.assertEqual(user.firma_spec_symbol, "1234")
 
+    def test_check_email_return_correct_status_code_when_email_available(self):
+        email = 'jane.doe@example.com'
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.status_code, 200)
+
+    def test_check_email_return_correct_status_code_when_email_taken(self):
+        email = 'john.doe@example.com'
+        self.create_user()
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.status_code, 200)
+
+    def test_check_email_taken(self):
+        email = 'john.doe@example.com'
+        self.create_user()
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.data, b'taken')
+
+    def test_check_email_available(self):
+        email = 'jane.doe@example.com'
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.data, b'available')
+
+
 
 if __name__ == '__main__':
     unittest.main()
