@@ -55,6 +55,16 @@ def register():
     return render_template('register.html', form=form)
 
 
+@auth.route('/check-email', methods=['POST'])
+def check_email():
+    email = request.form['email']
+    user = Customer.query.filter_by(email=email).first()
+    if user:
+        return 'taken'
+    else:
+        return 'available'
+# TODO write test for check email
+
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
