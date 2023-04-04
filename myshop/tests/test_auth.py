@@ -66,6 +66,12 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         db.session.add(new_customer)
         db.session.commit()
 
+    def create_registration_form_data(self):
+        csrf_token = 'test_csrf_token'
+        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='123456789',
+                                     password='password', confirm_password='password', faktura_first_name='John',)
+        self.form.csrf_token.data = csrf_token
+
     def test_view_have_set_correct_template(self):
         response = self.client.get('/auth')
         self.assertTrue(response, 'auth.html')
@@ -249,18 +255,52 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
         self.assertEqual(new_customer.firma_spec_symbol, '1234')
 
-    def test_register_form(self):
+    def test_register_form_return_status_code(self):
         with self.app.test_client() as client:
-            csrf_token = 'test_csrf_token'
-            form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='456',
-                                    password='password', confirm_password='password')
-            # Set the CSRF token directly in the form data
-            form.csrf_token.data = csrf_token
-            response = client.post('auth/register', data=form.data)
+            self.create_registration_form_data()
+            response = client.post('auth/register', data=self.form.data)
             self.assertEqual(response.status_code, 200)
-            self.assertTrue(form.validate_on_submit())
 
+    def test_register_form_is_validate(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            self.assertTrue(self.form.validate_on_submit())
 
+    def test_register_form_return_username_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.username, "testuser")
+
+    def test_register_form_return_email_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.email, "test@example.com")
+
+    def test_register_form_return_phone_code_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.phone_code, "123")
+
+    def test_register_form_return_phone_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.phone, "123456789")
+
+    def test_register_form_return_faktura_first_name_and_save_in_db(self):
+        with self.app.test_client() as client:
+            self.create_registration_form_data()
+            client.post('auth/register', data=self.form.data)
+            user = Customer.query.filter_by(username='testuser').first()
+            self.assertEqual(user.faktura_first_name, "John")
 
 
 if __name__ == '__main__':
