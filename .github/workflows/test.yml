@@ -38,6 +38,10 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v2.0.0
+      - name: npm install, make test-coverage
+        run: |
+          npm install
+          make test-coverage
 
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1
