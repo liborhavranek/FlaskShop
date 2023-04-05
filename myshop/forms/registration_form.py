@@ -3,7 +3,7 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Regexp
 
 from myshop.models import Customer
 
@@ -13,7 +13,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Přihlašovací jméno:', validators=[DataRequired(), Length(min=5, max=30)])
     email = StringField('Email:', validators=[DataRequired(), Length(min=10, max=50),  Email()])
     phone_code = SelectField('Kód:', choices=[('+420', '+420'), ('+421', '+421')])
-    phone = StringField('Telefon:')
+    phone = StringField('Telefon:', validators=[DataRequired(), Length(min=9, max=9), Regexp('^[0-9]*$')])
     password = PasswordField('Heslo:', validators=[DataRequired()])
     confirm_password = PasswordField('Potvrdit heslo:', validators=[DataRequired(), EqualTo('password')])
 
@@ -58,3 +58,4 @@ class RegistrationForm(FlaskForm):
         if customer:
             flash("Toto uživatelské jméno už je zaregistrované v naší databázi.", "error")
             raise ValidationError('Username is already in use.')
+

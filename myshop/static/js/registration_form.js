@@ -75,3 +75,26 @@ $('.registration-username-input').on('input', function() {
         }
     });
 });
+
+
+$('.registration-phone-input').on('keydown', function(event) {
+// Allow only digits and the backspace key
+if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
+    event.preventDefault();
+}
+});
+
+
+$('.registration-phone-input').on('input', function() {
+  var phone_number = $(this).val();
+  $('.registration-phone-input').removeClass('is-valid is-invalid');
+
+  if (phone_number.length === 0) {
+    // Do nothing if the phone number has 0 characters
+  } else if (phone_number.length === 9) {
+    $('.registration-phone-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.registration-phone-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
