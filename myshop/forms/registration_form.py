@@ -3,7 +3,9 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+
+from myshop.models import Customer
 
 
 class RegistrationForm(FlaskForm):
@@ -39,9 +41,14 @@ class RegistrationForm(FlaskForm):
 
     submit = SubmitField('Registrovat')
 
-
     def validate_confirm_password(self, confirm_password):
         if self.password.data != confirm_password.data:
             flash('Heslo a potvrzení hesla se musí shodovat.', 'error')
             return False
         return True
+
+    def validate_email(self, email):
+        customer = Customer.query.filter_by(email=email.data).first()
+        if customer:
+            flash('Tento email je už zaregistrován v naší databázi.', 'error')
+            raise ValidationError('Email is already in use.')
