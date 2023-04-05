@@ -68,7 +68,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
 
     def create_registration_form_data(self):
         csrf_token = 'test_csrf_token'
-        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='123456789',
+        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='+420', phone='123456789',
                                      password='password', confirm_password='password', faktura_first_name='John',
                                      faktura_last_name='Doe', faktura_city='New York', faktura_street='Main Street',
                                      faktura_zipcode='37010', dodej_first_name='John', dodej_last_name='Doe',
@@ -287,7 +287,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             self.create_registration_form_data()
             client.post('auth/register', data=self.form.data)
             user = Customer.query.filter_by(username='testuser').first()
-            self.assertEqual(user.phone_code, "123")
+            self.assertEqual(user.phone_code, "+420")
 
     def test_register_form_return_phone_and_save_in_db(self):
         with self.app.test_client() as client:

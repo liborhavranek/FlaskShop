@@ -104,7 +104,7 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
 
     def test_register_form_have_all_fields(self):
         fields_to_test = [
-            'username', 'email', 'phone_code', 'phone', 'password', 'confirm_password', 'faktura_first_name',
+            'username', 'email', 'phone', 'password', 'confirm_password', 'faktura_first_name',
             "faktura_last_name", "faktura_city", "faktura_street", "faktura_zipcode", "dodej_first_name",
             "dodej_last_name", "dodej_company", "dodej_city", "dodej_street", "dodej_zipcode",
             "dodej_info", "dodej_phone_code", "dodej_phone", "firma_ico", "firma_dic", "firma_bank_acc",

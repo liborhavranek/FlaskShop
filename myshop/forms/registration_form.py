@@ -2,7 +2,7 @@
 
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 from myshop.models import Customer
@@ -12,7 +12,7 @@ class RegistrationForm(FlaskForm):
     csrf_token = HiddenField()
     username = StringField('Přihlašovací jméno:', validators=[DataRequired(), Length(min=5, max=30)])
     email = StringField('Email:', validators=[DataRequired(), Length(min=10, max=50),  Email()])
-    phone_code = StringField('Kód:')
+    phone_code = SelectField('Kód:', choices=[('+420', '+420'), ('+421', '+421')])
     phone = StringField('Telefon:')
     password = PasswordField('Heslo:', validators=[DataRequired()])
     confirm_password = PasswordField('Potvrdit heslo:', validators=[DataRequired(), EqualTo('password')])
