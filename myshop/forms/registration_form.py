@@ -10,8 +10,8 @@ from myshop.models import Customer
 
 class RegistrationForm(FlaskForm):
     csrf_token = HiddenField()
-    username = StringField('Přihlašovací jméno:', validators=[DataRequired(), Length(min=4, max=30)])
-    email = StringField('Email:', validators=[DataRequired(), Email()])
+    username = StringField('Přihlašovací jméno:', validators=[DataRequired(), Length(min=5, max=30)])
+    email = StringField('Email:', validators=[DataRequired(), Length(min=10, max=50),  Email()])
     phone_code = StringField('Kód:')
     phone = StringField('Telefon:')
     password = PasswordField('Heslo:', validators=[DataRequired()])
@@ -52,3 +52,9 @@ class RegistrationForm(FlaskForm):
         if customer:
             flash('Tento email je už zaregistrován v naší databázi.', 'error')
             raise ValidationError('Email is already in use.')
+
+    def validate_username(self, username):
+        customer = Customer.query.filter_by(username=username.data).first()
+        if customer:
+            flash("Toto uživatelské jméno už je zaregistrované v naší databázi.", "error")
+            raise ValidationError('Username is already in use.')
