@@ -481,6 +481,17 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             customers = Customer.query.all()
             self.assertEqual(len(customers), 1)
 
+    def test_check_user_taken(self):
+        username = 'john_doe'
+        self.create_user()
+        response = self.client.post('auth/check-username', data={'username': username})
+        self.assertEqual(response.data, b'taken')
+
+    def test_check_user_available(self):
+        username = 'john_doe'
+        response = self.client.post('auth/check-username', data={'username': username})
+        self.assertEqual(response.data, b'available')
+
 
 if __name__ == '__main__':
     unittest.main()

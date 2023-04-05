@@ -63,7 +63,17 @@ def check_email():
         return 'taken'
     else:
         return 'available'
-# TODO write test for check email
+
+
+@auth.route('/check-username', methods=['POST'])
+def check_username():
+    username = request.form['username']
+    user = Customer.query.filter_by(username=username).first()
+    if user:
+        return 'taken'
+    else:
+        return 'available'
+
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():

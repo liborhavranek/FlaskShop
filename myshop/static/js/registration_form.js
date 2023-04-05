@@ -1,7 +1,7 @@
 // """ Libor Havránek App Copyright (C)  5.4 2023 """
 
 
-$('#email').on('input', function() {
+$('.registration-email-input').on('input', function() {
   var email = $(this).val();
   // Get the CSRF token from the form
   var csrf_token = $('input[name=csrf_token]').val();
@@ -38,4 +38,40 @@ $('#email').on('input', function() {
       }
     }.bind(this)
   });
+});
+
+
+
+
+$('.registration-username-input').on('input', function() {
+    var username =  $(this).val();
+    // Get the CSRF token from the form
+    var csrf_token = $('input[name=csrf_token]').val();
+    $('.customer_username_check').hide(); // hide the message element before making the AJAX request
+        $('.registration-username-input').removeClass('is-valid is-invalid');
+
+    if (!username) { // check if the username field is empty
+        return; // exit the function if the username field is empty
+    }
+
+    if (username.length < 5) { // check if the username is longer than 5 characters
+        $('.customer_username_check').text("Uživatelské jméno musí obsahovat alespoň 5 znaků.").show();
+        $(this).removeClass('is-valid').addClass('is-invalid');
+        return; // exit the function if the username is too short
+    }
+
+    $.ajax({
+        url: '/auth/check-username',
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrf_token },
+        data: {'username': username},
+        success: function(data) {
+            if (data == 'taken' ) {
+                $('.customer_username_check').text("Tento uživatel je již zaregistrovaný v naší databázi.").show();
+                $('.registration-username-input').removeClass('is-valid').addClass('is-invalid');
+            }else {
+                $('.registration-username-input').removeClass('is-invalid').addClass('is-valid');
+            }
+        }
+    });
 });

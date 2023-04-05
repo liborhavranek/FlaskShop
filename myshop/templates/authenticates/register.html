@@ -6,16 +6,19 @@
 <h1 class="text-center">Registrace</h1>
 
  <form method="POST">
+
       {{ form.csrf_token }}
+
       <div class="form-group">
         {{ form.username.label }}
-        {{ form.username(class="form-control mb-3") }}
+        {{ form.username(class="form-control mb-3 registration-username-input") }}
       </div>
+      <div class="customer_username_check text-start" id="customer_username_check_id"><small class=" username-used"></small></div>
 
 
       <div class="form-group">
         {{ form.email.label }}
-        {{ form.email(class="form-control mb-3") }}
+        {{ form.email(class="form-control mb-3 registration-email-input") }}
       </div>
       <div class="customer_email_check text-start" id="customer_email_check_id"><small class=" email-used"></small></div>
 
