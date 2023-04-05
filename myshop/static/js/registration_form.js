@@ -1,5 +1,6 @@
 // """ Libor Havránek App Copyright (C)  5.4 2023 """
 
+// ----------------------------- email control registration form start---------------------------------------
 
 $('.registration-email-input').on('input', function() {
   var email = $(this).val();
@@ -40,7 +41,10 @@ $('.registration-email-input').on('input', function() {
   });
 });
 
+// ----------------------------- email control registration form end---------------------------------------
 
+
+// ----------------------------- username control registration form start---------------------------------------
 
 
 $('.registration-username-input').on('input', function() {
@@ -76,6 +80,9 @@ $('.registration-username-input').on('input', function() {
     });
 });
 
+// ----------------------------- username control registration form end---------------------------------------
+
+// ----------------------------- phonenumber control registration form start---------------------------------------
 
 $('.registration-phone-input').on('keydown', function(event) {
 // Allow only digits and the backspace key
@@ -88,13 +95,17 @@ if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.k
 $('.registration-phone-input').on('input', function() {
   var phone_number = $(this).val();
   $('.registration-phone-input').removeClass('is-valid is-invalid');
+  $('.registration-phone-code-input').removeClass('is-valid is-invalid');
 
   if (phone_number.length === 0) {
     // Do nothing if the phone number has 0 characters
   } else if (phone_number.length === 9) {
     $('.registration-phone-input').removeClass('is-invalid').addClass('is-valid');
+    $('.registration-phone-code-input').addClass('is-valid');
   } else {
     $('.registration-phone-input').removeClass('is-valid').addClass('is-invalid');
+    $('.registration-phone-code-input').removeClass('is-valid')
   }
 });
 
+// ----------------------------- phonenumber control registration form end---------------------------------------

@@ -42,6 +42,9 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Registrovat')
 
     def validate_confirm_password(self, confirm_password):
+        if len(self.password.data) < 8:
+            flash('Heslo musí mít alespoň á znaků.', 'error')
+            raise ValidationError('Heslo musí mít alespoň 8 znaků.')
         if self.password.data != confirm_password.data:
             flash('Heslo a potvrzení hesla se musí shodovat.', 'error')
             return False
