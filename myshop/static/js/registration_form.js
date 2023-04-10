@@ -84,7 +84,7 @@ $('.registration-username-input').on('input', function() {
 
 // ----------------------------- phonenumber control registration form start---------------------------------------
 
-$('.registration-phone-input').on('keydown', function(event) {
+$('.registration-phone-input, .registration-faktura-zipcode-input').on('keydown', function(event) {
 // Allow only digits and the backspace key
 if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
     event.preventDefault();
@@ -143,3 +143,57 @@ $('.registration-confirm-password-input').removeClass('is-valid is-invalid');
 // ----------------------------password control registration end -----------------------------------------
 
 
+//------------------------------faktura first name start------------------------------------------
+
+
+$(".registration-faktura-firstname-input").on('input', function() {
+  var faktura_first_name = $(this).val();
+  if (faktura_first_name.length > 1) {
+    $('.registration-faktura-firstname-input').addClass('is-valid');
+  } else {
+    $('.registration-faktura-firstname-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- faktura first name end --------------------------------------------------
+
+
+//------------------------------faktura last name start------------------------------------------
+
+
+$(".registration-faktura-lastname-input").on('input', function() {
+  var faktura_last_name = $(this).val();
+  if (faktura_last_name.length > 1) {
+    $('.registration-faktura-lastname-input').addClass('is-valid');
+  } else {
+    $('.registration-faktura-lastname-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- faktura last name end --------------------------------------------------
+
+// ---------------------------- faktura city start --------------------------------------------------
+
+$(".registration-faktura-city-input").on('input', function() {
+  var faktura_city_name = $(this).val();
+  if (faktura_city_name.length > 1) {
+    $('.registration-faktura-city-input').addClass('is-valid');
+  } else {
+    $('.registration-faktura-city-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- faktura city end --------------------------------------------------
+
+// ---------------------------- faktura street start --------------------------------------------------
+
+$(".registration-faktura-street-input").on('input', function() {
+  var faktura_street_name = $(this).val();
+  if (faktura_street_name.length > 1) {
+    $('.registration-faktura-street-input').addClass('is-valid');
+  } else {
+    $('.registration-faktura-street-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- faktura street end --------------------------------------------------

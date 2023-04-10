@@ -3,7 +3,7 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Regexp
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Regexp, Optional
 
 from myshop.models import Customer
 
@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
     faktura_last_name = StringField('Příjmení:')
     faktura_city = StringField('Město:')
     faktura_street = StringField('Ulice:')
-    faktura_zipcode = StringField('PSČ:')
+    faktura_zipcode = StringField('PSČ:', validators=[Optional(), Length(min=5, max=5)])
 
     dodej_first_name = StringField('Jméno:')
     dodej_last_name = StringField('Příjmení:')
@@ -62,3 +62,7 @@ class RegistrationForm(FlaskForm):
             flash("Toto uživatelské jméno už je zaregistrované v naší databázi.", "error")
             raise ValidationError('Username is already in use.')
 
+    def validate_faktura_zipcode(self, faktura_zipcode):
+        if faktura_zipcode.data and len(faktura_zipcode.data) != 5:
+            flash('PSČ musí mít přesně 5 číslic.', 'error')
+            raise ValidationError('PSČ musí mít přesně 5 číslic.')
