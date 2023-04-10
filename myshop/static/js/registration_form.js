@@ -141,3 +141,5 @@ $('.registration-confirm-password-input').removeClass('is-valid is-invalid');
 
 
 // ----------------------------password control registration end -----------------------------------------
+
+
