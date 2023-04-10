@@ -28,7 +28,7 @@ class RegistrationForm(FlaskForm):
     dodej_company = StringField('Firma:')
     dodej_city = StringField('Město:')
     dodej_street = StringField('Ulice:')
-    dodej_zipcode = StringField('PSČ:')
+    dodej_zipcode = StringField('PSČ:', validators=[Optional(), Length(min=5, max=5)])
     dodej_info = StringField('Info(např. patro):')
     dodej_phone_code = StringField('Kód:')
     dodej_phone = StringField('Telefon:')
@@ -64,5 +64,10 @@ class RegistrationForm(FlaskForm):
 
     def validate_faktura_zipcode(self, faktura_zipcode):
         if faktura_zipcode.data and len(faktura_zipcode.data) != 5:
+            flash('PSČ musí mít přesně 5 číslic.', 'error')
+            raise ValidationError('PSČ musí mít přesně 5 číslic.')
+
+    def validate_dodej_zipcode(self, dodej_zipcode):
+        if dodej_zipcode.data and len(dodej_zipcode.data) != 5:
             flash('PSČ musí mít přesně 5 číslic.', 'error')
             raise ValidationError('PSČ musí mít přesně 5 číslic.')

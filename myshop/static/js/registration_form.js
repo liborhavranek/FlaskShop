@@ -84,7 +84,7 @@ $('.registration-username-input').on('input', function() {
 
 // ----------------------------- phonenumber control registration form start---------------------------------------
 
-$('.registration-phone-input, .registration-faktura-zipcode-input').on('keydown', function(event) {
+$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input').on('keydown', function(event) {
 // Allow only digits and the backspace key
 if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
     event.preventDefault();
@@ -215,3 +215,92 @@ $(".registration-faktura-zipcode-input").on('input', function() {
   }
 });
 // ---------------------------- faktura zipcode end --------------------------------------------------
+
+//------------------------------dodej first name start------------------------------------------
+
+
+$(".registration-dodej-firstname-input").on('input', function() {
+  var dodej_first_name = $(this).val();
+  if (dodej_first_name.length > 1) {
+    $('.registration-dodej-firstname-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-firstname-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- dodej first name end --------------------------------------------------
+
+//------------------------------dodej last name start------------------------------------------
+
+
+$(".registration-dodej-lastname-input").on('input', function() {
+  var dodej_last_name = $(this).val();
+  if (dodej_last_name.length > 1) {
+    $('.registration-dodej-lastname-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-lastname-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- dodej last name end --------------------------------------------------
+
+//------------------------------dodej company start------------------------------------------
+
+
+$(".registration-dodej-company-input").on('input', function() {
+  var dodej_company_name = $(this).val();
+  if (dodej_company_name.length > 1) {
+    $('.registration-dodej-company-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-company-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- dodej company end --------------------------------------------------
+
+
+//------------------------------dodej city start------------------------------------------
+
+
+$(".registration-dodej-city-input").on('input', function() {
+  var dodej_city_name = $(this).val();
+  if (dodej_city_name.length > 1) {
+    $('.registration-dodej-city-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-city-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- dodej city end --------------------------------------------------
+
+//------------------------------dodej city start------------------------------------------
+
+
+$(".registration-dodej-street-input").on('input', function() {
+  var dodej_street = $(this).val();
+  if (dodej_street.length > 1) {
+    $('.registration-dodej-street-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-street-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- dodej city end --------------------------------------------------
+
+
+// ---------------------------- dodej zipcode start --------------------------------------------------
+
+$(".registration-dodej-zipcode-input").on('input', function() {
+  var dodej_zipcode = $(this).val();
+  if (dodej_zipcode.length === 0) {
+    // Field is empty, so remove validation
+    $('.registration-dodej-zipcode-input').removeClass('is-invalid is-valid');
+  } else if (dodej_zipcode.length != 5) {
+    // Field is not empty but not valid, so add invalid class and remove valid class
+    $('.registration-dodej-zipcode-input').addClass('is-invalid').removeClass('is-valid');
+  } else {
+    // Field is valid, so add valid class and remove invalid class
+    $('.registration-dodej-zipcode-input').removeClass('is-invalid').addClass('is-valid');
+  }
+});
+// ---------------------------- dodej zipcode end --------------------------------------------------

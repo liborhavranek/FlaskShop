@@ -529,6 +529,62 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             customers = Customer.query.all()
             self.assertEqual(len(customers), 1)
 
+    def test_registration_form_show_message_when_is_not_password_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='pass', confirm_password='pass',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("Heslo musí mít alespoň 8 znaků.", "utf-8"), response.data)
+
+    def test_registration_form_show_message_when_is_not_faktura_zipcode_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='pass', confirm_password='pass',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='370', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("PSČ musí mít přesně 5 číslic.", "utf-8"), response.data)
+
+    def test_registration_form_show_message_when_is_not_dodej_zipcode_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='pass', confirm_password='pass',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='370', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("PSČ musí mít přesně 5 číslic.", "utf-8"), response.data)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
