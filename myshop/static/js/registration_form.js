@@ -197,3 +197,21 @@ $(".registration-faktura-street-input").on('input', function() {
 });
 
 // ---------------------------- faktura street end --------------------------------------------------
+
+
+// ---------------------------- faktura zipcode start --------------------------------------------------
+
+$(".registration-faktura-zipcode-input").on('input', function() {
+  var faktura_zipcode = $(this).val();
+  if (faktura_zipcode.length === 0) {
+    // Field is empty, so remove validation
+    $('.registration-faktura-zipcode-input').removeClass('is-invalid is-valid');
+  } else if (faktura_zipcode.length != 5) {
+    // Field is not empty but not valid, so add invalid class and remove valid class
+    $('.registration-faktura-zipcode-input').addClass('is-invalid').removeClass('is-valid');
+  } else {
+    // Field is valid, so add valid class and remove invalid class
+    $('.registration-faktura-zipcode-input').removeClass('is-invalid').addClass('is-valid');
+  }
+});
+// ---------------------------- faktura zipcode end --------------------------------------------------
