@@ -109,3 +109,35 @@ $('.registration-phone-input').on('input', function() {
 });
 
 // ----------------------------- phonenumber control registration form end---------------------------------------
+
+// ----------------------------password control registration start -----------------------------------------
+
+
+var password_one = '';
+
+$('.registration-password-input').on('input', function(){
+$('.registration-password-input').removeClass('is-valid is-invalid');
+    password_one = $(this).val();
+    if (password_one.length < 8 && password_one.length > 0){
+        $('.customer_password_check').text("Heslo musí být dlouhé alespoň 8 znaků.").show();
+        $('.registration-password-input').addClass('is-invalid').removeClass('is-valid');
+    } else {
+        $('.customer_password_check').hide();
+        $('.registration-password-input').addClass('is-valid').removeClass('is-invalid');
+    }
+});
+
+$('.registration-confirm-password-input').on('input', function(){
+$('.registration-confirm-password-input').removeClass('is-valid is-invalid');
+    var password_two = $(this).val();
+    if (password_one === password_two){
+        $('.customer_confirm_password_check').hide();
+        $('.registration-confirm-password-input').addClass('is-valid').removeClass('is-invalid');
+    } else {
+        $('.customer_confirm_password_check').text("Hesla se musí shodovat.").show();
+        $('.registration-confirm-password-input').addClass('is-invalid').removeClass('is-valid');
+    }
+});
+
+
+// ----------------------------password control registration end -----------------------------------------

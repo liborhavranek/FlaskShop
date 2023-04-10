@@ -14,7 +14,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email:', validators=[DataRequired(), Length(min=10, max=50),  Email()])
     phone_code = SelectField('Kód:', choices=[('+420', '+420'), ('+421', '+421')])
     phone = StringField('Telefon:', validators=[DataRequired(), Length(min=9, max=9), Regexp('^[0-9]*$')])
-    password = PasswordField('Heslo:', validators=[DataRequired()])
+    password = PasswordField('Heslo:', validators=[DataRequired(), Length(min=8)])
     confirm_password = PasswordField('Potvrdit heslo:', validators=[DataRequired(), EqualTo('password')])
 
     faktura_first_name = StringField('Jméno:')
@@ -43,7 +43,7 @@ class RegistrationForm(FlaskForm):
 
     def validate_confirm_password(self, confirm_password):
         if len(self.password.data) < 8:
-            flash('Heslo musí mít alespoň á znaků.', 'error')
+            flash('Heslo musí mít alespoň 8 znaků.', 'error')
             raise ValidationError('Heslo musí mít alespoň 8 znaků.')
         if self.password.data != confirm_password.data:
             flash('Heslo a potvrzení hesla se musí shodovat.', 'error')
