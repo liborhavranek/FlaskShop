@@ -68,7 +68,8 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
 
     def create_registration_form_data(self):
         csrf_token = 'test_csrf_token'
-        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='+420', phone='123456789',
+        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='+420',
+                                     phone='123456789',
                                      password='password', confirm_password='password', faktura_first_name='John',
                                      faktura_last_name='Doe', faktura_city='New York', faktura_street='Main Street',
                                      faktura_zipcode='37010', dodej_first_name='John', dodej_last_name='Doe',
@@ -582,8 +583,6 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
 
             response = client.post('auth/register', data=form.data)
             self.assertIn(bytes("PSČ musí mít přesně 5 číslic.", "utf-8"), response.data)
-
-
 
 
 if __name__ == '__main__':

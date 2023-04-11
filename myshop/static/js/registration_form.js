@@ -304,3 +304,17 @@ $(".registration-dodej-zipcode-input").on('input', function() {
   }
 });
 // ---------------------------- dodej zipcode end --------------------------------------------------
+
+//------------------------------dodej info start------------------------------------------
+
+$(".registration-dodej-info-input").on('input', function() {
+  var dodej_info = $(this).val();
+  if (dodej_info.length > 1) {
+    $('.registration-dodej-info-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-info-input').removeClass('is-valid');
+  }
+});
+
+// ---------------------------- dodej info end --------------------------------------------------
+

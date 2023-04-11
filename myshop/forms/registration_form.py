@@ -30,7 +30,7 @@ class RegistrationForm(FlaskForm):
     dodej_street = StringField('Ulice:')
     dodej_zipcode = StringField('PSČ:', validators=[Optional(), Length(min=5, max=5)])
     dodej_info = StringField('Info(např. patro):')
-    dodej_phone_code = StringField('Kód:')
+    dodej_phone_code = SelectField('Kód:', choices=[('+420', '+420'), ('+421', '+421')])
     dodej_phone = StringField('Telefon:')
 
     firma_ico = StringField('IČO:')
