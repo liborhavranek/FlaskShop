@@ -102,12 +102,12 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.assertIn(b'<form method="POST">', response.data)
         self.assertIn(b'</form>', response.data)
 
-    def test_register_form_have_all_fields(self):
+    def test_register_form_have_all_input_fields(self):
         fields_to_test = [
             'username', 'email', 'phone', 'password', 'confirm_password', 'faktura_first_name',
             "faktura_last_name", "faktura_city", "faktura_street", "faktura_zipcode", "dodej_first_name",
             "dodej_last_name", "dodej_company", "dodej_city", "dodej_street", "dodej_zipcode",
-            "dodej_info", "dodej_phone_code", "dodej_phone", "firma_ico", "firma_dic", "firma_bank_acc",
+            "dodej_info", "dodej_phone", "firma_ico", "firma_dic", "firma_bank_acc",
             "firma_bank_number", "firma_spec_symbol"
                           ]
 
@@ -120,6 +120,20 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
             with self.subTest(field=field):
 
                 self.assertIn(field, form_input_fields)
+
+    def test_register_form_have_all_select_fields(self):
+        fields_to_test = [
+            'phone_code', 'dodej_phone_code'
+        ]
+
+        response = self.client.get('/auth/register', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_tag = soup.find('form', {'method': 'POST'})
+        form_select_fields = [select_tag['name'] for select_tag in form_tag.find_all('select')]
+
+        for field in fields_to_test:
+            with self.subTest(field=field):
+                self.assertIn(field, form_select_fields)
 
     def test_register_form_have_all_labels(self):
         expected_labels = {
