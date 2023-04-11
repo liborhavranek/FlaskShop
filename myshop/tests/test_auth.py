@@ -74,7 +74,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
                                      faktura_last_name='Doe', faktura_city='New York', faktura_street='Main Street',
                                      faktura_zipcode='37010', dodej_first_name='John', dodej_last_name='Doe',
                                      dodej_city='New York', dodej_street='Main Street', dodej_zipcode='37010',
-                                     dodej_info='3rd floor', dodej_phone_code='123', dodej_phone='987654321',
+                                     dodej_info='3rd floor', dodej_phone_code='+420', dodej_phone='987654321',
                                      firma_ico='88888888', firma_dic='1234567890', firma_bank_acc='0987654321',
                                      firma_bank_number='0800', firma_spec_symbol='1234'
                                      )
@@ -379,7 +379,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             self.create_registration_form_data()
             client.post('auth/register', data=self.form.data)
             user = Customer.query.filter_by(username='testuser').first()
-            self.assertEqual(user.dodej_phone_code, "123")
+            self.assertEqual(user.dodej_phone_code, "+420")
 
     def test_register_form_return_dodej_phone_and_save_in_db(self):
         with self.app.test_client() as client:
