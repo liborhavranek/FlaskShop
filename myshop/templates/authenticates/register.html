@@ -56,19 +56,31 @@
 
 
       <div class="form-group">
+          <div class="row">
+              <div class="col-4">
         {{ form.password.label }}
+              </div>
+              <div class="col-8">
         {{ form.password(class="form-control mb-3 registration-password-input") }}
+                  <div class="customer_password_check text-start" id="customer_password1_check_id"><small class=" email-used"></small></div>
+              </div>
+          </div>
       </div>
-     <div class="customer_password_check text-start" id="customer_password1_check_id"><small class=" email-used"></small></div>
 
 
       <div class="form-group">
+          <div class="row">
+              <div class="col-4">
         {{ form.confirm_password.label }}
+              </div>
+              <div class="col-8">
         {{ form.confirm_password(class="form-control mb-3 registration-confirm-password-input") }}
+                  <div class="customer_confirm_password_check text-start" id="customer_password2_check_id"><small class=" email-used"></small></div>
+              </div>
+          </div>
       </div>
-     <div class="customer_confirm_password_check text-start" id="customer_password2_check_id"><small class=" email-used"></small></div>
 
-      <h2>Fakturacni udaje</h2>
+     <button class="btn btn-info btn-block w-100 my-4"  type="button">Fakturační údaje (nepovinné)</button>
 
 
       <div class="form-group">
@@ -100,7 +112,7 @@
         {{ form.faktura_zipcode(class="form-control mb-3 registration-faktura-zipcode-input") }}
       </div>
 
-      <h2>Dodaci udaje</h2>
+      <button class="btn btn-info btn-block w-100 my-4"  type="button">Dodací údaje (nepovinné)</button>
 
 
       <div class="form-group">
@@ -156,7 +168,7 @@
         {{ form.dodej_phone(class="form-control mb-3 registration-dodej-phone-input") }}
       </div>
 
-      <h2>Firemní udaje</h2>
+      <button class="btn btn-info btn-block w-100 my-4"  type="button">Firemní údaje (nepovinné)</button>
 
 
       <div class="form-group">
