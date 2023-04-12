@@ -1,5 +1,15 @@
 // """ Libor Havránek App Copyright (C)  5.4 2023 """
 
+// Helper methods
+// This method allowed enter in field only numbers
+
+$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input').on('keydown', function(event) {
+// Allow only digits and the backspace key
+if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
+    event.preventDefault();
+}
+});
+
 // ----------------------------- email control registration form start---------------------------------------
 
 $('.registration-email-input').on('input', function() {
@@ -83,13 +93,6 @@ $('.registration-username-input').on('input', function() {
 // ----------------------------- username control registration form end---------------------------------------
 
 // ----------------------------- phonenumber control registration form start---------------------------------------
-
-$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input').on('keydown', function(event) {
-// Allow only digits and the backspace key
-if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
-    event.preventDefault();
-}
-});
 
 
 $('.registration-phone-input').on('input', function() {
@@ -204,13 +207,10 @@ $(".registration-faktura-street-input").on('input', function() {
 $(".registration-faktura-zipcode-input").on('input', function() {
   var faktura_zipcode = $(this).val();
   if (faktura_zipcode.length === 0) {
-    // Field is empty, so remove validation
     $('.registration-faktura-zipcode-input').removeClass('is-invalid is-valid');
   } else if (faktura_zipcode.length != 5) {
-    // Field is not empty but not valid, so add invalid class and remove valid class
     $('.registration-faktura-zipcode-input').addClass('is-invalid').removeClass('is-valid');
   } else {
-    // Field is valid, so add valid class and remove invalid class
     $('.registration-faktura-zipcode-input').removeClass('is-invalid').addClass('is-valid');
   }
 });
@@ -318,3 +318,23 @@ $(".registration-dodej-info-input").on('input', function() {
 
 // ---------------------------- dodej info end --------------------------------------------------
 
+
+// ----------------------------- phonenumber control registration form start---------------------------------------
+
+$('.registration-dodej-phone-input').on('input', function() {
+  var phone_number = $(this).val();
+  $('.registration-dodej-phone-input').removeClass('is-valid is-invalid');
+  $('.registration-dodej-phone-code-input').removeClass('is-valid is-invalid');
+
+  if (phone_number.length === 0) {
+    // Do nothing if the phone number has 0 characters
+  } else if (phone_number.length === 9) {
+    $('.registration-dodej-phone-input').removeClass('is-invalid').addClass('is-valid');
+    $('.registration-dodej-phone-code-input').addClass('is-valid');
+  } else {
+    $('.registration-dodej-phone-input').removeClass('is-valid').addClass('is-invalid');
+    $('.registration-dodej-phone-code-input').removeClass('is-valid')
+  }
+});
+
+// ----------------------------- phonenumber control registration form end---------------------------------------
