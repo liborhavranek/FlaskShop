@@ -31,7 +31,13 @@ body, html {
 
 .register-form-middle-container{
     border: 12px solid #99e7f1;
-      backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+}
+
+.login-form-middle-container{
+    border: 12px solid #99e7f1;
+    backdrop-filter: blur(25px);
+    margin-top: 10%;
 }
 
 .customer_email_check {
@@ -45,6 +51,7 @@ body, html {
 .customer_password_check{
   color: red;
 }
+
 .customer_confirm_password_check{
   color: red;
 }

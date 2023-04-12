@@ -1,31 +1,35 @@
 {% extends 'base.html'%}
     {% block content %}
 <div class="container-fluid login-form-container py-5">
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 login-form-middle-container">
 
-        <form method="POST">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="text"
-                class="form-control"
-                id="email"
-                name="email"
-                aria-describedby="emailHelp"
-                placeholder="Přihlašovací email"
-              />
+<form method="POST">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+        {{ form.email.label }}
             </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Heslo</label>
-              <input
-                type="password"
-                class="form-control"
-                name="password"
-                id="password"
-                placeholder="Přihlašovací heslo"
-              />
+            <div class="col-8">
+        {{ form.email(class="form-control", placeholder="Přihlašovací email") }}
             </div>
-            <button type="submit" class="btn btn-warning">Přihlásit</button>
-          </form>
+        </div>
+    </div>
 
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+        {{ form.password.label }}
+            </div>
+            <div class="col-8">
+        {{ form.password(class="form-control", placeholder="Přihlašovací heslo") }}
+            </div>
+        </div>
+    </div>
+    {{ form.submit(class="btn btn-warning") }}
+</form>
+
+    </div>
 </div>
 {%endblock content %}
