@@ -355,3 +355,20 @@ $(".registration-firma-ico-input").on('input', function() {
 });
 
 // ---------------------------- firma ico end --------------------------------------------------
+
+//------------------------------firma dic start------------------------------------------
+
+$(".registration-firma-dic-input").on('input', function() {
+  var firma_ico = $(this).val();
+  if (firma_ico.length > 9) {
+    $('.registration-firma-dic-input').addClass('is-valid').removeClass('is-invalid');
+  }
+  else if (firma_ico.length === 0) {
+    $(this).removeClass('is-valid is-invalid');
+  }
+  else {
+    $('.registration-firma-dic-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+// ---------------------------- firma dic end --------------------------------------------------
