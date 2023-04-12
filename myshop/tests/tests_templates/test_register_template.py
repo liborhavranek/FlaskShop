@@ -154,7 +154,6 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
             'dodej_street': 'Ulice:',
             'dodej_zipcode': 'PSČ:',
             'dodej_info': 'Info(např. patro):',
-            'dodej_phone_code': 'Kód:',
             'dodej_phone': 'Telefon:',
             'firma_ico': 'IČO:',
             'firma_dic': 'DIČ:',
