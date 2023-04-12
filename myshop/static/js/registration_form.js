@@ -3,7 +3,7 @@
 // Helper methods
 // This method allowed enter in field only numbers
 
-$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input').on('keydown', function(event) {
+$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input, .registration-firma-ico-input').on('keydown', function(event) {
 // Allow only digits and the backspace key
 if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
     event.preventDefault();
@@ -338,3 +338,20 @@ $('.registration-dodej-phone-input').on('input', function() {
 });
 
 // ----------------------------- phonenumber control registration form end---------------------------------------
+
+//------------------------------firma ico start------------------------------------------
+
+$(".registration-firma-ico-input").on('input', function() {
+  var firma_ico = $(this).val();
+  if (firma_ico.length === 8) {
+    $('.registration-firma-ico-input').addClass('is-valid').removeClass('is-invalid');
+  }
+  else if (firma_ico.length === 0) {
+    $(this).removeClass('is-valid is-invalid');
+  }
+  else {
+    $('.registration-firma-ico-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+// ---------------------------- firma ico end --------------------------------------------------
