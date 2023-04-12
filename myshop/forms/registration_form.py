@@ -35,8 +35,8 @@ class RegistrationForm(FlaskForm):
 
     firma_ico = StringField('IČO:', validators=[Optional(), Length(min=8, max=8)])
     firma_dic = StringField('DIČ:', validators=[Optional(), Length(min=8, max=15)])
-    firma_bank_acc = StringField('Číslo účtu:')
-    firma_bank_number = StringField('Kód banky:')
+    firma_bank_acc = StringField('Číslo účtu:', validators=[Optional(), Length(min=8, max=20)])
+    firma_bank_number = StringField('Kód banky:', validators=[Optional(), Length(min=4, max=4)])
     firma_spec_symbol = StringField('Specifický symbol:')
 
     submit = SubmitField('Registrovat')

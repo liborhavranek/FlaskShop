@@ -3,7 +3,7 @@
 // Helper methods
 // This method allowed enter in field only numbers
 
-$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input, .registration-firma-ico-input').on('keydown', function(event) {
+$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input, .registration-firma-ico-input, .registration-firma-bank-acc-input, .registration-firma-bank-number-input').on('keydown', function(event) {
 // Allow only digits and the backspace key
 if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
     event.preventDefault();
@@ -372,3 +372,37 @@ $(".registration-firma-dic-input").on('input', function() {
 });
 
 // ---------------------------- firma dic end --------------------------------------------------
+
+//------------------------------firma bank acc start------------------------------------------
+
+$(".registration-firma-bank-acc-input").on('input', function() {
+  var firma_ico = $(this).val();
+  if (firma_ico.length > 9) {
+    $('.registration-firma-bank-acc-input').addClass('is-valid').removeClass('is-invalid');
+  }
+  else if (firma_ico.length === 0) {
+    $(this).removeClass('is-valid is-invalid');
+  }
+  else {
+    $('.registration-firma-bank-acc-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+// ---------------------------- firma bank acc end --------------------------------------------------
+
+//------------------------------firma bank number start------------------------------------------
+
+$(".registration-firma-bank-number-input").on('input', function() {
+  var firma_ico = $(this).val();
+  if (firma_ico.length === 4) {
+    $('.registration-firma-bank-number-input').addClass('is-valid').removeClass('is-invalid');
+  }
+  else if (firma_ico.length === 0) {
+    $(this).removeClass('is-valid is-invalid');
+  }
+  else {
+    $('.registration-firma-bank-number-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+// ---------------------------- firma bank number end --------------------------------------------------
