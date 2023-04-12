@@ -97,12 +97,12 @@ class TestAuthTemplateOnlyLoginTemplate(TestMixin, unittest.TestCase):
         self.client = self.app.test_client()
         super().setUp()
 
-    def test_register_form_have_closed_form_tag(self):
+    def test_login_form_have_closed_form_tag(self):
         response = self.client.get('/auth/login', follow_redirects=True)
         self.assertIn(b'<form method="POST">', response.data)
         self.assertIn(b'</form>', response.data)
 
-    def test_register_form_have_all_input_fields(self):
+    def test_login_form_have_all_input_fields(self):
         fields_to_test = [
             'email', 'password'
                           ]
@@ -117,7 +117,7 @@ class TestAuthTemplateOnlyLoginTemplate(TestMixin, unittest.TestCase):
 
                 self.assertIn(field, form_input_fields)
 
-    def test_register_form_have_all_select_fields(self):
+    def test_login_form_have_all_select_fields(self):
         fields_to_test = [
             'phone_code', 'dodej_phone_code'
         ]
@@ -131,7 +131,7 @@ class TestAuthTemplateOnlyLoginTemplate(TestMixin, unittest.TestCase):
             with self.subTest(field=field):
                 self.assertIn(field, form_select_fields)
 
-    def test_register_form_have_all_labels(self):
+    def test_login_form_have_all_labels(self):
         expected_labels = {
             'email': 'Email:',
             'password': 'Heslo:',
@@ -144,7 +144,7 @@ class TestAuthTemplateOnlyLoginTemplate(TestMixin, unittest.TestCase):
             with self.subTest(field=field):
                 self.assertIn(label, form_labels[field])
 
-    def test_register_form_has_submit_button(self):
+    def test_login_form_has_submit_button(self):
         response = self.client.get('/auth/login', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
 

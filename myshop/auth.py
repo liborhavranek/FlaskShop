@@ -1,6 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect
 from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
