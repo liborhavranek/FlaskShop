@@ -8,9 +8,14 @@ body, html {
 .register-form-container {
   background-image: url("../images/formbg8.jpg");
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   background-attachment: fixed;
+  background-position: center center;
   height: auto; }
+
+.register-form-middle-container {
+  border: 12px solid #A0A6B3;
+  backdrop-filter: blur(25px); }
 
 .customer_email_check {
   color: red; }
