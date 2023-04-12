@@ -144,16 +144,13 @@ class TestAuthTemplateOnlyLoginTemplate(TestMixin, unittest.TestCase):
             with self.subTest(field=field):
                 self.assertIn(label, form_labels[field])
 
-    # def test_register_form_has_submit_button(self):
-    #     response = self.client.get('/auth/login', follow_redirects=True)
-    #     soup = BeautifulSoup(response.data, 'html.parser')
-    #
-    #     # Check that the form contains a submit button
-    #     submit_button = soup.find('input', {'type': 'submit', 'value': 'Přihlásit'})
-    #     self.assertIsNotNone(submit_button)
+    def test_register_form_has_submit_button(self):
+        response = self.client.get('/auth/login', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
 
-
-# TODO: fix that test
+        # Check that the form contains a submit button
+        submit_button = soup.find('input', {'type': 'submit', 'value': 'Přihlásit'})
+        self.assertIsNotNone(submit_button)
 
 
 if __name__ == '__main__':

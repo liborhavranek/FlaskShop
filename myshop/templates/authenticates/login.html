@@ -8,16 +8,10 @@
     <div class="mb-3">
         {{ form.email.label }}
         {{ form.email(class="form-control", placeholder="Přihlašovací email") }}
-        {% for error in form.email.errors %}
-            <span class="text-danger">{{ error }}</span>
-        {% endfor %}
     </div>
     <div class="mb-3">
         {{ form.password.label }}
         {{ form.password(class="form-control", placeholder="Přihlašovací heslo") }}
-        {% for error in form.password.errors %}
-            <span class="text-danger">{{ error }}</span>
-        {% endfor %}
     </div>
     {{ form.submit(class="btn btn-warning") }}
 </form>
