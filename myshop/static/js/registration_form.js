@@ -10,6 +10,23 @@ if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.k
 }
 });
 
+// Collapse the divs under the buttons
+  $(".registration-faktura-collapsed-section").hide();
+  $(".btn-faktura-collapse").click(function() {
+    $(".registration-faktura-collapsed-section").slideToggle();
+  });
+
+    $(".registration-dodej-collapsed-section").hide();
+  $(".btn-dodej-collapse").click(function() {
+    $(".registration-dodej-collapsed-section").slideToggle();
+  });
+
+      $(".registration-firma-collapsed-section").hide();
+  $(".btn-firma-collapse").click(function() {
+    $(".registration-firma-collapsed-section").slideToggle();
+  });
+
+
 // ----------------------------- email control registration form start---------------------------------------
 
 $('.registration-email-input').on('input', function() {
@@ -423,3 +440,17 @@ $(".registration-firma-spec-symbol-input").on('input', function() {
 });
 
 // ---------------------------- firma bank number end --------------------------------------------------
+
+
+// collapse div
+const toggleBtn1 = document.querySelector('#toggleBtn1');
+const collapseDiv1 = document.querySelector('#collapseDiv1');
+toggleBtn1.addEventListener('click', function() {
+  collapseDiv1.classList.toggle('collapse');
+});
+
+const toggleBtn2 = document.querySelector('#toggleBtn2');
+const collapseDiv2 = document.querySelector('#collapseDiv2');
+toggleBtn2.addEventListener('click', function() {
+  collapseDiv2.classList.toggle('collapse');
+});

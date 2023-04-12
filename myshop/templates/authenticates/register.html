@@ -10,7 +10,7 @@
       {{ form.csrf_token }}
 
       <div class="form-group">
-          <div class="row">
+          <div class="row py-2">
               <div class="col-4">
         {{ form.username.label }}
               </div>
@@ -24,7 +24,7 @@
 
 
       <div class="form-group">
-          <div class="row">
+          <div class="row py-2">
               <div class="col-4">
         {{ form.email.label }}
               </div>
@@ -38,7 +38,7 @@
 
 
      <div class="form-group">
-         <div class="row">
+         <div class="row py-2">
             <div class="col-2">
                 {{ form.phone.label }}
             </div>
@@ -53,10 +53,8 @@
 
 
 
-
-
       <div class="form-group">
-          <div class="row">
+          <div class="row py-2">
               <div class="col-4">
         {{ form.password.label }}
               </div>
@@ -69,7 +67,7 @@
 
 
       <div class="form-group">
-          <div class="row">
+          <div class="row py-2">
               <div class="col-4">
         {{ form.confirm_password.label }}
               </div>
@@ -80,8 +78,9 @@
           </div>
       </div>
 
-     <button class="btn btn-info btn-block w-100 my-4"  type="button">Fakturační údaje (nepovinné)</button>
+     <button class="btn btn-info btn-block w-100 my-4 btn-faktura-collapse"  type="button">Fakturační údaje (nepovinné)</button>
 
+<div class="registration-faktura-collapsed-section">
 
       <div class="form-group">
         {{ form.faktura_first_name.label }}
@@ -111,9 +110,12 @@
         {{ form.faktura_zipcode.label }}
         {{ form.faktura_zipcode(class="form-control mb-3 registration-faktura-zipcode-input") }}
       </div>
+</div>
 
-      <button class="btn btn-info btn-block w-100 my-4"  type="button">Dodací údaje (nepovinné)</button>
 
+      <button class="btn btn-info btn-block w-100 my-4 btn-dodej-collapse"  type="button">Dodací údaje (nepovinné)</button>
+
+<div class="registration-dodej-collapsed-section">
 
       <div class="form-group">
         {{ form.dodej_first_name.label }}
@@ -167,9 +169,12 @@
         {{ form.dodej_phone.label }}
         {{ form.dodej_phone(class="form-control mb-3 registration-dodej-phone-input") }}
       </div>
+</div>
 
-      <button class="btn btn-info btn-block w-100 my-4"  type="button">Firemní údaje (nepovinné)</button>
 
+      <button class="btn btn-info btn-block w-100 my-4 btn-firma-collapse"  type="button">Firemní údaje (nepovinné)</button>
+
+<div class="registration-firma-collapsed-section">
 
       <div class="form-group">
         {{ form.firma_ico.label }}
@@ -199,9 +204,9 @@
         {{ form.firma_spec_symbol.label }}
         {{ form.firma_spec_symbol(class="form-control mb-3 registration-firma-spec-symbol-input") }}
      </div>
+</div>
 
-
-     <div class="form-group">
+     <div class="form-group text-center">
         {{ form.submit(class="btn btn-primary") }}
      </div>
  </form>
