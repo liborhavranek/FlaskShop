@@ -151,6 +151,7 @@ class TestAuthTemplateOnlyLoginTemplate(TestMixin, unittest.TestCase):
     #     # Check that the form contains a submit button
     #     submit_button = soup.find('input', {'type': 'submit', 'value': 'Přihlásit'})
     #     self.assertIsNotNone(submit_button)
+
 # TODO: fix that test
 
 
