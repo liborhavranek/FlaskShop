@@ -139,7 +139,6 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         expected_labels = {
             'username': 'Přihlašovací jméno:',
             'email': 'Email:',
-            'phone_code': 'Kód:',
             'phone': 'Telefon:',
             'password': 'Heslo:',
             'confirm_password': 'Potvrdit heslo:',
