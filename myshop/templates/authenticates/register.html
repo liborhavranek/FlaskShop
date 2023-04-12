@@ -1,120 +1,320 @@
 {% extends 'base.html'%}
     {% block content %}
-<div class="container-fluid register-form-container">
-<div class="container w-50">
+<div class="container-fluid register-form-container py-5">
+<div class="container w-50 rounded-3 px-5 pb-4 register-form-middle-container">
 
-<h1 class="text-center">Registrace</h1>
+<h1 class="text-center my-5">Registrace</h1>
 
  <form method="POST">
+
       {{ form.csrf_token }}
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.username.label }}
-        {{ form.username(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.username(class="form-control mb-3 registration-username-input") }}
+                  <div class="customer_username_check text-start" id="customer_username_check_id"><small class=" username-used"></small></div>
+              </div>
+          </div>
       </div>
+
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.email.label }}
-        {{ form.email(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.email(class="form-control mb-3 registration-email-input") }}
+                  <div class="customer_email_check text-start" id="customer_email_check_id"><small class=" email-used"></small></div>
+              </div>
+          </div>
       </div>
+
+
+
+     <div class="form-group">
+         <div class="row py-2">
+            <div class="col-2">
+                {{ form.phone.label }}
+            </div>
+            <div class="col-2">
+        {{ form.phone_code(class="form-control mb-3 registration-phone-code-input" ) }}
+            </div>
+             <div class="col-8">
+        {{ form.phone(class="form-control mb-3  registration-phone-input") }}
+            </div>
+        </div>
+    </div>
+
+
+
       <div class="form-group">
-        {{ form.phone_code.label }}
-        {{ form.phone_code(class="form-control mb-3") }}
-      </div>
-      <div class="form-group">
-        {{ form.phone.label }}
-        {{ form.phone(class="form-control mb-3") }}
-      </div>
-      <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.password.label }}
-        {{ form.password(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.password(class="form-control mb-3 registration-password-input") }}
+                  <div class="customer_password_check text-start" id="customer_password1_check_id"><small class=" email-used"></small></div>
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.confirm_password.label }}
-        {{ form.confirm_password(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.confirm_password(class="form-control mb-3 registration-confirm-password-input") }}
+                  <div class="customer_confirm_password_check text-start" id="customer_password2_check_id"><small class=" email-used"></small></div>
+              </div>
+          </div>
       </div>
-      <h2>Fakturacni udaje</h2>
+
+     <button class="btn btn-info btn-block w-100 my-4 btn-faktura-collapse"  type="button">Fakturační údaje (nepovinné)</button>
+
+<div class="registration-faktura-collapsed-section">
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.faktura_first_name.label }}
-        {{ form.faktura_first_name(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.faktura_first_name(class="form-control mb-3 registration-faktura-firstname-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.faktura_last_name.label }}
-        {{ form.faktura_last_name(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.faktura_last_name(class="form-control mb-3 registration-faktura-lastname-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.faktura_city.label }}
-        {{ form.faktura_city(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.faktura_city(class="form-control mb-3 registration-faktura-city-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.faktura_street.label }}
-        {{ form.faktura_street(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.faktura_street(class="form-control mb-3 registration-faktura-street-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.faktura_zipcode.label }}
-        {{ form.faktura_zipcode(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.faktura_zipcode(class="form-control mb-3 registration-faktura-zipcode-input") }}
+              </div>
+          </div>
       </div>
-      <h2>Dodaci udaje</h2>
+</div>
+
+
+      <button class="btn btn-info btn-block w-100 my-4 btn-dodej-collapse"  type="button">Dodací údaje (nepovinné)</button>
+
+<div class="registration-dodej-collapsed-section">
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_first_name.label }}
-        {{ form.dodej_first_name(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_first_name(class="form-control mb-3 registration-dodej-firstname-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_last_name.label }}
-        {{ form.dodej_last_name(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_last_name(class="form-control mb-3 registration-dodej-lastname-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_company.label }}
-        {{ form.dodej_company(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_company(class="form-control mb-3 registration-dodej-company-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_city.label }}
-        {{ form.dodej_city(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_city(class="form-control mb-3 registration-dodej-city-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_street.label }}
-        {{ form.dodej_street(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_street(class="form-control mb-3 registration-dodej-street-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_zipcode.label }}
-        {{ form.dodej_zipcode(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_zipcode(class="form-control mb-3 registration-dodej-zipcode-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.dodej_info.label }}
-        {{ form.dodej_info(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.dodej_info(class="form-control mb-3 registration-dodej-info-input") }}
+              </div>
+          </div>
       </div>
+
+    <div class="form-group">
+         <div class="row py-2">
+            <div class="col-2">
+                {{ form.dodej_phone.label }}
+            </div>
+            <div class="col-2">
+        {{ form.dodej_phone_code(class="form-control mb-3 registration-dodej-phone-code-input") }}
+            </div>
+             <div class="col-8">
+        {{ form.dodej_phone(class="form-control mb-3 registration-dodej-phone-input") }}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+      <button class="btn btn-info btn-block w-100 my-4 btn-firma-collapse"  type="button">Firemní údaje (nepovinné)</button>
+
+<div class="registration-firma-collapsed-section">
+
       <div class="form-group">
-        {{ form.dodej_phone_code.label }}
-        {{ form.dodej_phone_code(class="form-control mb-3") }}
-      </div>
-      <div class="form-group">
-        {{ form.dodej_phone.label }}
-        {{ form.dodej_phone(class="form-control mb-3") }}
-      </div>
-      <h2>Firemní udaje</h2>
-      <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.firma_ico.label }}
-        {{ form.firma_ico(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.firma_ico(class="form-control mb-3 registration-firma-ico-input") }}
+              </div>
+          </div>
       </div>
+
+
       <div class="form-group">
+          <div class="row py-2">
+              <div class="col-4">
         {{ form.firma_dic.label }}
-        {{ form.firma_dic(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.firma_dic(class="form-control mb-3 registration-firma-dic-input") }}
+              </div>
+          </div>
       </div>
+
+
      <div class="form-group">
+         <div class="row py-2">
+              <div class="col-4">
         {{ form.firma_bank_acc.label }}
-        {{ form.firma_bank_acc(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.firma_bank_acc(class="form-control mb-3 registration-firma-bank-acc-input") }}
+              </div>
+          </div>
      </div>
+
+
      <div class="form-group">
+         <div class="row py-2">
+              <div class="col-4">
         {{ form.firma_bank_number.label }}
-        {{ form.firma_bank_number(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.firma_bank_number(class="form-control mb-3 registration-firma-bank-number-input") }}
+              </div>
+          </div>
      </div>
+
+
      <div class="form-group">
+         <div class="row py-2">
+              <div class="col-4">
         {{ form.firma_spec_symbol.label }}
-        {{ form.firma_spec_symbol(class="form-control mb-3") }}
+              </div>
+              <div class="col-8">
+        {{ form.firma_spec_symbol(class="form-control mb-3 registration-firma-spec-symbol-input") }}
+              </div>
+          </div>
      </div>
-     <div class="form-group">
+</div>
+
+     <div class="form-group text-center">
         {{ form.submit(class="btn btn-primary") }}
      </div>
  </form>
-
 </div>
 </div>
 

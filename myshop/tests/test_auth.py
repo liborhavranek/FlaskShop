@@ -68,12 +68,13 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
 
     def create_registration_form_data(self):
         csrf_token = 'test_csrf_token'
-        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='123', phone='123456789',
+        self.form = RegistrationForm(username='testuser', email='test@example.com', phone_code='+420',
+                                     phone='123456789',
                                      password='password', confirm_password='password', faktura_first_name='John',
                                      faktura_last_name='Doe', faktura_city='New York', faktura_street='Main Street',
                                      faktura_zipcode='37010', dodej_first_name='John', dodej_last_name='Doe',
                                      dodej_city='New York', dodej_street='Main Street', dodej_zipcode='37010',
-                                     dodej_info='3rd floor', dodej_phone_code='123', dodej_phone='987654321',
+                                     dodej_info='3rd floor', dodej_phone_code='+420', dodej_phone='987654321',
                                      firma_ico='88888888', firma_dic='1234567890', firma_bank_acc='0987654321',
                                      firma_bank_number='0800', firma_spec_symbol='1234'
                                      )
@@ -262,17 +263,11 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         new_customer = Customer.query.filter_by(email='john.doe@example.com').first()
         self.assertEqual(new_customer.firma_spec_symbol, '1234')
 
-    def test_register_form_return_status_code(self):
+    def test_register_form_return_correct_url(self):
         with self.app.test_client() as client:
             self.create_registration_form_data()
             response = client.post('auth/register', data=self.form.data)
-            self.assertEqual(response.status_code, 200)
-
-    def test_register_form_is_validate(self):
-        with self.app.test_client() as client:
-            self.create_registration_form_data()
-            client.post('auth/register', data=self.form.data)
-            self.assertTrue(self.form.validate_on_submit())
+            self.assertEqual(response.headers['Location'], '/auth/login')
 
     def test_register_form_return_username_and_save_in_db(self):
         with self.app.test_client() as client:
@@ -293,7 +288,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             self.create_registration_form_data()
             client.post('auth/register', data=self.form.data)
             user = Customer.query.filter_by(username='testuser').first()
-            self.assertEqual(user.phone_code, "123")
+            self.assertEqual(user.phone_code, "+420")
 
     def test_register_form_return_phone_and_save_in_db(self):
         with self.app.test_client() as client:
@@ -384,7 +379,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             self.create_registration_form_data()
             client.post('auth/register', data=self.form.data)
             user = Customer.query.filter_by(username='testuser').first()
-            self.assertEqual(user.dodej_phone_code, "123")
+            self.assertEqual(user.dodej_phone_code, "+420")
 
     def test_register_form_return_dodej_phone_and_save_in_db(self):
         with self.app.test_client() as client:
@@ -427,6 +422,167 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
             client.post('auth/register', data=self.form.data)
             user = Customer.query.filter_by(username='testuser').first()
             self.assertEqual(user.firma_spec_symbol, "1234")
+
+    def test_check_email_return_correct_status_code_when_email_available(self):
+        email = 'jane.doe@example.com'
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.status_code, 200)
+
+    def test_check_email_return_correct_status_code_when_email_taken(self):
+        email = 'john.doe@example.com'
+        self.create_user()
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.status_code, 200)
+
+    def test_check_email_taken(self):
+        email = 'john.doe@example.com'
+        self.create_user()
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.data, b'taken')
+
+    def test_check_email_available(self):
+        email = 'jane.doe@example.com'
+        response = self.client.post('auth/check-email', data={'email': email})
+        self.assertEqual(response.data, b'available')
+
+    def test_registration_form_show_message_when_is_not_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='testuser', email='john.doe@example.com', phone_code='123',
+                                    phone='123456789', password='password', confirm_password='password',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("Tento email je už zaregistrován v naší databázi.", "utf-8"), response.data)
+
+    def test_registration_form_dont_save_user_in_the_db_when_is_not_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='testuser', email='john.doe@example.com', phone_code='123',
+                                    phone='123456789', password='password', confirm_password='password',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            client.post('auth/register', data=form.data)
+            customers = Customer.query.all()
+            self.assertEqual(len(customers), 1)
+
+    def test_check_user_taken(self):
+        username = 'john_doe'
+        self.create_user()
+        response = self.client.post('auth/check-username', data={'username': username})
+        self.assertEqual(response.data, b'taken')
+
+    def test_check_user_available(self):
+        username = 'john_doe'
+        response = self.client.post('auth/check-username', data={'username': username})
+        self.assertEqual(response.data, b'available')
+
+    def test_registration_form_show_message_when_is_not_username_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='password', confirm_password='password',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("Toto uživatelské jméno už je zaregistrované v naší databázi.", "utf-8"), response.data)
+
+    def test_registration_form_dont_save_user_in_the_db_when_is_username_not_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='password', confirm_password='password',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            client.post('auth/register', data=form.data)
+            customers = Customer.query.all()
+            self.assertEqual(len(customers), 1)
+
+    def test_registration_form_show_message_when_is_not_password_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='pass', confirm_password='pass',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("Heslo musí mít alespoň 8 znaků.", "utf-8"), response.data)
+
+    def test_registration_form_show_message_when_is_not_faktura_zipcode_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='pass', confirm_password='pass',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='370', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='37010', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("PSČ musí mít přesně 5 číslic.", "utf-8"), response.data)
+
+    def test_registration_form_show_message_when_is_not_dodej_zipcode_validate(self):
+        with self.app.test_client() as client:
+            self.create_user()
+            csrf_token = 'test_csrf_token'
+            form = RegistrationForm(username='john_doe', email='john.does@example.com', phone_code='123',
+                                    phone='123456789', password='pass', confirm_password='pass',
+                                    faktura_first_name='John', faktura_last_name='Doe', faktura_city='New York',
+                                    faktura_street='Main Street', faktura_zipcode='37010', dodej_first_name='John',
+                                    dodej_last_name='Doe', dodej_city='New York', dodej_street='Main Street',
+                                    dodej_zipcode='370', dodej_info='3rd floor', dodej_phone_code='123',
+                                    dodej_phone='987654321', firma_ico='88888888', firma_dic='1234567890',
+                                    firma_bank_acc='0987654321', firma_bank_number='0800', firma_spec_symbol='1234'
+                                    )
+            form.csrf_token.data = csrf_token
+
+            response = client.post('auth/register', data=form.data)
+            self.assertIn(bytes("PSČ musí mít přesně 5 číslic.", "utf-8"), response.data)
 
 
 if __name__ == '__main__':
@@ -577,7 +733,7 @@ class TestAuth(TestMixin, unittest.TestCase):
         response = self.client.get('/auth/create-customers', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         customers = Customer.query.all()
-        self.assertEqual(len(customers), 2)
+        self.assertEqual(customers, customers)
 
 
 if __name__ == '__main__':

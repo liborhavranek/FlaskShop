@@ -51,8 +51,28 @@ def register():
         db.session.commit()
         login_user(new_customer, remember=True)
         flash('Profil byl úspěšně vytvořen.', category='success')
-        return render_template('login.html')
+        return redirect("/auth/login")
     return render_template('register.html', form=form)
+
+
+@auth.route('/check-email', methods=['POST'])
+def check_email():
+    email = request.form['email']
+    user = Customer.query.filter_by(email=email).first()
+    if user:
+        return 'taken'
+    else:
+        return 'available'
+
+
+@auth.route('/check-username', methods=['POST'])
+def check_username():
+    username = request.form['username']
+    user = Customer.query.filter_by(username=username).first()
+    if user:
+        return 'taken'
+    else:
+        return 'available'
 
 
 @auth.route("/login", methods=['GET', 'POST'])

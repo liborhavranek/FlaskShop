@@ -8,6 +8,34 @@ body, html {
 .register-form-container {
   background-image: url("../images/formbg8.jpg");
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   background-attachment: fixed;
+  background-position: center center;
   height: auto; }
+
+.login-form-container {
+  background-image: url("../images/formbg8.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  height: 100%;
+  /* set height to 100% */
+  width: 100%;
+  /* set width to 100% */ }
+
+.register-form-middle-container {
+  border: 12px solid #99e7f1;
+  backdrop-filter: blur(25px); }
+
+.customer_email_check {
+  color: red; }
+
+.customer_username_check {
+  color: red; }
+
+.customer_password_check {
+  color: red; }
+
+.customer_confirm_password_check {
+  color: red; }
