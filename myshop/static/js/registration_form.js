@@ -3,7 +3,7 @@
 // Helper methods
 // This method allowed enter in field only numbers
 
-$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input, .registration-firma-ico-input, .registration-firma-bank-acc-input, .registration-firma-bank-number-input').on('keydown', function(event) {
+$('.registration-phone-input, .registration-faktura-zipcode-input, .registration-dodej-zipcode-input, .registration-dodej-phone-input, .registration-firma-ico-input, .registration-firma-bank-acc-input, .registration-firma-bank-number-input, .registration-firma-spec-symbol-input').on('keydown', function(event) {
 // Allow only digits and the backspace key
 if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && (event.keyCode < 96 || event.keyCode > 105)) {
     event.preventDefault();
@@ -402,6 +402,23 @@ $(".registration-firma-bank-number-input").on('input', function() {
   }
   else {
     $('.registration-firma-bank-number-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+// ---------------------------- firma bank number end --------------------------------------------------
+
+//------------------------------firma bank number start------------------------------------------
+
+$(".registration-firma-spec-symbol-input").on('input', function() {
+  var firma_ico = $(this).val();
+  if (firma_ico.length > 3) {
+    $('.registration-firma-spec-symbol-input').addClass('is-valid').removeClass('is-invalid');
+  }
+  else if (firma_ico.length === 0) {
+    $(this).removeClass('is-valid is-invalid');
+  }
+  else {
+    $('.registration-firma-spec-symbol-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
 
