@@ -5,6 +5,7 @@ import unittest
 from flask_login import current_user, logout_user
 from werkzeug.security import generate_password_hash
 
+from myshop.forms.login_form import LoginForm
 from myshop.forms.registration_form import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -601,12 +602,47 @@ class TestAuth(TestMixin, unittest.TestCase):
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         db.create_all()
         super().setUp()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    @staticmethod
+    def create_user():
+        new_customer = Customer()
+
+        new_customer.username = 'john_doe'
+        new_customer.email = 'john.doe@example.com'
+        new_customer.phone_code = '1'
+        new_customer.phone = '1234567890'
+        new_customer.password = generate_password_hash('mypassword', method='sha256')
+        new_customer.faktura_first_name = 'John'
+        new_customer.faktura_last_name = 'Doe'
+        new_customer.faktura_city = 'New York'
+        new_customer.faktura_street = '123 Main St'
+        new_customer.faktura_zipcode = '10001'
+        new_customer.dodej_first_name = 'John'
+        new_customer.dodej_last_name = 'Doe'
+        new_customer.dodej_company = 'ACME Inc.'
+        new_customer.dodej_city = 'New York'
+        new_customer.dodej_street = '123 Main St'
+        new_customer.dodej_zipcode = '10001'
+        new_customer.dodej_info = 'Delivery instructions'
+        new_customer.dodej_phone_code = '1'
+        new_customer.dodej_phone = '1234567890'
+        new_customer.firma_ico = '123456789'
+        new_customer.firma_dic = '987654321'
+        new_customer.firma_bank_acc = '0123456789'
+        new_customer.firma_bank_number = '0800'
+        new_customer.firma_spec_symbol = '1234'
+
+        db.session.add(new_customer)
+        db.session.commit()
 
     def test_login_with_valid_credentials_return_correct_status_code(self):
         user_password = "password"
@@ -653,6 +689,14 @@ class TestAuth(TestMixin, unittest.TestCase):
         response = self.client.post('/auth/login', data=data, follow_redirects=True)
         self.assertIn(bytes("Úspěšně jsi se přihlásil.", "utf-8"), response.data)
 
+    def test_login_form_show_message_when_email_dont_exist(self):
+        self.create_user()
+        csrf_token = 'test_csrf_token'
+        form = LoginForm(email='test@example.com', password='password')
+        form.csrf_token.data = csrf_token
+        response = self.client.post('/auth/login', data=form.data)
+        self.assertIn(bytes("Email neexistuje.", "utf-8"), response.data)
+
     def test_login_with_invalid_credentials_return_correct_status_code(self):
         user_password = "password"
         customer = Customer()
@@ -697,21 +741,6 @@ class TestAuth(TestMixin, unittest.TestCase):
         }
         response = self.client.post('/auth/login', data=data, follow_redirects=True)
         self.assertIn(bytes("Zadal jsi nesprávné heslo.", "utf-8"), response.data)
-
-    def test_login_with_invalid_email_return_correct_message(self):
-        password = "password"
-        customer = Customer()
-        customer.username = "testuser"
-        customer.email = "testuser@example.com"
-        customer.password = generate_password_hash(password, method='sha256')
-        db.session.add(customer)
-        db.session.commit()
-        data = {
-            "email": "wrongemail@example.com",
-            "password": "password"
-        }
-        response = self.client.post('/auth/login', data=data, follow_redirects=True)
-        self.assertIn(bytes("Email neexistuje.", "utf-8"), response.data)
 
     def test_logout_return_correct_status_code(self):
         self.client.post('/auth/login', data={"email": "testuser@example.com", "password": "password"})

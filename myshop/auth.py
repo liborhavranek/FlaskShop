@@ -1,10 +1,11 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from myshop import db
+from .forms.login_form import LoginForm
 from .forms.registration_form import RegistrationForm
 from .models import Customer
 
@@ -77,12 +78,15 @@ def check_username():
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form.get("email")
-        user_password = request.form.get("password")
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        user_password = form.password.data
         costumer = Customer.query.filter_by(email=email).first()
         if costumer:
             if check_password_hash(costumer.user_password, user_password):
+                print(user_password)
+                print(costumer.user_password)
                 flash("Úspěšně jsi se přihlásil.", category='success')
                 login_user(costumer, remember=True)
                 return render_template("index.html", costumer=current_user)
@@ -90,8 +94,7 @@ def login():
                 flash('Zadal jsi nesprávné heslo.', category='error')
         else:
             flash('Email neexistuje.', category='error')
-
-    return render_template("login.html", customer=current_user)
+    return render_template("login.html", form=form, customer=current_user)
 
 
 @auth.route("/logout")
