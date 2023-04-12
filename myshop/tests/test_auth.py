@@ -268,7 +268,7 @@ class TestAuthRegister(TestMixin, unittest.TestCase):
         with self.app.test_client() as client:
             self.create_registration_form_data()
             response = client.post('auth/register', data=self.form.data)
-            self.assertEqual(response.headers['Location'], '/auth/login')
+            self.assertEqual(response.headers['Location'], '/auth/')
 
     def test_register_form_return_username_and_save_in_db(self):
         with self.app.test_client() as client:

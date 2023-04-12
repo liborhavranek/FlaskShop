@@ -52,7 +52,7 @@ def register():
         db.session.commit()
         login_user(new_customer, remember=True)
         flash('Profil byl úspěšně vytvořen.', category='success')
-        return redirect("/auth/login")
+        return redirect("/auth/")
     return render_template('register.html', form=form)
 
 
