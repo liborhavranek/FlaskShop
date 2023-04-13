@@ -3,3 +3,9 @@
 
 .navbar {
   background-color: #03e2fc; }
+
+#sidebar {
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #91D8E4; }

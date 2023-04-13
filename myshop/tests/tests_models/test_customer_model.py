@@ -3,7 +3,7 @@ import unittest
 from sqlalchemy.exc import IntegrityError
 from flask_login import LoginManager
 from myshop import create_app, db
-from myshop.models import Customer
+from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestMixin
 
 
