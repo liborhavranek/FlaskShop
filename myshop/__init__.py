@@ -27,6 +27,8 @@ def create_app():
     warnings.simplefilter("ignore", category=DeprecationWarning)
 
     from myshop.models.customer_model import Customer
+    from myshop.models.brand_model import Brand
+
     create_database(app)
 
     login_manager.login_view = 'auth.login'
@@ -73,3 +75,4 @@ def create_database(app):
     if not path.exists('myshop/' + DB_NAME):
         with app.app_context():
             db.create_all()
+            print('db created')
