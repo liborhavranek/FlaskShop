@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from myshop import db
 from .forms.login_form import LoginForm
 from .forms.registration_form import RegistrationForm
-from .models import Customer
+from myshop.models.customer_model import Customer
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 

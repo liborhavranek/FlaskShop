@@ -1,6 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from . import db
+from myshop import db
 from flask_login import UserMixin
 
 

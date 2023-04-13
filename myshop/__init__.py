@@ -26,7 +26,7 @@ def create_app():
 
     warnings.simplefilter("ignore", category=DeprecationWarning)
 
-    from .models import Customer
+    from myshop.models.customer_model import Customer
     create_database(app)
 
     login_manager.login_view = 'auth.login'

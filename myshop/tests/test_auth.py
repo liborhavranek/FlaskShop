@@ -10,7 +10,7 @@ from myshop.forms.registration_form import RegistrationForm
 from myshop.tests.my_test_mixin import TestMixin
 
 from myshop import create_app, db
-from myshop.models import Customer
+from myshop.models.customer_model import Customer
 
 
 class TestAuthRegister(TestMixin, unittest.TestCase):
