@@ -25,7 +25,7 @@
 
     <div>
         {% for brand in brands %}
-        <div>{{ brand.brand_name }}</div>
+        <div>{{ brand.brand_name }} , {{ brand.date_created|custom_date_format }}</div>
         {% endfor %}
 
     </div>

@@ -3,11 +3,11 @@
 import warnings
 from os import path
 from flask import Flask
+from datetime import datetime
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_assets import Environment, Bundle
-
 
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
@@ -67,6 +67,10 @@ def create_app():
     app.register_blueprint(products, url_prefix='/products')
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
+
+    @app.template_filter('custom_date_format')
+    def custom_date_format(date):
+        return datetime.strftime(date, '%H hod : %M min : %S sec,   %m.%d.  %Y ')
 
     return app
 
