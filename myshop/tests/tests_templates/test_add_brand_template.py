@@ -21,9 +21,6 @@ class TestEditBrand(TestAllTemplates):
         super().setUpClass()
 
 
-
-
-
 class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
     """Test what are specific only for this template"""
 
