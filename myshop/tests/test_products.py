@@ -87,6 +87,20 @@ class TestCreateApp(TestMixin, unittest.TestCase):
         response = self.client.post('/products/create-brand', data=data, follow_redirects=True)
         self.assertIn(bytes("Značka musí mít alespoň dva znaky.", "utf-8"), response.data)
 
+    def test_check_email_aviable(self):
+        self.login_user()
+        response = self.client.post('products/check-brand', data={'brand_name': 'Samsung'})
+        self.assertEqual(response.data, b'available')
+
+    def test_check_email_taken(self):
+        self.login_user()
+        data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=data, follow_redirects=True)
+        response = self.client.post('products/check-brand', data={'brand_name': 'Apple'})
+        self.assertEqual(response.data, b'taken')
+
 
 if __name__ == '__main__':
     unittest.main()

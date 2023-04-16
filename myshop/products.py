@@ -30,3 +30,13 @@ def create_brand():
         brands = Brand.query.all()
         flash('Značka byla vytvořena.', category='success')
     return render_template('add_brand.html', form=form, brands=brands)
+
+
+@products.route('/check-brand', methods=['POST'])
+def check_email():
+    brand_name = request.form['brand_name']
+    brand = Brand.query.filter_by(brand_name=brand_name).first()
+    if brand:
+        return 'taken'
+    else:
+        return 'available'
