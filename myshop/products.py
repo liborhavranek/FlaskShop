@@ -33,7 +33,7 @@ def create_brand():
 
 
 @products.route('/check-brand', methods=['POST'])
-def check_email():
+def check_brand():
     brand_name = request.form['brand_name']
     brand = Brand.query.filter_by(brand_name=brand_name).first()
     if brand:

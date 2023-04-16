@@ -15,6 +15,12 @@ class TestLoginTemplate(TestAllTemplates):
     def setUpClass(cls):
         super().setUpClass()
 
+    def test_template_have_event_listener_form_scripts(self):
+        if self.path is None:
+            self.skipTest("Skipping test because path is not defined")
+        response = self.client.get('/auth/register', follow_redirects=True)
+        self.assertIn(b'event_listener.js', response.data)
+
 
 class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
     """Test what are specific only for this template"""

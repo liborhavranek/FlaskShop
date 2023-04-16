@@ -16,3 +16,6 @@
   border: 12px solid #99e7f1;
   backdrop-filter: blur(25px);
   margin-top: 5%; }
+
+.add-brand-validation-text {
+  color: red; }
