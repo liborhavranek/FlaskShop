@@ -55,7 +55,6 @@ class TestMixin:
         return super().subTest(**params)
 
 
-
 class TestAllTemplates(TestMixin, unittest.TestCase):
     """ Test tags and things what will have almost all templates """
 
@@ -154,6 +153,24 @@ class TestAllTemplates(TestMixin, unittest.TestCase):
         response = self.client.get(self.path, follow_redirects=True)
         self.assertIn(b'<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>',
                       response.data)
+
+    def test_template_have_myscript_scripts(self):
+        if self.path is None:
+            self.skipTest("Skipping test because path is not defined")
+        response = self.client.get(self.path, follow_redirects=True)
+        self.assertIn(b'myscripts.js', response.data)
+
+    def test_template_have_registration_form_scripts(self):
+        if self.path is None:
+            self.skipTest("Skipping test because path is not defined")
+        response = self.client.get(self.path, follow_redirects=True)
+        self.assertIn(b'registration_form.js', response.data)
+
+    def test_template_have_product_scripts(self):
+        if self.path is None:
+            self.skipTest("Skipping test because path is not defined")
+        response = self.client.get(self.path, follow_redirects=True)
+        self.assertIn(b'product.js', response.data)
 
     def test_template_have_top_nav_bar(self):
         if self.path is None:
