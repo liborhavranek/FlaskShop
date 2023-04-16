@@ -27,6 +27,7 @@ def create_brand():
         new_brand = Brand(**brand_data)
         db.session.add(new_brand)
         db.session.commit()
+        form.brand_name.data = ''  # Clear the form field
         brands = Brand.query.all()
         flash('Značka byla vytvořena.', category='success')
     return render_template('add_brand.html', form=form, brands=brands)
