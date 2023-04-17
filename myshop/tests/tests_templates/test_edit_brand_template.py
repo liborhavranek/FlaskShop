@@ -1,6 +1,7 @@
 """ Libor Havránek App Copyright (C)  17.4 2023 """
 import unittest
 
+from bs4 import BeautifulSoup
 from werkzeug.security import generate_password_hash
 
 from myshop import create_app, db
@@ -59,3 +60,38 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
         self.assertIn(b'<form method="POST">', response.data)
         self.assertIn(b'</form>', response.data)
+
+    def test_brand_form_have_all_input_fields(self):
+        self.login_user()
+        fields_to_test = ['brand_name']
+        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_tag = soup.find('form', {'method': 'POST'})
+        form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
+
+        for field in fields_to_test:
+            with self.subTest(field=field):
+
+                self.assertIn(field, form_input_fields)
+
+    def test_brand_form_have_all_labels(self):
+        self.login_user()
+        expected_labels = {
+            'brand_name': 'Značka:',
+        }
+        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_labels = {label_tag['for']: label_tag.text.strip() for label_tag in soup.find_all('label')}
+
+        for field, label in expected_labels.items():
+            with self.subTest(field=field):
+                self.assertIn(label, form_labels[field])
+
+    def test_register_form_has_submit_button(self):
+        self.login_user()
+        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+
+        # Check that the form contains a submit button
+        submit_button = soup.find('input', {'type': 'submit', 'value': 'Upravit značku'})
+        self.assertIsNotNone(submit_button)
