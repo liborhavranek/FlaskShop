@@ -3,11 +3,11 @@
 import warnings
 from os import path
 from flask import Flask
+from datetime import datetime
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_assets import Environment, Bundle
-
 
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
@@ -27,6 +27,8 @@ def create_app():
     warnings.simplefilter("ignore", category=DeprecationWarning)
 
     from myshop.models.customer_model import Customer
+    from myshop.models.brand_model import Brand
+
     create_database(app)
 
     login_manager.login_view = 'auth.login'
@@ -66,6 +68,10 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
 
+    @app.template_filter('custom_date_format')
+    def custom_date_format(date):
+        return datetime.strftime(date, '%H hod : %M min : %S sec,   %m.%d.  %Y ')
+
     return app
 
 
@@ -73,3 +79,4 @@ def create_database(app):
     if not path.exists('myshop/' + DB_NAME):
         with app.app_context():
             db.create_all()
+            print('db created')

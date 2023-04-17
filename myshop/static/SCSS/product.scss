@@ -3,3 +3,23 @@ $blue: blue;
 .bluecolor{
     color: blue;
 }
+
+.add-brand-form-container{
+  background-image: url('../images/formbg8.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  height: 100%; /* set height to 100% */
+  width: 100%; /* set width to 100% */
+}
+
+.add-brand-form-middle-container{
+    border: 12px solid #99e7f1;
+    backdrop-filter: blur(25px);
+    margin-top: 5%;
+}
+
+.add-brand-validation-text{
+      color: red;
+}
