@@ -13,13 +13,13 @@
         {{ form.brand_name.label }}
             </div>
             <div class="col-8">
-        {{ form.brand_name(class="form-control add-brand-input") }}
-                <div class="add-brand-validation-text text-start"><small class="brand-used"></small></div>
+        {{ form.brand_name(class="form-control edit-brand-input") }}
+                <div class="edit-brand-validation-text text-start"><small class="brand-used"></small></div>
             </div>
         </div>
     </div>
     <div class="text-center">
-        {{ form.submit(class="btn btn-warning", label="Upravit značku") }}
+        {{ form.edit_brand_submit(class="btn btn-warning", label="Upravit značku") }}
     </div>
 </form>
 

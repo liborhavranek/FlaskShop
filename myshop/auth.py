@@ -115,6 +115,7 @@ def create_test_data():
         customer = Customer()
         customer.username = user["username"]
         customer.email = user["email"]
+        customer.phone = user["phone"]
         customer.password = generate_password_hash(password, method='sha256')
         db.session.add(customer)
     db.session.commit()
