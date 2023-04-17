@@ -20,6 +20,10 @@ def product() -> str:
 def create_brand():
     brands = Brand.query.order_by(Brand.date_created.desc()).all()
     form = BrandForm()
+
+    if request.method == 'GET':
+        form.brand_name.data = ''
+
     if form.validate_on_submit():
         brand_data = {
             'brand_name': request.form.get('brand_name'),

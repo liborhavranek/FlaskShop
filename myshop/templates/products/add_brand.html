@@ -29,7 +29,11 @@
     <thead>
       <tr>
           <th><h4>Jméno</h4></th>
-        <th><h4>Vytvořeno</h4></th>
+          <th><h4>Vytvořeno</h4></th>
+          <th><h4>Upraveno</h4></th>
+          <th><h4>Datum úpravy</h4></th>
+          <th><h4>Upravit</h4></th>
+          <th><h4>Smazat</h4></th>
       </tr>
     </thead>
     <tbody>
@@ -37,6 +41,24 @@
         <tr>
           <td>{{ brand.brand_name }}</td>
           <td>{{ brand.date_created|custom_date_format }}</td>
+
+            {% if brand.edited == False %}
+            <td>Neupraveno</td>
+            {% else %}
+            <td>Upraveno</td>
+            {% endif %}
+
+            {% if brand.date_edited == None %}
+            <td>Neupraveno</td>
+            {% else %}
+            <td>{{ brand.date_edited|custom_date_format }}</td>
+            {% endif %}
+
+            <td><a class="btn btn-info btn-sm" href="/products/edit-brand/{{ brand.id }}">Upravit</a></td>
+<!--        <td><a id="brand-{{brand.id}}" data-id="{{ brand.id }}" class="btn btn-danger btn-sm delete-brand-button"href="/deletecategory/{{ brand.id }}">Smazat</a></td>-->
+
+
+
         </tr>
       {% endfor %}
     </tbody>

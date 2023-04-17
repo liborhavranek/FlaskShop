@@ -1,13 +1,21 @@
 {% extends 'base.html'%}
     {% block content %}
 
-{{current_user.username}}<br>
-auth web
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/left_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <h1>views</h1>
+            {{current_user.username}}<br>
+            auth web
 
-<a href="/auth/create-customers">create users</a>
+            <a href="/auth/create-customers">create users</a>
 
-<a class="nav-link mx-2 text-uppercase" href="/auth/logout">Logout({{current_user.username}})</a>
-
-
+            <a class="nav-link mx-2 text-uppercase" href="/auth/logout">Logout({{current_user.username}})</a>
+        </div>
+    </div>
+</div>
 
 {%endblock content %}

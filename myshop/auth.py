@@ -106,10 +106,10 @@ def logout():
 
 @auth.route('/create-customers')
 def create_test_data():
-    password = "test"
+    password = "testtest"
     users = [
-        {"username": "testuser1", "email": "testuser1@example.com"},
-        {"username": "testuser2", "email": "testuser2@example.com"}
+        {"username": "admin", "email": "liborhavranek91@gmail.com", "phone": "123456789"},
+        {"username": "admin1", "email": "liborseucipython@gmail.com", "phone": "123456789"}
     ]
     for user in users:
         customer = Customer()
