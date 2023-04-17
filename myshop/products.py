@@ -41,3 +41,9 @@ def check_brand():
         return 'taken'
     else:
         return 'available'
+
+
+@products.route('/edit-brand/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_brand(id):
+    return render_template('edit_brand.html')

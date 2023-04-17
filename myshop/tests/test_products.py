@@ -9,7 +9,7 @@ from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestMixin
 
 
-class TestCreateApp(TestMixin, unittest.TestCase):
+class TestBrandApp(TestMixin, unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -100,6 +100,24 @@ class TestCreateApp(TestMixin, unittest.TestCase):
         self.client.post('/products/create-brand', data=data, follow_redirects=True)
         response = self.client.post('products/check-brand', data={'brand_name': 'Apple'})
         self.assertEqual(response.data, b'taken')
+
+    def test_products_edit_brand_return_correct_status_code(self):
+        self.login_user()
+        data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=data, follow_redirects=True)
+        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_products_edit_brand_return_correct_template(self):
+        self.login_user()
+        data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=data, follow_redirects=True)
+        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        self.assertTrue(response, 'edit_brand.html')
 
 
 if __name__ == '__main__':
