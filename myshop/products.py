@@ -46,4 +46,6 @@ def check_brand():
 @products.route('/edit-brand/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_brand(id):
-    return render_template('edit_brand.html')
+    brand = Brand.query.filter_by(id=id).first()
+    form = BrandForm()
+    return render_template('edit_brand.html', brand=brand, form=form)
