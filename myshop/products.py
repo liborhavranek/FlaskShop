@@ -18,7 +18,7 @@ def product() -> str:
 @products.route('/create-brand', methods=['GET', 'POST'])
 @login_required
 def create_brand():
-    brands = Brand.query.all()
+    brands = Brand.query.order_by(Brand.date_created.desc()).all()
     form = BrandForm()
     if form.validate_on_submit():
         brand_data = {
@@ -28,7 +28,7 @@ def create_brand():
         db.session.add(new_brand)
         db.session.commit()
         form.brand_name.data = ''  # Clear the form field
-        brands = Brand.query.all()
+        brands = Brand.query.order_by(Brand.date_created.desc()).all()
         flash('Značka byla vytvořena.', category='success')
     return render_template('add_brand.html', form=form, brands=brands)
 
