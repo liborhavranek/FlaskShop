@@ -10,7 +10,7 @@ from myshop.models.brand_model import Brand
 class BrandForm(FlaskForm):
     csrf_token = HiddenField()
     brand_name = StringField('Značka:', validators=[DataRequired()])
-    submit = SubmitField('Přidat značku')
+    submit = SubmitField('Přidat značku', render_kw={"value": "Upravit značku"})
 
     def validate_brand_name(self, brand_name):
         if len(brand_name.data.strip()) < 2:

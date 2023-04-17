@@ -5,7 +5,7 @@
     <h2 class="text-center">{{ brand.brand_name }}</h2>
     <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-brand-form-middle-container">
 
-<form method="POST">
+<form method="POST" autocomplete="off">
     {{ form.csrf_token }}
     <div class="mb-3">
         <div class="row py-2">
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="text-center">
-    {{ form.submit(class="btn btn-warning") }}
+        {{ form.submit(class="btn btn-warning", label="Upravit značku") }}
     </div>
 </form>
 
