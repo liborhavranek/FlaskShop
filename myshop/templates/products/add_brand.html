@@ -24,11 +24,23 @@
 
     </div>
 
-    <div>
-        {% for brand in brands %}
-        <div>{{ brand.brand_name }} , {{ brand.date_created|custom_date_format }}</div>
-        {% endfor %}
-
-    </div>
+<div class="py-5 px-5 d-flex justify-content-center">
+  <table class="table">
+    <thead>
+      <tr>
+          <th><h4>Jméno</h4></th>
+        <th><h4>Vytvořeno</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for brand in brands %}
+        <tr>
+          <td>{{ brand.brand_name }}</td>
+          <td>{{ brand.date_created|custom_date_format }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 </div>
 {%endblock content %}
