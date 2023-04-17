@@ -1,4 +1,5 @@
 """ Libor Havránek App Copyright (C)  17.4 2023 """
+
 import unittest
 
 from bs4 import BeautifulSoup
