@@ -19,10 +19,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'secret_key'
 
-    if app.config['TESTING']:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     migrate.init_app(app, db, compare_type=True)
