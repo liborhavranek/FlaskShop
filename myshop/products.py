@@ -1,8 +1,9 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
+
 from flask import Blueprint, render_template, request, flash
 from flask_login import login_required
-
+from datetime import datetime
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.models.brand_model import Brand
@@ -41,3 +42,18 @@ def check_brand():
         return 'taken'
     else:
         return 'available'
+
+
+@products.route('/edit-brand/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_brand(id):
+    brand = Brand.query.filter_by(id=id).first()
+    form = BrandForm()
+    if form.validate_on_submit():
+        brand.brand_name = request.form.get('brand_name')
+        brand.date_edited = datetime.utcnow()  # Set the current time for date_edited
+        brand.edited = True
+        db.session.commit()
+        form.brand_name.data = ''
+        flash('Značka byla aktualizována.', category='success')
+    return render_template('edit_brand.html', brand=brand, form=form)

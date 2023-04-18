@@ -1,5 +1,5 @@
 
-$('.add-brand-input').on('input', function() {
+$('.add-brand-input, .edit-brand-input').on('input', function() {
     var brand = $(this).val();
     var csrf_token = $('input[name=csrf_token]').val();
 
@@ -9,13 +9,13 @@ $('.add-brand-input').on('input', function() {
     }
 
         if (brand.length == 0) {
-        $('.add-brand-validation-text').hide();
+        $('.add-brand-validation-text, .edit-brand-validation-text').hide();
         $(this).removeClass('is-valid').removeClass('is-invalid');
         return;
     }
 
     if (brand.length < 2) {
-        $('.add-brand-validation-text').hide();
+        $('.add-brand-validation-text, .edit-brand-validation-text').hide();
         $(this).removeClass('is-valid').addClass('is-invalid');
         return;
     }
@@ -26,12 +26,13 @@ $('.add-brand-input').on('input', function() {
         data: {'brand_name': brand, 'csrf_token': csrf_token},
         success: function(data) {
             if (data == 'taken') {
-                $('.add-brand-validation-text').text("Tato značka je již zaregistrovaná v naší databázi.").show();
+                $('.add-brand-validation-text, .edit-brand-validation-text').text("Tato značka je již zaregistrovaná v naší databázi.").show();
                 $('.add-brand-input').removeClass('is-valid').addClass('is-invalid');
             } else {
-                $('.add-brand-validation-text').hide();
-                $('.add-brand-input').removeClass('is-invalid').addClass('is-valid');
+                $('.add-brand-validation-text, .edit-brand-validation-text').hide();
+                $('.add-brand-input, .edit-brand-input').removeClass('is-invalid').addClass('is-valid');
             }
         }
     });
 });
+
