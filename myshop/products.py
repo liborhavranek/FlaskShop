@@ -1,7 +1,7 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
 
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect
 from flask_login import login_required
 from datetime import datetime
 from myshop import db
@@ -28,7 +28,7 @@ def create_brand():
         new_brand = Brand(**brand_data)
         db.session.add(new_brand)
         db.session.commit()
-        form.brand_name.data = ''  # Clear the form field
+        form.brand_name.data = ''
         brands = Brand.query.order_by(Brand.date_created.desc()).all()
         flash('Značka byla vytvořena.', category='success')
     return render_template('add_brand.html', form=form, brands=brands)
@@ -57,3 +57,13 @@ def edit_brand(id):
         form.brand_name.data = ''
         flash('Značka byla aktualizována.', category='success')
     return render_template('edit_brand.html', brand=brand, form=form)
+
+
+@products.route('/delete-brand/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_brand(id):
+    brand = Brand.query.filter_by(id=id).first()
+    db.session.delete(brand)
+    db.session.commit()
+    flash('Značka byla smazána.', category='success')
+    return redirect('/products/create-brand')

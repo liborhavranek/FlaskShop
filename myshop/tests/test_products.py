@@ -211,3 +211,10 @@ class TestEditBrand(TestMixin, unittest.TestCase):
         self.client.post('/products/edit-brand/1', data={'brand_name': 'Samsung'}, follow_redirects=True)
         brand = Brand.query.filter_by(brand_name='Samsung').first()
         self.assertTrue(isinstance(brand.date_edited, datetime))
+
+    def test_products_brand_can_be_deleted(self):
+        self.login_user()
+        self.create_brand()
+        self.client.post('/products/delete-brand/1')
+        deleted_brand = Brand.query.filter_by(id=1).first()
+        self.assertIsNone(deleted_brand)
