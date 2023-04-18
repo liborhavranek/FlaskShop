@@ -1,10 +1,12 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
 import unittest
+from datetime import datetime
 
 from werkzeug.security import generate_password_hash
 
 from myshop import create_app, db
+from myshop.models.brand_model import Brand
 from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -87,12 +89,12 @@ class TestAddBrand(TestMixin, unittest.TestCase):
         response = self.client.post('/products/create-brand', data=data, follow_redirects=True)
         self.assertIn(bytes("Značka musí mít alespoň dva znaky.", "utf-8"), response.data)
 
-    def test_check_email_aviable(self):
+    def test_check_brand_aviable(self):
         self.login_user()
         response = self.client.post('products/check-brand', data={'brand_name': 'Samsung'})
         self.assertEqual(response.data, b'available')
 
-    def test_check_email_taken(self):
+    def test_check_brand_taken(self):
         self.login_user()
         data = {
             "brand_name": "Apple",
@@ -142,6 +144,12 @@ class TestEditBrand(TestMixin, unittest.TestCase):
         }
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
+    def create_brand(self):
+        self.data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=self.data, follow_redirects=True)
+
     def test_products_edit_brand_return_correct_status_code(self):
         self.login_user()
         data = {
@@ -159,3 +167,54 @@ class TestEditBrand(TestMixin, unittest.TestCase):
         self.client.post('/products/create-brand', data=data, follow_redirects=True)
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
         self.assertTrue(response, 'edit_brand.html')
+
+    def test_check_brand_aviable(self):
+        self.login_user()
+        response = self.client.post('products/check-brand', data={'brand_name': 'Samsung'})
+        self.assertEqual(response.data, b'available')
+
+    def test_check_brand_taken(self):
+        self.login_user()
+        self.create_brand()
+        self.client.post('/products/edit-brand/1', data=self.data, follow_redirects=True)
+        response = self.client.post('products/check-brand', data={'brand_name': 'Apple'})
+        self.assertEqual(response.data, b'taken')
+
+    def test_products_edit_brand_return_correct_message_when_the_same_brand_try_add_in_db(self):
+        self.login_user()
+        self.create_brand()
+        response = self.client.post('/products/edit-brand/1', data=self.data, follow_redirects=True)
+        self.assertIn(bytes("Tato značka je už zaregistrována v naší databázi.", "utf-8"), response.data)
+
+    def test_products_edit_brand_return_correct_message_when_brand_is_edited(self):
+        self.login_user()
+        self.create_brand()
+        response = self.client.post('/products/edit-brand/1', data={'brand_name': 'Samsung'}, follow_redirects=True)
+        self.assertIn(bytes("Značka byla aktualizována.", "utf-8"), response.data)
+
+    def test_product_edit_brand_cant_be_less_than_two_char(self):
+        self.login_user()
+        self.create_brand()
+        response = self.client.post('/products/edit-brand/1', data={'brand_name': 'A'}, follow_redirects=True)
+        self.assertIn(bytes("Značka musí mít alespoň dva znaky.", "utf-8"), response.data)
+
+    def test_products_edit_brand_have_brand_edited_true_when_brand_is_edited(self):
+        self.login_user()
+        self.create_brand()
+        self.client.post('/products/edit-brand/1', data={'brand_name': 'Samsung'}, follow_redirects=True)
+        brand = Brand.query.filter_by(brand_name='Samsung').first()
+        self.assertTrue(brand.edited)
+
+    def test_products_edit_brand_have_date_edited_when_brand_is_edited(self):
+        self.login_user()
+        self.create_brand()
+        self.client.post('/products/edit-brand/1', data={'brand_name': 'Samsung'}, follow_redirects=True)
+        brand = Brand.query.filter_by(brand_name='Samsung').first()
+        self.assertTrue(isinstance(brand.date_edited, datetime))
+
+    def test_products_brand_can_be_deleted(self):
+        self.login_user()
+        self.create_brand()
+        self.client.post('/products/delete-brand/1')
+        deleted_brand = Brand.query.filter_by(id=1).first()
+        self.assertIsNone(deleted_brand)
