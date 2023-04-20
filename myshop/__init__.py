@@ -28,6 +28,7 @@ def create_app():
 
     from myshop.models.customer_model import Customer
     from myshop.models.brand_model import Brand
+    from myshop.models.category_model import Category
 
     create_database(app)
 

@@ -8,6 +8,7 @@ from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
 from myshop.models.brand_model import Brand
+from myshop.models.category_model import Category
 
 products = Blueprint('products', __name__, template_folder='templates/products')
 
@@ -73,5 +74,16 @@ def delete_brand(id):
 @products.route('/create-category', methods=['GET', 'POST'])
 @login_required
 def create_category():
+    categories = Category.query.order_by(Category.date_created.desc()).all()
     form = CategoryForm()
-    return render_template('add_category.html', form=form)
+    if form.validate_on_submit():
+        category_data = {
+            'category_name': request.form.get('category_name'),
+        }
+        new_category = Category(**category_data)
+        db.session.add(new_category)
+        db.session.commit()
+        form.category_name.data = ''
+        categories = Brand.query.order_by(Brand.date_created.desc()).all()
+        flash('Kategorie byla vytvořena.', category='success')
+    return render_template('add_category.html', form=form, categories=categories)

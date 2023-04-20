@@ -256,6 +256,12 @@ class TestAddCategory(TestMixin, unittest.TestCase):
         }
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
+    def create_category(self):
+        self.login_user()
+        self.data = {
+            "category_name": "Mobilní telefony",
+        }
+
     def test_create_category_have_set_correct_template(self):
         response = self.client.get('/products/create-category')
         self.assertTrue(response, 'add_category.html')
@@ -263,3 +269,25 @@ class TestAddCategory(TestMixin, unittest.TestCase):
     def test_products_route_returns_correct_status_code(self):
         response = self.client.get('/products/create-category', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+
+    def test_products_create_category_return_correct_message_when_category_created(self):
+        self.create_category()
+        response = self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+        self.assertIn(bytes("Kategorie byla vytvořena.", "utf-8"), response.data)
+
+    def test_product_create_category_cant_save_in_db_the_same_category_again(self):
+        self.create_category()
+
+        self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+        response = self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+
+        self.assertIn(bytes("Tato kategorie je už zaregistrována v naší databázi.", "utf-8"), response.data)
+
+    def test_product_create_category_cant_be_less_than_two_char(self):
+        self.login_user()
+        data = {
+            "category_name": "A",
+        }
+        response = self.client.post('/products/create-category', data=data, follow_redirects=True)
+        self.assertIn(bytes("Kategorie musí mít alespoň dva znaky.", "utf-8"), response.data)
+
