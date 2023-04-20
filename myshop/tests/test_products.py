@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 
 from myshop import create_app, db
 from myshop.models.brand_model import Brand
+from myshop.models.category_model import Category
 from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -330,9 +331,9 @@ class TestEditCategory(TestMixin, unittest.TestCase):
 
     def create_category(self):
         self.data = {
-            "brand_name": "Apple",
+            "category_name": "Mobilní telefony",
         }
-        self.client.post('/products/create-brand', data=self.data, follow_redirects=True)
+        self.client.post('/products/create-category', data=self.data, follow_redirects=True)
 
     def test_products_edit_category_return_correct_status_code(self):
         self.login_user()
@@ -351,3 +352,17 @@ class TestEditCategory(TestMixin, unittest.TestCase):
         self.client.post('/products/create-category', data=data, follow_redirects=True)
         response = self.client.get('/products/edit-category/1', follow_redirects=True)
         self.assertTrue(response, 'edit_category.html')
+
+    def test_products_edit_category_have_category_edited_true_when_category_is_edited(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/edit-category/1', data={'category_name': 'Nnotebooky'}, follow_redirects=True)
+        category = Category.query.filter_by(id=1).first()
+        self.assertTrue(category.edited)
+
+    def test_products_edit_brand_have_date_edited_when_brand_is_edited(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/edit-category/1', data={'category_name': 'Nnotebooky'}, follow_redirects=True)
+        category = Category.query.filter_by(id=1).first()
+        self.assertTrue(isinstance(category.date_edited, datetime))
