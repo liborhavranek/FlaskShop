@@ -23,5 +23,44 @@
       </form>
 
 </div>
+    <div class="py-5 px-5 d-flex justify-content-center">
+  <table class="table">
+    <thead>
+      <tr>
+          <th><h4>Jméno</h4></th>
+          <th><h4>Vytvořeno</h4></th>
+          <th><h4>Upraveno</h4></th>
+          <th><h4>Datum úpravy</h4></th>
+          <th><h4>Upravit</h4></th>
+          <th><h4>Smazat</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+        <tr>
+          <td>{{ category.category_name }}</td>
+          <td>{{ category.date_created|custom_date_format }}</td>
+
+            {% if category.edited == False %}
+            <td>Neupraveno</td>
+            {% else %}
+            <td>Upraveno</td>
+            {% endif %}
+
+            {% if category.date_edited == None %}
+            <td>Neupraveno</td>
+            {% else %}
+            <td>{{ category.date_edited|custom_date_format }}</td>
+            {% endif %}
+
+            <td><a class="btn btn-info btn-sm" href="/products/edit-category/{{ category.id }}">Upravit</a></td>
+<!--            <td><a class="btn btn-danger btn-sm delete-category-button" href="/products/delete-category/{{ category.id }}">Smazat</a></td>-->
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
 </div>
 {%endblock content %}
