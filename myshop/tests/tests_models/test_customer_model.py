@@ -1,3 +1,5 @@
+""" Libor Havránek App Copyright (C)  20.4 2023 """
+
 import unittest
 
 from sqlalchemy.exc import IntegrityError
@@ -13,20 +15,17 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        app = create_app()
-        app.testing = True
-        self.app = app.test_client()
-        app_context = app.app_context()
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
         app_context.push()
-        db.create_all()
-
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         self.login_manager = LoginManager()
-        self.login_manager.init_app(app)
+        self.login_manager.init_app(self.app)
         super().setUp()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
 
     def create_customer(self):
         self.customer = Customer()
