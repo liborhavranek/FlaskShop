@@ -113,6 +113,7 @@ def check_category():
     else:
         return 'available'
 
+
 @products.route('/delete-category/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_category(id):
@@ -121,3 +122,9 @@ def delete_category(id):
     db.session.commit()
     flash('Kategorie byla smazána.', category='success')
     return redirect('/products/create-category')
+
+
+@products.route('/create-product', methods=['GET', 'POST'])
+@login_required
+def create_product():
+    return render_template('add_product.html')
