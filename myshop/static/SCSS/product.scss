@@ -4,7 +4,7 @@ $blue: blue;
     color: blue;
 }
 
-.add-brand-form-container{
+.products-forms-background{
   background-image: url('../images/formbg8.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -14,10 +14,42 @@ $blue: blue;
   width: 100%; /* set width to 100% */
 }
 
-.add-brand-form-middle-container{
+.product-form-middle-container{
     border: 12px solid #99e7f1;
     backdrop-filter: blur(25px);
     margin-top: 5%;
+}
+
+.add-brand-form-container{
+    @extend .products-forms-background;
+}
+
+.add-category-form-container{
+    @extend .products-forms-background;
+}
+
+.edit-brand-form-container{
+    @extend .products-forms-background;
+}
+
+.edit-category-form-container{
+    @extend .products-forms-background;
+}
+
+.add-brand-form-middle-container{
+    @extend .product-form-middle-container;
+}
+
+.add-category-form-middle-container{
+    @extend .product-form-middle-container;
+}
+
+.edit-category-form-middle-container{
+    @extend .product-form-middle-container;
+}
+
+.edit-brand-form-middle-container{
+    @extend .product-form-middle-container;
 }
 
 .add-brand-validation-text{
