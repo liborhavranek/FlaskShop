@@ -30,9 +30,14 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(config={'TESTING': True})
         self.app.testing = True
         self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         super().setUp()
 
     def test_register_form_have_closed_form_tag(self):

@@ -8,17 +8,20 @@ from myshop.tests.my_test_mixin import TestMixin
 
 
 class TestCategoryForm(TestMixin, unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        app = create_app()
-        app.testing = True
-        self.app = app.test_client()
-        self.app.application.config['WTF_CSRF_ENABLED'] = False
-        app_context = app.app_context()
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
         app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         self.form = CategoryForm()
         super().setUp()
 

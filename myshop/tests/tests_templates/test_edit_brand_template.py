@@ -28,7 +28,7 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(config={'TESTING': True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
@@ -36,12 +36,7 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.secret_key = 'test_secret_key'
-        db.create_all()
         super().setUp()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
 
     def login_user(self):
         user_password = "password"
