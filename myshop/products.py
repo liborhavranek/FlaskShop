@@ -102,3 +102,13 @@ def edit_category(id):
         form.category_name.data = ''
         flash('Značka byla aktualizována.', category='success')
     return render_template('edit_category.html', category=category, form=form)
+
+
+@products.route('/check-category', methods=['POST'])
+def check_category():
+    category_name = request.form['category_name']
+    category = Category.query.filter_by(category_name=category_name).first()
+    if category:
+        return 'taken'
+    else:
+        return 'available'

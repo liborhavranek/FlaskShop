@@ -346,3 +346,15 @@ class TestEditCategory(TestMixin, unittest.TestCase):
         self.client.post('/products/edit-category/1', data={'category_name': 'Nnotebooky'}, follow_redirects=True)
         category = Category.query.filter_by(id=1).first()
         self.assertTrue(isinstance(category.date_edited, datetime))
+
+    def test_check_category_aviable(self):
+        self.login_user()
+        response = self.client.post('products/check-category', data={'category_name': 'Notebooky'})
+        self.assertEqual(response.data, b'available')
+
+    def test_check_category_taken(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/edit-category/1', data=self.data, follow_redirects=True)
+        response = self.client.post('products/check-category', data={'category_name': 'Mobilní telefony'})
+        self.assertEqual(response.data, b'taken')
