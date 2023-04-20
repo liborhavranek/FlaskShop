@@ -291,3 +291,63 @@ class TestAddCategory(TestMixin, unittest.TestCase):
         response = self.client.post('/products/create-category', data=data, follow_redirects=True)
         self.assertIn(bytes("Kategorie musí mít alespoň dva znaky.", "utf-8"), response.data)
 
+
+class TestEditCategory(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app()
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        db.create_all()
+        super().setUp()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_category(self):
+        self.data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=self.data, follow_redirects=True)
+
+    def test_products_edit_category_return_correct_status_code(self):
+        self.login_user()
+        data = {
+            "category_name": "Mobilní telefony",
+        }
+        self.client.post('/products/create-category', data=data, follow_redirects=True)
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_products_edit_brand_return_correct_template(self):
+        self.login_user()
+        data = {
+            "category_name": "Mobilní telefony",
+        }
+        self.client.post('/products/create-category', data=data, follow_redirects=True)
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
+        self.assertTrue(response, 'edit_category.html')

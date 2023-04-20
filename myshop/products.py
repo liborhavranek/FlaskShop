@@ -84,6 +84,21 @@ def create_category():
         db.session.add(new_category)
         db.session.commit()
         form.category_name.data = ''
-        categories = Brand.query.order_by(Brand.date_created.desc()).all()
+        categories = Category.query.order_by(Category.date_created.desc()).all()
         flash('Kategorie byla vytvořena.', category='success')
     return render_template('add_category.html', form=form, categories=categories)
+
+
+@products.route('/edit-category/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_category(id):
+    category = Category.query.filter_by(id=id).first()
+    form = CategoryForm()
+    if form.validate_on_submit():
+        category.category_name = request.form.get('category_name')
+        category.date_edited = datetime.utcnow()  # Set the current time for date_edited
+        category.edited = True
+        db.session.commit()
+        form.category_name.data = ''
+        flash('Značka byla aktualizována.', category='success')
+    return render_template('edit_category.html', category=category, form=form)
