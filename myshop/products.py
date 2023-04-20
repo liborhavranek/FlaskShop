@@ -67,3 +67,9 @@ def delete_brand(id):
     db.session.commit()
     flash('Značka byla smazána.', category='success')
     return redirect('/products/create-brand')
+
+
+@products.route('/create-category', methods=['GET', 'POST'])
+@login_required
+def create_category():
+    return render_template('add_category.html')
