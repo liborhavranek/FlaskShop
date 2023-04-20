@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+    {% block content %}
+<div class="container-fluid edit-category-form-container py-5">
+    <h1 class="text-center">Upravit kategorii</h1>
+    <h2 class="text-center">{{ category.category_name }}</h2>
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 edit-category-form-middle-container">
+
+<form method="POST" autocomplete="off">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+        {{ form.category_name.label }}
+            </div>
+            <div class="col-8">
+        {{ form.category_name(class="form-control edit-category-input") }}
+                <div class="edit-category-validation-text text-start"><small class="category-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        {{ form.edit_category_submit(class="btn btn-warning", label="Upravit značku") }}
+    </div>
+</form>
+    </div>
+     <div class="text-center my-5">
+         <a class="nav-link mx-2 edit-category-link" href="/products/create-category"><h2>Vytvořit další kategorii</h2></a>
+     </div>
+</div>
+{%endblock content %}

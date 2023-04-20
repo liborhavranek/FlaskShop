@@ -4,7 +4,6 @@ import os
 import unittest
 from myshop import create_app
 from webassets.filter import get_filter
-from flask_login import FlaskLoginClient
 from flask_assets import Environment, Bundle
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -16,10 +15,14 @@ class TestCreateApp(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(config={'TESTING': True})
         self.app.testing = True
         self.client = self.app.test_client()
-        self.app.test_client_class = FlaskLoginClient
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
         super().setUp()
 
     def set_bundles(self):
@@ -45,7 +48,7 @@ class TestCreateApp(TestMixin, unittest.TestCase):
 
     def test_create_app_have_secret_key(self):
         # Test that the app has the expected configuration
-        self.assertEqual(self.app.config['SECRET_KEY'], 'secret_key')
+        self.assertEqual(self.app.config['SECRET_KEY'], 'test_secret_key')
 
     def test_app_have_admin_blueprint(self):
         self.assertIn('admin', self.app.blueprints)
@@ -121,7 +124,7 @@ class TestCreateApp(TestMixin, unittest.TestCase):
                 self.assertIsNotNone(sass_filter)
 
     def test_sqlalchemy_database_is_set(self):
-        self.assertEqual(self.app.config['SQLALCHEMY_DATABASE_URI'], "sqlite:///myshop.db")
+        self.assertEqual(self.app.config['SQLALCHEMY_DATABASE_URI'], "sqlite:///:memory:")
 
     def test_database_created_if_not_exists(self):
         db_name = "myshop.db"

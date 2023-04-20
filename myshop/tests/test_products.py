@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 
 from myshop import create_app, db
 from myshop.models.brand_model import Brand
+from myshop.models.category_model import Category
 from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -18,7 +19,7 @@ class TestAddBrand(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(config={'TESTING': True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
@@ -26,12 +27,7 @@ class TestAddBrand(TestMixin, unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.secret_key = 'test_secret_key'
-        db.create_all()
         super().setUp()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
 
     def login_user(self):
         user_password = "password"
@@ -115,7 +111,7 @@ class TestEditBrand(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app(config={'TESTING': True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
@@ -123,12 +119,7 @@ class TestEditBrand(TestMixin, unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.secret_key = 'test_secret_key'
-        db.create_all()
         super().setUp()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
 
     def login_user(self):
         user_password = "password"
@@ -218,3 +209,159 @@ class TestEditBrand(TestMixin, unittest.TestCase):
         self.client.post('/products/delete-brand/1')
         deleted_brand = Brand.query.filter_by(id=1).first()
         self.assertIsNone(deleted_brand)
+
+
+class TestAddCategory(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        super().setUp()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_category(self):
+        self.login_user()
+        self.data = {
+            "category_name": "Mobilní telefony",
+        }
+
+    def test_create_category_have_set_correct_template(self):
+        response = self.client.get('/products/create-category')
+        self.assertTrue(response, 'add_category.html')
+
+    def test_products_route_returns_correct_status_code(self):
+        response = self.client.get('/products/create-category', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_products_create_category_return_correct_message_when_category_created(self):
+        self.create_category()
+        response = self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+        self.assertIn(bytes("Kategorie byla vytvořena.", "utf-8"), response.data)
+
+    def test_product_create_category_cant_save_in_db_the_same_category_again(self):
+        self.create_category()
+
+        self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+        response = self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+
+        self.assertIn(bytes("Tato kategorie je už zaregistrována v naší databázi.", "utf-8"), response.data)
+
+    def test_product_create_category_cant_be_less_than_two_char(self):
+        self.login_user()
+        data = {
+            "category_name": "A",
+        }
+        response = self.client.post('/products/create-category', data=data, follow_redirects=True)
+        self.assertIn(bytes("Kategorie musí mít alespoň dva znaky.", "utf-8"), response.data)
+
+
+class TestEditCategory(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        super().setUp()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_category(self):
+        self.data = {
+            "category_name": "Mobilní telefony",
+        }
+        self.client.post('/products/create-category', data=self.data, follow_redirects=True)
+
+    def test_products_edit_category_return_correct_status_code(self):
+        self.login_user()
+        data = {
+            "category_name": "Mobilní telefony",
+        }
+        self.client.post('/products/create-category', data=data, follow_redirects=True)
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_products_edit_brand_return_correct_template(self):
+        self.login_user()
+        data = {
+            "category_name": "Mobilní telefony",
+        }
+        self.client.post('/products/create-category', data=data, follow_redirects=True)
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
+        self.assertTrue(response, 'edit_category.html')
+
+    def test_products_edit_category_have_category_edited_true_when_category_is_edited(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/edit-category/1', data={'category_name': 'Nnotebooky'}, follow_redirects=True)
+        category = Category.query.filter_by(id=1).first()
+        self.assertTrue(category.edited)
+
+    def test_products_edit_brand_have_date_edited_when_brand_is_edited(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/edit-category/1', data={'category_name': 'Nnotebooky'}, follow_redirects=True)
+        category = Category.query.filter_by(id=1).first()
+        self.assertTrue(isinstance(category.date_edited, datetime))
+
+    def test_check_category_aviable(self):
+        self.login_user()
+        response = self.client.post('products/check-category', data={'category_name': 'Notebooky'})
+        self.assertEqual(response.data, b'available')
+
+    def test_check_category_taken(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/edit-category/1', data=self.data, follow_redirects=True)
+        response = self.client.post('products/check-category', data={'category_name': 'Mobilní telefony'})
+        self.assertEqual(response.data, b'taken')
+
+    def test_products_category_can_be_deleted(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/delete-category/1')
+        deleted_category = Category.query.filter_by(id=1).first()
+        self.assertIsNone(deleted_category)

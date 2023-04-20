@@ -15,11 +15,14 @@ migrate = Migrate()
 login_manager = LoginManager()
 
 
-def create_app():
+def create_app(config=None):
     app = Flask(__name__)
+    config = config or {}
     app.config['SECRET_KEY'] = 'secret_key'
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    if config.get('TESTING'):
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     migrate.init_app(app, db, compare_type=True)
@@ -28,6 +31,7 @@ def create_app():
 
     from myshop.models.customer_model import Customer
     from myshop.models.brand_model import Brand
+    from myshop.models.category_model import Category
 
     create_database(app)
 
