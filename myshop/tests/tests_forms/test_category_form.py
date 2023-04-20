@@ -1,8 +1,8 @@
-""" Libor Havránek App Copyright (C)  13.4 2023 """
+""" Libor Havránek App Copyright (C)  20.4 2023 """
 
 import unittest
 from myshop import create_app
-from myshop.forms.brand_form import BrandForm
+from myshop.forms.category_form import CategoryForm
 
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -19,8 +19,8 @@ class TestCategoryForm(TestMixin, unittest.TestCase):
         self.app.application.config['WTF_CSRF_ENABLED'] = False
         app_context = app.app_context()
         app_context.push()
-        self.form = BrandForm()
+        self.form = CategoryForm()
         super().setUp()
 
     def test_login_form_have_email_field(self):
-        self.assertIn('brand_name', self.form._fields)
+        self.assertIn('category_name', self.form._fields)
