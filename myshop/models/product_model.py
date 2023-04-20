@@ -7,7 +7,7 @@ from myshop import db
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product_name = db.Column(db.String(80), nullable=False)
+    product_name = db.Column(db.String(80), nullable=False, unique=True)
     price = db.Column(db.Numeric(10, 2), nullable=False)
     discount = db.Column(db.Integer, default=0)
     stock = db.Column(db.Integer, default=0)
