@@ -112,3 +112,12 @@ def check_category():
         return 'taken'
     else:
         return 'available'
+
+@products.route('/delete-category/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_category(id):
+    category = Category.query.filter_by(id=id).first()
+    db.session.delete(category)
+    db.session.commit()
+    flash('Kategorie byla smazána.', category='success')
+    return redirect('/products/create-category')

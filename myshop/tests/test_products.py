@@ -358,3 +358,10 @@ class TestEditCategory(TestMixin, unittest.TestCase):
         self.client.post('/products/edit-category/1', data=self.data, follow_redirects=True)
         response = self.client.post('products/check-category', data={'category_name': 'Mobilní telefony'})
         self.assertEqual(response.data, b'taken')
+
+    def test_products_category_can_be_deleted(self):
+        self.login_user()
+        self.create_category()
+        self.client.post('/products/delete-category/1')
+        deleted_category = Category.query.filter_by(id=1).first()
+        self.assertIsNone(deleted_category)
