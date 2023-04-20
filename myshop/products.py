@@ -6,6 +6,7 @@ from flask_login import login_required
 from datetime import datetime
 from myshop import db
 from myshop.forms.brand_form import BrandForm
+from myshop.forms.category_form import CategoryForm
 from myshop.models.brand_model import Brand
 
 products = Blueprint('products', __name__, template_folder='templates/products')
@@ -72,4 +73,5 @@ def delete_brand(id):
 @products.route('/create-category', methods=['GET', 'POST'])
 @login_required
 def create_category():
-    return render_template('add_category.html')
+    form = CategoryForm()
+    return render_template('add_category.html', form=form)
