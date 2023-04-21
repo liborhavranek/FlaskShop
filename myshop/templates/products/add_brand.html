@@ -12,7 +12,7 @@
         {{ form.brand_name.label }}
             </div>
             <div class="col-8">
-        {{ form.brand_name(class="form-control add-brand-name-input") }}
+        {{ form.brand_name(class="form-control add-brand-input") }}
                 <div class="add-brand-validation-text text-start"><small class="brand-used"></small></div>
             </div>
         </div>
@@ -23,5 +23,43 @@
 </form>
 
     </div>
+
+<div class="py-5 px-5 d-flex justify-content-center">
+  <table class="table">
+    <thead>
+      <tr>
+          <th><h4>Jméno</h4></th>
+          <th><h4>Vytvořeno</h4></th>
+          <th><h4>Upraveno</h4></th>
+          <th><h4>Datum úpravy</h4></th>
+          <th><h4>Upravit</h4></th>
+          <th><h4>Smazat</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for brand in brands %}
+        <tr>
+          <td>{{ brand.brand_name }}</td>
+          <td>{{ brand.date_created|custom_date_format }}</td>
+
+            {% if brand.edited == False %}
+            <td>Neupraveno</td>
+            {% else %}
+            <td>Upraveno</td>
+            {% endif %}
+
+            {% if brand.date_edited == None %}
+            <td>Neupraveno</td>
+            {% else %}
+            <td>{{ brand.date_edited|custom_date_format }}</td>
+            {% endif %}
+
+            <td><a class="btn btn-info btn-sm" href="/products/edit-brand/{{ brand.id }}">Upravit</a></td>
+            <td><a class="btn btn-danger btn-sm delete-brand-button" href="/products/delete-brand/{{ brand.id }}">Smazat</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 </div>
 {%endblock content %}
