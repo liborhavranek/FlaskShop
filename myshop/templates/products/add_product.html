@@ -5,15 +5,135 @@
     <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container">
 
 <form method="POST" autocomplete="off">
-    {{ form.csrf_token }}
+  {{ form.csrf_token }}
     <div class="mb-3">
         <div class="row py-2">
             <div class="col-2">
-        {{ form.product_name.label }}
+                {{ form.product_name.label }}
             </div>
             <div class="col-8">
-        {{ form.product_name(class="form-control add-product-input") }}
+                {{ form.product_name(class="form-control add-product-input") }}
                 <div class="add-product-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-8">
+                {{ form.price(class="form-control add-product-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-8">
+                {{ form.discount(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.stock.label }}
+            </div>
+            <div class="col-8">
+                {{ form.stock(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.size.label }}
+            </div>
+            <div class="col-8">
+                {{ form.size(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.size_units.label }}
+            </div>
+            <div class="col-8">
+                {{ form.size_units(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.weight.label }}
+            </div>
+            <div class="col-8">
+                {{ form.weight(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.weight_units.label }}
+            </div>
+            <div class="col-8">
+                {{ form.weight_units(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control") }}
             </div>
         </div>
     </div>

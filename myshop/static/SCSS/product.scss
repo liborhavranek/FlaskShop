@@ -10,8 +10,8 @@ $red: red;
   background-size: cover;
   background-attachment: fixed;
   background-position: center center;
-  height: 100%; /* set height to 100% */
-  width: 100%; /* set width to 100% */
+  min-height: 100%;
+  width: 100%;
 }
 
 .product-form-middle-container{
