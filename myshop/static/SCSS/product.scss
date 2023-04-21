@@ -1,5 +1,5 @@
 $blue: blue;
-
+$red: red;
 .bluecolor{
     color: blue;
 }
@@ -20,42 +20,26 @@ $blue: blue;
     margin-top: 5%;
 }
 
-.add-brand-form-container{
-    @extend .products-forms-background;
-}
-
-.add-category-form-container{
-    @extend .products-forms-background;
-}
-
-.edit-brand-form-container{
-    @extend .products-forms-background;
-}
-
+.add-brand-form-container,
+.add-category-form-container,
+.add-product-form-container
+.edit-brand-form-container,
 .edit-category-form-container{
-    @extend .products-forms-background;
+@extend .products-forms-background;
 }
 
-.add-brand-form-middle-container{
-    @extend .product-form-middle-container;
-}
-
-.add-category-form-middle-container{
-    @extend .product-form-middle-container;
-}
-
-.edit-category-form-middle-container{
-    @extend .product-form-middle-container;
-}
-
+.add-brand-form-middle-container,
+.add-category-form-middle-container,
+.add-product-form-middle-container,
+.edit-category-form-middle-container,
 .edit-brand-form-middle-container{
-    @extend .product-form-middle-container;
+@extend .product-form-middle-container;
 }
 
-.add-brand-validation-text{
-      color: red;
-}
-
+.add-product-validation-text,
+.add-category-validation-text,
+.edit-category-validation-text,
+.add-brand-validation-text,
 .edit-brand-validation-text{
       color: red;
 }

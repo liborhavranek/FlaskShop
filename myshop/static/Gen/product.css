@@ -1,7 +1,11 @@
 .bluecolor {
   color: blue; }
 
-.products-forms-background, .edit-category-form-container, .edit-brand-form-container, .add-category-form-container, .add-brand-form-container {
+.products-forms-background, .add-brand-form-container,
+.add-category-form-container,
+.add-product-form-container
+.edit-brand-form-container,
+.edit-category-form-container {
   background-image: url("../images/formbg8.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -12,14 +16,19 @@
   width: 100%;
   /* set width to 100% */ }
 
-.product-form-middle-container, .edit-brand-form-middle-container, .edit-category-form-middle-container, .add-category-form-middle-container, .add-brand-form-middle-container {
+.product-form-middle-container, .add-brand-form-middle-container,
+.add-category-form-middle-container,
+.add-product-form-middle-container,
+.edit-category-form-middle-container,
+.edit-brand-form-middle-container {
   border: 12px solid #99e7f1;
   backdrop-filter: blur(25px);
   margin-top: 5%; }
 
-.add-brand-validation-text {
-  color: red; }
-
+.add-product-validation-text,
+.add-category-validation-text,
+.edit-category-validation-text,
+.add-brand-validation-text,
 .edit-brand-validation-text {
   color: red; }
 
