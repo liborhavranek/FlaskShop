@@ -12,31 +12,25 @@ from myshop.models.product_model import Product
 
 class ProductForm(FlaskForm):
     csrf_token = HiddenField()
-    product_name = StringField('Název produktu', validators=[InputRequired(), Length(min=2, max=80)])
-    price = DecimalField('Cena', validators=[InputRequired(), NumberRange(min=0, max=999999.99)])
-    discount = IntegerField('Sleva', validators=[NumberRange(min=0, max=100)], default=0)
-    stock = IntegerField('Počet kusů', validators=[InputRequired(), NumberRange(min=0)])
-    size = DecimalField('Velikost', validators=[InputRequired(), NumberRange(min=0, max=999999.99)])
-    size_units = SelectField('Velikostní jednotka', choices=[('cm', 'cm'), ('in', 'in')], validators=[Optional()])
-    weight = DecimalField('Váha', validators=[Optional(), NumberRange(min=0, max=999999.99)])
-    weight_units = SelectField('Váhová jednotka', choices=[('g', 'g'), ('kg', 'kg')], validators=[Optional()])
-    color = SelectField('Color', validators=[Optional()], choices=[('cerna', 'černá'), ('bila', 'bílá'),
-                                                                   ('seda', 'šedá'), ('hneda', 'hnědá'),
-                                                                   ('tmava_hneda', 'tmavě hnědá'),
-                                                                   ('svetla_hneda', 'světle hnědá'),
-                                                                   ('modra', 'modrá'), ('tmava_modra', 'tmavě modrá'),
-                                                                   ('svetla_modra', 'světle modrá'),
-                                                                   ('zelena', 'zelená'),
-                                                                   ('tmava_zelena', 'tmavě zelená'),
-                                                                   ('svetla_zelena', 'světle zelená'),
-                                                                   ('zluta', 'žlutá'), ('oranzova', 'oranžová'),
-                                                                   ('cervena', 'červená'), ('ruzova', 'růžová'),
-                                                                   ('fialova', 'fialová')])
+    product_name = StringField('Název:', validators=[InputRequired(), Length(min=2, max=80)])
+    price = DecimalField('Cena:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)])
+    discount = IntegerField('Sleva:', validators=[NumberRange(min=0, max=100)], default=0)
+    stock = IntegerField('Počet kusů:', validators=[InputRequired(), NumberRange(min=0)])
+    size = DecimalField('Velikost:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)])
+    size_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in')], validators=[Optional()])
+    weight = DecimalField('Váha:', validators=[Optional(), NumberRange(min=0, max=999999.99)])
+    weight_units = SelectField('Váhová jednotka:', choices=[('g', 'g'), ('kg', 'kg')], validators=[Optional()])
+    color = SelectField('Barva:', validators=[Optional()], choices=[('cerna', 'černá'), ('bila', 'bílá'),
+                        ('seda', 'šedá'), ('hneda', 'hnědá'), ('tmava_hneda', 'tmavě hnědá'),
+                        ('svetla_hneda', 'světle hnědá'), ('modra', 'modrá'), ('tmava_modra', 'tmavě modrá'),
+                        ('svetla_modra', 'světle modrá'), ('zelena', 'zelená'), ('tmava_zelena', 'tmavě zelená'),
+                        ('svetla_zelena', 'světle zelená'), ('zluta', 'žlutá'), ('oranzova', 'oranžová'),
+                        ('cervena', 'červená'), ('ruzova', 'růžová'), ('fialova', 'fialová')])
 
-    subheading = TextAreaField('Podnadpis', validators=[InputRequired()])
-    description = TextAreaField('Popis', validators=[InputRequired()])
-    brand_id = SelectField('Značka', coerce=int, choices=[], validators=[Optional()])
-    category_id = SelectField('Kategorie', coerce=int, choices=[], validators=[Optional()])
+    subheading = TextAreaField('Podnadpis:', validators=[InputRequired()])
+    description = TextAreaField('Popis:', validators=[InputRequired()], render_kw={'rows': 10})
+    brand_id = SelectField('Značka:', coerce=int, choices=[], validators=[Optional()])
+    category_id = SelectField('Kategorie:', coerce=int, choices=[], validators=[Optional()])
 
     add_product_submit = SubmitField('Přidat produkt')
     edit_product_submit = SubmitField('Upravit produkt')
