@@ -2,23 +2,23 @@
     {% block content %}
 <div class="container-fluid add-produt-form-container py-5">
     <h1 class="text-center">Přidat nový produkt</h1>
-    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-brand-form-middle-container">
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container">
 
 <form method="POST" autocomplete="off">
     {{ form.csrf_token }}
     <div class="mb-3">
         <div class="row py-2">
             <div class="col-2">
-        {{ form.brand_name.label }}
+        {{ form.product.label }}
             </div>
             <div class="col-8">
-        {{ form.brand_name(class="form-control add-brand-input") }}
-                <div class="add-brand-validation-text text-start"><small class="brand-used"></small></div>
+        {{ form.product_name(class="form-control add-product-input") }}
+                <div class="add-product-validation-text text-start"><small class="brand-used"></small></div>
             </div>
         </div>
     </div>
     <div class="text-center">
-    {{ form.add_brand_submit(class="btn btn-warning") }}
+    {{ form.add_product_submit(class="btn btn-warning") }}
     </div>
 </form>
 
