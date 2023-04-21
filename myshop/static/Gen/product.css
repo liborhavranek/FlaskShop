@@ -3,7 +3,7 @@
 
 .products-forms-background, .add-brand-form-container,
 .add-category-form-container,
-.add-product-form-container
+.add-product-form-container,
 .edit-brand-form-container,
 .edit-category-form-container {
   background-image: url("../images/formbg8.jpg");

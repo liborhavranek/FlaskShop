@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
     {% block content %}
-<div class="container-fluid add-produt-form-container py-5">
+<div class="container-fluid add-product-form-container py-5">
     <h1 class="text-center">Přidat nový produkt</h1>
     <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container">
 
@@ -9,7 +9,7 @@
     <div class="mb-3">
         <div class="row py-2">
             <div class="col-2">
-        {{ form.product.label }}
+        {{ form.product_name.label }}
             </div>
             <div class="col-8">
         {{ form.product_name(class="form-control add-product-input") }}

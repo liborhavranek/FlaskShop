@@ -7,6 +7,7 @@ from datetime import datetime
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
+from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 
@@ -127,4 +128,5 @@ def delete_category(id):
 @products.route('/create-product', methods=['GET', 'POST'])
 @login_required
 def create_product():
-    return render_template('add_product.html')
+    form = ProductForm()
+    return render_template('add_product.html', form=form)
