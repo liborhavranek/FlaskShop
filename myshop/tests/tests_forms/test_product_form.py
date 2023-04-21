@@ -74,55 +74,55 @@ class TestProductForm(TestMixin, unittest.TestCase):
 
     def test_product_form_have_product_name_label(self):
         field = self.form._fields['product_name']
-        self.assertEqual(field.label.text, 'Název produktu')
+        self.assertEqual(field.label.text, 'Název:')
 
     def test_price_label(self):
         field = self.form._fields['price']
-        self.assertEqual(field.label.text, 'Cena')
+        self.assertEqual(field.label.text, 'Cena:')
 
     def test_discount_label(self):
         field = self.form._fields['discount']
-        self.assertEqual(field.label.text, 'Sleva')
+        self.assertEqual(field.label.text, 'Sleva:')
 
     def test_stock_label(self):
         field = self.form._fields['stock']
-        self.assertEqual(field.label.text, 'Počet kusů')
+        self.assertEqual(field.label.text, 'Počet kusů:')
 
     def test_size_label(self):
         field = self.form._fields['size']
-        self.assertEqual(field.label.text, 'Velikost')
+        self.assertEqual(field.label.text, 'Velikost:')
 
     def test_size_units_label(self):
         field = self.form._fields['size_units']
-        self.assertEqual(field.label.text, 'Velikostní jednotka')
+        self.assertEqual(field.label.text, 'Velikostní jednotka:')
 
     def test_weight_label(self):
         field = self.form._fields['weight']
-        self.assertEqual(field.label.text, 'Váha')
+        self.assertEqual(field.label.text, 'Váha:')
 
     def test_weight_units_label(self):
         field = self.form._fields['weight_units']
-        self.assertEqual(field.label.text, 'Váhová jednotka')
+        self.assertEqual(field.label.text, 'Váhová jednotka:')
 
     def test_color_label(self):
         field = self.form._fields['color']
-        self.assertEqual(field.label.text, 'Color')
+        self.assertEqual(field.label.text, 'Barva:')
 
     def test_subheading_label(self):
         field = self.form._fields['subheading']
-        self.assertEqual(field.label.text, 'Podnadpis')
+        self.assertEqual(field.label.text, 'Podnadpis:')
 
     def test_description_label(self):
         field = self.form._fields['description']
-        self.assertEqual(field.label.text, 'Popis')
+        self.assertEqual(field.label.text, 'Popis:')
 
     def test_brand_id_label(self):
         field = self.form._fields['brand_id']
-        self.assertEqual(field.label.text, 'Značka')
+        self.assertEqual(field.label.text, 'Značka:')
 
     def test_category_id_label(self):
         field = self.form._fields['category_id']
-        self.assertEqual(field.label.text, 'Kategorie')
+        self.assertEqual(field.label.text, 'Kategorie:')
 
     def test_add_product_submit_label(self):
         field = self.form._fields['add_product_submit']
