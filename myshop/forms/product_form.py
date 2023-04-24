@@ -50,12 +50,18 @@ class ProductForm(FlaskForm):
             flash('Tento produkt je už zaregistrován v naší databázi.', 'error')
             raise ValidationError('Tento produkt je už zaregistrován v naší databázi.', 'error')
 
-    def validate_product_subheading(self, subheading):
+    def validate_subheading(self, subheading):
         if len(subheading.data.strip()) < 20:
             flash('Podnadpis musí mít alespoň dvacet znaků.', 'error')
             raise ValidationError('Podnadpis musí mít alespoň dvacet znaků.')
 
-    def validate_product_description(self, subheading):
+    def validate_description(self, subheading):
         if len(subheading.data.strip()) < 50:
             flash('Popis musí mít alespoň padesát znaků.', 'error')
             raise ValidationError('Popis musí mít alespoň padesát znaků.')
+
+    def validate_price(self, price):
+        if price.data == 0:
+            flash('Cena produktu nemůže být nulová.', 'error')
+            raise ValidationError('Cena produktu nemůže být nulová.', 'error')
+
