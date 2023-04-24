@@ -48,7 +48,7 @@ class ProductForm(FlaskForm):
         product = Product.query.filter_by(product_name=product_name.data).first()
         if product:
             flash('Tento produkt je už zaregistrován v naší databázi.', 'error')
-            raise ValidationError('Tento produkt je už zaregistrován v naší databázi.', 'error')
+            raise ValidationError('Tento produkt je už zaregistrován v naší databázi.')
 
     def validate_subheading(self, subheading):
         if len(subheading.data.strip()) < 20:
