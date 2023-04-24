@@ -12,13 +12,13 @@ from myshop.models.product_model import Product
 
 class ProductForm(FlaskForm):
     csrf_token = HiddenField()
-    product_name = StringField('Název:', validators=[InputRequired(), Length(min=2, max=80)])
-    price = DecimalField('Cena:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)])
+    product_name = StringField('Název:', validators=[InputRequired(), Length(max=80)])
+    price = DecimalField('Cena:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
     discount = IntegerField('Sleva:', validators=[NumberRange(min=0, max=100)], default=0)
-    stock = IntegerField('Počet kusů:', validators=[InputRequired(), NumberRange(min=0)])
-    size = DecimalField('Velikost:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)])
+    stock = IntegerField('Počet kusů:', validators=[InputRequired(), NumberRange(min=0)], default=0)
+    size = DecimalField('Velikost:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
     size_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in')], validators=[Optional()])
-    weight = DecimalField('Váha:', validators=[Optional(), NumberRange(min=0, max=999999.99)])
+    weight = DecimalField('Váha:', validators=[Optional(), NumberRange(min=0, max=999999.99)], default=0)
     weight_units = SelectField('Váhová jednotka:', choices=[('g', 'g'), ('kg', 'kg')], validators=[Optional()])
     color = SelectField('Barva:', validators=[Optional()], choices=[('cerna', 'černá'), ('bila', 'bílá'),
                         ('seda', 'šedá'), ('hneda', 'hnědá'), ('tmava_hneda', 'tmavě hnědá'),

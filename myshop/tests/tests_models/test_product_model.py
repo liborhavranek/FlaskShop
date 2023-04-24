@@ -31,6 +31,7 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         self.product.price = 99.9
         self.product.description = "iPhone 13 Pro Max: Powerful flagship with 120Hz ProMotion display, " \
                                    "5G, A15 Bionic chip, and stunning camera capabilities."
+        self.product.subheading = "iPhone 13 Pro Max: Powerful flagship"
         self.product.size = 23.33
         self.product.size_unit = 'cm'
         self.product.weight = 1.23
@@ -89,7 +90,12 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         result = Product.query.filter_by(id=1).first()
         self.assertEqual(result.color, 'Vesmírně šedá')
 
-    def test_brand_have_date_created(self):
+    def test_product_have_date_created(self):
         self.create_product()
         result = Product.query.filter_by(id=1).first()
         self.assertTrue(isinstance(result.date_created, datetime))
+
+    def test_product_have_description(self):
+        self.create_product()
+        result = Product.query.filter_by(id=1).first()
+        self.assertEqual(result.subheading, "iPhone 13 Pro Max: Powerful flagship")
