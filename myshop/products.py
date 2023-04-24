@@ -1,7 +1,7 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
 
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required
 from datetime import datetime
 from myshop import db
@@ -158,5 +158,13 @@ def create_product():
         form.subheading.data = ''
         form.description.data = ''
         flash('Produkt byl přidán.', category='success')
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
 
     return render_template('add_product.html', form=form)
+
+
+@products.route('/product-preview/<int:product_id>')
+def product_page_preview(product_id):
+    product = Product.query.get(product_id)
+    return render_template('product_page.html', product=product)
+
