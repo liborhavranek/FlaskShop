@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/left_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <h1>Product page</h1>
+
+            <h2>{{ product.product_name }}</h2>
+            <h3 class="redcolor">Test red color</h3>
+            <h3 class="greencolor">Test green color</h3>
+            <h3 class="bluecolor">Test blue color</h3>
+        </div>
+    </div>
+</div>
+{%endblock content %}

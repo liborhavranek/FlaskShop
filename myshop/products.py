@@ -1,14 +1,16 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
 
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required
 from datetime import datetime
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
+from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.product_model import Product
 
 products = Blueprint('products', __name__, template_folder='templates/products')
 
@@ -113,6 +115,7 @@ def check_category():
     else:
         return 'available'
 
+
 @products.route('/delete-category/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_category(id):
@@ -121,3 +124,47 @@ def delete_category(id):
     db.session.commit()
     flash('Kategorie byla smazána.', category='success')
     return redirect('/products/create-category')
+
+
+@products.route('/create-product', methods=['GET', 'POST'])
+@login_required
+def create_product():
+    form = ProductForm()
+    if form.validate_on_submit():
+        product_data = {
+            'product_name': request.form.get('product_name'),
+            'price': request.form.get('price'),
+            'discount': request.form.get('discount'),
+            'stock': request.form.get('stock'),
+            'size': float(request.form.get('size')),
+            'size_units': request.form.get('size_units'),
+            'weight': float(request.form.get('weight')),
+            'weight_units': request.form.get('weight_units'),
+            'color': request.form.get('color'),
+            'subheading': request.form.get('subheading'),
+            'description': request.form.get('description'),
+            'brand_id': int(request.form.get('brand_id')),
+            'category_id': int(request.form.get('category_id'))
+        }
+        new_product = Product(**product_data)
+        db.session.add(new_product)
+        db.session.commit()
+        form.product_name.data = ''
+        form.price.data = ''
+        form.discount.data = ''
+        form.stock.data = ''
+        form.size.data = ''
+        form.weight.data = ''
+        form.subheading.data = ''
+        form.description.data = ''
+        flash('Produkt byl přidán.', category='success')
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
+
+    return render_template('add_product.html', form=form)
+
+
+@products.route('/product-preview/<int:product_id>')
+def product_page_preview(product_id):
+    product = Product.query.get(product_id)
+    return render_template('product_page.html', product=product)
+

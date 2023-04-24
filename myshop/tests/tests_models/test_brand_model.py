@@ -3,7 +3,6 @@
 import unittest
 from datetime import datetime
 from myshop import create_app, db
-from flask_login import LoginManager
 from myshop.models.brand_model import Brand
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -22,13 +21,7 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.secret_key = 'test_secret_key'
-        self.login_manager = LoginManager()
-        self.login_manager.init_app(self.app)
         super().setUp()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
 
     def create_brand(self):
         self.brand = Brand()

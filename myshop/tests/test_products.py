@@ -365,3 +365,164 @@ class TestEditCategory(TestMixin, unittest.TestCase):
         self.client.post('/products/delete-category/1')
         deleted_category = Category.query.filter_by(id=1).first()
         self.assertIsNone(deleted_category)
+
+
+class TestAddProduct(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        super().setUp()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_product(self):
+        self.data = {
+            "product_name": "Iphone",
+            "price": 999.99,
+            "discount": 10,
+            "stock": 50,
+            "size": 5.0,
+            "size_units": "in",
+            "weight": 0.5,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 2
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+
+    def test_create_product_have_set_correct_template(self):
+        response = self.client.get('/products/create-product')
+        self.assertTrue(response, 'add_product.html')
+
+    def test_products_route_returns_correct_status_code(self):
+        response = self.client.get('/products/create-product', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_product_return_correct_message_when_short_name(self):
+        self.login_user()
+        data = {
+            "product_name": "I",
+            "price": 999.99,
+            "discount": 10,
+            "stock": 50,
+            "size": 5.0,
+            "size_units": "in",
+            "weight": 0.5,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 2
+        }
+        response = self.client.post('/products/create-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Produkt musí mít alespoň dva znaky.", "utf-8"), response.data)
+
+    def test_create_product_return_correct_message_when_price_is_zero(self):
+        self.login_user()
+        data = {
+            "product_name": "Iphone",
+            "price": 0,
+            "discount": 10,
+            "stock": 50,
+            "size": 5.0,
+            "size_units": "in",
+            "weight": 0.5,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 2
+        }
+        response = self.client.post('/products/create-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Cena produktu nemůže být nulová.", "utf-8"), response.data)
+
+    def test_create_product_return_correct_message_when_description_is_short(self):
+        self.login_user()
+        data = {
+            "product_name": "Iphone",
+            "price": 20,
+            "discount": 10,
+            "stock": 50,
+            "size": 5.0,
+            "size_units": "in",
+            "weight": 0.5,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum",
+            "brand_id": 1,
+            "category_id": 2
+        }
+        response = self.client.post('/products/create-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Popis musí mít alespoň padesát znaků.", "utf-8"), response.data)
+
+    def test_create_product_return_correct_message_when_subheading_is_short(self):
+        self.login_user()
+        data = {
+            "product_name": "Iphone",
+            "price": 20,
+            "discount": 10,
+            "stock": 50,
+            "size": 5.0,
+            "size_units": "in",
+            "weight": 0.5,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 2
+        }
+        response = self.client.post('/products/create-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Podnadpis musí mít alespoň dvacet znaků.", "utf-8"), response.data)
+
+    def test_product_page_preview_have_set_correct_template(self):
+        self.login_user()
+        self.create_product()
+        response = self.client.get('/products/product-preview/1')
+        self.assertTrue(response, 'product_page.html')
+
+    def test_product_page_preview_returns_correct_status_code(self):
+        self.login_user()
+        self.create_product()
+        response = self.client.get('/products/product-preview/1')
+        self.assertEqual(response.status_code, 200)
+
+# TODO Thinking how write test for url redirect and write tests for create product message
+# TODO add test for message when product ahve the same name
