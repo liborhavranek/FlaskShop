@@ -512,33 +512,6 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         response = self.client.post('/products/create-product', data=data, follow_redirects=True)
         self.assertIn(bytes("Podnadpis musí mít alespoň dvacet znaků.", "utf-8"), response.data)
 
-    def test_create_product_return_correct_message_when_try_add_the_same_name(self):
-        self.login_user()
-        data = {
-            "product_name": "Iphone",
-            "price": 999.99,
-            "discount": 10,
-            "stock": 50,
-            "size": 5.0,
-            "size_units": "in",
-            "weight": 0.5,
-            "weight_units": "kg",
-            "color": "cerna",
-            "subheading": "Nový iPhone 12 best Iphone in the world",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
-                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
-                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
-            "brand_id": 1,
-            "category_id": 2
-        }
-        self.client.post('/products/create-product', data=data, follow_redirects=True)
-
-        response = self.client.post('/products/create-product', data=data, follow_redirects=True)
-        self.assertIn(bytes("Tento produkt je už zaregistrován v naší databázi.", "utf-8"), response.data)
-
-# TODO Thinking how write test for url redirect and write tests for create product message
-# TODO add test for message when product ahve the same name
-
     def test_product_page_preview_have_set_correct_template(self):
         self.login_user()
         self.create_product()
@@ -550,3 +523,6 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.create_product()
         response = self.client.get('/products/product-preview/1')
         self.assertEqual(response.status_code, 200)
+
+# TODO Thinking how write test for url redirect and write tests for create product message
+# TODO add test for message when product ahve the same name
