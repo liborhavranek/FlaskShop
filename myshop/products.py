@@ -14,6 +14,7 @@ from myshop.forms.category_form import CategoryForm
 from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.images_model import ProductImage
 from myshop.models.product_model import Product
 
 products = Blueprint('products', __name__, template_folder='templates/products')
@@ -173,17 +174,37 @@ def create_product():
                 current_app.config['UPLOAD_FOLDER'], str_picname))
             # Add the image filename to the product data
             product_data['product_image'] = str_picname
+
         new_product = Product(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist('additional_images')
+        additional_image_filenames = []
+        for additional_image in additional_images:
+            if additional_image.filename != '':
+                # Generate a unique filename for the image
+                pic_filename = secure_filename(additional_image.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                str_picname = str(pic_name)
+                # Save the image file to the server
+                additional_image.save(os.path.join(
+                    current_app.config['UPLOAD_FOLDER'], str_picname))
+                # Add the image filename to the list
+                additional_image_filenames.append(str_picname)
+
+        # Add the product to the database
         db.session.add(new_product)
         db.session.commit()
-        # form.product_name.data = ''
-        # form.price.data = ''
-        # form.discount.data = ''
-        # form.stock.data = ''
-        # form.size.data = ''
-        # form.weight.data = ''
-        # form.subheading.data = ''
-        # form.description.data = ''
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=new_product.id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
         flash('Produkt byl přidán.', category='success')
         return redirect(url_for('products.product_page_preview', product_id=new_product.id))
 

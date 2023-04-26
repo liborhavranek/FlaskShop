@@ -9,6 +9,7 @@ from myshop import create_app, db
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.customer_model import Customer
+from myshop.models.product_model import Product
 from myshop.products import allowed_file
 from myshop.tests.my_test_mixin import TestMixin
 
@@ -415,7 +416,8 @@ class TestAddProduct(TestMixin, unittest.TestCase):
                            "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
                            "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
             "brand_id": 1,
-            "category_id": 2
+            "category_id": 2,
+            "product_image": "image.jpg"
         }
         self.client.post('/products/create-product', data=self.data, follow_redirects=True)
 
