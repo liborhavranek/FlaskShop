@@ -9,6 +9,7 @@ from myshop import create_app, db
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.customer_model import Customer
+from myshop.products import allowed_file
 from myshop.tests.my_test_mixin import TestMixin
 
 
@@ -523,6 +524,26 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.create_product()
         response = self.client.get('/products/product-preview/1')
         self.assertEqual(response.status_code, 200)
+
+    def test_allowed_file_returns_true_for_allowed_extensions(self):
+        filename = "example.jpg"
+        result = allowed_file(filename)
+        self.assertTrue(result)
+
+    def test_allowed_file_returns_false_for_not_allowed_extensions(self):
+        filename = "example.exe"
+        result = allowed_file(filename)
+        self.assertFalse(result)
+
+    def test_allowed_file_returns_false_for_missing_extension(self):
+        filename = "example"
+        result = allowed_file(filename)
+        self.assertFalse(result)
+
+    def test_allowed_file_returns_false_for_empty_filename(self):
+        filename = ""
+        result = allowed_file(filename)
+        self.assertFalse(result)
 
 # TODO Thinking how write test for url redirect and write tests for create product message
 # TODO add test for message when product ahve the same name
