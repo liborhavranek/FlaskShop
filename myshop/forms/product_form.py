@@ -2,7 +2,9 @@
 
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, DecimalField, IntegerField, HiddenField
+from flask_wtf.file import FileAllowed
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, DecimalField, IntegerField, HiddenField, \
+    FileField, MultipleFileField
 from wtforms.validators import InputRequired, Length, Optional, NumberRange, ValidationError
 
 from myshop.models.brand_model import Brand
@@ -31,6 +33,9 @@ class ProductForm(FlaskForm):
     description = TextAreaField('Popis:', validators=[InputRequired()], render_kw={'rows': 10})
     brand_id = SelectField('Značka:', coerce=int, choices=[], validators=[Optional()])
     category_id = SelectField('Kategorie:', coerce=int, choices=[], validators=[Optional()])
+
+    product_image = FileField('Hlavní obrázek:', validators=[InputRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    additional_images = MultipleFileField('Další obrázky:', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     add_product_submit = SubmitField('Přidat produkt')
     edit_product_submit = SubmitField('Upravit produkt')

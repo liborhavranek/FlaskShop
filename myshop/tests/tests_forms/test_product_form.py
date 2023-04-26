@@ -72,6 +72,12 @@ class TestProductForm(TestMixin, unittest.TestCase):
     def test_product_form_have_edit_product_submit_field(self):
         self.assertIn('edit_product_submit', self.form._fields)
 
+    def test_product_form_have_product_image(self):
+        self.assertIn('product_image', self.form._fields)
+
+    def test_product_form_have_additional_images(self):
+        self.assertIn('additional_images', self.form._fields)
+
     def test_product_form_have_product_name_label(self):
         field = self.form._fields['product_name']
         self.assertEqual(field.label.text, 'Název:')
@@ -120,9 +126,13 @@ class TestProductForm(TestMixin, unittest.TestCase):
         field = self.form._fields['brand_id']
         self.assertEqual(field.label.text, 'Značka:')
 
-    def test_category_id_label(self):
-        field = self.form._fields['category_id']
-        self.assertEqual(field.label.text, 'Kategorie:')
+    def test_product_image_label(self):
+        field = self.form._fields['product_image']
+        self.assertEqual(field.label.text, 'Hlavní obrázek:')
+
+    def test_additional_images_label(self):
+        field = self.form._fields['additional_images']
+        self.assertEqual(field.label.text, 'Další obrázky:')
 
     def test_add_product_submit_label(self):
         field = self.form._fields['add_product_submit']
