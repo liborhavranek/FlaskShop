@@ -1,3 +1,5 @@
+""" Libor Havránek App Copyright (C)  20.4 2023 """
+
 from datetime import datetime
 
 from myshop import db
