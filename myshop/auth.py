@@ -116,7 +116,11 @@ def create_test_data():
         customer.username = user["username"]
         customer.email = user["email"]
         customer.phone = user["phone"]
-        customer.password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(password, method='sha256')
         db.session.add(customer)
+
+    # Log in the first user
+    customer = Customer.query.filter_by(username='admin').first()
+    login_user(customer)
     db.session.commit()
     return render_template("auth.html", customer=current_user)
