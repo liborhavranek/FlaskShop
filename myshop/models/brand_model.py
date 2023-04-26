@@ -10,4 +10,4 @@ class Brand(db.Model):
 
     date_edited = db.Column(db.DateTime)
     edited = db.Column(db.Boolean, default=False)
-    # products = db.relationship('Product', backref=db.backref('brand', lazy=True), cascade="all, delete")
+    products = db.relationship('Product', backref=db.backref('brand', lazy=True), cascade="all, delete")
