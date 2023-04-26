@@ -9,7 +9,7 @@ from myshop.models.category_model import Category
 
 class CategoryForm(FlaskForm):
     csrf_token = HiddenField()
-    category_name = StringField('Značka:', validators=[DataRequired()])
+    category_name = StringField('Kategorie:', validators=[DataRequired()])
     add_category_submit = SubmitField('Přidat kategorii')
     edit_category_submit = SubmitField('Upravit kategorii')
 
