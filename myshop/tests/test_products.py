@@ -547,5 +547,27 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         result = allowed_file(filename)
         self.assertFalse(result)
 
+    def test_product_already_registered(self):
+        """
+        Test that form validation fails and a flash message is shown when adding a product that already exists
+        """
+        self.login_user()
+        with self.app.test_request_context():
+            # Create a product in the database
+            new_product = Product(product_name='New Product', price=10.0, description='This is a new product',
+                                  subheading='This is a new product Iphone')
+            db.session.add(new_product)
+            db.session.commit()
+
+        data = {
+            'product_name': 'New Product',
+            'price': 20.0,
+            'description': 'This is a new product',
+            'subheading': 'This is a new product Iphone'
+        }
+        response = self.client.post('/products/create-product', data=data, follow_redirects=True)
+        self.assertIn(b'Tento produkt je u\xc5\xbe zaregistrov\xc3\xa1n v na\xc5\xa1\xc3\xad datab\xc3\xa1zi.',
+                      response.data)
+
+
 # TODO Thinking how write test for url redirect and write tests for create product message
-# TODO add test for message when product ahve the same name
