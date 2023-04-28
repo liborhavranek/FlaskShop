@@ -2,6 +2,7 @@
 
 import unittest
 from datetime import datetime
+from unittest.mock import Mock
 
 from werkzeug.security import generate_password_hash
 
@@ -384,6 +385,7 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.secret_key = 'test_secret_key'
+        self.test_image_path = 'tests/test_image.jpg'
         super().setUp()
 
     def login_user(self):
@@ -569,5 +571,39 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.assertIn(b'Tento produkt je u\xc5\xbe zaregistrov\xc3\xa1n v na\xc5\xa1\xc3\xad datab\xc3\xa1zi.',
                       response.data)
 
+    def test_create_product_return_correct_message(self):
+        self.login_user()
 
-# TODO Thinking how write test for url redirect and write tests for create product message
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+
+
+        self.data = {
+            "product_name": "Iphonek",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "image.jpg"
+        }
+        response = self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+        self.assertIn(bytes("Produkt byl přidán.", "utf-8"), response.data)
+
