@@ -27,7 +27,7 @@ def product() -> str:
 
 path = 'myshop/static/images/uploads'
 # upload photo staff
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 
 def allowed_file(filename):

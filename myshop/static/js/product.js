@@ -74,3 +74,8 @@ $('.add-category-input, .edit-category-input').on('input', function() {
         }
     });
 });
+
+
+function updateMainImage(image) {
+  document.querySelector('.main-image').src = image.src;
+}

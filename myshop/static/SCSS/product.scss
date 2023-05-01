@@ -47,3 +47,27 @@ $red: red;
 .create-brand-link:hover {
     color: #fc1d03 !important;
 }
+
+.product_page_product_image_div img{
+    max-width: 95%;
+    min-width: 95%;
+    max-height: 400px;
+}
+
+    .image-container {
+        height: 100px; /* set a fixed height for the container */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .image-container img {
+        object-fit: cover; /* make sure the image fits inside the container while preserving its aspect ratio */
+        height: 100%;
+        width: 100%;
+    }
+
+   .image-container:hover {
+    border: 2px solid #ccc;
+    transition: border-color 0.3s ease-in-out;
+    }
