@@ -34,8 +34,8 @@ class ProductForm(FlaskForm):
     brand_id = SelectField('Značka:', coerce=int, choices=[], validators=[Optional()])
     category_id = SelectField('Kategorie:', coerce=int, choices=[], validators=[Optional()])
 
-    product_image = FileField('Hlavní obrázek:', validators=[InputRequired(), FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
-    additional_images = MultipleFileField('Další obrázky:', validators=[FileAllowed(['jpg', 'png', 'jpeg'],
+    product_image = FileField('Hlavní obrázek:', validators=[InputRequired(), FileAllowed(['jpg', 'png', 'jpeg', 'webp'], 'Images only!')])
+    additional_images = MultipleFileField('Další obrázky:', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
                                                                                     'Images only!')])
 
     add_product_submit = SubmitField('Přidat produkt')
