@@ -36,17 +36,10 @@ body, html {
   /* set width to 100% */ }
 
 .register-form-middle-container {
-  border-width: 12px;
-  border-style: solid;
-  border-image: linear-gradient(to bottom, #6844e4, #2196f3) 1;
-  backdrop-filter: blur(25px); }
+  border: 1px solid black; }
 
 .login-form-middle-container {
-  border-width: 12px;
-  border-style: solid;
-  border-image: linear-gradient(to bottom, #6844e4, #2196f3) 1;
-  backdrop-filter: blur(25px);
-  margin-top: 10%; }
+  border: 1px solid black; }
 
 .customer_email_check {
   color: red; }
