@@ -32,3 +32,7 @@
 
 .create-brand-link:hover {
   color: #fc1d03 !important; }
+
+.product_page_product_image_div img {
+  max-width: 95%;
+  min-width: 95%; }
