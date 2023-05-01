@@ -2,7 +2,6 @@
 
 import unittest
 from datetime import datetime
-from unittest.mock import Mock
 
 from werkzeug.security import generate_password_hash
 
@@ -385,7 +384,6 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.secret_key = 'test_secret_key'
-        self.test_image_path = 'tests/test_image.jpg'
         super().setUp()
 
     def login_user(self):
@@ -403,14 +401,26 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
     def create_product(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
         self.data = {
-            "product_name": "Iphone",
-            "price": 999.99,
+            "product_name": "Iphonek",
+            "price": 999,
             "discount": 10,
             "stock": 50,
-            "size": 5.0,
+            "size": 5,
             "size_units": "in",
-            "weight": 0.5,
+            "weight": 1,
             "weight_units": "kg",
             "color": "cerna",
             "subheading": "Nový iPhone 12 best Iphone in the world",
@@ -418,7 +428,7 @@ class TestAddProduct(TestMixin, unittest.TestCase):
                            "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
                            "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
             "brand_id": 1,
-            "category_id": 2,
+            "category_id": 1,
             "product_image": "image.jpg"
         }
         self.client.post('/products/create-product', data=self.data, follow_redirects=True)
@@ -518,13 +528,11 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.assertIn(bytes("Podnadpis musí mít alespoň dvacet znaků.", "utf-8"), response.data)
 
     def test_product_page_preview_have_set_correct_template(self):
-        self.login_user()
         self.create_product()
         response = self.client.get('/products/product-preview/1')
         self.assertTrue(response, 'product_page.html')
 
     def test_product_page_preview_returns_correct_status_code(self):
-        self.login_user()
         self.create_product()
         response = self.client.get('/products/product-preview/1')
         self.assertEqual(response.status_code, 200)
@@ -584,8 +592,6 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         }
         self.client.post('/products/create-category', data=category_data, follow_redirects=True)
 
-
-
         self.data = {
             "product_name": "Iphonek",
             "price": 999,
@@ -606,4 +612,3 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         }
         response = self.client.post('/products/create-product', data=self.data, follow_redirects=True)
         self.assertIn(bytes("Produkt byl přidán.", "utf-8"), response.data)
-
