@@ -2,9 +2,7 @@
 
 import unittest
 from datetime import datetime
-
 from werkzeug.security import generate_password_hash
-
 from myshop import create_app, db
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
@@ -612,3 +610,40 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         }
         response = self.client.post('/products/create-product', data=self.data, follow_redirects=True)
         self.assertIn(bytes("Produkt byl přidán.", "utf-8"), response.data)
+
+    def test_create_product_with_image_is_saved_in_db(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+        self.data = {
+            "product_name": "Iphonek",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": 'image.jpg'
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+
+        product = Product.query.filter_by(product_name='Iphonek').first()
+
+        self.assertEqual(product.product_image, 'image.jpg')
