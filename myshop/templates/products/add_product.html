@@ -4,7 +4,7 @@
     <h1 class="text-center">Přidat nový produkt</h1>
     <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container">
 
-<form method="POST" autocomplete="off">
+<form method="POST" autocomplete="off" enctype=multipart/form-data>
   {{ form.csrf_token }}
     <div class="mb-3">
         <div class="row py-2">
@@ -129,6 +129,26 @@
             </div>
             <div class="col-8">
                 {{ form.category_id(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_image.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_image(class="form-control") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.additional_images.label }}
+            </div>
+            <div class="col-8">
+                {{ form.additional_images(class="form-control") }}
             </div>
         </div>
     </div>

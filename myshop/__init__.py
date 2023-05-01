@@ -27,11 +27,14 @@ def create_app(config=None):
 
     migrate.init_app(app, db, compare_type=True)
 
+    app.config['UPLOAD_FOLDER'] = 'myshop/static/images/uploads'
+
     warnings.simplefilter("ignore", category=DeprecationWarning)
 
     from myshop.models.customer_model import Customer
     from myshop.models.brand_model import Brand
     from myshop.models.category_model import Category
+    from myshop.models.images_model import ProductImage
     from myshop.models.product_model import Product
 
     create_database(app)

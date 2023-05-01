@@ -1,15 +1,20 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
+import os
+import uuid
 
-
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_required
 from datetime import datetime
+
+from werkzeug.utils import secure_filename
+
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
 from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.images_model import ProductImage
 from myshop.models.product_model import Product
 
 products = Blueprint('products', __name__, template_folder='templates/products')
@@ -18,6 +23,16 @@ products = Blueprint('products', __name__, template_folder='templates/products')
 @products.route('/')
 def product() -> str:
     return render_template('products.html')
+
+
+path = 'myshop/static/images/uploads'
+# upload photo staff
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @products.route('/create-brand', methods=['GET', 'POST'])
@@ -144,19 +159,52 @@ def create_product():
             'subheading': request.form.get('subheading'),
             'description': request.form.get('description'),
             'brand_id': int(request.form.get('brand_id')),
-            'category_id': int(request.form.get('category_id'))
-        }
+            'category_id': int(request.form.get('category_id')),
+            }
+
+        # Get the product image file, if any
+        product_image = request.files.get('product_image')
+        if product_image:
+            # Generate a unique filename for the image
+            pic_filename = secure_filename(product_image.filename)
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            str_picname = str(pic_name)
+            # Save the image file to the server
+            product_image.save(os.path.join(
+                current_app.config['UPLOAD_FOLDER'], str_picname))
+            # Add the image filename to the product data
+            product_data['product_image'] = str_picname
+
         new_product = Product(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist('additional_images')
+        additional_image_filenames = []
+        for additional_image in additional_images:
+            if additional_image.filename != '':
+                # Generate a unique filename for the image
+                pic_filename = secure_filename(additional_image.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                str_picname = str(pic_name)
+                # Save the image file to the server
+                additional_image.save(os.path.join(
+                    current_app.config['UPLOAD_FOLDER'], str_picname))
+                # Add the image filename to the list
+                additional_image_filenames.append(str_picname)
+
+        # Add the product to the database
         db.session.add(new_product)
         db.session.commit()
-        form.product_name.data = ''
-        form.price.data = ''
-        form.discount.data = ''
-        form.stock.data = ''
-        form.size.data = ''
-        form.weight.data = ''
-        form.subheading.data = ''
-        form.description.data = ''
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=new_product.id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
         flash('Produkt byl přidán.', category='success')
         return redirect(url_for('products.product_page_preview', product_id=new_product.id))
 
@@ -167,4 +215,3 @@ def create_product():
 def product_page_preview(product_id):
     product = Product.query.get(product_id)
     return render_template('product_page.html', product=product)
-

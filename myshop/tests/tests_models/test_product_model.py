@@ -37,6 +37,7 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         self.product.weight = 1.23
         self.product.weight_units = 'kg'
         self.product.color = 'Vesmírně šedá'
+        self.product.product_image = 'product_image_00001.jpg'
         db.session.add(self.product)
         db.session.commit()
 
@@ -99,3 +100,8 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         self.create_product()
         result = Product.query.filter_by(id=1).first()
         self.assertEqual(result.subheading, "iPhone 13 Pro Max: Powerful flagship")
+
+    def test_product_have_product_image(self):
+        self.create_product()
+        result = Product.query.filter_by(id=1).first()
+        self.assertEqual(result.product_image, "product_image_00001.jpg")

@@ -26,6 +26,6 @@ class Product(db.Model):
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id', ondelete="CASCADE"), nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id', ondelete="CASCADE"), nullable=True)
 
-    # image_1 = db.Column(db.String(150), nullable=True, default='image.jpg')
-    # image_2 = db.Column(db.String(150), nullable=True, default='image.jpg')
-    # image_3 = db.Column(db.String(150), nullable=True, default='image.jpg')
+    product_image = db.Column(db.String(150), nullable=True, default='image.jpg')
+
+    images = db.relationship('ProductImage', backref='product', lazy=True)
