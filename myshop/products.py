@@ -1,10 +1,11 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
+
 import os
 import uuid
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
 from flask_login import login_required
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from werkzeug.utils import secure_filename
 
@@ -214,4 +215,7 @@ def create_product():
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
     product = Product.query.get(product_id)
+    product.visit_count += 1
+    db.session.commit()
+
     return render_template('product_page.html', product=product)

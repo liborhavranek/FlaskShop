@@ -2,7 +2,7 @@
   color: red; }
 
 .navbar {
-  background-color: #03e2fc; }
+  background: linear-gradient(to bottom, #3385d7, #6844e4); }
 
 #sidebar {
   border-radius: 10px;

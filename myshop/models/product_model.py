@@ -23,6 +23,8 @@ class Product(db.Model):
     date_edited = db.Column(db.DateTime)
     edited = db.Column(db.Boolean, default=False)
 
+    visit_count = db.Column(db.Integer, default=0)
+
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id', ondelete="CASCADE"), nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id', ondelete="CASCADE"), nullable=True)
 

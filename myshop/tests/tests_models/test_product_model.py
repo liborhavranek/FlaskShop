@@ -105,3 +105,8 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         self.create_product()
         result = Product.query.filter_by(id=1).first()
         self.assertEqual(result.product_image, "product_image_00001.jpg")
+
+    def test_product_have_counter(self):
+        self.create_product()
+        result = Product.query.filter_by(id=1).first()
+        self.assertEqual(result.visit_count, 0)
