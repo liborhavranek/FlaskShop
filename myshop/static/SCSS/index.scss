@@ -5,14 +5,13 @@ $red: red;
 }
 
 .navbar{
-    background: linear-gradient(to bottom, #3385d7, #6844e4);
+    background: linear-gradient(to bottom, #f0f4ff, #b9d1ff);
 }
 
 
 #sidebar{
     border-radius: 10px;
     border-style: solid;
-    border-width: 3px;
-    border-image: linear-gradient(to bottom, #6844e4, #3385d7);
+    border-width: 1px;
     border-image-slice: 1;
 }
