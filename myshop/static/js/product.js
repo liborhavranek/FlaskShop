@@ -136,3 +136,21 @@ $('.add-product-subheading-input').on('input', function() {
     $('.add-product-subheading-validation-text').text("Podnadpis musí být dlouhý alespoň 20 znaků.").show();
   }
 });
+
+// check description length
+
+$('.add-product-description-input').on('input', function() {
+  var product_description = $(this).val();
+  $('.add-product-description-input').removeClass('is-valid is-invalid');
+
+  if (product_description.length === 0) {
+    $('.add-product-description-validation-text').hide();
+
+  } else if (product_description.length > 50) {
+    $('.add-product-description-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-product-description-validation-text').hide();
+  } else {
+    $('.add-product-description-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-product-description-validation-text').text("Nadpis musí být dlouhý alespoň 50 znaků.").show();
+  }
+});
