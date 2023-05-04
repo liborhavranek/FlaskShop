@@ -8,6 +8,8 @@ from myshop import db
 from .forms.login_form import LoginForm
 from .forms.registration_form import RegistrationForm
 from myshop.models.customer_model import Customer
+from .models.brand_model import Brand
+from .models.category_model import Category
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
@@ -111,6 +113,12 @@ def create_test_data():
         {"username": "admin", "email": "liborhavranek91@gmail.com", "phone": "123456789"},
         {"username": "admin1", "email": "liborseucipython@gmail.com", "phone": "123456789"}
     ]
+    brand_data = {
+            "brand_name": "Apple",
+        }
+    category_data = {
+        "category_name": "Mobily"
+    }
     for user in users:
         customer = Customer()
         customer.username = user["username"]
@@ -122,5 +130,15 @@ def create_test_data():
     # Log in the first user
     customer = Customer.query.filter_by(username='admin').first()
     login_user(customer)
+    db.session.commit()
+
+    brand = Brand()
+    brand.brand_name = brand_data["brand_name"]
+    db.session.add(brand)
+    db.session.commit()
+
+    category = Category()
+    category.category_name = category_data["category_name"]
+    db.session.add(category)
     db.session.commit()
     return render_template("auth.html", customer=current_user)

@@ -15,8 +15,7 @@ $red: red;
 }
 
 .product-form-middle-container{
-    border: 12px solid #99e7f1;
-    backdrop-filter: blur(25px);
+    border: 1px solid black;
     margin-top: 5%;
 }
 
@@ -51,7 +50,7 @@ $red: red;
 .product_page_product_image_div img{
     max-width: 95%;
     min-width: 95%;
-    max-height: 400px;
+    max-height: 300px;
 }
 
     .image-container {
