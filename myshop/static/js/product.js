@@ -154,3 +154,28 @@ $('.add-product-description-input').on('input', function() {
     $('.add-product-description-validation-text').text("Nadpis musí být dlouhý alespoň 50 znaků.").show();
   }
 });
+
+// check product price
+
+$('.add-product-price-input').on('input', function() {
+  var product_price = $(this).val();
+  $('.add-product-price-input').removeClass('is-valid is-invalid');
+
+    if (product_price > 0.1) {
+    $('.add-product-price-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-product-price-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+$('.add-product-image-input').on('change', function() {
+  var product_image = $(this).val();
+
+  if (product_image) {
+    // User has selected a file, do something here
+    $('.add-product-image-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    // User has not selected a file, do something here
+    $('.add-product-image-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
