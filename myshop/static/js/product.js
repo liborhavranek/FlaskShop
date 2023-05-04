@@ -179,3 +179,20 @@ $('.add-product-image-input').on('change', function() {
     $('.add-product-image-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
+
+// check if obligated fields are valid all fields will to valid
+
+$('.add-product-input, .add-product-subheading-input, .add-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
+   var productNameIsValid = $('.add-product-input').hasClass('is-valid');
+   var productSubheadingIsValid = $('.add-product-subheading-input').hasClass('is-valid');
+   var productDescriptionIsValid = $('.add-product-description-input').hasClass('is-valid');
+   var productPriceIsValid = $('.add-product-price-input').hasClass('is-valid');
+   var imageIsValid = $('.add-product-image-input').hasClass('is-valid');
+   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && imageIsValid;
+
+  if (obligatedFieldsIsValid) {
+    $('.add-product-discount-input, .add-product-stock-input').addClass('is-valid');
+  } else {
+    $('.add-product-discount-input, .add-product-stock-input').removeClass('is-valid');
+  }
+});
