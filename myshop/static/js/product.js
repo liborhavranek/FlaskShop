@@ -80,6 +80,7 @@ function updateMainImage(image) {
   document.querySelector('.main-image').src = image.src;
 }
 
+// check if product name is aviable
 
 $('.add-product-input').on('input', function() {
     var product = $(this).val();
@@ -116,4 +117,22 @@ $('.add-product-input').on('input', function() {
             }
         }
     });
+});
+
+// check subheading length
+
+$('.add-product-subheading-input').on('input', function() {
+  var product_subheading = $(this).val();
+  $('.add-product-subheading-input').removeClass('is-valid is-invalid');
+
+  if (product_subheading.length === 0) {
+    $('.add-product-subheading-validation-text').hide();
+
+  } else if (product_subheading.length > 20) {
+    $('.add-product-subheading-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-product-subheading-validation-text').hide();
+  } else {
+    $('.add-product-subheading-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-product-subheading-validation-text').text("Podnadpis musí být dlouhý alespoň 20 znaků.").show();
+  }
 });
