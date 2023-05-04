@@ -79,3 +79,41 @@ $('.add-category-input, .edit-category-input').on('input', function() {
 function updateMainImage(image) {
   document.querySelector('.main-image').src = image.src;
 }
+
+
+$('.add-product-input').on('input', function() {
+    var product = $(this).val();
+    var csrf_token = $('input[name=csrf_token]').val();
+
+        if (product.charAt(0) === product.charAt(0).toLowerCase()) {
+        product = product.charAt(0).toUpperCase() + product.slice(1);
+        $(this).val(product);
+    }
+
+        if (product.length == 0) {
+        $('.add-product-validation-text').hide();
+        $(this).removeClass('is-valid').removeClass('is-invalid');
+        return;
+    }
+
+    if (product.length < 2) {
+        $('.add-product-validation-text').hide();
+        $(this).removeClass('is-valid').addClass('is-invalid');
+        return;
+    }
+
+    $.ajax({
+        url: '/products/check-product',
+        method: 'POST',
+        data: {'product_name': product, 'csrf_token': csrf_token},
+        success: function(data) {
+            if (data == 'taken') {
+                $('.add-product-validation-text').text("Tento produkt je již zaregistrovaný v naší databázi.").show();
+                $('.add-product-input').removeClass('is-valid').addClass('is-invalid');
+            } else {
+                $('.add-product-validation-text').hide();
+                $('.add-product-input').removeClass('is-invalid').addClass('is-valid');
+            }
+        }
+    });
+});

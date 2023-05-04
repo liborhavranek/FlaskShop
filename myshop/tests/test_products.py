@@ -647,3 +647,73 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         product = Product.query.filter_by(product_name='Iphonek').first()
 
         self.assertEqual(product.product_image, 'image.jpg')
+
+    def test_check_product_taken(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+        self.data = {
+            "product_name": "Iphonek",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": 'image.jpg'
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+        response = self.client.post('products/check-product', data={'product_name': 'Iphonek'})
+        self.assertEqual(response.data, b'taken')
+
+    def test_check_product_aviable(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+        self.data = {
+            "product_name": "Iphonek",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": 'image.jpg'
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+        response = self.client.post('products/check-product', data={'product_name': 'Iphon'})
+        self.assertEqual(response.data, b'available')
