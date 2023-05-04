@@ -106,19 +106,19 @@ class TestAuthTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
     def test_add_product_form_have_all_labels(self):
         self.login_user()
         expected_labels = {
-            'product_name': 'Název:',
-            'price': 'Cena:',
+            'product_name': 'Název *:',
+            'price': 'Cena *:',
             'discount': 'Sleva:',
             'stock': 'Počet kusů:',
             'size': 'Velikost:',
             'weight': 'Váha:',
             'color': 'Barva:',
-            'subheading': 'Podnadpis:',
-            'description': 'Popis:',
+            'subheading': 'Podnadpis *:',
+            'description': 'Popis *:',
             'brand_id': 'Značka:',
             'category_id': 'Kategorie:',
-            "product_image": "Hlavní obrázek:",
-            'additional_images': 'Další obrázky:',
+            "product_image": "Foto *:",
+            'additional_images': 'Další fotky:',
 
         }
         response = self.client.get('/products/create-product', follow_redirects=True)

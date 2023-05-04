@@ -14,8 +14,8 @@ from myshop.models.product_model import Product
 
 class ProductForm(FlaskForm):
     csrf_token = HiddenField()
-    product_name = StringField('Název:', validators=[InputRequired(), Length(max=80)])
-    price = DecimalField('Cena:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
+    product_name = StringField('Název *:', validators=[InputRequired(), Length(max=80)])
+    price = DecimalField('Cena *:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
     discount = IntegerField('Sleva:', validators=[NumberRange(min=0, max=100)], default=0)
     stock = IntegerField('Počet kusů:', validators=[InputRequired(), NumberRange(min=0)], default=0)
     size = DecimalField('Velikost:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
@@ -29,13 +29,13 @@ class ProductForm(FlaskForm):
                         ('svetla_zelena', 'světle zelená'), ('zluta', 'žlutá'), ('oranzova', 'oranžová'),
                         ('cervena', 'červená'), ('ruzova', 'růžová'), ('fialova', 'fialová')])
 
-    subheading = TextAreaField('Podnadpis:', validators=[InputRequired()])
-    description = TextAreaField('Popis:', validators=[InputRequired()], render_kw={'rows': 10})
+    subheading = TextAreaField('Podnadpis *:', validators=[InputRequired()])
+    description = TextAreaField('Popis *:', validators=[InputRequired()], render_kw={'rows': 10})
     brand_id = SelectField('Značka:', coerce=int, choices=[], validators=[Optional()])
     category_id = SelectField('Kategorie:', coerce=int, choices=[], validators=[Optional()])
 
-    product_image = FileField('Hlavní obrázek:', validators=[InputRequired(), FileAllowed(['jpg', 'png', 'jpeg', 'webp'], 'Images only!')])
-    additional_images = MultipleFileField('Další obrázky:', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
+    product_image = FileField('Foto *:', validators=[InputRequired(), FileAllowed(['jpg', 'png', 'jpeg', 'webp'], 'Images only!')])
+    additional_images = MultipleFileField('Další fotky:', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
                                                                                     'Images only!')])
 
     add_product_submit = SubmitField('Přidat produkt')
