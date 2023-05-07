@@ -3,9 +3,9 @@
 import os
 import uuid
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_required
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from werkzeug.utils import secure_filename
 
@@ -246,6 +246,12 @@ def edit_product(product_id):
         new_product_subheading = request.form.get('subheading')
         new_product_description = request.form.get('description')
         new_product_price = request.form.get('price')
+        new_product_discount = request.form.get('discount')
+        new_product_size = request.form.get('size')
+        new_product_size_units = request.form.get('size_units')
+        new_product_weight = request.form.get('weight')
+        new_product_weight_units = request.form.get('weight_units')
+        new_product_color = request.form.get('color')
 
 
         if new_product_name == str(product.id):
@@ -263,6 +269,12 @@ def edit_product(product_id):
                 product.subheading = new_product_subheading
                 product.description = new_product_description
                 product.price = new_product_price
+                product.discount = new_product_discount
+                product.size = new_product_size
+                product.size_units = new_product_size_units
+                product.weight = new_product_weight
+                product.weight_units = new_product_weight_units
+                product.color = new_product_color
                 product.date_edited = datetime.utcnow()
                 product.edited = True
                 db.session.commit()

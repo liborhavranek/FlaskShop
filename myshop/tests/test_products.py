@@ -810,6 +810,12 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
                      'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -826,6 +832,12 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
                      'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -842,14 +854,130 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
                      'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         product = Product.query.get(1)
         self.assertEqual(product.price, 10)
 
-        # check that the product name has been updated in the database
+    def test_edit_product_edit_discount(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
+                     }
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         product = Product.query.get(1)
-        self.assertEqual(product.product_name, 'Iphonek')
+        self.assertEqual(product.discount, 35)
+
+    def test_edit_product_edit_size(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
+                     }
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.size, 15)
+
+    def test_edit_product_edit_size_unit(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
+                     }
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.size_units, 'cm')
+
+    def test_edit_product_edit_weight(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
+                     }
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.weight, 3)
+
+    def test_edit_product_edit_weight_units(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
+                     }
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.weight_units, 'g')
+
+    def test_edit_product_edit_color(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
+                     }
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.color, 'bila')
 
     def test_edit_product_flash_message_when_product_is_edited(self):
         self.create_product()
@@ -859,6 +987,12 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
                      'price': 10,
+                     'discount': 35,
+                     'size': 15,
+                     'size_units': 'cm',
+                     'weight': 3,
+                     'weight_units': 'g',
+                     'color': 'bila',
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
