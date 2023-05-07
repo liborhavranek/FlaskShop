@@ -805,7 +805,11 @@ class TestEditProduct(TestMixin, unittest.TestCase):
     def test_edit_product_edit_product_name(self):
         self.create_product()
         edit_data = {'product_name': 'Iphone 13 pro',
-                     'subheading': 'Nový iPhone 13 best Iphone in the world'}
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
@@ -816,7 +820,11 @@ class TestEditProduct(TestMixin, unittest.TestCase):
     def test_edit_product_edit_can_have_the_same_name(self):
         self.create_product()
         edit_data = {'product_name': 'Iphonek',
-                     'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
@@ -826,8 +834,12 @@ class TestEditProduct(TestMixin, unittest.TestCase):
 
     def test_edit_product_flash_message_when_product_is_edited(self):
         self.create_product()
-        edit_data = {'product_name': 'Iphonek',
-                     'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
+        edit_data = {'product_name': 'Iphone 13 pro',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world',
+                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
+                                    "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
+                                    "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
