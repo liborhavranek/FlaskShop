@@ -234,3 +234,32 @@ def check_product():
 def product_list():
     products = Product.query.order_by(Product.date_created.desc()).all()
     return render_template('product-list.html', products=products)
+
+
+@products.route('/edit-product/<int:product_id>', methods=['POST', 'GET'])
+def edit_product(product_id):
+    product = Product.query.get(product_id)
+    form = ProductForm(obj=product)
+
+    if request.method == 'POST':
+        new_product_name = request.form.get('product_name')
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(product_name=new_product_name).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash('Produkt s tímto názvem již existuje.', category='error')
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ''
+                flash('Produkt byl aktualizován.', category='success')
+
+    return render_template('edit_product.html', product=product, form=form)
