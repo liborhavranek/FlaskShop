@@ -79,3 +79,120 @@ $('.add-category-input, .edit-category-input').on('input', function() {
 function updateMainImage(image) {
   document.querySelector('.main-image').src = image.src;
 }
+
+// check if product name is aviable
+
+$('.add-product-input').on('input', function() {
+    var product = $(this).val();
+    var csrf_token = $('input[name=csrf_token]').val();
+
+        if (product.charAt(0) === product.charAt(0).toLowerCase()) {
+        product = product.charAt(0).toUpperCase() + product.slice(1);
+        $(this).val(product);
+    }
+
+        if (product.length == 0) {
+        $('.add-product-validation-text').hide();
+        $(this).removeClass('is-valid').removeClass('is-invalid');
+        return;
+    }
+
+    if (product.length < 2) {
+        $('.add-product-validation-text').hide();
+        $(this).removeClass('is-valid').addClass('is-invalid');
+        return;
+    }
+
+    $.ajax({
+        url: '/products/check-product',
+        method: 'POST',
+        data: {'product_name': product, 'csrf_token': csrf_token},
+        success: function(data) {
+            if (data == 'taken') {
+                $('.add-product-validation-text').text("Tento produkt je již zaregistrovaný v naší databázi.").show();
+                $('.add-product-input').removeClass('is-valid').addClass('is-invalid');
+            } else {
+                $('.add-product-validation-text').hide();
+                $('.add-product-input').removeClass('is-invalid').addClass('is-valid');
+            }
+        }
+    });
+});
+
+// check subheading length
+
+$('.add-product-subheading-input').on('input', function() {
+  var product_subheading = $(this).val();
+  $('.add-product-subheading-input').removeClass('is-valid is-invalid');
+
+  if (product_subheading.length === 0) {
+    $('.add-product-subheading-validation-text').hide();
+
+  } else if (product_subheading.length > 20) {
+    $('.add-product-subheading-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-product-subheading-validation-text').hide();
+  } else {
+    $('.add-product-subheading-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-product-subheading-validation-text').text("Podnadpis musí být dlouhý alespoň 20 znaků.").show();
+  }
+});
+
+// check description length
+
+$('.add-product-description-input').on('input', function() {
+  var product_description = $(this).val();
+  $('.add-product-description-input').removeClass('is-valid is-invalid');
+
+  if (product_description.length === 0) {
+    $('.add-product-description-validation-text').hide();
+
+  } else if (product_description.length > 50) {
+    $('.add-product-description-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-product-description-validation-text').hide();
+  } else {
+    $('.add-product-description-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-product-description-validation-text').text("Nadpis musí být dlouhý alespoň 50 znaků.").show();
+  }
+});
+
+// check product price
+
+$('.add-product-price-input').on('input', function() {
+  var product_price = $(this).val();
+  $('.add-product-price-input').removeClass('is-valid is-invalid');
+
+    if (product_price > 0.1) {
+    $('.add-product-price-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-product-price-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+$('.add-product-image-input').on('change', function() {
+  var product_image = $(this).val();
+
+  if (product_image) {
+    // User has selected a file, do something here
+    $('.add-product-image-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    // User has not selected a file, do something here
+    $('.add-product-image-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+// check if obligated fields are valid all fields will to valid
+
+$('.add-product-input, .add-product-subheading-input, .add-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
+   var productNameIsValid = $('.add-product-input').hasClass('is-valid');
+   var productSubheadingIsValid = $('.add-product-subheading-input').hasClass('is-valid');
+   var productDescriptionIsValid = $('.add-product-description-input').hasClass('is-valid');
+   var productPriceIsValid = $('.add-product-price-input').hasClass('is-valid');
+   var imageIsValid = $('.add-product-image-input').hasClass('is-valid');
+   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && imageIsValid;
+
+  if (obligatedFieldsIsValid) {
+    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-product-color-input, .add-product-brand-input, .add-product-category-input, .add-additional-image-input').addClass('is-valid');
+  } else {
+    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-product-color-input, .add-product-brand-input, .add-product-category-input, .add-additional-image-input').removeClass('is-valid');
+  }
+});

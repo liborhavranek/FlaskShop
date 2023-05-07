@@ -219,3 +219,12 @@ def product_page_preview(product_id):
     db.session.commit()
 
     return render_template('product_page.html', product=product)
+
+@products.route('/check-product', methods=['POST'])
+def check_product():
+    product_name = request.form['product_name']
+    product = Product.query.filter_by(product_name=product_name).first()
+    if product:
+        return 'taken'
+    else:
+        return 'available'
