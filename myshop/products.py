@@ -3,9 +3,9 @@
 import os
 import uuid
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_required
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from werkzeug.utils import secure_filename
 
@@ -228,3 +228,58 @@ def check_product():
         return 'taken'
     else:
         return 'available'
+
+
+@products.route('/products-list')
+def product_list():
+    products = Product.query.order_by(Product.date_created.desc()).all()
+    return render_template('product-list.html', products=products)
+
+
+@products.route('/edit-product/<int:product_id>', methods=['POST', 'GET'])
+def edit_product(product_id):
+    product = Product.query.get(product_id)
+    form = ProductForm(obj=product)
+
+    if request.method == 'POST':
+        new_product_name = request.form.get('product_name')
+        new_product_subheading = request.form.get('subheading')
+        new_product_description = request.form.get('description')
+        new_product_price = request.form.get('price')
+        new_product_discount = request.form.get('discount')
+        new_product_size = request.form.get('size')
+        new_product_size_units = request.form.get('size_units')
+        new_product_weight = request.form.get('weight')
+        new_product_weight_units = request.form.get('weight_units')
+        new_product_color = request.form.get('color')
+
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(product_name=new_product_name).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash('Produkt s tímto názvem již existuje.', category='error')
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+                product.subheading = new_product_subheading
+                product.description = new_product_description
+                product.price = new_product_price
+                product.discount = new_product_discount
+                product.size = new_product_size
+                product.size_units = new_product_size_units
+                product.weight = new_product_weight
+                product.weight_units = new_product_weight_units
+                product.color = new_product_color
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ''
+                flash('Produkt byl aktualizován.', category='success')
+                return redirect(url_for('products.product_page_preview', product_id=product.id))
+
+    return render_template('edit_product.html', product=product, form=form)
