@@ -228,3 +228,9 @@ def check_product():
         return 'taken'
     else:
         return 'available'
+
+
+@products.route('/products-list')
+def product_list():
+    products = Product.query.order_by(Product.date_created.desc()).all()
+    return render_template('product-list.html', products=products)
