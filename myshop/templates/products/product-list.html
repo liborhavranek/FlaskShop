@@ -8,6 +8,43 @@
         </div>
         <div class="col-9 my-5 px-5">
             <h1>Product list</h1>
+
+            <div class="py-5 px-5 d-flex justify-content-center">
+              <table class="table">
+                <thead>
+                  <tr>
+                      <th><h4>Fotka</h4></th>
+                      <th><h4>Jméno</h4></th>
+                      <th><h4>Vytvořeno</h4></th>
+                      <th><h4>Upraveno</h4></th>
+                      <th><h4>Datum úpravy</h4></th>
+                      <th><h4>Upravit</h4></th>
+                      <th><h4>Smazat</h4></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product in products %}
+                    <tr>
+                      <td><img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class=" img-fluid product-list-product-image"></td>
+                      <td>{{ product.product_name }}</td>
+                      <td>{{ product.date_created|custom_date_format }}</td>
+
+                        {% if product.edited == False %}
+                        <td>Neupraveno</td>
+                        {% else %}
+                        <td>Upraveno</td>
+                        {% endif %}
+
+                        {% if product.date_edited == None %}
+                        <td>Neupraveno</td>
+                        {% else %}
+                        <td>{{ product.date_edited|custom_date_format }}</td>
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
         </div>
     </div>
 </div>
