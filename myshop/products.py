@@ -282,3 +282,9 @@ def edit_product(product_id):
                 return redirect(url_for('products.product_page_preview', product_id=product.id))
 
     return render_template('edit_product.html', product=product, form=form)
+
+
+@products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
+def edit_product_images(product_id):
+    product = Product.query.get(product_id)
+    return render_template('edit_product_images.html', product=product)
