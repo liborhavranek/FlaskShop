@@ -263,5 +263,6 @@ def edit_product(product_id):
                 db.session.commit()
                 form.product_name.data = ''
                 flash('Produkt byl aktualizován.', category='success')
+                return redirect(url_for('products.product_page_preview', product_id=product.id))
 
     return render_template('edit_product.html', product=product, form=form)
