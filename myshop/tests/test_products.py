@@ -717,3 +717,12 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.client.post('/products/create-product', data=self.data, follow_redirects=True)
         response = self.client.post('products/check-product', data={'product_name': 'Iphon'})
         self.assertEqual(response.data, b'available')
+
+    def test_product_list_page_have_set_correct_template(self):
+        response = self.client.get('/products/products-list')
+        self.assertTrue(response, 'product_list.html')
+
+    def test_product_list_page_returns_correct_status_code(self):
+        self.create_product()
+        response = self.client.get('/products/products-list')
+        self.assertEqual(response.status_code, 200)
