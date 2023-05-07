@@ -1,1 +1,14 @@
-<!--html-->
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/left_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <h1>Product list</h1>
+        </div>
+    </div>
+</div>
+{%endblock content %}
