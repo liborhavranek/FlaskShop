@@ -245,6 +245,8 @@ def edit_product(product_id):
         new_product_name = request.form.get('product_name')
         new_product_subheading = request.form.get('subheading')
         new_product_description = request.form.get('description')
+        new_product_price = request.form.get('price')
+
 
         if new_product_name == str(product.id):
             # product name is the same as product id, so skip validation
@@ -260,6 +262,7 @@ def edit_product(product_id):
                 product.product_name = new_product_name
                 product.subheading = new_product_subheading
                 product.description = new_product_description
+                product.price = new_product_price
                 product.date_edited = datetime.utcnow()
                 product.edited = True
                 db.session.commit()

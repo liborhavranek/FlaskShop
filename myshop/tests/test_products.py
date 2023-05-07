@@ -809,6 +809,7 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -824,6 +825,7 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -839,6 +841,7 @@ class TestEditProduct(TestMixin, unittest.TestCase):
                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
+                     'price': 10,
                      }
         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
