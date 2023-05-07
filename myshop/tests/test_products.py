@@ -726,3 +726,78 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.create_product()
         response = self.client.get('/products/products-list')
         self.assertEqual(response.status_code, 200)
+
+
+class TestEditProduct(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        super().setUp()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_product(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+        self.data = {
+            "product_name": "Iphonek",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "image.jpg"
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+
+    def test_edit_product_have_correct_template(self):
+        self.create_product()
+        response = self.client.get('/products/edit-product/1')
+        self.assertTrue(response, 'edit_product.html')
+
+    def test_edit_product_have_correct_response(self):
+        self.create_product()
+        response = self.client.get('/products/edit-product/1')
+        self.assertEqual(response.status_code, 200)
