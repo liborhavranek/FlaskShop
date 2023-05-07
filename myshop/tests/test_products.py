@@ -801,3 +801,97 @@ class TestEditProduct(TestMixin, unittest.TestCase):
         self.create_product()
         response = self.client.get('/products/edit-product/1')
         self.assertEqual(response.status_code, 200)
+
+    def test_edit_product_edit_product_name(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphone 13 pro',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world'}
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertEqual(product.product_name, 'Iphone 13 pro')
+
+    def test_edit_product_edit_can_have_the_same_name(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertEqual(product.product_name, 'Iphonek')
+
+    def test_edit_product_flash_message_when_product_is_edited(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphonek',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertIn(bytes("Produkt byl aktualizován.", "utf-8"), response.data)
+
+    def test_edit_product_cant_be_changed_to_name_of_another_product(self):
+        self.create_product()
+        self.data = {
+            "product_name": "Iphonek2",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "image.jpg"
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+        edit_data = {'product_name': 'Iphonek2',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertEqual(product.product_name, 'Iphonek')
+
+    def test_edit_product_flash_message_when_try_add_the_same_name(self):
+        self.create_product()
+        self.data = {
+            "product_name": "Iphonek2",
+            "price": 999,
+            "discount": 10,
+            "stock": 50,
+            "size": 5,
+            "size_units": "in",
+            "weight": 1,
+            "weight_units": "kg",
+            "color": "cerna",
+            "subheading": "Nový iPhone 12 best Iphone in the world",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
+                           "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
+                           "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "image.jpg"
+        }
+        self.client.post('/products/create-product', data=self.data, follow_redirects=True)
+        edit_data = {'product_name': 'Iphonek2',
+                     'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
+        response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertIn(bytes("Produkt s tímto názvem již existuje.", "utf-8"), response.data)
+
