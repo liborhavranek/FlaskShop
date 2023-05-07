@@ -253,7 +253,6 @@ def edit_product(product_id):
         new_product_weight_units = request.form.get('weight_units')
         new_product_color = request.form.get('color')
 
-
         if new_product_name == str(product.id):
             # product name is the same as product id, so skip validation
             form.product_name.data = product.id
