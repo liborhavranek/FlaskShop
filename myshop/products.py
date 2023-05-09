@@ -12,6 +12,7 @@ from werkzeug.utils import secure_filename
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
+from myshop.forms.edit_product_image import EditProductMainImageForm
 from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
@@ -286,5 +287,30 @@ def edit_product(product_id):
 
 @products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
 def edit_product_images(product_id):
+    main_image_form = EditProductMainImageForm()
     product = Product.query.get(product_id)
-    return render_template('edit_product_images.html', product=product)
+    existing_image_filename = product.product_image
+
+    if request.method == 'POST':
+        product_image = request.files.get('product_image')
+        if product_image:
+            # Delete the existing image file
+            if existing_image_filename:
+                os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], existing_image_filename))
+
+            # Generate a unique filename for the new image
+            pic_filename = secure_filename(product_image.filename)
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            str_picname = str(pic_name)
+
+            # Save the new image file to the server
+            product_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], str_picname))
+
+            # Update the product image filename in the database
+            product.product_image = str_picname
+            db.session.commit()
+
+            flash('Produktová fotka byla aktualizována.', category='success')
+            return redirect(url_for('products.edit_product_images', product_id=product_id))
+
+    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form)

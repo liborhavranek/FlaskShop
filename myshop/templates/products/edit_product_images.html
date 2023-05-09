@@ -3,9 +3,33 @@
 <div class="container-fluid add-product-form-container py-5">
     <h1 class="text-center">Upravit Fotky</h1>
     <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container shadow-lg">
+            <h1 class="text-center py-3">Hlavní fotka</h1>
+                <div class="container d-flex justify-content-center">
+                <img class="edit_product_main_image" src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
+                </div>
 
+                <div>
+                    <form method="POST" autocomplete="off" enctype=multipart/form-data>
+                      {{ main_image_form.csrf_token }}
+                        <div class="mb-3">
+                            <div class="row py-2">
+                                <div class="col-2">
+                                    {{ main_image_form.product_image.label }}
+                                </div>
+                                <div class="col-8">
+                                    {{ main_image_form.product_image(class="form-control add-product-image-input") }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                        {{ main_image_form.edit_product_main_image_submit(class="btn btn-warning") }}
+                        </div>
+                    </form>
 
+                </div>
+        <h1 class="text-center py-5">Ostatní fotky</h1>
 
+        </div>
     </div>
-</div>
+
 {%endblock content %}

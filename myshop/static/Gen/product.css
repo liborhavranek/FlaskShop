@@ -66,3 +66,7 @@
 
 .update-product-images:hover {
   color: #fc1d03 !important; }
+
+.edit_product_main_image {
+  width: 85%;
+  height: 85%; }
