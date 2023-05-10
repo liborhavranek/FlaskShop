@@ -12,6 +12,7 @@ from werkzeug.utils import secure_filename
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
+from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
 from myshop.forms.edit_product_image import EditProductMainImageForm
 from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
@@ -288,11 +289,12 @@ def edit_product(product_id):
 @products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
 def edit_product_images(product_id):
     main_image_form = EditProductMainImageForm()
+    additional_images_form = AddProductAdditionalImagesForm()
     product = Product.query.get(product_id)
     existing_image_filename = product.product_image
 
-    if request.method == 'POST':
-        product_image = request.files.get('product_image')
+    if main_image_form.validate_on_submit():
+        product_image = main_image_form.product_image.data
         if product_image:
             # Delete the existing image file
             if existing_image_filename:
@@ -308,9 +310,38 @@ def edit_product_images(product_id):
 
             # Update the product image filename in the database
             product.product_image = str_picname
+
             db.session.commit()
 
             flash('Produktová fotka byla aktualizována.', category='success')
             return redirect(url_for('products.edit_product_images', product_id=product_id))
 
-    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form)
+    if additional_images_form.validate_on_submit():
+        additional_images = additional_images_form.additional_images.data
+        additional_image_filenames = []
+        for additional_image in additional_images:
+            if additional_image.filename != '':
+                # Generate a unique filename for the image
+                pic_filename = secure_filename(additional_image.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                str_picname = str(pic_name)
+                # Save the image file to the server
+                additional_image.save(os.path.join(
+                    current_app.config['UPLOAD_FOLDER'], str_picname))
+                # Add the image filename to the list
+                additional_image_filenames.append(str_picname)
+
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=product_id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash('Další fotky byly přidány.', category='success')
+        return redirect(url_for('products.edit_product_images', product_id=product_id))
+
+    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form, additional_images_form=additional_images_form)
+
+# @products.route('/delete-product-images')

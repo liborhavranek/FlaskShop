@@ -38,6 +38,28 @@
                             </div>
                 {% endfor %}
             </div>
+
+                        <div>
+                    <form method="POST" autocomplete="off" enctype=multipart/form-data>
+                      {{ main_image_form.csrf_token }}
+                        <div class="mb-3">
+                            <div class="row py-2">
+                                <div class="col-2">
+                                    {{ additional_images_form.additional_images.label }}
+                                </div>
+                                <div class="col-8">
+                                    {{ additional_images_form.additional_images(class="form-control add-product-image-input") }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                        {{ additional_images_form.add_product_additional_image_submit(class="btn btn-warning") }}
+                        </div>
+                    </form>
+
+                </div>
+
+
         </div>
     </div>
 
