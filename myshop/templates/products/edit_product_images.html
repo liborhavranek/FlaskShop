@@ -28,7 +28,16 @@
 
                 </div>
         <h1 class="text-center py-5">Ostatní fotky</h1>
-
+            <div class="row">
+                {% for image in product. images %}
+                            <div class="col-md-3 pb-1">
+                              <div class="image-container">
+                                <img src="{{ url_for('static', filename='images/uploads/' + image.image_name) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
+                              </div>
+                                <div class="pb-2">smazat</div>
+                            </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
