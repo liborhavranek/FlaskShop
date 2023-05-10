@@ -34,7 +34,7 @@
                               <div class="image-container">
                                 <img src="{{ url_for('static', filename='images/uploads/' + image.image_name) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
                               </div>
-                                <div class="pb-2">smazat</div>
+                                <div class="py-2 text-center"><a class="btn btn-danger btn-sm delete-product-image-button" href="/products/delete-product-image/{{ image.id }}">Smazat</a></div>
                             </div>
                 {% endfor %}
             </div>

@@ -344,4 +344,21 @@ def edit_product_images(product_id):
 
     return render_template('edit_product_images.html', product=product, main_image_form=main_image_form, additional_images_form=additional_images_form)
 
-# @products.route('/delete-product-images')
+
+@products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
+@login_required
+def delete_product_image(image_id):
+    image = ProductImage.query.filter_by(id=image_id).first()
+    if not image:
+        flash('Fotka neexistuje.', category='error')
+        return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+    try:
+        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], image.image_name))
+    except OSError as e:
+        flash(f'Nepodařilo se smazat fotku: {e}', category='error')
+        return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+    db.session.delete(image)
+    db.session.commit()
+    flash('Fotka byla smazána.', category='success')
+    return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+
