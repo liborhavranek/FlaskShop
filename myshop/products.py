@@ -10,6 +10,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 
 from myshop import db
+from myshop.forms.add_mobile_form import MobileForm
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
 from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
@@ -18,7 +19,7 @@ from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.images_model import ProductImage
-from myshop.models.product_model import Product
+from myshop.models.product_model import Product, Mobile
 
 products = Blueprint('products', __name__, template_folder='templates/products')
 
@@ -149,76 +150,6 @@ def delete_category(id):
     return redirect('/products/create-category')
 
 
-@products.route('/create-product', methods=['GET', 'POST'])
-@login_required
-def create_product():
-    form = ProductForm()
-    if form.validate_on_submit():
-        product_data = {
-            'product_name': request.form.get('product_name'),
-            'price': request.form.get('price'),
-            'discount': request.form.get('discount'),
-            'stock': request.form.get('stock'),
-            'size': float(request.form.get('size')),
-            'size_units': request.form.get('size_units'),
-            'weight': float(request.form.get('weight')),
-            'weight_units': request.form.get('weight_units'),
-            'color': request.form.get('color'),
-            'subheading': request.form.get('subheading'),
-            'description': request.form.get('description'),
-            'brand_id': int(request.form.get('brand_id')),
-            'category_id': int(request.form.get('category_id')),
-            }
-
-        # Get the product image file, if any
-        product_image = request.files.get('product_image')
-        if product_image:
-            # Generate a unique filename for the image
-            pic_filename = secure_filename(product_image.filename)
-            pic_name = str(uuid.uuid1()) + "_" + pic_filename
-            str_picname = str(pic_name)
-            # Save the image file to the server
-            product_image.save(os.path.join(
-                current_app.config['UPLOAD_FOLDER'], str_picname))
-            # Add the image filename to the product data
-            product_data['product_image'] = str_picname
-
-        new_product = Product(**product_data)
-
-        # Get the additional image files, if any
-        additional_images = request.files.getlist('additional_images')
-        additional_image_filenames = []
-        for additional_image in additional_images:
-            if additional_image.filename != '':
-                # Generate a unique filename for the image
-                pic_filename = secure_filename(additional_image.filename)
-                pic_name = str(uuid.uuid1()) + "_" + pic_filename
-                str_picname = str(pic_name)
-                # Save the image file to the server
-                additional_image.save(os.path.join(
-                    current_app.config['UPLOAD_FOLDER'], str_picname))
-                # Add the image filename to the list
-                additional_image_filenames.append(str_picname)
-
-        # Add the product to the database
-        db.session.add(new_product)
-        db.session.commit()
-
-        # Add the additional images to the database
-        for filename in additional_image_filenames:
-            product_image = ProductImage(
-                image_name=filename,
-                product_id=new_product.id
-            )
-            db.session.add(product_image)
-        db.session.commit()
-
-        flash('Produkt byl přidán.', category='success')
-        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
-
-    return render_template('add_product.html', form=form)
-
-
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
     product = Product.query.get_or_404(product_id)
@@ -226,6 +157,7 @@ def product_page_preview(product_id):
     db.session.commit()
 
     return render_template('product_page.html', product=product)
+
 
 @products.route('/check-product', methods=['POST'])
 def check_product():
@@ -367,3 +299,96 @@ def delete_product_image(image_id):
     flash('Fotka byla smazána.', category='success')
     return redirect(url_for('products.edit_product_images', product_id=image.product_id))
 
+
+@products.route('/create-mobile-product', methods=['GET', 'POST'])
+@login_required
+def create_mobile_product():
+    form = MobileForm()
+    if form.validate_on_submit():
+        product_data = {
+            'product_name': request.form.get('product_name'),
+            'price': request.form.get('price'),
+            'discount': request.form.get('discount'),
+            'stock': request.form.get('stock'),
+            'height': float(request.form.get('height')),
+            'height_units': request.form.get('height_units'),
+            'width': float(request.form.get('width')),
+            'width_units': request.form.get('width_units'),
+            'depth': float(request.form.get('depth')),
+            'depth_units': request.form.get('depth_units'),
+            'weight': float(request.form.get('weight')),
+            'weight_units': request.form.get('weight_units'),
+            'color': request.form.get('color'),
+            'subheading': request.form.get('subheading'),
+            'description': request.form.get('description'),
+            'display_size': request.form.get('display_size'),
+            'display_resolution': request.form.get('display_resolution'),
+            'operating_system': request.form.get('operating_system'),
+            'operating_memory': request.form.get('operating_memory'),
+            'memory': request.form.get('memory'),
+            'battery_capacity': request.form.get('battery_capacity'),
+            'memory_card_slot': request.form.get('memory_card_slot', type=bool),
+            'face_id': request.form.get('face_id', type=bool),
+            'touch_screen': request.form.get('touch_screen', type=bool),
+            'back_camera': request.form.get('back_camera'),
+            'front_camera': request.form.get('front_camera'),
+            'convertible': request.form.get('convertible', type=bool),
+            'wifi': request.form.get('wifi', type=bool),
+            'bluetooth': request.form.get('bluetooth', type=bool),
+            'nfc': request.form.get('nfc', type=bool),
+            'esim': request.form.get('esim', type=bool),
+            'processor': request.form.get('processor'),
+            'processor_cores': request.form.get('processor_cores'),
+            'brand_id': int(request.form.get('brand_id')),
+            'category_id': int(request.form.get('category_id')),
+            }
+
+
+
+        # Get the product image file, if any
+        product_image = request.files.get('product_image')
+        if product_image:
+            # Generate a unique filename for the image
+            pic_filename = secure_filename(product_image.filename)
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            str_picname = str(pic_name)
+            # Save the image file to the server
+            product_image.save(os.path.join(
+                current_app.config['UPLOAD_FOLDER'], str_picname))
+            # Add the image filename to the product data
+            product_data['product_image'] = str_picname
+
+        new_product = Mobile(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist('additional_images')
+        additional_image_filenames = []
+        for additional_image in additional_images:
+            if additional_image.filename != '':
+                # Generate a unique filename for the image
+                pic_filename = secure_filename(additional_image.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                str_picname = str(pic_name)
+                # Save the image file to the server
+                additional_image.save(os.path.join(
+                    current_app.config['UPLOAD_FOLDER'], str_picname))
+                # Add the image filename to the list
+                additional_image_filenames.append(str_picname)
+
+        # Add the product to the database
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=new_product.id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash('Produkt byl přidán.', category='success')
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
+
+    return render_template('add_product.html', form=form)
