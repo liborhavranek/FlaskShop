@@ -1,4 +1,4 @@
-""" Libor Havránek App Copyright (C)  17.4 2023 """
+""" Libor Havránek App Copyright (C)  12.5 2023 """
 
 import unittest
 
@@ -10,10 +10,10 @@ from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestAllTemplates, TestMixin
 
 
-class TestEditBrand(TestAllTemplates):
+class TestEditCategory(TestAllTemplates):
     """Test edit brand page."""
 
-    path = '/products/edit-brand/1'
+    path = '/products/edit-category/1'
 
     @classmethod
     def setUpClass(cls):
@@ -52,12 +52,12 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         }
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
-    def create_brand(self):
+    def create_category(self):
         self.login_user()
         data = {
-            "brand_name": "Apple",
+            "category_name": "Notebooky",
         }
-        self.client.post('/products/create-brand', data=data, follow_redirects=True)
+        self.client.post('/products/create-category', data=data, follow_redirects=True)
 
     def test_add_brand_form_have_closed_form_tag(self):
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
@@ -65,9 +65,9 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.assertIn(b'</form>', response.data)
 
     def test_brand_form_have_all_input_fields(self):
-        self.create_brand()
-        fields_to_test = ['brand_name']
-        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        self.create_category()
+        fields_to_test = ['category_name']
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
         form_tag = soup.find('form', {'method': 'POST'})
         form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
@@ -78,11 +78,11 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
                 self.assertIn(field, form_input_fields)
 
     def test_brand_form_have_all_labels(self):
-        self.create_brand()
+        self.create_category()
         expected_labels = {
-            'brand_name': 'Značka:',
+            'category_name': 'Kategorie:',
         }
-        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
         form_labels = {label_tag['for']: label_tag.text.strip() for label_tag in soup.find_all('label')}
 
@@ -91,10 +91,10 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
                 self.assertIn(label, form_labels[field])
 
     def test_register_form_has_submit_button(self):
-        self.create_brand()
-        response = self.client.get('/products/edit-brand/1', follow_redirects=True)
+        self.create_category()
+        response = self.client.get('/products/edit-category/1', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
 
         # Check that the form contains a submit button
-        submit_button = soup.find('input', {'type': 'submit', 'value': 'Upravit značku'})
+        submit_button = soup.find('input', {'type': 'submit', 'value': 'Upravit kategorii'})
         self.assertIsNotNone(submit_button)
