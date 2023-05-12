@@ -52,13 +52,21 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         }
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
+    def create_brand(self):
+        self.login_user()
+        data = {
+            "brand_name": "Apple",
+        }
+        response = self.client.post('/products/create-brand', data=data, follow_redirects=True)
+        self.assertIn(bytes("Značka byla vytvořena.", "utf-8"), response.data)
+
     def test_add_brand_form_have_closed_form_tag(self):
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
         self.assertIn(b'<form method="POST">', response.data)
         self.assertIn(b'</form>', response.data)
 
     def test_brand_form_have_all_input_fields(self):
-        self.login_user()
+        self.create_brand()
         fields_to_test = ['brand_name']
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
@@ -71,7 +79,7 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
                 self.assertIn(field, form_input_fields)
 
     def test_brand_form_have_all_labels(self):
-        self.login_user()
+        self.create_brand()
         expected_labels = {
             'brand_name': 'Značka:',
         }
@@ -84,7 +92,7 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
                 self.assertIn(label, form_labels[field])
 
     def test_register_form_has_submit_button(self):
-        self.login_user()
+        self.create_brand()
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
 
