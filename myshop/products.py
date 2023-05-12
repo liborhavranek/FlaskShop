@@ -221,9 +221,7 @@ def create_product():
 
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
-    product = Product.query.get(product_id)
-    if product is None:
-        return render_template('errors/404.html')
+    product = Product.query.get_or_404(product_id)
     product.visit_count += 1
     db.session.commit()
 
