@@ -38,6 +38,11 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@products.errorhandler(404)
+def page_not_found(error):
+    return render_template('errors/404.html'), 404
+
+
 @products.route('/create-brand', methods=['GET', 'POST'])
 @login_required
 def create_brand():
@@ -69,7 +74,7 @@ def check_brand():
 @products.route('/edit-brand/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_brand(id):
-    brand = Brand.query.filter_by(id=id).first()
+    brand = Brand.query.filter_by(id=id).first_or_404()
     form = BrandForm()
     if form.validate_on_submit():
         brand.brand_name = request.form.get('brand_name')
@@ -84,7 +89,7 @@ def edit_brand(id):
 @products.route('/delete-brand/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_brand(id):
-    brand = Brand.query.filter_by(id=id).first()
+    brand = Brand.query.filter_by(id=id).first_or_404()
     db.session.delete(brand)
     db.session.commit()
     flash('Značka byla smazána.', category='success')
@@ -112,7 +117,7 @@ def create_category():
 @products.route('/edit-category/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_category(id):
-    category = Category.query.filter_by(id=id).first()
+    category = Category.query.filter_by(id=id).first_or_404()
     form = CategoryForm()
     if form.validate_on_submit():
         category.category_name = request.form.get('category_name')
@@ -137,7 +142,7 @@ def check_category():
 @products.route('/delete-category/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_category(id):
-    category = Category.query.filter_by(id=id).first()
+    category = Category.query.filter_by(id=id).first_or_404()
     db.session.delete(category)
     db.session.commit()
     flash('Kategorie byla smazána.', category='success')
@@ -216,7 +221,7 @@ def create_product():
 
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
-    product = Product.query.get(product_id)
+    product = Product.query.get(product_id).first_or_404()
     product.visit_count += 1
     db.session.commit()
 
@@ -240,7 +245,7 @@ def product_list():
 
 @products.route('/edit-product/<int:product_id>', methods=['POST', 'GET'])
 def edit_product(product_id):
-    product = Product.query.get(product_id)
+    product = Product.query.get(product_id).first_or_404()
     form = ProductForm(obj=product)
 
     if request.method == 'POST':
@@ -290,7 +295,7 @@ def edit_product(product_id):
 def edit_product_images(product_id):
     main_image_form = EditProductMainImageForm()
     additional_images_form = AddProductAdditionalImagesForm()
-    product = Product.query.get(product_id)
+    product = Product.query.get(product_id).first_or_404()
     existing_image_filename = product.product_image
 
     if main_image_form.validate_on_submit():
@@ -348,7 +353,7 @@ def edit_product_images(product_id):
 @products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
 @login_required
 def delete_product_image(image_id):
-    image = ProductImage.query.filter_by(id=image_id).first()
+    image = ProductImage.query.filter_by(id=image_id).first_or_404()
     if not image:
         flash('Fotka neexistuje.', category='error')
         return redirect(url_for('products.edit_product_images', product_id=image.product_id))
