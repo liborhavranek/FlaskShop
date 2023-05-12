@@ -10,6 +10,7 @@ from .forms.registration_form import RegistrationForm
 from myshop.models.customer_model import Customer
 from .models.brand_model import Brand
 from .models.category_model import Category
+from .models.product_model import Product
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
@@ -135,6 +136,75 @@ def create_test_data():
         {"category_name": "Herní konzole"},
     ]
 
+    products = [
+        {'product_name': 'Iphone 13',
+         "price": 799,
+         "discount": 5,
+         "stock": 20,
+         "size": 6.1,
+         "size_units": "in",
+         "weight": 174,
+         "weight_units": "g",
+         "color": "stříbrná",
+         "subheading": "Nový iPhone 13 - Výkonný a stylový mobilní telefon",
+         "description": "Popis produktu: Nový iPhone 13 přináší vysoký výkon a stylový design. Disponuje 6,1palcovým "
+                        "Liquid Retina displejem s True Tone technologií a špičkovým fotoaparátem, který vám umožní "
+                        "snímat neuvěřitelně detailní fotografie a videa. Procesor A15 Bionic zaručí hladký chod a "
+                        "výkonná baterie vám umožní používat telefon až 19 hodin. iPhone 13 je také odolný vůči "
+                        "vode a prachu a podporuje nejnovější verzi operačního systému iOS.",
+         "brand_id": 1,
+         "category_id": 1,
+         "product_image": "test_image_iphone_13_1.jpeg"
+         },
+
+        {'product_name': 'iPhone 13 Pro',
+         'price': 899,
+         'discount': 5,
+         'stock': 100,
+         'size': 6.1,
+         'size_units': 'in',
+         'weight': 204,
+         'weight_units': 'g',
+         'color': 'stříbrná',
+         'subheading': 'Vylepšený iPhone 13 Pro - Profesionální výkon a funkce',
+         'description': 'Popis produktu: iPhone 13 Pro je nejnovější vlajkovou lodí značky Apple. Tento mobilní telefon'
+                        ' nabízí profesionální výkon a funkce, díky kterým můžete svůj život zlepšit. Telefon má velký'
+                        ' 6,1palcový Super Retina XDR displej s ProMotion technologií, který zobrazuje '
+                        'výrazné a detailní barvy. Díky pokročilému systému fotoaparátů s trojitým objektivem můžete'
+                        ' snímat skvělé fotografie a videa s vysokým rozlišením, a to i v podmínkách s nízkým'
+                        ' osvětlením. Nový procesor A15 Bionic zajišťuje hladký chod a neuvěřitelnou zábavu. '
+                        'Telefon obsahuje také vysoce výkonnou baterii, která umožní až 22 hodin hovoru nebo až 75 '
+                        'hodin poslechu hudby. Nový iPhone 13 Pro je navíc odolný vůči vodě a prachu, takže vás '
+                        'nezklame ani v náročných podmínkách.',
+         'brand_id': 1,
+         'category_id': 1,
+         'product_image': 'test_image_iphone_13_pro_1.jpeg'},
+
+        {'product_name': 'Iphone 13 pro Max',
+         "price": 999,
+         "discount": 5,
+         "stock": 10,
+         "size": 6.7,
+         "size_units": "in",
+         "weight": 238,
+         "weight_units": "g",
+         "color": "cerna",
+         "subheading": "Nový iPhone 13 Pro Max - Výkon a kvalita bez kompromisů",
+         "description": "Popis produktu: Nový iPhone 13 Pro Max je špičkou v oblasti mobilních telefonů, který nabízí"
+                        " nejvyšší výkon a kvalitu bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, "
+                        "které zajistí hladký chod a neuvěřitelnou zábavu. Telefon má velký 6,7palcový"
+                        " Super Retina XDR displej s ProMotion technologií, který zobrazuje výrazné a detailní barvy."
+                        " Díky pokročilému systému fotoaparátů můžete snímat skvělé fotografie a videa s vysokým"
+                        " rozlišením, a to i v podmínkách s nízkým osvětlením. Telefon obsahuje nejnovější procesor"
+                        " A15 Bionic a vysoce výkonnou baterii, která umožní až 28 hodin hovoru nebo až 95 hodin"
+                        " poslechu hudby. Nový iPhone 13 Pro Max je navíc odolný vůči vodě a prachu, takže vás"
+                        " nezklame ani v náročných podmínkách.",
+         "brand_id": 1,
+         "category_id": 1,
+         "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+         },
+    ]
+
     for user in users:
         customer = Customer()
         customer.username = user["username"]
@@ -158,5 +228,24 @@ def create_test_data():
         category = Category()
         category.category_name = cat["category_name"]
         db.session.add(category)
+        db.session.commit()
+
+    for prod in products:
+        product = Product()
+        product.product_name = prod["product_name"]
+        product.price = prod["price"]
+        product.discount = prod["discount"]
+        product.stock = prod["stock"]
+        product.size = prod["size"]
+        product.size_units = prod["size_units"]
+        product.weight = prod["weight"]
+        product.weight_units = prod["weight_units"]
+        product.color = prod["color"]
+        product.subheading = prod["subheading"]
+        product.description = prod["description"]
+        product.brand_id = prod["brand_id"]
+        product.category_id = prod["category_id"]
+        product.product_image = prod["product_image"]
+        db.session.add(product)
         db.session.commit()
     return render_template("auth.html", customer=current_user)
