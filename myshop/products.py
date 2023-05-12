@@ -221,7 +221,7 @@ def create_product():
 
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
-    product = Product.query.get(product_id).first_or_404()
+    product = Product.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
 
@@ -245,7 +245,7 @@ def product_list():
 
 @products.route('/edit-product/<int:product_id>', methods=['POST', 'GET'])
 def edit_product(product_id):
-    product = Product.query.get(product_id).first_or_404()
+    product = Product.query.get(product_id)
     form = ProductForm(obj=product)
 
     if request.method == 'POST':
@@ -295,7 +295,7 @@ def edit_product(product_id):
 def edit_product_images(product_id):
     main_image_form = EditProductMainImageForm()
     additional_images_form = AddProductAdditionalImagesForm()
-    product = Product.query.get(product_id).first_or_404()
+    product = Product.query.get(product_id)
     existing_image_filename = product.product_image
 
     if main_image_form.validate_on_submit():
@@ -353,7 +353,7 @@ def edit_product_images(product_id):
 @products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
 @login_required
 def delete_product_image(image_id):
-    image = ProductImage.query.filter_by(id=image_id).first_or_404()
+    image = ProductImage.query.filter_by(id=image_id).first()
     if not image:
         flash('Fotka neexistuje.', category='error')
         return redirect(url_for('products.edit_product_images', product_id=image.product_id))
