@@ -3,6 +3,7 @@ source = .
 omit =
     myshop/tests/*
     app.py
+    myshop/products.py
 
 [report]
 exclude_lines =

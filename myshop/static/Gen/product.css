@@ -59,3 +59,14 @@
 .product-list-product-image {
   max-width: 60px;
   max-height: 35px; }
+
+.update-product-images {
+  color: inherit;
+  text-decoration: none; }
+
+.update-product-images:hover {
+  color: #fc1d03 !important; }
+
+.edit_product_main_image {
+  width: 85%;
+  height: 85%; }

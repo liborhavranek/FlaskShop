@@ -12,6 +12,8 @@ from werkzeug.utils import secure_filename
 from myshop import db
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
+from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
+from myshop.forms.edit_product_image import EditProductMainImageForm
 from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
@@ -253,7 +255,6 @@ def edit_product(product_id):
         new_product_weight_units = request.form.get('weight_units')
         new_product_color = request.form.get('color')
 
-
         if new_product_name == str(product.id):
             # product name is the same as product id, so skip validation
             form.product_name.data = product.id
@@ -283,3 +284,81 @@ def edit_product(product_id):
                 return redirect(url_for('products.product_page_preview', product_id=product.id))
 
     return render_template('edit_product.html', product=product, form=form)
+
+
+@products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
+def edit_product_images(product_id):
+    main_image_form = EditProductMainImageForm()
+    additional_images_form = AddProductAdditionalImagesForm()
+    product = Product.query.get(product_id)
+    existing_image_filename = product.product_image
+
+    if main_image_form.validate_on_submit():
+        product_image = main_image_form.product_image.data
+        if product_image:
+            # Delete the existing image file
+            if existing_image_filename:
+                os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], existing_image_filename))
+
+            # Generate a unique filename for the new image
+            pic_filename = secure_filename(product_image.filename)
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            str_picname = str(pic_name)
+
+            # Save the new image file to the server
+            product_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], str_picname))
+
+            # Update the product image filename in the database
+            product.product_image = str_picname
+
+            db.session.commit()
+
+            flash('Produktová fotka byla aktualizována.', category='success')
+            return redirect(url_for('products.edit_product_images', product_id=product_id))
+
+    if additional_images_form.validate_on_submit():
+        additional_images = additional_images_form.additional_images.data
+        additional_image_filenames = []
+        for additional_image in additional_images:
+            if additional_image.filename != '':
+                # Generate a unique filename for the image
+                pic_filename = secure_filename(additional_image.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                str_picname = str(pic_name)
+                # Save the image file to the server
+                additional_image.save(os.path.join(
+                    current_app.config['UPLOAD_FOLDER'], str_picname))
+                # Add the image filename to the list
+                additional_image_filenames.append(str_picname)
+
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=product_id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash('Další fotky byly přidány.', category='success')
+        return redirect(url_for('products.edit_product_images', product_id=product_id))
+
+    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form, additional_images_form=additional_images_form)
+
+
+@products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
+@login_required
+def delete_product_image(image_id):
+    image = ProductImage.query.filter_by(id=image_id).first()
+    if not image:
+        flash('Fotka neexistuje.', category='error')
+        return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+    try:
+        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], image.image_name))
+    except OSError as e:
+        flash(f'Nepodařilo se smazat fotku: {e}', category='error')
+        return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+    db.session.delete(image)
+    db.session.commit()
+    flash('Fotka byla smazána.', category='success')
+    return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+
