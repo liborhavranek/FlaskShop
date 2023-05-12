@@ -154,6 +154,7 @@ def create_test_data():
                         "vode a prachu a podporuje nejnovější verzi operačního systému iOS.",
          "brand_id": 1,
          "category_id": 1,
+         "visit_count": 350,
          "product_image": "test_image_iphone_13_1.jpeg"
          },
 
@@ -178,6 +179,7 @@ def create_test_data():
                         'nezklame ani v náročných podmínkách.',
          'brand_id': 1,
          'category_id': 1,
+         "visit_count": 850,
          'product_image': 'test_image_iphone_13_pro_1.jpeg'},
 
         {'product_name': 'Iphone 13 pro Max',
@@ -201,6 +203,7 @@ def create_test_data():
                         " nezklame ani v náročných podmínkách.",
          "brand_id": 1,
          "category_id": 1,
+         "visit_count": 1358,
          "product_image": "test_image_iphone_13_pro_max_1.jpeg"
          },
     ]
@@ -245,6 +248,7 @@ def create_test_data():
         product.description = prod["description"]
         product.brand_id = prod["brand_id"]
         product.category_id = prod["category_id"]
+        product.visit_count = prod["visit_count"]
         product.product_image = prod["product_image"]
         db.session.add(product)
         db.session.commit()
