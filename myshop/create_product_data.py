@@ -1,7 +1,7 @@
 import csv
 
 products = [
-    {'product_name': 'Iphone 13',
+    {'product_name': 'Iphone 13 Stříbrný',
      "price": 799,
      "discount": 5,
      "stock": 20,
