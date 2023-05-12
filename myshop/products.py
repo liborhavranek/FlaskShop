@@ -245,7 +245,7 @@ def product_list():
 
 @products.route('/edit-product/<int:product_id>', methods=['POST', 'GET'])
 def edit_product(product_id):
-    product = Product.query.get_or_404(product_id)
+    product = Product.query.get(product_id)
     form = ProductForm(obj=product)
 
     if request.method == 'POST':
