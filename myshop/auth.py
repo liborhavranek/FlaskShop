@@ -124,9 +124,17 @@ def create_test_data():
             {"brand_name": "MSI"},
 
     ]
-    category_data = {
-        "category_name": "Mobily"
-    }
+    categories = [
+        {"category_name": "Mobily"},
+        {"category_name": "Hodinky"},
+        {"category_name": "Tablety"},
+        {"category_name": "Notebooky"},
+        {"category_name": "Monitory"},
+        {"category_name": "Televize"},
+        {"category_name": "Sluchátka"},
+        {"category_name": "Herní konzole"},
+    ]
+
     for user in users:
         customer = Customer()
         customer.username = user["username"]
@@ -146,8 +154,9 @@ def create_test_data():
         db.session.add(brand)
         db.session.commit()
 
-    category = Category()
-    category.category_name = category_data["category_name"]
-    db.session.add(category)
-    db.session.commit()
+    for cat in categories:
+        category = Category()
+        category.category_name = cat["category_name"]
+        db.session.add(category)
+        db.session.commit()
     return render_template("auth.html", customer=current_user)
