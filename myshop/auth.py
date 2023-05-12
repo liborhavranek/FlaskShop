@@ -113,9 +113,17 @@ def create_test_data():
         {"username": "admin", "email": "liborhavranek91@gmail.com", "phone": "123456789"},
         {"username": "admin1", "email": "liborseucipython@gmail.com", "phone": "123456789"}
     ]
-    brand_data = {
-            "brand_name": "Apple",
-        }
+    brands = [
+
+            {"brand_name": "Apple"},
+            {"brand_name": "Samsung"},
+            {"brand_name": "Acer"},
+            {"brand_name": "Dell"},
+            {"brand_name": "HP"},
+            {"brand_name": "Asus"},
+            {"brand_name": "MSI"},
+
+    ]
     category_data = {
         "category_name": "Mobily"
     }
@@ -132,10 +140,11 @@ def create_test_data():
     login_user(customer)
     db.session.commit()
 
-    brand = Brand()
-    brand.brand_name = brand_data["brand_name"]
-    db.session.add(brand)
-    db.session.commit()
+    for trademark in brands:
+        brand = Brand()
+        brand.brand_name = trademark["brand_name"]
+        db.session.add(brand)
+        db.session.commit()
 
     category = Category()
     category.category_name = category_data["category_name"]
