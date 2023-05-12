@@ -1,4 +1,5 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
+import csv
 
 from flask import Blueprint, render_template, request, flash, redirect
 from flask_login import login_user, current_user, login_required, logout_user
@@ -10,6 +11,7 @@ from .forms.registration_form import RegistrationForm
 from myshop.models.customer_model import Customer
 from .models.brand_model import Brand
 from .models.category_model import Category
+from .models.product_model import Product
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
@@ -113,12 +115,28 @@ def create_test_data():
         {"username": "admin", "email": "liborhavranek91@gmail.com", "phone": "123456789"},
         {"username": "admin1", "email": "liborseucipython@gmail.com", "phone": "123456789"}
     ]
-    brand_data = {
-            "brand_name": "Apple",
-        }
-    category_data = {
-        "category_name": "Mobily"
-    }
+    brands = [
+
+            {"brand_name": "Apple"},
+            {"brand_name": "Samsung"},
+            {"brand_name": "Acer"},
+            {"brand_name": "Dell"},
+            {"brand_name": "HP"},
+            {"brand_name": "Asus"},
+            {"brand_name": "MSI"},
+
+    ]
+    categories = [
+        {"category_name": "Mobily"},
+        {"category_name": "Hodinky"},
+        {"category_name": "Tablety"},
+        {"category_name": "Notebooky"},
+        {"category_name": "Monitory"},
+        {"category_name": "Televize"},
+        {"category_name": "Sluchátka"},
+        {"category_name": "Herní konzole"},
+    ]
+
     for user in users:
         customer = Customer()
         customer.username = user["username"]
@@ -132,13 +150,37 @@ def create_test_data():
     login_user(customer)
     db.session.commit()
 
-    brand = Brand()
-    brand.brand_name = brand_data["brand_name"]
-    db.session.add(brand)
-    db.session.commit()
+    for trademark in brands:
+        brand = Brand()
+        brand.brand_name = trademark["brand_name"]
+        db.session.add(brand)
+        db.session.commit()
 
-    category = Category()
-    category.category_name = category_data["category_name"]
-    db.session.add(category)
-    db.session.commit()
+    for cat in categories:
+        category = Category()
+        category.category_name = cat["category_name"]
+        db.session.add(category)
+        db.session.commit()
+
+    with open('myshop/products.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            product = Product()
+            product.product_name = row["product_name"]
+            product.price = row["price"]
+            product.discount = row["discount"]
+            product.stock = row["stock"]
+            product.size = row["size"]
+            product.size_units = row["size_units"]
+            product.weight = row["weight"]
+            product.weight_units = row["weight_units"]
+            product.color = row["color"]
+            product.subheading = row["subheading"]
+            product.description = row["description"]
+            product.brand_id = row["brand_id"]
+            product.category_id = row["category_id"]
+            product.visit_count = row["visit_count"]
+            product.product_image = row["product_image"]
+            db.session.add(product)
+            db.session.commit()
     return render_template("auth.html", customer=current_user)
