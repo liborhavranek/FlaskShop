@@ -11,7 +11,7 @@ from .forms.registration_form import RegistrationForm
 from myshop.models.customer_model import Customer
 from .models.brand_model import Brand
 from .models.category_model import Category
-from .models.product_model import Product
+from .models.product_model import Product, Mobile
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
@@ -119,6 +119,7 @@ def create_test_data():
 
             {"brand_name": "Apple"},
             {"brand_name": "Samsung"},
+            {"brand_name": "Xiaomi"},
             {"brand_name": "Acer"},
             {"brand_name": "Dell"},
             {"brand_name": "HP"},
@@ -165,22 +166,51 @@ def create_test_data():
     with open('myshop/products.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            product = Product()
+            product = Mobile()
             product.product_name = row["product_name"]
             product.price = row["price"]
             product.discount = row["discount"]
             product.stock = row["stock"]
-            product.size = row["size"]
-            product.size_units = row["size_units"]
-            product.weight = row["weight"]
-            product.weight_units = row["weight_units"]
-            product.color = row["color"]
+
             product.subheading = row["subheading"]
             product.description = row["description"]
+
+            product.visit_count = row["visit_count"]
+
+            product.display_size = row["display_size"]
+            product.display_resolution = row["display_resolution"]
+            product.operating_system = row["operating_system"]
+            product.operating_memory = row["operating_memory"]
+            product.memory = row["memory"]
+
+            product.height = row["height"]
+            product.height_units = row["height_units"]
+            product.width = row["width"]
+            product.weight_units = row["weight_units"]
+            product.depth = row["depth"]
+            product.depth_units = row["depth_units"]
+            product.weight = row["weight"]
+            product.weight_units = row["weight_units"]
+
+            product.battery_capacity = row["battery_capacity"]
+            product.memory_card_slot = bool(row['memory_card_slot'])
+            product.face_id = bool(row["face_id"])
+            product.touch_screen = bool(row["touch_screen"])
+            product.front_camera = row["front_camera"]
+            product.back_camera = row["back_camera"]
+            product.convertible = bool(row["convertible"])
+            product.wifi = bool(row["wifi"])
+            product.bluetooth = bool(row["bluetooth"])
+            product.nfc = bool(row["nfc"])
+            product.processor = row["processor"]
+            product.processor_cores = row["processor_cores"]
+            product.esim = bool(row["esim"])
+
+            product.color = row["color"]
             product.brand_id = row["brand_id"]
             product.category_id = row["category_id"]
-            product.visit_count = row["visit_count"]
             product.product_image = row["product_image"]
+
             db.session.add(product)
             db.session.commit()
     return render_template("auth.html", customer=current_user)

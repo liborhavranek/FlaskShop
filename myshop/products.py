@@ -343,8 +343,6 @@ def create_mobile_product():
             'category_id': int(request.form.get('category_id')),
             }
 
-
-
         # Get the product image file, if any
         product_image = request.files.get('product_image')
         if product_image:
