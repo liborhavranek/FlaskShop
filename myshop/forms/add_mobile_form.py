@@ -44,14 +44,14 @@ class MobileForm(FlaskForm):
                                               ('160x128', '160 × 128'), ('220x176', '220 × 176'),
                                               ('320x240', '320 × 240'), ('480x320', '480 × 320'), ])
     operating_system = SelectField('Operační systém:', choices=[('Android', 'Android'), ('iOS', 'iOS')], validators=[Optional()])
-    operating_memory = IntegerField('Operační paměť', validators=[InputRequired(), NumberRange(min=0)])
-    memory = IntegerField('Paměť', validators=[InputRequired(), NumberRange(min=0)])
-    battery_capacity = IntegerField('Kapacita baterie (mAh)')
-    memory_card_slot = BooleanField('Slot na paměťovou kartu')
-    face_id = BooleanField('Face ID')
-    touch_screen = BooleanField('Dotyková obrazovka')
-    front_camera = IntegerField('Přední kamera (MP)')
-    back_camera = IntegerField('Zadní kamera (MP)')
+    operating_memory = IntegerField('Operační paměť:', validators=[InputRequired(), NumberRange(min=0)])
+    memory = IntegerField('Velikost disku:', validators=[InputRequired(), NumberRange(min=0)])
+    battery_capacity = IntegerField('Kapacita baterie:')
+    memory_card_slot = BooleanField('Slot na paměťovou kartu:')
+    face_id = BooleanField('Face ID:')
+    touch_screen = BooleanField('Dotyková obrazovka:')
+    front_camera = IntegerField('Přední kamera:')
+    back_camera = IntegerField('Zadní kamera:')
     height = DecimalField('Výška:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
     height_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in'), ('mm', 'mm')], validators=[Optional()])
     width = DecimalField('Šířka:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
@@ -72,10 +72,10 @@ class MobileForm(FlaskForm):
                                                                     ('zluta', 'žlutá'), ('oranzova', 'oranžová'),
                                                                     ('cervena', 'červená'), ('ruzova', 'růžová'),
                                                                     ('fialova', 'fialová')])
-    convertible = BooleanField('Ohebný')
-    wifi = BooleanField('WiFi')
-    bluetooth = BooleanField('Bluetooth')
-    nfc = BooleanField('NFC')
+    convertible = BooleanField('Ohebný:')
+    wifi = BooleanField('WiFi:')
+    bluetooth = BooleanField('Bluetooth:')
+    nfc = BooleanField('NFC:')
     processor = SelectField('Procesor:', choices=[
         ('Apple A14 Bionic', 'Apple A14 Bionic'),
         ('Qualcomm Snapdragon 888', 'Qualcomm Snapdragon 888'),
@@ -100,7 +100,7 @@ class MobileForm(FlaskForm):
         ('Mediatek Helio G95', 'Mediatek Helio G95')
     ], validators=[Optional()])
     processor_cores = IntegerField('Počet jader:', validators=[InputRequired(), NumberRange(min=0)])
-    esim = BooleanField('eSIM')
+    esim = BooleanField('eSIM:')
 
     brand_id = SelectField('Značka:', coerce=int, choices=[], validators=[Optional()])
     category_id = SelectField('Kategorie:', coerce=int, choices=[], validators=[Optional()])

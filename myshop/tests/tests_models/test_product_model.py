@@ -5,7 +5,7 @@ from _decimal import Decimal
 from datetime import datetime
 
 from myshop import create_app, db
-from myshop.models.product_model import Product
+from myshop.models.product_model import Product, Mobile
 from myshop.tests.my_test_mixin import TestMixin
 
 
@@ -26,17 +26,15 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         super().setUp()
 
     def create_product(self):
-        self.product = Product()
+        self.product = Mobile()
         self.product.product_name = 'Iphone 13 Pro Max'
         self.product.price = 99.9
         self.product.description = "iPhone 13 Pro Max: Powerful flagship with 120Hz ProMotion display, " \
                                    "5G, A15 Bionic chip, and stunning camera capabilities."
         self.product.subheading = "iPhone 13 Pro Max: Powerful flagship"
-        self.product.size = 23.33
-        self.product.size_unit = 'cm'
         self.product.weight = 1.23
         self.product.weight_units = 'kg'
-        self.product.color = 'Vesmírně šedá'
+        self.product.color = 'cerna'
         self.product.product_image = 'product_image_00001.jpg'
         db.session.add(self.product)
         db.session.commit()

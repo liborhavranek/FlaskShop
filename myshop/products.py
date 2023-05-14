@@ -310,6 +310,8 @@ def create_mobile_product():
             'price': request.form.get('price'),
             'discount': request.form.get('discount'),
             'stock': request.form.get('stock'),
+            'sold': request.form.get('sold'),
+
             'height': float(request.form.get('height')),
             'height_units': request.form.get('height_units'),
             'width': float(request.form.get('width')),
@@ -321,11 +323,13 @@ def create_mobile_product():
             'color': request.form.get('color'),
             'subheading': request.form.get('subheading'),
             'description': request.form.get('description'),
+
             'display_size': request.form.get('display_size'),
             'display_resolution': request.form.get('display_resolution'),
             'operating_system': request.form.get('operating_system'),
             'operating_memory': request.form.get('operating_memory'),
             'memory': request.form.get('memory'),
+
             'battery_capacity': request.form.get('battery_capacity'),
             'memory_card_slot': request.form.get('memory_card_slot', type=bool),
             'face_id': request.form.get('face_id', type=bool),
@@ -389,4 +393,4 @@ def create_mobile_product():
         flash('Produkt byl přidán.', category='success')
         return redirect(url_for('products.product_page_preview', product_id=new_product.id))
 
-    return render_template('add_product.html', form=form)
+    return render_template('add_mobile_product.html', form=form)
