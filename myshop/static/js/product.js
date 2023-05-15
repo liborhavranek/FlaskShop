@@ -157,14 +157,14 @@ $('.add-mobile-product-description-input').on('input', function() {
 
 // check product price
 
-$('.add-product-price-input').on('input', function() {
+$('.add-mobile-product-price-input').on('input', function() {
   var product_price = $(this).val();
-  $('.add-product-price-input').removeClass('is-valid is-invalid');
+  $('.add-mobile-product-price-input').removeClass('is-valid is-invalid');
 
     if (product_price > 0.1) {
-    $('.add-product-price-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-mobile-product-price-input').removeClass('is-invalid').addClass('is-valid');
   } else {
-    $('.add-product-price-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-mobile-product-price-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
 
@@ -182,31 +182,31 @@ $('.add-product-display-size-input').on('input', function() {
   }
 });
 
-$('.add-product-image-input').on('change', function() {
+$('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
 
   if (product_image) {
     // User has selected a file, do something here
-    $('.add-product-image-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-mobile-product-image-input').removeClass('is-invalid').addClass('is-valid');
   } else {
     // User has not selected a file, do something here
-    $('.add-product-image-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-mobile-product-image-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
 
 // check if obligated fields are valid all fields will to valid
 
-$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mobile-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
+$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mobile-product-description-input, .add-mobile-product-price-input, .add-mobile-product-image-input').on('input change', function() {
    var productNameIsValid = $('.add-mobile-product-name-input').hasClass('is-valid');
    var productSubheadingIsValid = $('.add-mobile-product-subheading-input').hasClass('is-valid');
    var productDescriptionIsValid = $('.add-mobile-product-description-input').hasClass('is-valid');
-   var productPriceIsValid = $('.add-product-price-input').hasClass('is-valid');
-   var imageIsValid = $('.add-product-image-input').hasClass('is-valid');
+   var productPriceIsValid = $('.add-mobile-product-price-input').hasClass('is-valid');
+   var imageIsValid = $('.add-mobile-product-image-input').hasClass('is-valid');
    var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && imageIsValid;
 
   if (obligatedFieldsIsValid) {
-    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-additional-image-input').addClass('is-valid');
+    $('.add-mobile-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-additional-image-input').addClass('is-valid');
   } else {
-    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-additional-image-input').removeClass('is-valid');
+    $('.add-mobile-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-additional-image-input').removeClass('is-valid');
   }
 });
