@@ -168,44 +168,53 @@ $('.add-mobile-product-price-input').on('input', function() {
   }
 });
 
+  $('.add-mobile-product-display-resolution-input').change(function() {
+      $(this).removeClass('is-invalid').addClass('is-valid');
+  });
+
 // ceck mobile display size
 
 $('.add-mobile-product-display-size-input').on('input', function() {
-  var product_price = $(this).val();
+  var display_size = $(this).val();
   $('.add-mobile-product-display-size-input').removeClass('is-valid is-invalid');
 
-    if (product_price > 0.1) {
+    if (display_size > 0.1) {
     $('.add-mobile-product-display-size-input').removeClass('is-invalid').addClass('is-valid');
   } else {
     $('.add-mobile-product-display-size-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
 
-// check display size
 
-$('.add-product-display-size-input').on('input', function() {
-  var product_price = $(this).val();
-  $('.add-product-price-input').removeClass('is-valid is-invalid');
-
-    if (product_price > 0.1) {
-    $('.add-product-display-size-input').removeClass('is-invalid').addClass('is-valid');
-  } else {
-    $('.add-product-display-size-input').removeClass('is-valid').addClass('is-invalid');
-  }
-});
-
-// check display size
+// check operating memory
 
 $('.add-mobile-product-operating-memory-input').on('input', function() {
-  var product_price = $(this).val();
+  var operating_memory = $(this).val();
   $('.add-mobile-product-operating-memory-input').removeClass('is-valid is-invalid');
 
-    if (product_price > 0.1) {
+    if (operating_memory > 0.1) {
     $('.add-mobile-product-operating-memory-input').removeClass('is-invalid').addClass('is-valid');
   } else {
     $('.add-mobile-product-operating-memory-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
+
+// check memory
+
+$('.add-mobile-product-memory-input').on('input', function() {
+  var memory = $(this).val();
+  $('.add-mobile-product-memory-input').removeClass('is-valid is-invalid');
+
+    if (memory > 0.1) {
+    $('.add-mobile-product-memory-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-mobile-product-memory-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+  $('.add-mobile-product-operating-system-input').change(function() {
+      $(this).removeClass('is-invalid').addClass('is-valid');
+  });
 
 $('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
@@ -228,8 +237,9 @@ $('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mo
    var productPriceIsValid = $('.add-mobile-product-price-input').hasClass('is-valid');
    var productDisplaySizeIsValid = $('.add-mobile-product-display-size-input').hasClass('is-valid');
    var productOperatingMemoryIsValid = $('.add-mobile-product-operating-memory-input').hasClass('is-valid');
+   var productMemoryIsValid = $('.add-mobile-product-memory-input').hasClass('is-valid');
    var imageIsValid = $('.add-mobile-product-image-input').hasClass('is-valid');
-   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && productDisplaySizeIsValid && productOperatingMemoryIsValid && imageIsValid;
+   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && productDisplaySizeIsValid && productOperatingMemoryIsValid && productMemoryIsValid && imageIsValid;
 
   if (obligatedFieldsIsValid) {
     $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-additional-image-input').addClass('is-valid');
