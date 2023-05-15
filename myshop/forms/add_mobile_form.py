@@ -20,7 +20,7 @@ class MobileForm(FlaskForm):
     stock = IntegerField('Počet kusů:', validators=[InputRequired(), NumberRange(min=0)], default=0)
     description = TextAreaField('Popis *:', validators=[InputRequired()], render_kw={'rows': 10})
     subheading = TextAreaField('Podnadpis *:', validators=[InputRequired()])
-    display_size = FloatField('Velikost displeje:', validators=[InputRequired(), NumberRange(min=0)])
+    display_size = DecimalField('Velikost displeje:', validators=[InputRequired(), NumberRange(min=0)])
     display_resolution = SelectField('Rozlišení displeje:', validators=[Optional()],
                                      choices=[('2160x1080', '2160 × 1080'), ('2280x1080', '2280 × 1080'),
                                               ('2300x1080', '2300 × 1080'), ('2310x1080', '2310 × 1080'),

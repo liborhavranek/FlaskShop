@@ -39,6 +39,36 @@
             </div>
         </div>
     </div>
+        <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control add-product-color-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control add-product-brand-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control add-product-category-input") }}
+            </div>
+        </div>
+    </div>
     <div class="mb-3">
         <div class="row py-2">
             <div class="col-2">
@@ -134,10 +164,10 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.display_size.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.display_size(class="form-control add-product-display-size-input") }}
             </div>
         </div>
@@ -145,21 +175,21 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.display_resolution.label }}
             </div>
-            <div class="col-8">
-                {{ form.display_resolution(class="form-control add-product-display-size-input") }}
+            <div class="col-3">
+                {{ form.display_resolution(class="form-control add-product-display-resolution-input") }}
             </div>
         </div>
     </div>
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.operating_memory.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.operating_memory(class="form-control add-product-display-size-input") }}
             </div>
         </div>
@@ -167,10 +197,10 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.memory.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.memory(class="form-control add-product-display-size-input") }}
             </div>
         </div>
@@ -178,10 +208,10 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.operating_system.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.operating_system(class="form-control add-product-display-size-input") }}
             </div>
         </div>
@@ -189,10 +219,10 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.battery_capacity.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.battery_capacity(class="form-control add-product-display-size-input") }}
             </div>
         </div>
@@ -200,121 +230,10 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
-                {{ form.memory_card_slot.label }}
-            </div>
-            <div class="col-8">
-                {{ form.memory_card_slot(class="form-check-input add-product-memory-card-slot-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.wifi.label }}
-            </div>
-            <div class="col-8">
-                {{ form.wifi(class="form-check-input add-product-wifi-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.bluetooth.label }}
-            </div>
-            <div class="col-8">
-                {{ form.bluetooth(class="form-check-input add-product-bluetooth-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.nfc.label }}
-            </div>
-            <div class="col-8">
-                {{ form.nfc(class="form-check-input add-product-nfc-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.esim.label }}
-            </div>
-            <div class="col-8">
-                {{ form.esim(class="form-check-input add-product-esim-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.processor.label }}
-            </div>
-            <div class="col-8">
-                {{ form.processor(class="form-control add-product-processor-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.processor_cores.label }}
-            </div>
-            <div class="col-8">
-                {{ form.processor_cores(class="form-control add-product-processor-cores-input") }}
-            </div>
-        </div>
-    </div>
-
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.face_id.label }}
-            </div>
-            <div class="col-8">
-                {{ form.face_id(class="form-check-input add-product-face-id-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.touch_screen.label }}
-            </div>
-            <div class="col-8">
-                {{ form.touch_screen(class="form-check-input add-product-touch-screen-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.convertible.label }}
-            </div>
-            <div class="col-8">
-                {{ form.convertible(class="form-check-input add-product-touch-screen-input") }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.back_camera.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.back_camera(class="form-control add-product-back-camera-input") }}
             </div>
         </div>
@@ -322,10 +241,10 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
+            <div class="col-3">
                 {{ form.front_camera.label }}
             </div>
-            <div class="col-8">
+            <div class="col-3">
                 {{ form.front_camera(class="form-control add-product-back-camera-input") }}
             </div>
         </div>
@@ -333,34 +252,116 @@
 
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
-                {{ form.color.label }}
+            <div class="col-3">
+                {{ form.processor.label }}
             </div>
-            <div class="col-8">
-                {{ form.color(class="form-control add-product-color-input") }}
+            <div class="col-3">
+                {{ form.processor(class="form-control add-product-processor-input") }}
             </div>
         </div>
     </div>
+
     <div class="mb-3">
         <div class="row py-2">
-            <div class="col-2">
-                {{ form.brand_id.label }}
+            <div class="col-3">
+                {{ form.processor_cores.label }}
             </div>
-            <div class="col-8">
-                {{ form.brand_id(class="form-control add-product-brand-input") }}
-            </div>
-        </div>
-    </div>
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.category_id.label }}
-            </div>
-            <div class="col-8">
-                {{ form.category_id(class="form-control add-product-category-input") }}
+            <div class="col-3">
+                {{ form.processor_cores(class="form-control add-product-processor-cores-input") }}
             </div>
         </div>
     </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.memory_card_slot.label }}
+            </div>
+            <div class="col-3">
+                {{ form.memory_card_slot(class="form-check-input add-product-memory-card-slot-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.wifi.label }}
+            </div>
+            <div class="col-3">
+                {{ form.wifi(class="form-check-input add-product-wifi-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.bluetooth.label }}
+            </div>
+            <div class="col-3">
+                {{ form.bluetooth(class="form-check-input add-product-bluetooth-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.nfc.label }}
+            </div>
+            <div class="col-3">
+                {{ form.nfc(class="form-check-input add-product-nfc-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.esim.label }}
+            </div>
+            <div class="col-3">
+                {{ form.esim(class="form-check-input add-product-esim-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.face_id.label }}
+            </div>
+            <div class="col-3">
+                {{ form.face_id(class="form-check-input add-product-face-id-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.touch_screen.label }}
+            </div>
+            <div class="col-3">
+                {{ form.touch_screen(class="form-check-input add-product-touch-screen-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.convertible.label }}
+            </div>
+            <div class="col-3">
+                {{ form.convertible(class="form-check-input add-product-touch-screen-input") }}
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="mb-3">
         <div class="row py-2">
             <div class="col-2">
