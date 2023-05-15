@@ -82,7 +82,7 @@ function updateMainImage(image) {
 
 // check if product name is aviable
 
-$('.add-product-input').on('input', function() {
+$('.add-mobile-product-name-input').on('input', function() {
     var product = $(this).val();
     var csrf_token = $('input[name=csrf_token]').val();
 
@@ -92,13 +92,13 @@ $('.add-product-input').on('input', function() {
     }
 
         if (product.length == 0) {
-        $('.add-product-validation-text').hide();
+        $('.add-mobile-product-validation-text').hide();
         $(this).removeClass('is-valid').removeClass('is-invalid');
         return;
     }
 
     if (product.length < 2) {
-        $('.add-product-validation-text').hide();
+        $('.add-mobile-product-validation-text').hide();
         $(this).removeClass('is-valid').addClass('is-invalid');
         return;
     }
@@ -109,11 +109,11 @@ $('.add-product-input').on('input', function() {
         data: {'product_name': product, 'csrf_token': csrf_token},
         success: function(data) {
             if (data == 'taken') {
-                $('.add-product-validation-text').text("Tento produkt je již zaregistrovaný v naší databázi.").show();
-                $('.add-product-input').removeClass('is-valid').addClass('is-invalid');
+                $('.add-mobile-product-validation-text').text("Tento produkt je již zaregistrovaný v naší databázi.").show();
+                $('.add-mobile-product-name-input').removeClass('is-valid').addClass('is-invalid');
             } else {
-                $('.add-product-validation-text').hide();
-                $('.add-product-input').removeClass('is-invalid').addClass('is-valid');
+                $('.add-mobile-product-validation-text').hide();
+                $('.add-mobile-product-name-input').removeClass('is-invalid').addClass('is-valid');
             }
         }
     });
@@ -121,19 +121,19 @@ $('.add-product-input').on('input', function() {
 
 // check subheading length
 
-$('.add-product-subheading-input').on('input', function() {
+$('.add-mobile-product-subheading-input').on('input', function() {
   var product_subheading = $(this).val();
-  $('.add-product-subheading-input').removeClass('is-valid is-invalid');
+  $('.add-mobile-product-subheading-input').removeClass('is-valid is-invalid');
 
   if (product_subheading.length === 0) {
-    $('.add-product-subheading-validation-text').hide();
+    $('.add-mobile-product-subheading-validation-text').hide();
 
   } else if (product_subheading.length > 20) {
-    $('.add-product-subheading-input').removeClass('is-invalid').addClass('is-valid');
-    $('.add-product-subheading-validation-text').hide();
+    $('.add-mobile-product-subheading-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-mobile-product-subheading-validation-text').hide();
   } else {
-    $('.add-product-subheading-input').removeClass('is-valid').addClass('is-invalid');
-    $('.add-product-subheading-validation-text').text("Podnadpis musí být dlouhý alespoň 20 znaků.").show();
+    $('.add-mobile-product-subheading-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-mobile-product-subheading-validation-text').text("Podnadpis musí být dlouhý alespoň 20 znaků.").show();
   }
 });
 
@@ -168,6 +168,20 @@ $('.add-product-price-input').on('input', function() {
   }
 });
 
+
+// check display size
+
+$('.add-product-display-size-input').on('input', function() {
+  var product_price = $(this).val();
+  $('.add-product-price-input').removeClass('is-valid is-invalid');
+
+    if (product_price > 0.1) {
+    $('.add-product-display-size-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-product-display-size-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
 $('.add-product-image-input').on('change', function() {
   var product_image = $(this).val();
 
@@ -182,9 +196,9 @@ $('.add-product-image-input').on('change', function() {
 
 // check if obligated fields are valid all fields will to valid
 
-$('.add-product-input, .add-product-subheading-input, .add-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
-   var productNameIsValid = $('.add-product-input').hasClass('is-valid');
-   var productSubheadingIsValid = $('.add-product-subheading-input').hasClass('is-valid');
+$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
+   var productNameIsValid = $('.add-mobile-product-name-input').hasClass('is-valid');
+   var productSubheadingIsValid = $('.add-mobile-product-subheading-input').hasClass('is-valid');
    var productDescriptionIsValid = $('.add-product-description-input').hasClass('is-valid');
    var productPriceIsValid = $('.add-product-price-input').hasClass('is-valid');
    var imageIsValid = $('.add-product-image-input').hasClass('is-valid');
