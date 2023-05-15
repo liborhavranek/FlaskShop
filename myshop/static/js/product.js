@@ -194,6 +194,19 @@ $('.add-product-display-size-input').on('input', function() {
   }
 });
 
+// check display size
+
+$('.add-mobile-product-operating-memory-input').on('input', function() {
+  var product_price = $(this).val();
+  $('.add-mobile-product-operating-memory-input').removeClass('is-valid is-invalid');
+
+    if (product_price > 0.1) {
+    $('.add-mobile-product-operating-memory-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-mobile-product-operating-memory-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
 $('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
 
@@ -214,12 +227,13 @@ $('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mo
    var productDescriptionIsValid = $('.add-mobile-product-description-input').hasClass('is-valid');
    var productPriceIsValid = $('.add-mobile-product-price-input').hasClass('is-valid');
    var productDisplaySizeIsValid = $('.add-mobile-product-display-size-input').hasClass('is-valid');
+   var productOperatingMemoryIsValid = $('.add-mobile-product-operating-memory-input').hasClass('is-valid');
    var imageIsValid = $('.add-mobile-product-image-input').hasClass('is-valid');
-   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && productDisplaySizeIsValid && imageIsValid;
+   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && productDisplaySizeIsValid && productOperatingMemoryIsValid && imageIsValid;
 
   if (obligatedFieldsIsValid) {
-    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-additional-image-input').addClass('is-valid');
+    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-additional-image-input').addClass('is-valid');
   } else {
-    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-additional-image-input').removeClass('is-valid');
+    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-additional-image-input').removeClass('is-valid');
   }
 });
