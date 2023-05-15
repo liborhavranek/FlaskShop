@@ -15,7 +15,6 @@ from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
 from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
 from myshop.forms.edit_product_image import EditProductMainImageForm
-from myshop.forms.product_form import ProductForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.images_model import ProductImage
@@ -187,54 +186,6 @@ def product_list():
     return render_template('product-list.html', products=products)
 
 
-@products.route('/edit-product/<int:product_id>', methods=['POST', 'GET'])
-def edit_product(product_id):
-    product = Product.query.get(product_id)
-    form = ProductForm(obj=product)
-
-    if request.method == 'POST':
-        new_product_name = request.form.get('product_name')
-        new_product_subheading = request.form.get('subheading')
-        new_product_description = request.form.get('description')
-        new_product_price = request.form.get('price')
-        new_product_discount = request.form.get('discount')
-        new_product_size = request.form.get('size')
-        new_product_size_units = request.form.get('size_units')
-        new_product_weight = request.form.get('weight')
-        new_product_weight_units = request.form.get('weight_units')
-        new_product_color = request.form.get('color')
-
-        if new_product_name == str(product.id):
-            # product name is the same as product id, so skip validation
-            form.product_name.data = product.id
-        else:
-            # check if another product with the same name already exists
-            existing_product = Product.query.filter_by(product_name=new_product_name).first()
-            if existing_product and existing_product.id != product.id:
-                # another product with the same name exists, so validation fails
-                flash('Produkt s tímto názvem již existuje.', category='error')
-            else:
-                # no other product with the same name exists, so update the product name
-                product.product_name = new_product_name
-                product.subheading = new_product_subheading
-                product.description = new_product_description
-                product.price = new_product_price
-                product.discount = new_product_discount
-                product.size = new_product_size
-                product.size_units = new_product_size_units
-                product.weight = new_product_weight
-                product.weight_units = new_product_weight_units
-                product.color = new_product_color
-                product.date_edited = datetime.utcnow()
-                product.edited = True
-                db.session.commit()
-                form.product_name.data = ''
-                flash('Produkt byl aktualizován.', category='success')
-                return redirect(url_for('products.product_page_preview', product_id=product.id))
-
-    return render_template('edit_product.html', product=product, form=form)
-
-
 @products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
 def edit_product_images(product_id):
     main_image_form = EditProductMainImageForm()
@@ -276,7 +227,8 @@ def edit_product_images(product_id):
         flash('Další fotky byly přidány.', category='success')
         return redirect(url_for('products.edit_product_images', product_id=product_id))
 
-    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form, additional_images_form=additional_images_form)
+    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form,
+                           additional_images_form=additional_images_form)
 
 
 @products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
@@ -372,3 +324,107 @@ def create_mobile_product():
         return redirect(url_for('products.product_page_preview', product_id=new_product.id))
 
     return render_template('add_mobile_product.html', form=form)
+
+
+@products.route('/edit-mobile-product/<int:product_id>', methods=['POST', 'GET'])
+def edit_product(product_id):
+    product = Mobile.query.get(product_id)
+    form = MobileForm(obj=product)
+
+    if request.method == 'POST':
+        new_product_name = request.form.get('product_name')
+        new_product_price = request.form.get('price')
+        new_product_discount = request.form.get('discount')
+
+        new_product_height = request.form.get('height')
+        new_product_height_units = request.form.get('height_units')
+        new_product_width = request.form.get('width')
+        new_product_width_units = request.form.get('width_units')
+        new_product_depth = request.form.get('depth')
+        new_product_depth_units = request.form.get('depth_units')
+        new_product_weight = request.form.get('weight')
+        new_product_weight_units = request.form.get('weight_units')
+
+        new_product_color = request.form.get('color')
+
+        new_product_subheading = request.form.get('subheading')
+        new_product_description = request.form.get('description')
+
+        new_product_display_size = request.form.get('display_size')
+        new_product_display_resolution = request.form.get('display_resolution')
+        new_product_operating_system = request.form.get('operating_system')
+        new_product_operating_memory = request.form.get('operating_memory')
+        new_product_memory = request.form.get('memory')
+
+        new_product_battery_capacity = request.form.get('battery_capacity')
+        new_product_memory_card_slot = request.form.get('memory_card_slot')
+        new_product_face_id = request.form.get('face_id')
+        new_product_touch_screen = request.form.get('touch_screen')
+        new_product_back_camera = request.form.get('back_camera')
+        new_product_front_camera = request.form.get('front_camera')
+        new_product_convertible = request.form.get('convertible')
+        new_product_wifi = request.form.get('wifi')
+        new_product_bluetooth = request.form.get('bluetooth')
+        new_product_nfc = request.form.get('nfc')
+        new_product_esim = request.form.get('esim')
+        new_product_processor = request.form.get('processor')
+        new_product_processor_cores = request.form.get('processor_cores')
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(product_name=new_product_name).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash('Produkt s tímto názvem již existuje.', category='error')
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+                product.price = new_product_price
+                product.discount = new_product_discount
+
+                product.height = new_product_height
+                product.height_units = new_product_height_units
+                product.width = new_product_width
+                product.width_units = new_product_width_units
+                product.depth = new_product_depth
+                product.depth_units = new_product_depth_units
+                product.weight = new_product_weight
+                product.weight_units = new_product_weight_units
+
+                product.color = new_product_color
+
+                product.subheading = new_product_subheading
+                product.description = new_product_description
+
+                product.display_size = new_product_display_size
+                product.display_resolution = new_product_display_resolution
+                product.operating_system = new_product_operating_system
+                product.operating_memory = new_product_operating_memory
+                product.memory = new_product_memory
+
+                product.battery_capacity = new_product_battery_capacity
+                product.memory_card_slot = new_product_memory_card_slot == 'y'
+                product.face_id = new_product_face_id == 'y'
+                product.touch_screen = new_product_touch_screen == 'y'
+                product.back_camera = new_product_back_camera
+                product.front_camera = new_product_front_camera
+                product.convertible = new_product_convertible == 'y'
+                product.wifi = new_product_wifi == 'y'
+                product.bluetooth = new_product_bluetooth == 'y'
+                product.nfc = new_product_nfc == 'y'
+                product.esim = new_product_esim == 'y'
+
+                product.processor = new_product_processor
+                product.processor_cores = new_product_processor_cores
+
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ''
+                flash('Produkt byl aktualizován.', category='success')
+                return redirect(url_for('products.product_page_preview', product_id=product.id))
+
+    return render_template('edit_mobile_product.html', product=product, form=form)
