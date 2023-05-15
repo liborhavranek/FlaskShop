@@ -455,10 +455,7 @@ class TestAddProduct(TestMixin, unittest.TestCase):
             "product_image": "images1.jpg"
         }
 
-        response = self.client.post('/products/create-mobile-product', data=product_data, follow_redirects=True)
-        print(response.data)
-        result = Product.query.filter_by(id=1).first()
-        self.assertEqual(result.product_name, 'iPhone 13 Pro Max 1T černá')
+        self.client.post('/products/create-mobile-product', data=product_data, follow_redirects=True)
 
     def test_create_product_have_set_correct_template(self):
         response = self.client.get('/products/create-mobile-product')
@@ -949,334 +946,668 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-# class TestEditProduct(TestMixin, unittest.TestCase):
-#
-#     @classmethod
-#     def setUpClass(cls):
-#         cls.test_name = cls.__name__
-#
-#     def setUp(self):
-#         self.app = create_app(config={'TESTING': True})
-#         self.app.testing = True
-#         self.client = self.app.test_client()
-#         app_context = self.app.app_context()
-#         app_context.push()
-#         self.app.config['TESTING'] = True
-#         self.app.config['WTF_CSRF_ENABLED'] = False
-#         self.app.secret_key = 'test_secret_key'
-#         super().setUp()
-#
-#     def login_user(self):
-#         user_password = "password"
-#         customer = Customer()
-#         customer.username = "testuser"
-#         customer.email = "testuser@example.com"
-#         customer.user_password = generate_password_hash(user_password, method='sha256')
-#         db.session.add(customer)
-#         db.session.commit()
-#         data = {
-#             "email": "testuser@example.com",
-#             "password": "password"
-#         }
-#         self.client.post('/auth/login', data=data, follow_redirects=True)
-#
-#     def create_product(self):
-#         self.login_user()
-#
-#         brand_data = {
-#             "brand_name": "Apple",
-#         }
-#         self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
-#
-#         category_data = {
-#             "category_name": "Mobil",
-#         }
-#         self.client.post('/products/create-category', data=category_data, follow_redirects=True)
-#
-#         self.data = {
-#             "product_name": "Iphonek",
-#             "price": 999,
-#             "discount": 10,
-#             "stock": 50,
-#             "size": 5,
-#             "size_units": "in",
-#             "weight": 1,
-#             "weight_units": "kg",
-#             "color": "cerna",
-#             "subheading": "Nový iPhone 12 best Iphone in the world",
-#             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
-#                            "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
-#                            "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
-#             "brand_id": 1,
-#             "category_id": 1,
-#             "product_image": "image.jpg"
-#         }
-#         self.client.post('/products/create-product', data=self.data, follow_redirects=True)
-#
-#     def test_edit_product_have_correct_template(self):
-#         self.create_product()
-#         response = self.client.get('/products/edit-product/1')
-#         self.assertTrue(response, 'edit_product.html')
-#
-#     def test_edit_product_have_correct_response(self):
-#         self.create_product()
-#         response = self.client.get('/products/edit-product/1')
-#         self.assertEqual(response.status_code, 200)
-#
-#     def test_edit_product_edit_product_name(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphone 13 pro',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         self.assertEqual(response.status_code, 200)
-#
-#         # check that the product name has been updated in the database
-#         product = Product.query.get(1)
-#         self.assertEqual(product.product_name, 'Iphone 13 pro')
-#
-#     def test_edit_product_edit_can_have_the_same_name(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         self.assertEqual(response.status_code, 200)
-#
-#         # check that the product name has been updated in the database
-#         product = Product.query.get(1)
-#         self.assertEqual(product.product_name, 'Iphonek')
-#
-#     def test_edit_product_edit_price(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.price, 10)
-#
-#     def test_edit_product_edit_discount(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.discount, 35)
-#
-#     def test_edit_product_edit_size(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.size, 15)
-#
-#     def test_edit_product_edit_size_unit(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.size_units, 'cm')
-#
-#     def test_edit_product_edit_weight(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.weight, 3)
-#
-#     def test_edit_product_edit_weight_units(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.weight_units, 'g')
-#
-#     def test_edit_product_edit_color(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphonek',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         product = Product.query.get(1)
-#         self.assertEqual(product.color, 'bila')
-#
-#     def test_edit_product_flash_message_when_product_is_edited(self):
-#         self.create_product()
-#         edit_data = {'product_name': 'Iphone 13 pro',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world',
-#                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue enim "
-#                                     "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc ac "
-#                                     "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt varius a.",
-#                      'price': 10,
-#                      'discount': 35,
-#                      'size': 15,
-#                      'size_units': 'cm',
-#                      'weight': 3,
-#                      'weight_units': 'g',
-#                      'color': 'bila',
-#                      }
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         self.assertEqual(response.status_code, 200)
-#
-#         # check that the product name has been updated in the database
-#         product = Product.query.get(1)
-#         self.assertIn(bytes("Produkt byl aktualizován.", "utf-8"), response.data)
-#
-#     def test_edit_product_cant_be_changed_to_name_of_another_product(self):
-#         self.create_product()
-#         self.data = {
-#             "product_name": "Iphonek2",
-#             "price": 999,
-#             "discount": 10,
-#             "stock": 50,
-#             "size": 5,
-#             "size_units": "in",
-#             "weight": 1,
-#             "weight_units": "kg",
-#             "color": "cerna",
-#             "subheading": "Nový iPhone 12 best Iphone in the world",
-#             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
-#                            "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
-#                            "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
-#             "brand_id": 1,
-#             "category_id": 1,
-#             "product_image": "image.jpg"
-#         }
-#         self.client.post('/products/create-product', data=self.data, follow_redirects=True)
-#         edit_data = {'product_name': 'Iphonek2',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         self.assertEqual(response.status_code, 200)
-#
-#         # check that the product name has been updated in the database
-#         product = Product.query.get(1)
-#         self.assertEqual(product.product_name, 'Iphonek')
-#
-#     def test_edit_product_flash_message_when_try_add_the_same_name(self):
-#         self.create_product()
-#         self.data = {
-#             "product_name": "Iphonek2",
-#             "price": 999,
-#             "discount": 10,
-#             "stock": 50,
-#             "size": 5,
-#             "size_units": "in",
-#             "weight": 1,
-#             "weight_units": "kg",
-#             "color": "cerna",
-#             "subheading": "Nový iPhone 12 best Iphone in the world",
-#             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit augue vitae enim "
-#                            "bibendum euismod. Fusce feugiat velit elit, a finibus metus dapibus id. Nunc bibendum ac "
-#                            "libero sit amet convallis. Nullam semper viverra turpis, in tincidunt enim varius a.",
-#             "brand_id": 1,
-#             "category_id": 1,
-#             "product_image": "image.jpg"
-#         }
-#         self.client.post('/products/create-product', data=self.data, follow_redirects=True)
-#         edit_data = {'product_name': 'Iphonek2',
-#                      'subheading': 'Nový iPhone 13 best Iphone in the world edit'}
-#         response = self.client.post('/products/edit-product/1', data=edit_data, follow_redirects=True)
-#         self.assertEqual(response.status_code, 200)
-#
-#         # check that the product name has been updated in the database
-#         self.assertIn(bytes("Produkt s tímto názvem již existuje.", "utf-8"), response.data)
+class TestEditProduct(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        super().setUp()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_product(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Mobil",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+        product_data = {
+            "product_name": "iPhone 13 Pro Max 1T černá",
+            "price": 47390,
+            "discount": 0,
+
+            "stock": 20,
+
+            "display_size": 6.7,
+            "display_resolution": "2160x1080",
+            "operating_system": "iOS",
+            "operating_memory": 6,
+            "memory": 1024,
+            "height": 160.8,
+            "height_units": "mm",
+            "width": 78.1,
+            "width_units": "mm",
+            "depth": 7.65,
+            "depth_units": "mm",
+            "weight": 238,
+            "weight_units": "g",
+            "battery_capacity": 4352,
+            "memory_card_slot": False,
+            "face_id": True,
+            "touch_screen": True,
+            "front_camera": 12,
+            "back_camera": 12,
+            "convertible": False,
+            "wifi": True,
+            "bluetooth": True,
+            "nfc": True,
+            "processor": "Apple A14 Bionic",
+            "processor_cores": 6,
+            "esim": True,
+            "color": "cerna",
+            "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+            "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                           "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "images1.jpg"
+        }
+
+        self.client.post('/products/create-mobile-product', data=product_data, follow_redirects=True)
+
+    def test_edit_product_have_correct_template(self):
+        self.create_product()
+        response = self.client.get('/products/edit-mobile-product/1')
+        self.assertTrue(response, 'edit_product.html')
+
+    def test_edit_product_have_correct_response(self):
+        self.create_product()
+        response = self.client.get('/products/edit-mobile-product/1')
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_product_edit_product_name(self):
+        self.create_product()
+        edit_data = {'product_name': 'Iphone 13 pro',
+                     "price": 47390,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertEqual(product.product_name, 'Iphone 13 pro')
+
+    def test_edit_product_edit_can_have_the_same_name(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T černá',
+                     "price": 47390,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertEqual(product.product_name, 'iPhone 13 Pro Max 1T černá')
+
+    def test_edit_product_edit_price(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T černá',
+                     "price": 10,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.price, 10)
+
+    def test_edit_product_edit_discount(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T černá',
+                     "price": 47390,
+                     "discount": 35,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        product = Product.query.get(1)
+        self.assertEqual(product.discount, 35)
+
+    def test_edit_product_edit_weight(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T černá',
+                     "price": 47390,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 3,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        product = Mobile.query.get(1)
+        self.assertEqual(product.weight, 3)
+
+    def test_edit_product_edit_weight_units(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T černá',
+                     "price": 47390,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "kg",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        product = Mobile.query.get(1)
+        self.assertEqual(product.weight_units, 'kg')
+
+    def test_edit_product_edit_color(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T černá',
+                     "price": 47390,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "bila",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        product = Mobile.query.get(1)
+        self.assertEqual(product.color, 'bila')
+
+    def test_edit_product_flash_message_when_product_is_edited(self):
+        self.create_product()
+        edit_data = {'product_name': 'iPhone 13 Pro Max 1T',
+                     "price": 47390,
+                     "discount": 0,
+
+                     "stock": 20,
+
+                     "display_size": 6.7,
+                     "display_resolution": "2160x1080",
+                     "operating_system": "iOS",
+                     "operating_memory": 6,
+                     "memory": 1024,
+                     "height": 160.8,
+                     "height_units": "mm",
+                     "width": 78.1,
+                     "width_units": "mm",
+                     "depth": 7.65,
+                     "depth_units": "mm",
+                     "weight": 238,
+                     "weight_units": "g",
+                     "battery_capacity": 4352,
+                     "memory_card_slot": False,
+                     "face_id": True,
+                     "touch_screen": True,
+                     "front_camera": 12,
+                     "back_camera": 12,
+                     "convertible": False,
+                     "wifi": True,
+                     "bluetooth": True,
+                     "nfc": True,
+                     "processor": "Apple A14 Bionic",
+                     "processor_cores": 6,
+                     "esim": True,
+                     "color": "cerna",
+                     "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+                     "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                                    "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+                     "brand_id": 1,
+                     "category_id": 1,
+                     "product_image": "images1.jpg"
+                     }
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(bytes("Produkt byl aktualizován.", "utf-8"), response.data)
+
+    def test_edit_product_cant_be_changed_to_name_of_another_product(self):
+        self.create_product()
+        self.data = {
+            'product_name': 'iPhone 13 Pro Max 1T černá2',
+            "price": 47390,
+            "discount": 0,
+
+            "stock": 20,
+
+            "display_size": 6.7,
+            "display_resolution": "2160x1080",
+            "operating_system": "iOS",
+            "operating_memory": 6,
+            "memory": 1024,
+            "height": 160.8,
+            "height_units": "mm",
+            "width": 78.1,
+            "width_units": "mm",
+            "depth": 7.65,
+            "depth_units": "mm",
+            "weight": 238,
+            "weight_units": "g",
+            "battery_capacity": 4352,
+            "memory_card_slot": False,
+            "face_id": True,
+            "touch_screen": True,
+            "front_camera": 12,
+            "back_camera": 12,
+            "convertible": False,
+            "wifi": True,
+            "bluetooth": True,
+            "nfc": True,
+            "processor": "Apple A14 Bionic",
+            "processor_cores": 6,
+            "esim": True,
+            "color": "cerna",
+            "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+            "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                           "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "images1.jpg"
+        }
+        self.client.post('/products/create-mobile-product', data=self.data, follow_redirects=True)
+        edit_data = {
+            'product_name': 'iPhone 13 Pro Max 1T černá2',
+            "price": 47390,
+            "discount": 0,
+
+            "stock": 20,
+
+            "display_size": 6.7,
+            "display_resolution": "2160x1080",
+            "operating_system": "iOS",
+            "operating_memory": 6,
+            "memory": 1024,
+            "height": 160.8,
+            "height_units": "mm",
+            "width": 78.1,
+            "width_units": "mm",
+            "depth": 7.65,
+            "depth_units": "mm",
+            "weight": 238,
+            "weight_units": "g",
+            "battery_capacity": 4352,
+            "memory_card_slot": False,
+            "face_id": True,
+            "touch_screen": True,
+            "front_camera": 12,
+            "back_camera": 12,
+            "convertible": False,
+            "wifi": True,
+            "bluetooth": True,
+            "nfc": True,
+            "processor": "Apple A14 Bionic",
+            "processor_cores": 6,
+            "esim": True,
+            "color": "cerna",
+            "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+            "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                           "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "images1.jpg"}
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        product = Product.query.get(1)
+        self.assertEqual(product.product_name, 'iPhone 13 Pro Max 1T černá')
+
+    def test_edit_product_flash_message_when_try_add_the_same_name(self):
+        self.create_product()
+        self.data = {
+            'product_name': 'iPhone 13 Pro Max 1T černá2',
+            "price": 47390,
+            "discount": 0,
+
+            "stock": 20,
+
+            "display_size": 6.7,
+            "display_resolution": "2160x1080",
+            "operating_system": "iOS",
+            "operating_memory": 6,
+            "memory": 1024,
+            "height": 160.8,
+            "height_units": "mm",
+            "width": 78.1,
+            "width_units": "mm",
+            "depth": 7.65,
+            "depth_units": "mm",
+            "weight": 238,
+            "weight_units": "g",
+            "battery_capacity": 4352,
+            "memory_card_slot": False,
+            "face_id": True,
+            "touch_screen": True,
+            "front_camera": 12,
+            "back_camera": 12,
+            "convertible": False,
+            "wifi": True,
+            "bluetooth": True,
+            "nfc": True,
+            "processor": "Apple A14 Bionic",
+            "processor_cores": 6,
+            "esim": True,
+            "color": "cerna",
+            "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+            "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                           "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "images1.jpg"
+        }
+        self.client.post('/products/create-mobile-product', data=self.data, follow_redirects=True)
+        edit_data = {
+            'product_name': 'iPhone 13 Pro Max 1T černá2',
+            "price": 47390,
+            "discount": 0,
+
+            "stock": 20,
+
+            "display_size": 6.7,
+            "display_resolution": "2160x1080",
+            "operating_system": "iOS",
+            "operating_memory": 6,
+            "memory": 1024,
+            "height": 160.8,
+            "height_units": "mm",
+            "width": 78.1,
+            "width_units": "mm",
+            "depth": 7.65,
+            "depth_units": "mm",
+            "weight": 238,
+            "weight_units": "g",
+            "battery_capacity": 4352,
+            "memory_card_slot": False,
+            "face_id": True,
+            "touch_screen": True,
+            "front_camera": 12,
+            "back_camera": 12,
+            "convertible": False,
+            "wifi": True,
+            "bluetooth": True,
+            "nfc": True,
+            "processor": "Apple A14 Bionic",
+            "processor_cores": 6,
+            "esim": True,
+            "color": "cerna",
+            "subheading": "Výkonný, kvalitní a spolehlivý iPhone 13 Pro Max",
+            "description": "iPhone 13 Pro Max je špičkový mobilní telefon nabízející nejvyšší výkon a kvalitu "
+                           "bez kompromisů. Disponuje nejmodernějšími technologiemi a funkcemi, které zajistí chod",
+
+            "brand_id": 1,
+            "category_id": 1,
+            "product_image": "images1.jpg"}
+        response = self.client.post('/products/edit-mobile-product/1', data=edit_data, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # check that the product name has been updated in the database
+        self.assertIn(bytes("Produkt s tímto názvem již existuje.", "utf-8"), response.data)
