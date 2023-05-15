@@ -1,0 +1,419 @@
+{% extends 'base.html'%}
+    {% block content %}
+<div class="container-fluid add-product-form-container py-5">
+    <h1 class="text-center">Přidat nový produkt mobilní telefon</h1>
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container shadow-lg">
+
+<form method="POST" autocomplete="off" enctype=multipart/form-data>
+  {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_name.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_name(class="form-control add-mobile-product-name-input") }}
+                <div class="add-mobile-product-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control add-mobile-product-subheading-input") }}
+                <div class="add-mobile-product-subheading-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control add-mobile-product-description-input") }}
+                <div class="add-mobile-product-description-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+        <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control add-mobile-product-color-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control add-mobile-product-brand-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control add-mobile-product-category-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-2">
+                {{ form.price(class="form-control add-mobile-product-price-input") }}
+            </div>
+            <div class="col-1">
+                Kč
+            </div>
+             <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-2">
+                {{ form.discount(class="form-control add-mobile-product-discount-input") }}
+            </div>
+             <div class="col-2">
+                %
+            </div>
+
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.stock.label }}
+            </div>
+            <div class="col-2">
+                {{ form.stock(class="form-control add-mobile-product-stock-input") }}
+            </div>
+            <div class="col-6">
+                počáteční počet kusů na skladě
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.height.label }}
+            </div>
+            <div class="col-2">
+                {{ form.height(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.height_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.width.label }}
+            </div>
+            <div class="col-2">
+                {{ form.width(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.width_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.depth.label }}
+            </div>
+            <div class="col-2">
+                {{ form.depth(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.depth_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.weight.label }}
+            </div>
+            <div class="col-2">
+                {{ form.weight(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.weight_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_size.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_size(class="form-control add-mobile-product-display-size-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_resolution.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_resolution(class="form-control add-mobile-product-display-resolution-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.operating_memory.label }}
+            </div>
+            <div class="col-3">
+                {{ form.operating_memory(class="form-control add-mobile-product-operating-memory-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.memory.label }}
+            </div>
+            <div class="col-3">
+                {{ form.memory(class="form-control add-mobile-product-memory-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.operating_system.label }}
+            </div>
+            <div class="col-3">
+                {{ form.operating_system(class="form-control add-mobile-product-operating-system-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.battery_capacity.label }}
+            </div>
+            <div class="col-3">
+                {{ form.battery_capacity(class="form-control add-mobile-product-battery-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.back_camera.label }}
+            </div>
+            <div class="col-3">
+                {{ form.back_camera(class="form-control add-mobile-product-back-camera-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.front_camera.label }}
+            </div>
+            <div class="col-3">
+                {{ form.front_camera(class="form-control add-mobile-product-front-camera-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.processor.label }}
+            </div>
+            <div class="col-3">
+                {{ form.processor(class="form-control add-mobile-product-processor-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.processor_cores.label }}
+            </div>
+            <div class="col-3">
+                {{ form.processor_cores(class="form-control add-mobile-product-processor-cores-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.memory_card_slot.label }}
+            </div>
+            <div class="col-1">
+                {{ form.memory_card_slot(class="form-check-input add-mobile-product-memory-card-slot-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-memory-card-slot-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.wifi.label }}
+            </div>
+            <div class="col-1">
+                {{ form.wifi(class="form-check-input add-mobile-product-wifi-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-wifi-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.bluetooth.label }}
+            </div>
+            <div class="col-1">
+                {{ form.bluetooth(class="form-check-input add-mobile-product-bluetooth-input") }}
+            </div>
+             <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-bluetooth-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.nfc.label }}
+            </div>
+            <div class="col-1">
+                {{ form.nfc(class="form-check-input add-mobile-product-nfc-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-nfc-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.esim.label }}
+            </div>
+            <div class="col-1">
+                {{ form.esim(class="form-check-input add-mobile-product-esim-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-esim-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.face_id.label }}
+            </div>
+            <div class="col-1">
+                {{ form.face_id(class="form-check-input add-mobile-product-face-id-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-face-id-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.touch_screen.label }}
+            </div>
+            <div class="col-1">
+                {{ form.touch_screen(class="form-check-input add-mobile-product-touch-screen-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-touch-screen-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.convertible.label }}
+            </div>
+            <div class="col-1">
+                {{ form.convertible(class="form-check-input add-mobile-product-convertible-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-convertible-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_image.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_image(class="form-control add-mobile-product-image-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.additional_images.label }}
+            </div>
+            <div class="col-8">
+                {{ form.additional_images(class="form-control add-mobile-additional-image-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="text-start">
+    <p>Všechny pole označená * musí být vyplněna.</p>
+    </div>
+    <div class="text-center">
+    {{ form.add_product_submit(class="btn btn-warning") }}
+    </div>
+</form>
+
+    </div>
+</div>
+{%endblock content %}

@@ -12,7 +12,7 @@ from myshop.tests.my_test_mixin import TestAllTemplates, TestMixin
 class TestEditBrand(TestAllTemplates):
     """Test edit brand page."""
 
-    path = '/products/create-product'
+    path = '/products/create-mobile-product'
 
     @classmethod
     def setUpClass(cls):
@@ -52,18 +52,20 @@ class TestAuthTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
     def test_add_product_form_have_closed_form_tag(self):
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         self.assertIn(b'<form method="POST">', response.data)
         self.assertIn(b'</form>', response.data)
 
     def test_product_form_have_all_input_fields(self):
         self.login_user()
         fields_to_test = [
-            'product_name', 'price', 'discount', 'stock', 'size',
-            "weight", "product_image", "additional_images"
+            'product_name', 'price', 'discount', 'stock', 'height', 'width', 'depth', 'weight', 'display_size',
+            'operating_memory', 'memory', 'battery_capacity', 'memory_card_slot', 'wifi', 'bluetooth', 'nfc', 'esim',
+            'processor_cores', 'face_id', 'touch_screen', 'convertible', 'back_camera', 'front_camera', 'product_image',
+            'additional_images', 'add_product_submit'
                           ]
 
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
         form_tag = soup.find('form', {'method': 'POST'})
         form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
@@ -76,10 +78,11 @@ class TestAuthTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
     def test_product_form_have_all_select_fields(self):
         self.login_user()
         fields_to_test = [
-            'size_units', "weight_units", "color", "brand_id", "category_id"
+             'height_units', 'width_units', 'depth_units', 'weight_units', 'display_resolution',
+             'operating_system', 'processor', 'color', 'brand_id', 'category_id'
         ]
 
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
         form_tag = soup.find('form', {'method': 'POST'})
         form_select_fields = [select_tag['name'] for select_tag in form_tag.find_all('select')]
@@ -94,7 +97,7 @@ class TestAuthTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
             "subheading", "description"
         ]
 
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
         form_tag = soup.find('form', {'method': 'POST'})
         form_select_fields = [select_tag['name'] for select_tag in form_tag.find_all('textarea')]
@@ -107,21 +110,41 @@ class TestAuthTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
         self.login_user()
         expected_labels = {
             'product_name': 'Název *:',
+            'subheading': 'Podnadpis *:',
+            'description': 'Popis *:',
             'price': 'Cena *:',
             'discount': 'Sleva:',
             'stock': 'Počet kusů:',
-            'size': 'Velikost:',
+            "height": "Výška:",
+            "width": "Šířka:",
+            "depth": "Hloubka:",
             'weight': 'Váha:',
             'color': 'Barva:',
-            'subheading': 'Podnadpis *:',
-            'description': 'Popis *:',
+
             'brand_id': 'Značka:',
             'category_id': 'Kategorie:',
             "product_image": "Foto *:",
             'additional_images': 'Další fotky:',
-
+            "display_size": "Velikost displeje *:",
+            "display_resolution": "Rozlišení displeje *:",
+            "operating_memory": "Operační paměť *:",
+            "memory": "Velikost disku *:",
+            "operating_system": "Operační systém *:",
+            "battery_capacity": "Kapacita baterie:",
+            "memory_card_slot": "Slot na paměťovou kartu:",
+            "wifi": "WiFi:",
+            "bluetooth": "Bluetooth:",
+            "nfc": "NFC:",
+            "esim": "eSIM:",
+            "processor": "Procesor:",
+            "processor_cores": "Počet jader:",
+            "face_id": "Face ID:",
+            "touch_screen": "Dotyková obrazovka:",
+            "convertible": "Ohebný:",
+            "back_camera": "Zadní kamera:",
+            "front_camera": "Přední kamera:",
         }
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
         form_labels = {label_tag['for']: label_tag.text.strip() for label_tag in soup.find_all('label')}
 
@@ -131,7 +154,7 @@ class TestAuthTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
 
     def test_add_product_form_have_submit_field(self):
         self.login_user()
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         soup = BeautifulSoup(response.data, 'html.parser')
 
         # Check that the form contains a submit button

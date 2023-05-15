@@ -38,12 +38,13 @@
                     <p>{{ product.description }}</p>
                     <h1>{{ product.price }} Kč</h1>
                     <h1>{{ product.discount }} %</h1>
-                    <p>Barva: {{ product.color }}</p>
+                    <p>Barva: {{ product.color|safe }}</p>
                     <p>Kategorie: {{ product.category.category_name }}</p>
                     <p>Značka: {{ product.brand.brand_name }}</p>
                     <p>Velikost: {{ product.size }} {{ product.size_units }}</p>
                     <p>Váha: {{ product.weight }} {{ product.weight_units }}</p>
                     <p>Návštěvnost: {{ product.visit_count }}</p>
+                    <p>Procesor: {{ product.processor }}</p>
                 </div>
 
 
