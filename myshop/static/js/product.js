@@ -313,20 +313,30 @@ $('.add-mobile-product-face-id-input').change(function() {
   });
 
 $('.add-mobile-product-touch-screen-input').change(function() {
-    if ($(this).is(':checked')) {
-      $('.add-mobile-product-touch-screen-text').text('ANO').css('color', 'green');
-    } else {
-      $('.add-mobile-product-touch-screen-text').text('NE').css('color', 'red');
-    }
-  });
+  if ($(this).is(':checked')) {
+    $('.add-mobile-product-touch-screen-text').text('ANO').css('color', 'green');
+  } else {
+    $('.add-mobile-product-touch-screen-text').text('NE').css('color', 'red');
+  }
+});
 
 $('.add-mobile-product-convertible-input').change(function() {
-    if ($(this).is(':checked')) {
-      $('.add-mobile-product-convertible-text').text('ANO').css('color', 'green');
-    } else {
-      $('.add-mobile-product-convertible-text').text('NE').css('color', 'red');
-    }
-  });
+  if ($(this).is(':checked')) {
+    $('.add-mobile-product-convertible-text').text('ANO').css('color', 'green');
+  } else {
+    $('.add-mobile-product-convertible-text').text('NE').css('color', 'red');
+  }
+});
+
+// Trigger the change event on page load to update the initial state
+$('.add-mobile-product-touch-screen-input').change();
+$('.add-mobile-product-convertible-input').change();
+$('.add-mobile-product-face-id-input').change();
+$('.add-mobile-product-esim-input').change();
+$('.add-mobile-product-nfc-input').change();
+$('.add-mobile-product-bluetooth-input').change();
+$('.add-mobile-product-wifi-input').change();
+$('.add-mobile-product-memory-card-slot-input').change();
 
 $('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
