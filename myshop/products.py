@@ -39,6 +39,18 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def save_image(image, upload_folder):
+    if image and image.filename != '':
+        # Generate a unique filename for the image
+        pic_filename = secure_filename(image.filename)
+        pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        str_picname = str(pic_name)
+        # Save the image file to the server
+        image.save(os.path.join(upload_folder, str_picname))
+        return str_picname
+    return None
+
+
 @products.errorhandler(404)
 def page_not_found(error):
     return render_template('errors/404.html'), 404
@@ -223,63 +235,63 @@ def edit_product(product_id):
     return render_template('edit_product.html', product=product, form=form)
 
 
-@products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
-def edit_product_images(product_id):
-    main_image_form = EditProductMainImageForm()
-    additional_images_form = AddProductAdditionalImagesForm()
-    product = Product.query.get_or_404(product_id)
-    existing_image_filename = product.product_image
-
-    if main_image_form.validate_on_submit():
-        product_image = main_image_form.product_image.data
-        if product_image:
-            # Delete the existing image file
-            if existing_image_filename:
-                os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], existing_image_filename))
-
-            # Generate a unique filename for the new image
-            pic_filename = secure_filename(product_image.filename)
-            pic_name = str(uuid.uuid1()) + "_" + pic_filename
-            str_picname = str(pic_name)
-
-            # Save the new image file to the server
-            product_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], str_picname))
-
-            # Update the product image filename in the database
-            product.product_image = str_picname
-
-            db.session.commit()
-
-            flash('Produktová fotka byla aktualizována.', category='success')
-            return redirect(url_for('products.edit_product_images', product_id=product_id))
-
-    if additional_images_form.validate_on_submit():
-        additional_images = additional_images_form.additional_images.data
-        additional_image_filenames = []
-        for additional_image in additional_images:
-            if additional_image.filename != '':
-                # Generate a unique filename for the image
-                pic_filename = secure_filename(additional_image.filename)
-                pic_name = str(uuid.uuid1()) + "_" + pic_filename
-                str_picname = str(pic_name)
-                # Save the image file to the server
-                additional_image.save(os.path.join(
-                    current_app.config['UPLOAD_FOLDER'], str_picname))
-                # Add the image filename to the list
-                additional_image_filenames.append(str_picname)
-
-        for filename in additional_image_filenames:
-            product_image = ProductImage(
-                image_name=filename,
-                product_id=product_id
-            )
-            db.session.add(product_image)
-        db.session.commit()
-
-        flash('Další fotky byly přidány.', category='success')
-        return redirect(url_for('products.edit_product_images', product_id=product_id))
-
-    return render_template('edit_product_images.html', product=product, main_image_form=main_image_form, additional_images_form=additional_images_form)
+# @products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
+# def edit_product_images(product_id):
+#     main_image_form = EditProductMainImageForm()
+#     additional_images_form = AddProductAdditionalImagesForm()
+#     product = Product.query.get_or_404(product_id)
+#     existing_image_filename = product.product_image
+#
+#     if main_image_form.validate_on_submit():
+#         product_image = main_image_form.product_image.data
+#         if product_image:
+#             # Delete the existing image file
+#             if existing_image_filename:
+#                 os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], existing_image_filename))
+#
+#             # Generate a unique filename for the new image
+#             pic_filename = secure_filename(product_image.filename)
+#             pic_name = str(uuid.uuid1()) + "_" + pic_filename
+#             str_picname = str(pic_name)
+#
+#             # Save the new image file to the server
+#             product_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], str_picname))
+#
+#             # Update the product image filename in the database
+#             product.product_image = str_picname
+#
+#             db.session.commit()
+#
+#             flash('Produktová fotka byla aktualizována.', category='success')
+#             return redirect(url_for('products.edit_product_images', product_id=product_id))
+#
+#     if additional_images_form.validate_on_submit():
+#         additional_images = additional_images_form.additional_images.data
+#         additional_image_filenames = []
+#         for additional_image in additional_images:
+#             if additional_image.filename != '':
+#                 # Generate a unique filename for the image
+#                 pic_filename = secure_filename(additional_image.filename)
+#                 pic_name = str(uuid.uuid1()) + "_" + pic_filename
+#                 str_picname = str(pic_name)
+#                 # Save the image file to the server
+#                 additional_image.save(os.path.join(
+#                     current_app.config['UPLOAD_FOLDER'], str_picname))
+#                 # Add the image filename to the list
+#                 additional_image_filenames.append(str_picname)
+#
+#         for filename in additional_image_filenames:
+#             product_image = ProductImage(
+#                 image_name=filename,
+#                 product_id=product_id
+#             )
+#             db.session.add(product_image)
+#         db.session.commit()
+#
+#         flash('Další fotky byly přidány.', category='success')
+#         return redirect(url_for('products.edit_product_images', product_id=product_id))
+#
+#     return render_template('edit_product_images.html', product=product, main_image_form=main_image_form, additional_images_form=additional_images_form)
 
 
 @products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
@@ -349,33 +361,14 @@ def create_mobile_product():
 
         # Get the product image file, if any
         product_image = request.files.get('product_image')
-        if product_image:
-            # Generate a unique filename for the image
-            pic_filename = secure_filename(product_image.filename)
-            pic_name = str(uuid.uuid1()) + "_" + pic_filename
-            str_picname = str(pic_name)
-            # Save the image file to the server
-            product_image.save(os.path.join(
-                current_app.config['UPLOAD_FOLDER'], str_picname))
-            # Add the image filename to the product data
-            product_data['product_image'] = str_picname
+        product_data['product_image'] = save_image(product_image, current_app.config['UPLOAD_FOLDER'])
 
         new_product = Mobile(**product_data)
 
         # Get the additional image files, if any
         additional_images = request.files.getlist('additional_images')
-        additional_image_filenames = []
-        for additional_image in additional_images:
-            if additional_image.filename != '':
-                # Generate a unique filename for the image
-                pic_filename = secure_filename(additional_image.filename)
-                pic_name = str(uuid.uuid1()) + "_" + pic_filename
-                str_picname = str(pic_name)
-                # Save the image file to the server
-                additional_image.save(os.path.join(
-                    current_app.config['UPLOAD_FOLDER'], str_picname))
-                # Add the image filename to the list
-                additional_image_filenames.append(str_picname)
+        additional_image_filenames = [save_image(image, current_app.config['UPLOAD_FOLDER']) for image in
+                                      additional_images if image.filename != '']
 
         # Add the product to the database
         db.session.add(new_product)
@@ -394,3 +387,6 @@ def create_mobile_product():
         return redirect(url_for('products.product_page_preview', product_id=new_product.id))
 
     return render_template('add_mobile_product.html', form=form)
+
+
+
