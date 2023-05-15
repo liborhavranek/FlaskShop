@@ -139,19 +139,19 @@ $('.add-mobile-product-subheading-input').on('input', function() {
 
 // check description length
 
-$('.add-product-description-input').on('input', function() {
+$('.add-mobile-product-description-input').on('input', function() {
   var product_description = $(this).val();
-  $('.add-product-description-input').removeClass('is-valid is-invalid');
+  $('.add-mobile-product-description-input').removeClass('is-valid is-invalid');
 
   if (product_description.length === 0) {
-    $('.add-product-description-validation-text').hide();
+    $('.add-mobile-product-description-validation-text').hide();
 
   } else if (product_description.length > 50) {
-    $('.add-product-description-input').removeClass('is-invalid').addClass('is-valid');
-    $('.add-product-description-validation-text').hide();
+    $('.add-mobile-product-description-input').removeClass('is-invalid').addClass('is-valid');
+    $('.add-mobile-product-description-validation-text').hide();
   } else {
-    $('.add-product-description-input').removeClass('is-valid').addClass('is-invalid');
-    $('.add-product-description-validation-text').text("Nadpis musí být dlouhý alespoň 50 znaků.").show();
+    $('.add-mobile-product-description-input').removeClass('is-valid').addClass('is-invalid');
+    $('.add-mobile-product-description-validation-text').text("Nadpis musí být dlouhý alespoň 50 znaků.").show();
   }
 });
 
@@ -196,10 +196,10 @@ $('.add-product-image-input').on('change', function() {
 
 // check if obligated fields are valid all fields will to valid
 
-$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
+$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mobile-product-description-input, .add-product-price-input, .add-product-image-input').on('input change', function() {
    var productNameIsValid = $('.add-mobile-product-name-input').hasClass('is-valid');
    var productSubheadingIsValid = $('.add-mobile-product-subheading-input').hasClass('is-valid');
-   var productDescriptionIsValid = $('.add-product-description-input').hasClass('is-valid');
+   var productDescriptionIsValid = $('.add-mobile-product-description-input').hasClass('is-valid');
    var productPriceIsValid = $('.add-product-price-input').hasClass('is-valid');
    var imageIsValid = $('.add-product-image-input').hasClass('is-valid');
    var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && imageIsValid;
