@@ -205,8 +205,8 @@ $('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mo
    var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && imageIsValid;
 
   if (obligatedFieldsIsValid) {
-    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-product-color-input, .add-product-brand-input, .add-product-category-input, .add-additional-image-input').addClass('is-valid');
+    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-additional-image-input').addClass('is-valid');
   } else {
-    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-product-color-input, .add-product-brand-input, .add-product-category-input, .add-additional-image-input').removeClass('is-valid');
+    $('.add-product-discount-input, .add-product-stock-input, .add-product-size-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-additional-image-input').removeClass('is-valid');
   }
 });
