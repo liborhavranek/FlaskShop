@@ -216,6 +216,39 @@ $('.add-mobile-product-memory-input').on('input', function() {
       $(this).removeClass('is-invalid').addClass('is-valid');
   });
 
+  $('.add-mobile-product-battery-capacity-input').on('input', function() {
+  var battery_capacity = $(this).val();
+  $('.add-mobile-product-battery-capacity-input').removeClass('is-valid is-invalid');
+
+    if (battery_capacity > 0.1) {
+    $('.add-mobile-product-battery-capacity-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-mobile-product-battery-capacity-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+  $('.add-mobile-product-back-camera-input').on('input', function() {
+  var back_camera = $(this).val();
+  $('.add-mobile-product-back-camera-input').removeClass('is-valid is-invalid');
+
+    if (back_camera > 0.1) {
+    $('.add-mobile-product-back-camera-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-mobile-product-back-camera-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
+  $('.add-mobile-product-front-camera-input').on('input', function() {
+  var front_camera = $(this).val();
+  $('.add-mobile-product-front-camera-input').removeClass('is-valid is-invalid');
+
+    if (front_camera > 0.1) {
+    $('.add-mobile-product-front-camera-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-mobile-product-front-camera-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
+
 $('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
 
@@ -242,8 +275,8 @@ $('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mo
    var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && productDisplaySizeIsValid && productOperatingMemoryIsValid && productMemoryIsValid && imageIsValid;
 
   if (obligatedFieldsIsValid) {
-    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-additional-image-input').addClass('is-valid');
+    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-product-battery-capacity-input, .add-mobile-product-back-camera-input, .add-mobile-product-front-camera-input, .add-mobile-additional-image-input').addClass('is-valid');
   } else {
-    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-additional-image-input').removeClass('is-valid');
+    $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-product-display-resolution-input, .add-mobile-product-battery-capacity-input, .add-mobile-product-back-camera-input, .add-mobile-product-front-camera-input, .add-mobile-additional-image-input').removeClass('is-valid');
   }
 });
