@@ -168,6 +168,18 @@ $('.add-mobile-product-price-input').on('input', function() {
   }
 });
 
+// ceck mobile display size
+
+$('.add-mobile-product-display-size-input').on('input', function() {
+  var product_price = $(this).val();
+  $('.add-mobile-product-display-size-input').removeClass('is-valid is-invalid');
+
+    if (product_price > 0.1) {
+    $('.add-mobile-product-display-size-input').removeClass('is-invalid').addClass('is-valid');
+  } else {
+    $('.add-mobile-product-display-size-input').removeClass('is-valid').addClass('is-invalid');
+  }
+});
 
 // check display size
 
@@ -196,13 +208,14 @@ $('.add-mobile-product-image-input').on('change', function() {
 
 // check if obligated fields are valid all fields will to valid
 
-$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mobile-product-description-input, .add-mobile-product-price-input, .add-mobile-product-image-input').on('input change', function() {
+$('.add-mobile-product-name-input, .add-mobile-product-subheading-input, .add-mobile-product-description-input, .add-mobile-product-price-input, .add-mobile-product-display-size-input, .add-mobile-product-image-input').on('input change', function() {
    var productNameIsValid = $('.add-mobile-product-name-input').hasClass('is-valid');
    var productSubheadingIsValid = $('.add-mobile-product-subheading-input').hasClass('is-valid');
    var productDescriptionIsValid = $('.add-mobile-product-description-input').hasClass('is-valid');
    var productPriceIsValid = $('.add-mobile-product-price-input').hasClass('is-valid');
+   var productDisplaySizeIsValid = $('.add-mobile-product-display-size-input').hasClass('is-valid');
    var imageIsValid = $('.add-mobile-product-image-input').hasClass('is-valid');
-   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && imageIsValid;
+   var obligatedFieldsIsValid = productNameIsValid && productSubheadingIsValid && productDescriptionIsValid && productPriceIsValid && productDisplaySizeIsValid && imageIsValid;
 
   if (obligatedFieldsIsValid) {
     $('.add-mobile-product-discount-input, .add-mobile-product-stock-input, .add-mobile-product-sizes-input, .add-product-weight-input, .add-mobile-product-color-input, .add-mobile-product-brand-input, .add-mobile-product-category-input, .add-mobile-additional-image-input').addClass('is-valid');
