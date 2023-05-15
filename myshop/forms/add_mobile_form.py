@@ -17,11 +17,11 @@ class MobileForm(FlaskForm):
     product_name = StringField('Název *:', validators=[InputRequired(), Length(max=80)])
     price = DecimalField('Cena *:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
     discount = IntegerField('Sleva:', validators=[NumberRange(min=0, max=100)], default=0)
-    stock = IntegerField('Počet kusů:', validators=[InputRequired(), NumberRange(min=0)], default=0)
+    stock = IntegerField('Počet kusů:', validators=[NumberRange(min=0)], default=0)
     description = TextAreaField('Popis *:', validators=[InputRequired()], render_kw={'rows': 10})
     subheading = TextAreaField('Podnadpis *:', validators=[InputRequired()])
-    display_size = DecimalField('Velikost displeje:', validators=[InputRequired(), NumberRange(min=0)])
-    display_resolution = SelectField('Rozlišení displeje:', validators=[Optional()],
+    display_size = DecimalField('Velikost displeje *:', validators=[InputRequired(), NumberRange(min=0)])
+    display_resolution = SelectField('Rozlišení displeje *:', validators=[Optional()],
                                      choices=[('2160x1080', '2160 × 1080'), ('2280x1080', '2280 × 1080'),
                                               ('2300x1080', '2300 × 1080'), ('2310x1080', '2310 × 1080'),
                                               ('2340x1080', '2340 × 1080'), ('2388x1080', '2388 × 1080'),
@@ -43,22 +43,22 @@ class MobileForm(FlaskForm):
                                               ('960x480', '960 × 480'), ('128x64', '128 × 64'),
                                               ('160x128', '160 × 128'), ('220x176', '220 × 176'),
                                               ('320x240', '320 × 240'), ('480x320', '480 × 320'), ])
-    operating_system = SelectField('Operační systém:', choices=[('Android', 'Android'), ('iOS', 'iOS')], validators=[Optional()])
-    operating_memory = IntegerField('Operační paměť:', validators=[InputRequired(), NumberRange(min=0)])
-    memory = IntegerField('Velikost disku:', validators=[InputRequired(), NumberRange(min=0)])
+    operating_system = SelectField('Operační systém *:', choices=[('Android', 'Android'), ('iOS', 'iOS')], validators=[Optional()])
+    operating_memory = IntegerField('Operační paměť *:', validators=[InputRequired(), NumberRange(min=0)])
+    memory = IntegerField('Velikost disku *:', validators=[InputRequired(), NumberRange(min=0)])
     battery_capacity = IntegerField('Kapacita baterie:')
     memory_card_slot = BooleanField('Slot na paměťovou kartu:')
     face_id = BooleanField('Face ID:')
     touch_screen = BooleanField('Dotyková obrazovka:')
     front_camera = IntegerField('Přední kamera:')
     back_camera = IntegerField('Zadní kamera:')
-    height = DecimalField('Výška:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
+    height = DecimalField('Výška:', validators=[NumberRange(min=0, max=999999.99)], default=0)
     height_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in'), ('mm', 'mm')], validators=[Optional()])
-    width = DecimalField('Šířka:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
+    width = DecimalField('Šířka:', validators=[NumberRange(min=0, max=999999.99)], default=0)
     width_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in'), ('mm', 'mm')], validators=[Optional()])
-    depth = DecimalField('Hloubka:', validators=[InputRequired(), NumberRange(min=0, max=999999.99)], default=0)
+    depth = DecimalField('Hloubka:', validators=[NumberRange(min=0, max=999999.99)], default=0)
     depth_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in'), ('mm', 'mm')], validators=[Optional()])
-    weight = DecimalField('Váha:', validators=[Optional(), NumberRange(min=0, max=999999.99)], default=0)
+    weight = DecimalField('Váha:', validators=[NumberRange(min=0, max=999999.99)], default=0)
     weight_units = SelectField('Váhová jednotka:', choices=[('g', 'g'), ('kg', 'kg')], validators=[Optional()])
     color = SelectField('Barva:', validators=[Optional()], choices=[('cerna', 'černá'), ('bila', 'bílá'),
                                                                     ('seda', 'šedá'), ('hneda', 'hnědá'),
@@ -99,7 +99,7 @@ class MobileForm(FlaskForm):
         ('Qualcomm Snapdragon 662', 'Qualcomm Snapdragon 662'),
         ('Mediatek Helio G95', 'Mediatek Helio G95')
     ], validators=[Optional()])
-    processor_cores = IntegerField('Počet jader:', validators=[InputRequired(), NumberRange(min=0)])
+    processor_cores = IntegerField('Počet jader:', validators=[NumberRange(min=0)], default=0)
     esim = BooleanField('eSIM:')
 
     brand_id = SelectField('Značka:', coerce=int, choices=[], validators=[Optional()])
