@@ -264,6 +264,70 @@ $('.add-mobile-product-memory-input').on('input', function() {
   }
 });
 
+   $('.add-mobile-product-memory-card-slot-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-memory-card-slot-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-memory-card-slot-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-wifi-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-wifi-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-wifi-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-bluetooth-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-bluetooth-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-bluetooth-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-nfc-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-nfc-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-nfc-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-esim-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-esim-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-esim-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-face-id-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-face-id-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-face-id-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-touch-screen-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-touch-screen-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-touch-screen-text').text('NE').css('color', 'red');
+    }
+  });
+
+$('.add-mobile-product-convertible-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-mobile-product-convertible-text').text('ANO').css('color', 'green');
+    } else {
+      $('.add-mobile-product-convertible-text').text('NE').css('color', 'red');
+    }
+  });
+
 $('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
 
@@ -275,6 +339,7 @@ $('.add-mobile-product-image-input').on('change', function() {
     $('.add-mobile-product-image-input').removeClass('is-valid').addClass('is-invalid');
   }
 });
+
 
 // check if obligated fields are valid all fields will to valid
 
