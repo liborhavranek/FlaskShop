@@ -4,7 +4,7 @@ from flask import flash
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, DecimalField, IntegerField, HiddenField, \
-    FileField, MultipleFileField, FloatField, BooleanField
+    FileField, MultipleFileField, BooleanField
 from wtforms.validators import InputRequired, Length, Optional, NumberRange, ValidationError
 
 from myshop.models.brand_model import Brand
@@ -44,14 +44,14 @@ class MobileForm(FlaskForm):
                                               ('160x128', '160 × 128'), ('220x176', '220 × 176'),
                                               ('320x240', '320 × 240'), ('480x320', '480 × 320'), ])
     operating_system = SelectField('Operační systém *:', choices=[('Android', 'Android'), ('iOS', 'iOS')], validators=[Optional()])
-    operating_memory = IntegerField('Operační paměť *:', validators=[InputRequired(), NumberRange(min=0)])
-    memory = IntegerField('Velikost disku *:', validators=[InputRequired(), NumberRange(min=0)])
-    battery_capacity = IntegerField('Kapacita baterie:')
+    operating_memory = IntegerField('Operační paměť *:', validators=[InputRequired(), NumberRange(min=0)], default=0)
+    memory = IntegerField('Velikost disku *:', validators=[InputRequired(), NumberRange(min=0)], default=0)
+    battery_capacity = IntegerField('Kapacita baterie:', validators=[NumberRange(min=0)], default=0)
     memory_card_slot = BooleanField('Slot na paměťovou kartu:')
     face_id = BooleanField('Face ID:')
     touch_screen = BooleanField('Dotyková obrazovka:')
-    front_camera = IntegerField('Přední kamera:')
-    back_camera = IntegerField('Zadní kamera:')
+    front_camera = IntegerField('Přední kamera:', validators=[NumberRange(min=0)], default=0)
+    back_camera = IntegerField('Zadní kamera:', validators=[NumberRange(min=0)], default=0)
     height = DecimalField('Výška:', validators=[NumberRange(min=0, max=999999.99)], default=0)
     height_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in'), ('mm', 'mm')], validators=[Optional()])
     width = DecimalField('Šířka:', validators=[NumberRange(min=0, max=999999.99)], default=0)
