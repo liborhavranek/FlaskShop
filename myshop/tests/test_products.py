@@ -465,7 +465,7 @@ class TestAddProduct(TestMixin, unittest.TestCase):
         self.assertTrue(response, 'add_mobile_product.html')
 
     def test_products_route_returns_correct_status_code(self):
-        response = self.client.get('/products/create-product', follow_redirects=True)
+        response = self.client.get('/products/create-mobile-product', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
     def test_create_product_return_correct_message_when_short_name(self):
