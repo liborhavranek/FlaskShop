@@ -8,7 +8,8 @@ from myshop import create_app, db
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.customer_model import Customer
-from myshop.models.product_model import Product, Mobile
+from myshop.models.mobile_model import Mobile
+from myshop.models.product_model import Product
 from myshop.products import allowed_file
 from myshop.tests.my_test_mixin import TestMixin
 

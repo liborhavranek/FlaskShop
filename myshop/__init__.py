@@ -36,6 +36,8 @@ def create_app(config=None):
     from myshop.models.category_model import Category
     from myshop.models.images_model import ProductImage
     from myshop.models.product_model import Product
+    from myshop.models.mobile_model import Mobile
+    from myshop.models.notebook_model import Notebook
 
     create_database(app)
 
