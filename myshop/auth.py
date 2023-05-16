@@ -11,7 +11,7 @@ from .forms.registration_form import RegistrationForm
 from myshop.models.customer_model import Customer
 from .models.brand_model import Brand
 from .models.category_model import Category
-from .models.product_model import Product, Mobile
+from .models.mobile_model import Mobile
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 

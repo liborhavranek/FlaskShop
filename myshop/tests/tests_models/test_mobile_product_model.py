@@ -2,14 +2,15 @@
 
 import unittest
 from _decimal import Decimal
-from datetime import datetime
+
 
 from myshop import create_app, db
-from myshop.models.product_model import Product, Mobile
+from myshop.models.mobile_model import Mobile
+
 from myshop.tests.my_test_mixin import TestMixin
 
 
-class TestCustomerAddModel(TestMixin, unittest.TestCase):
+class TestMobileModel(TestMixin, unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.test_name = cls.__name__
