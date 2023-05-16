@@ -1,4 +1,4 @@
-""" Libor Havránek App Copyright (C)  21.4 2023 """
+""" Libor Havránek App Copyright (C)  17.5 2023 """
 
 import unittest
 
