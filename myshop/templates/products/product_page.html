@@ -41,10 +41,17 @@
                     <p>Barva: {{ product.color|safe }}</p>
                     <p>Kategorie: {{ product.category.category_name }}</p>
                     <p>Značka: {{ product.brand.brand_name }}</p>
-                    <p>Velikost: {{ product.size }} {{ product.size_units }}</p>
                     <p>Váha: {{ product.weight }} {{ product.weight_units }}</p>
                     <p>Návštěvnost: {{ product.visit_count }}</p>
                     <p>Procesor: {{ product.processor }}</p>
+                    {% if product.bluetooth == True %}
+                    <p>Bluetooth: Ano</p>
+                    {% else %}
+                    <p>Bluetooth: Ne</p>
+                    {% endif %}
+
+
+
                 </div>
 
 
