@@ -6,7 +6,6 @@ from flask_wtf.file import FileAllowed
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, DecimalField, IntegerField, HiddenField, \
     FileField, MultipleFileField, BooleanField
 from wtforms.validators import InputRequired, Length, Optional, NumberRange, ValidationError
-
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.product_model import Product
