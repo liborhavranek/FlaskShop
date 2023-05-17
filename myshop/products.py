@@ -453,4 +453,4 @@ def delete_mobile_product(id):
 @login_required
 def create_notebook_product():
     form = NotebookForm()
-    return render_template('add_mobile_product.html', form=form)
+    return render_template('add_notebook_product.html', form=form)

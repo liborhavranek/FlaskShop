@@ -9,7 +9,7 @@ from myshop.models.customer_model import Customer
 from myshop.tests.my_test_mixin import TestAllTemplates, TestMixin
 
 
-class TestEditBrand(TestAllTemplates):
+class TestAddMobileProduct(TestAllTemplates):
     """Test edit brand page."""
 
     path = '/products/create-mobile-product'
@@ -52,8 +52,9 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
         self.client.post('/auth/login', data=data, follow_redirects=True)
 
     def test_add_product_form_have_closed_form_tag(self):
+        self.login_user()
         response = self.client.get('/products/create-mobile-product', follow_redirects=True)
-        self.assertIn(b'<form method="POST">', response.data)
+        self.assertIn(b'<form method="POST" autocomplete="off" enctype=multipart/form-data>', response.data)
         self.assertIn(b'</form>', response.data)
 
     def test_product_form_have_all_input_fields(self):

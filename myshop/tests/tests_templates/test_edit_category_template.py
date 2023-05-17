@@ -60,8 +60,9 @@ class TestAuthTemplateOnlyRegisterTemplate(TestMixin, unittest.TestCase):
         self.client.post('/products/create-category', data=data, follow_redirects=True)
 
     def test_add_brand_form_have_closed_form_tag(self):
+        self.create_category()
         response = self.client.get('/products/edit-brand/1', follow_redirects=True)
-        self.assertIn(b'<form method="POST">', response.data)
+        self.assertIn(b'<form method="POST" autocomplete="off">', response.data)
         self.assertIn(b'</form>', response.data)
 
     def test_brand_form_have_all_input_fields(self):
