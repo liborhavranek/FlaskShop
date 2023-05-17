@@ -26,7 +26,7 @@
                   {% for product in products %}
                     <tr>
                       <td><img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class=" img-fluid product-list-product-image"></td>
-                      <td>{{ product.product_name }}</td>
+                      <td><a href="/products/product-preview/{{ product.id }}">{{ product.product_name }}</a></td>
                       <td>{{ product.date_created|custom_date_format }}</td>
 
                         {% if product.edited == False %}

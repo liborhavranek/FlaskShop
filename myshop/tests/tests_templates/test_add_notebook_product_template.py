@@ -58,3 +58,19 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
         self.assertIn(b'<form method="POST" autocomplete="off" enctype=multipart/form-data>', response.data)
         self.assertIn(b'</form>', response.data)
 
+    def test_product_form_have_all_input_fields(self):
+        self.login_user()
+        fields_to_test = [
+            'product_name',
+                          ]
+
+        response = self.client.get('/products/create-notebook-product', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_tag = soup.find('form', {'method': 'POST'})
+        form_input_fields = [input_tag['name'] for input_tag in form_tag.find_all('input')]
+
+        for field in fields_to_test:
+            with self.subTest(field=field):
+
+                self.assertIn(field, form_input_fields)
+
