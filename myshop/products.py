@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 
 from myshop import db
 from myshop.forms.add_mobile_form import MobileForm
+from myshop.forms.add_notebook_form import NotebookForm
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
 from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
@@ -446,3 +447,10 @@ def delete_mobile_product(id):
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
     return redirect('/products/products-list')
+
+
+@products.route('/create-notebook-product', methods=['GET', 'POST'])
+@login_required
+def create_notebook_product():
+    form = NotebookForm()
+    return render_template('add_mobile_product.html', form=form)
