@@ -61,7 +61,7 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
     def test_product_form_have_all_input_fields(self):
         self.login_user()
         fields_to_test = [
-            'product_name', 'price', 'discount', 'stock',
+            'product_name', 'price', 'discount', 'stock', 'display_frequency', 'display_nits', 'processor_cores',
                           ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -88,4 +88,46 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
         for field in fields_to_test:
             with self.subTest(field=field):
                 self.assertIn(field, form_select_fields)
+
+    def test_product_form_have_all_select_fields(self):
+        self.login_user()
+        fields_to_test = [
+             'display_resolution', 'display_type', 'processor'
+        ]
+
+        response = self.client.get('/products/create-notebook-product', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_tag = soup.find('form', {'method': 'POST'})
+        form_select_fields = [select_tag['name'] for select_tag in form_tag.find_all('select')]
+
+        for field in fields_to_test:
+            with self.subTest(field=field):
+                self.assertIn(field, form_select_fields)
+
+    def test_add_product_form_have_all_labels(self):
+        self.login_user()
+        expected_labels = {
+            'product_name': 'Název *:',
+            'subheading': 'Podnadpis *:',
+            'description': 'Popis *:',
+            'price': 'Cena *:',
+            'discount': 'Sleva:',
+            'stock': 'Počet kusů:',
+
+            "display_size": "Velikost displeje *:",
+            "display_resolution": "Rozlišení displeje *:",
+            "display_frequency": "Frekvence obnovování:",
+            "display_nits": "Jas displeje:",
+            "display_type": "Typ displeje:",
+            'processor': "Procesor:",
+            'processor_cores': "Počet jader:"
+
+        }
+        response = self.client.get('/products/create-notebook-product', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_labels = {label_tag['for']: label_tag.text.strip() for label_tag in soup.find_all('label')}
+
+        for field, label in expected_labels.items():
+            with self.subTest(field=field):
+                self.assertIn(label, form_labels[field])
 
