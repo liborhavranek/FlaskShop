@@ -62,7 +62,10 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
         self.login_user()
         fields_to_test = [
             'product_name', 'price', 'discount', 'stock', 'display_frequency', 'display_nits', 'processor_cores',
-            'operating_memory', 'graphics_memory',
+            'operating_memory', 'graphics_memory', 'ssd', 'hdd', 'ssd_capacity', 'hdd_capacity', 'light_keyboard',
+            'num_keyboard', 'touch_screen', 'fingerprint_reader', 'memory_card_reader', 'usb_c_charging',
+            'battery_capacity', 'height', 'width', 'depth', 'weight', 'usb_ports', 'hdmi_ports', 'audio_jack',
+            'usb_3_0', 'usb_2_0', 'cd_dvd_drive', 'product_image', 'additional_images',
                           ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -93,7 +96,8 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
     def test_product_form_have_all_select_fields(self):
         self.login_user()
         fields_to_test = [
-             'display_resolution', 'display_type', 'processor', 'graphics_card', 'operating_system',
+             'display_resolution', 'display_type', 'processor', 'graphics_card', 'operating_system', 'color',
+             'category_id', "brand_id", 'height_units', 'width_units', 'depth_units', 'weight_units'
         ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -125,7 +129,35 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
             'operating_memory': "Operační paměť *:",
             'graphics_card': "Grafická karta:",
             'graphics_memory': 'Velikost grafické paměti:',
-            'operating_system': "Operační systém *:"
+            'operating_system': "Operační systém *:",
+            'ssd': "SSD Disk:",
+            'hdd': "HDD Disk:",
+            'ssd_capacity': "Velikost disku SSD *",
+            'hdd_capacity': "Velikost disku HDD *",
+            'light_keyboard': "Podsvícená klávesnice:",
+            'num_keyboard': "Numerická klávesnice:",
+            'touch_screen': "Dotyková obrazovka:",
+            'fingerprint_reader': "Čtečka otisků prstů:",
+            "memory_card_reader": "Čtečka paměťových karet:",
+            "usb_c_charging": 'USB-C nabíjení:',
+            "battery_capacity": 'Kapacita baterie:',
+
+            "color": 'Barva:',
+            "brand_id": 'Značka:',
+            "category_id": 'Kategorie:',
+
+            "height": "Výška:",
+            "width": "Šířka:",
+            "depth": "Hloubka:",
+            'weight': 'Váha:',
+            'usb_ports': "Počet USB portů:",
+            'hdmi_ports': "Počet HDMI portů:",
+            'audio_jack': 'Audio Jack:',
+            'usb_3_0': 'USB 3.0:',
+            'usb_2_0': 'USB 2.0:',
+            'cd_dvd_drive': 'CD/DVD mechanika:',
+            'product_image': "Foto *:",
+            'additional_images': "Další fotky:",
 
         }
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -136,3 +168,11 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
             with self.subTest(field=field):
                 self.assertIn(label, form_labels[field])
 
+    def test_add_product_form_have_submit_field(self):
+        self.login_user()
+        response = self.client.get('/products/create-notebook-product', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+
+        # Check that the form contains a submit button
+        submit_button = soup.find('input', {'type': 'submit', 'value': 'Přidat produkt'})
+        self.assertIsNotNone(submit_button)
