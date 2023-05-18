@@ -61,7 +61,7 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
     def test_product_form_have_all_input_fields(self):
         self.login_user()
         fields_to_test = [
-            'product_name',
+            'product_name', 'price', 'discount', 'stock',
                           ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -73,4 +73,19 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
             with self.subTest(field=field):
 
                 self.assertIn(field, form_input_fields)
+
+    def test_product_form_have_all_text_area_fields(self):
+        self.login_user()
+        fields_to_test = [
+            "subheading", "description"
+        ]
+
+        response = self.client.get('/products/create-notebook-product', follow_redirects=True)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        form_tag = soup.find('form', {'method': 'POST'})
+        form_select_fields = [select_tag['name'] for select_tag in form_tag.find_all('textarea')]
+
+        for field in fields_to_test:
+            with self.subTest(field=field):
+                self.assertIn(field, form_select_fields)
 

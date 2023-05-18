@@ -18,6 +18,67 @@
         </div>
     </div>
 
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control add-notebook-product-subheading-input") }}
+                <div class="add-notebook-product-subheading-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control add-notebook-product-description-input") }}
+                <div class="add-notebook-product-description-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-2">
+                {{ form.price(class="form-control add-notebook-product-price-input") }}
+            </div>
+            <div class="col-1">
+                Kč
+            </div>
+             <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-2">
+                {{ form.discount(class="form-control add-notebook-product-discount-input") }}
+            </div>
+             <div class="col-2">
+                %
+            </div>
+
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.stock.label }}
+            </div>
+            <div class="col-2">
+                {{ form.stock(class="form-control add-notebook-product-stock-input") }}
+            </div>
+            <div class="col-6">
+                počáteční počet kusů na skladě
+            </div>
+        </div>
+    </div>
+
         </form>
 
     </div>
