@@ -62,6 +62,7 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
         self.login_user()
         fields_to_test = [
             'product_name', 'price', 'discount', 'stock', 'display_frequency', 'display_nits', 'processor_cores',
+            'operating_memory', 'graphics_memory',
                           ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -92,7 +93,7 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
     def test_product_form_have_all_select_fields(self):
         self.login_user()
         fields_to_test = [
-             'display_resolution', 'display_type', 'processor'
+             'display_resolution', 'display_type', 'processor', 'graphics_card', 'operating_system',
         ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -120,7 +121,11 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
             "display_nits": "Jas displeje:",
             "display_type": "Typ displeje:",
             'processor': "Procesor:",
-            'processor_cores': "Počet jader:"
+            'processor_cores': "Počet jader:",
+            'operating_memory': "Operační paměť *:",
+            'graphics_card': "Grafická karta:",
+            'graphics_memory': 'Velikost grafické paměti:',
+            'operating_system': "Operační systém *:"
 
         }
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
