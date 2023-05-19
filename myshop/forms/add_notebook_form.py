@@ -156,8 +156,8 @@ class NotebookForm(FlaskForm):
     ssd = BooleanField('SSD Disk:', default=False)
     hdd = BooleanField('HDD Disk:', default=False)
 
-    ssd_capacity = IntegerField('Velikost disku SSD *:', validators=[InputRequired(), NumberRange(min=0)], default=0)
-    hdd_capacity = IntegerField('Velikost disku HDD *:', validators=[InputRequired(), NumberRange(min=0)], default=0)
+    ssd_capacity = IntegerField('Velikost disku SSD:', validators=[InputRequired(), NumberRange(min=0)], default=0)
+    hdd_capacity = IntegerField('Velikost disku HDD:', validators=[InputRequired(), NumberRange(min=0)], default=0)
 
     light_keyboard = BooleanField('Podsvícená klávesnice:', default=False)
     num_keyboard = BooleanField('Numerická klávesnice:', default=False)

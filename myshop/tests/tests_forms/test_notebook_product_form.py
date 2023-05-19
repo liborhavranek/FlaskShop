@@ -254,11 +254,11 @@ class TestMobileForm(TestMixin, unittest.TestCase):
 
     def test_ssd_capacity_label(self):
         field = self.form._fields['ssd_capacity']
-        self.assertEqual(field.label.text, 'Velikost disku SSD *:')
+        self.assertEqual(field.label.text, 'Velikost disku SSD:')
 
     def test_hdd_capacity_label(self):
         field = self.form._fields['hdd_capacity']
-        self.assertEqual(field.label.text, 'Velikost disku HDD *:')
+        self.assertEqual(field.label.text, 'Velikost disku HDD:')
 
     def test_light_keyboard_label(self):
         field = self.form._fields['light_keyboard']
