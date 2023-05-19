@@ -167,6 +167,7 @@ class NotebookForm(FlaskForm):
     usb_c_charging = BooleanField('USB-C nabíjení:', default=False)
 
     battery_capacity = IntegerField('Kapacita baterie:', validators=[NumberRange(min=0)], default=0)
+    construction = SelectField('Konstrukce:', choices=[('celokovovy', 'celokovový'), ('plastovy', 'plastový')])
 
     height = DecimalField('Výška:', validators=[NumberRange(min=0, max=999999.99)], default=0)
     height_units = SelectField('Velikostní jednotka:', choices=[('cm', 'cm'), ('in', 'in'), ('mm', 'mm')],

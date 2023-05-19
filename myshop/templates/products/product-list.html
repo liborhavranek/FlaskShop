@@ -40,6 +40,8 @@
                         {% else %}
                         <td>{{ product.date_edited|custom_date_format }}</td>
                         {% endif %}
+
+
                         <td><a class="btn btn-info btn-sm" href="/products/edit-mobile-product/{{ product.id }}">Upravit</a></td>
 
                         <td><a class="btn btn-danger btn-sm" href="/products/delete-mobile-product/{{ product.id }}">Smazat</a></td>

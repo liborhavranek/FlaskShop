@@ -135,6 +135,9 @@ class TestMobileForm(TestMixin, unittest.TestCase):
     def test_notebook_form_have_weight_units_field(self):
         self.assertIn('weight_units', self.form._fields)
 
+    def test_notebook_form_have_construction_field(self):
+        self.assertIn('construction', self.form._fields)
+
     def test_notebook_form_have_color_field(self):
         self.assertIn('color', self.form._fields)
 
@@ -319,6 +322,10 @@ class TestMobileForm(TestMixin, unittest.TestCase):
     def test_weight_units_label(self):
         field = self.form._fields['weight_units']
         self.assertEqual(field.label.text, 'Váhová jednotka:')
+
+    def test_construction_label(self):
+        field = self.form._fields['construction']
+        self.assertEqual(field.label.text, 'Konstrukce:')
 
     def test_color_label(self):
         field = self.form._fields['color']

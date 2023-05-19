@@ -97,7 +97,7 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
         self.login_user()
         fields_to_test = [
              'display_resolution', 'display_type', 'processor', 'graphics_card', 'operating_system', 'color',
-             'category_id', "brand_id", 'height_units', 'width_units', 'depth_units', 'weight_units'
+             'category_id', "brand_id", 'height_units', 'width_units', 'depth_units', 'weight_units', 'construction'
         ]
 
         response = self.client.get('/products/create-notebook-product', follow_redirects=True)
@@ -141,6 +141,7 @@ class TestNotebookProductTemplateOnlyAddProductTemplate(TestMixin, unittest.Test
             "memory_card_reader": "Čtečka paměťových karet:",
             "usb_c_charging": 'USB-C nabíjení:',
             "battery_capacity": 'Kapacita baterie:',
+            "construction": 'Konstrukce:',
 
             "color": 'Barva:',
             "brand_id": 'Značka:',

@@ -20,6 +20,7 @@ from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.images_model import ProductImage
 from myshop.models.mobile_model import Mobile
+from myshop.models.notebook_model import Notebook
 from myshop.models.product_model import Product
 
 products = Blueprint('products', __name__, template_folder='templates/products')
@@ -165,11 +166,17 @@ def delete_category(id):
 
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
-    product = Mobile.query.get(product_id)
+    product = Product.query.get(product_id)
+    mobile = Mobile.query.get(product_id)
+    notebook = Notebook.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
+    if isinstance(mobile, Product):
+        return render_template('mobile_product_page.html', product=mobile)
+    elif isinstance(notebook, Product):
+        return render_template('notebook_product_page.html', product=notebook)
 
-    return render_template('product_page.html', product=product)
+    return "fuck"
 
 
 @products.route('/check-product', methods=['POST'])
@@ -453,4 +460,95 @@ def delete_mobile_product(id):
 @login_required
 def create_notebook_product():
     form = NotebookForm()
+    if form.validate_on_submit():
+        product_data = {
+            'product_name': request.form.get('product_name'),
+            'price': request.form.get('price'),
+            'discount': request.form.get('discount'),
+            'stock': request.form.get('stock'),
+            'sold': request.form.get('sold'),
+
+            'subheading': request.form.get('subheading'),
+            'description': request.form.get('description'),
+
+            'height': float(request.form.get('height')),
+            'height_units': request.form.get('height_units'),
+            'width': float(request.form.get('width')),
+            'width_units': request.form.get('width_units'),
+            'depth': float(request.form.get('depth')),
+            'depth_units': request.form.get('depth_units'),
+            'weight': float(request.form.get('weight')),
+            'weight_units': request.form.get('weight_units'),
+            'color': request.form.get('color'),
+
+
+            'display_size': request.form.get('display_size'),
+            'display_resolution': request.form.get('display_resolution'),
+            'display_frequency': request.form.get('display_frequency'),
+            'display_nits': request.form.get('display_nits'),
+            'display_type': request.form.get('display_type'),
+
+            'processor': request.form.get('processor'),
+            'processor_cores': request.form.get('processor_cores'),
+
+            'operating_memory': request.form.get('operating_memory'),
+
+            'graphics_card': request.form.get('graphics_card'),
+            'graphics_memory': request.form.get('graphics_memory'),
+
+            'operating_system': request.form.get('operating_system'),
+
+            'ssd': request.form.get('ssd', type=bool),
+            'hdd': request.form.get('hdd', type=bool),
+            'ssd_capacity': request.form.get('ssd_capacity'),
+            'hdd_capacity': request.form.get('hdd_capacity'),
+
+            'light_keyboard': request.form.get('light_keyboard', type=bool),
+            'num_keyboard': request.form.get('num_keyboard', type=bool),
+            'touch_screen': request.form.get('touch_screen', type=bool),
+            'fingerprint_reader': request.form.get('fingerprint_reader', type=bool),
+            'memory_card_reader': request.form.get('memory_card_reader', type=bool),
+            'usb_c_charging': request.form.get('usb_c_charging', type=bool),
+
+
+            'battery_capacity': request.form.get('battery_capacity'),
+            'construction': request.form.get('construction'),
+
+            'usb_ports': request.form.get('usb_ports', type=bool),
+            'hdmi_ports': request.form.get('hdmi_ports', type=bool),
+            'audio_jack': request.form.get('audio_jack', type=bool),
+            'usb_3_0': request.form.get('usb_3_0', type=bool),
+            'usb_2_0': request.form.get('usb_2_0', type=bool),
+            'cd_dvd_drive': request.form.get('cd_dvd_drive', type=bool),
+
+            'brand_id': int(request.form.get('brand_id')),
+            'category_id': int(request.form.get('category_id')),
+            }
+
+        # Get the product image file, if any
+        product_image = request.files.get('product_image')
+        product_data['product_image'] = save_image(product_image, current_app.config['UPLOAD_FOLDER'])
+
+        new_product = Notebook(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist('additional_images')
+        additional_image_filenames = [save_image(image, current_app.config['UPLOAD_FOLDER']) for image in
+                                      additional_images if image.filename != '']
+
+        # Add the product to the database
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=new_product.id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash('Produkt byl přidán.', category='success')
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
     return render_template('add_notebook_product.html', form=form)
