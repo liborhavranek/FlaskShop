@@ -176,8 +176,6 @@ def product_page_preview(product_id):
     elif isinstance(notebook, Product):
         return render_template('notebook_product_page.html', product=notebook)
 
-    return "fuck"
-
 
 @products.route('/check-product', methods=['POST'])
 def check_product():
@@ -443,6 +441,7 @@ def edit_product(product_id):
 @login_required
 def delete_mobile_product(id):
     product = Product.query.filter_by(id=id).first_or_404()
+
     product_images = ProductImage.query.filter_by(product_id=product.id).all()
     main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
     os.remove(main_image)
