@@ -182,7 +182,7 @@ class NotebookForm(FlaskForm):
     weight_units = SelectField('Váhová jednotka:', choices=[('g', 'g'), ('kg', 'kg')], validators=[Optional()])
     color = SelectField('Barva:', validators=[Optional()], choices=[('cerna', 'černá'), ('bila', 'bílá'),
                                                                     ('seda', 'šedá'), ('hneda', 'hnědá'),
-                                                                    ('tmava_hneda', 'tmavě hnědá'),
+                                                                    ('stribrna', 'stříbrná'),
                                                                     ('svetla_hneda', 'světle hnědá'),
                                                                     ('modra', 'modrá'), ('tmava_modra', 'tmavě modrá'),
                                                                     ('svetla_modra', 'světle modrá'),

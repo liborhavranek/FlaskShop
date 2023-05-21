@@ -2335,7 +2335,7 @@ products = [
 ]
 
 # open the file in 'w' mode (write mode)
-with open('products.csv', 'w', newline='') as file:
+with open('mobile_products.csv', 'w', newline='') as file:
     # create a writer object
     writer = csv.writer(file)
 
