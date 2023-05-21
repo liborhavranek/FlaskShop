@@ -41,8 +41,12 @@
                         <td>{{ product.date_edited|custom_date_format }}</td>
                         {% endif %}
 
+        {% if product.product_type == 'Mobile' %}
+            <td><a class="btn btn-info btn-sm" href="/products/edit-mobile-product/{{ product.id }}">Upravit</a></td>
+        {% elif product.product_type == 'Notebook' %}
+            <td><a class="btn btn-info btn-sm" href="/products/edit-notebook-product/{{ product.id }}">Upravit</a></td>
+        {% endif %}
 
-                        <td><a class="btn btn-info btn-sm" href="/products/edit-mobile-product/{{ product.id }}">Upravit</a></td>
 
         <!-- Existing columns... -->
         {% if product.product_type == 'Mobile' %}
