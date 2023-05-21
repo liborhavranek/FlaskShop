@@ -1,0 +1,513 @@
+{% extends 'base.html'%}
+    {% block content %}
+<div class="container-fluid add-product-form-container py-5">
+    <h1 class="text-center">Upravit {{ product.name }}</h1>
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container shadow-lg">
+        <form method="POST" autocomplete="off" enctype=multipart/form-data>
+
+              {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_name.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_name(class="form-control add-notebook-product-name-input") }}
+                <div class="add-notebook-product-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control add-notebook-product-subheading-input") }}
+                <div class="add-notebook-product-subheading-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control add-notebook-product-description-input") }}
+                <div class="add-notebook-product-description-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control add-notebook-product-color-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control add-notebook-product-brand-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control add-notebook-product-category-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-2">
+                {{ form.price(class="form-control add-notebook-product-price-input") }}
+            </div>
+            <div class="col-1">
+                Kč
+            </div>
+             <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-2">
+                {{ form.discount(class="form-control add-notebook-product-discount-input") }}
+            </div>
+             <div class="col-2">
+                %
+            </div>
+
+        </div>
+    </div>
+
+
+       <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.height.label }}
+            </div>
+            <div class="col-2">
+                {{ form.height(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.height_units(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.width.label }}
+            </div>
+            <div class="col-2">
+                {{ form.width(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.width_units(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.depth.label }}
+            </div>
+            <div class="col-2">
+                {{ form.depth(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.depth_units(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.weight.label }}
+            </div>
+            <div class="col-2">
+                {{ form.weight(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.weight_units(class="form-control add-notebook-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_size.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_size(class="form-control add-notebook-product-display-size-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_resolution.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_resolution(class="form-control add-notebook-display-resolution-input") }}
+            </div>
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_frequency.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_frequency(class="form-control add-notebook-display-frequency-input") }}
+            </div>
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_nits.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_nits(class="form-control add-notebook-display-nits-input") }}
+            </div>
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_type.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_type(class="form-control add-notebook-display-type-input") }}
+            </div>
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.processor.label }}
+            </div>
+            <div class="col-3">
+                {{ form.processor(class="form-control add-notebook-processor-input") }}
+            </div>
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.processor_cores.label }}
+            </div>
+            <div class="col-3">
+                {{ form.processor_cores(class="form-control add-notebook-processor-cores-input") }}
+            </div>
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.operating_memory.label }}
+            </div>
+            <div class="col-3">
+                {{ form.operating_memory(class="form-control add-notebook-product-operating-memory-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.graphics_card.label }}
+            </div>
+            <div class="col-3">
+                {{ form.graphics_card(class="form-control add-notebook-graphics-card-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.graphics_memory.label }}
+            </div>
+            <div class="col-3">
+                {{ form.graphics_memory(class="form-control add-notebook-graphics-card-memory-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.operating_system.label }}
+            </div>
+            <div class="col-3">
+                {{ form.operating_system(class="form-control add-notebook-operating-system-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.battery_capacity.label }}
+            </div>
+            <div class="col-3">
+                {{ form.battery_capacity(class="form-control add-notebook-product-battery-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.construction.label }}
+            </div>
+            <div class="col-3">
+                {{ form.construction(class="form-control add-notebook-product-construction-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.usb_ports.label }}
+            </div>
+            <div class="col-3">
+                {{ form.usb_ports(class="form-control add-notebook-usb-ports-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.hdmi_ports.label }}
+            </div>
+            <div class="col-3">
+                {{ form.hdmi_ports(class="form-control add-notebook-hdmi-ports-input") }}
+            </div>
+        </div>
+    </div>
+
+
+  <div class="mb-3">
+        <div class="row">
+            <div class="col-3">
+                {{ form.hdd.label(class="add-notebook-hdd-disk-label") }}
+            </div>
+            <div class="col-1">
+                {{ form.hdd(class="form-check-input add-notebook-hdd-disk-input") }}
+            </div>
+            <div class="col-3">
+                {{ form.hdd_capacity.label(class="add-notebook-hdd-capacity-label") }}
+            </div>
+            <div class="col-3">
+                {{ form.hdd_capacity(class="form-control add-notebook-hdd-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row">
+            <div class="col-3">
+                {{ form.ssd.label(class="add-notebook-ssd-disk-label") }}
+            </div>
+            <div class="col-1">
+                {{ form.ssd(class="form-check-input add-notebook-ssd-disk-input") }}
+            </div>
+            <div class="col-3">
+                {{ form.ssd_capacity.label(class="add-notebook-ssd-capacity-label") }}
+            </div>
+            <div class="col-3">
+                {{ form.ssd_capacity(class="form-control add-notebook-ssd-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.light_keyboard.label }}
+            </div>
+            <div class="col-1">
+                {{ form.light_keyboard(class="form-check-input add-notebook-light-keyboard-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-light-keyboard-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.num_keyboard.label }}
+            </div>
+            <div class="col-1">
+                {{ form.num_keyboard(class="form-check-input add-notebook-num-keyboard-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-num-keyboard-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.touch_screen.label }}
+            </div>
+            <div class="col-1">
+                {{ form.touch_screen(class="form-check-input add-notebook-touch-screen-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-touch-screen-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.fingerprint_reader.label }}
+            </div>
+            <div class="col-1">
+                {{ form.fingerprint_reader(class="form-check-input add-notebook-finger-print-reader-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-fingerprint-reader-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.memory_card_reader.label }}
+            </div>
+            <div class="col-1">
+                {{ form.memory_card_reader(class="form-check-input add-notebook-memory-card-reader-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-memory-card-reader-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.usb_c_charging.label }}
+            </div>
+            <div class="col-1">
+                {{ form.usb_c_charging(class="form-check-input add-notebook-usb-c-charging-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-usb-c-charging-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.audio_jack.label }}
+            </div>
+            <div class="col-1">
+                {{ form.audio_jack(class="form-check-input add-notebook-audio-jack-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-audio-jack-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.usb_3_0.label }}
+            </div>
+            <div class="col-1">
+                {{ form.usb_3_0(class="form-check-input add-notebook-usb-30-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-usb-30-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.usb_2_0.label }}
+            </div>
+            <div class="col-1">
+                {{ form.usb_2_0(class="form-check-input add-notebook-usb-20-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-usb-20-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row pb-3">
+            <div class="col-3">
+                {{ form.cd_dvd_drive.label }}
+            </div>
+            <div class="col-1">
+                {{ form.cd_dvd_drive(class="form-check-input add-notebook-cd-dvd-drive-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-notebook-product-cd-dvd-drive-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-center">
+        <a class="update-product-images" href="/products/edit-product-images/{{ product.id }}"><h2>Upravit fotky produktu.</h2></a>
+    </div>
+
+    <div class="text-start">
+    <p>Všechny pole označená * musí být vyplněna.</p>
+    </div>
+    <div class="text-center">
+    {{ form.edit_product_submit(class="btn btn-warning") }}
+    </div>
+
+        </form>
+
+    </div>
+</div>
+{%endblock content %}

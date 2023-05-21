@@ -1,4 +1,5 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
+import ast
 import csv
 
 from flask import Blueprint, render_template, request, flash, redirect
@@ -193,18 +194,18 @@ def create_test_data():
             product.weight_units = row["weight_units"]
 
             product.battery_capacity = row["battery_capacity"]
-            product.memory_card_slot = bool(row['memory_card_slot'])
-            product.face_id = bool(row["face_id"])
-            product.touch_screen = bool(row["touch_screen"])
+            product.memory_card_slot = ast.literal_eval(row['memory_card_slot'])
+            product.face_id = ast.literal_eval(row["face_id"])
+            product.touch_screen = ast.literal_eval(row["touch_screen"])
             product.front_camera = row["front_camera"]
             product.back_camera = row["back_camera"]
-            product.convertible = bool(row["convertible"])
-            product.wifi = bool(row["wifi"])
-            product.bluetooth = bool(row["bluetooth"])
-            product.nfc = bool(row["nfc"])
+            product.convertible = ast.literal_eval(row["convertible"])
+            product.wifi = ast.literal_eval(row["wifi"])
+            product.bluetooth = ast.literal_eval(row["bluetooth"])
+            product.nfc = ast.literal_eval(row["nfc"])
             product.processor = row["processor"]
             product.processor_cores = row["processor_cores"]
-            product.esim = bool(row["esim"])
+            product.esim = ast.literal_eval(row["esim"])
 
             product.color = row["color"]
             product.brand_id = row["brand_id"]

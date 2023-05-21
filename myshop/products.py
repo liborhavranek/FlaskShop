@@ -345,6 +345,9 @@ def edit_product(product_id):
         new_product_price = request.form.get('price')
         new_product_discount = request.form.get('discount')
 
+        new_product_brand = request.form.get('brand_id')
+        new_product_category = request.form.get('category_id')
+
         new_product_height = request.form.get('height')
         new_product_height_units = request.form.get('height_units')
         new_product_width = request.form.get('width')
@@ -413,6 +416,9 @@ def edit_product(product_id):
                 product.operating_system = new_product_operating_system
                 product.operating_memory = new_product_operating_memory
                 product.memory = new_product_memory
+
+                product.brand_id = new_product_brand
+                product.category_id = new_product_category
 
                 product.battery_capacity = new_product_battery_capacity
                 product.memory_card_slot = new_product_memory_card_slot == 'y'
@@ -573,3 +579,147 @@ def create_notebook_product():
         flash('Produkt byl přidán.', category='success')
         return redirect(url_for('products.product_page_preview', product_id=new_product.id))
     return render_template('add_notebook_product.html', form=form)
+
+
+@products.route('/edit-notebook-product/<int:product_id>', methods=['POST', 'GET'])
+def edit_notebook_product(product_id):
+    product = Notebook.query.get(product_id)
+    form = NotebookForm(obj=product)
+
+    if request.method == 'POST':
+        new_product_name = request.form.get('product_name')
+
+        new_product_subheading = request.form.get('subheading')
+        new_product_description = request.form.get('description')
+
+        new_product_color = request.form.get('color')
+        new_product_brand = request.form.get('brand_id')
+        new_product_category = request.form.get('category_id')
+
+        new_product_price = request.form.get('price')
+        new_product_discount = request.form.get('discount')
+
+        new_product_height = request.form.get('height')
+        new_product_height_units = request.form.get('height_units')
+        new_product_width = request.form.get('width')
+        new_product_width_units = request.form.get('width_units')
+        new_product_depth = request.form.get('depth')
+        new_product_depth_units = request.form.get('depth_units')
+        new_product_weight = request.form.get('weight')
+        new_product_weight_units = request.form.get('weight_units')
+
+        new_product_display_size = request.form.get('display_size')
+        new_product_display_resolution = request.form.get('display_resolution')
+        new_product_display_frequency = request.form.get('display_frequency')
+        new_product_display_nits = request.form.get('display_nits')
+        new_product_display_type = request.form.get('display_type')
+
+        new_product_processor = request.form.get('processor')
+        new_product_processor_cores = request.form.get('processor_cores')
+
+        new_product_operating_memory = request.form.get('operating_memory')
+        new_product_graphics_card = request.form.get('graphics_card')
+        new_product_graphics_memory = request.form.get('graphics_memory')
+
+        new_product_operating_system = request.form.get('operating_system')
+
+        new_product_battery_capacity = request.form.get('battery_capacity')
+        new_product_construction = request.form.get('construction')
+        new_product_usb_ports = request.form.get('usb_ports')
+        new_product_hdmi_ports = request.form.get('hdmi_ports')
+
+        new_product_hdd = request.form.get('hdd')
+        new_product_ssd = request.form.get('ssd')
+        new_product_hdd_capacity = request.form.get('hdd')
+        new_product_ssd_capacity = request.form.get('ssd')
+
+        new_product_light_keyboard = request.form.get('light_keyboard')
+        new_product_num_keyboard = request.form.get('num_keyboard')
+        new_product_touch_screen = request.form.get('touch_screen')
+        new_product_fingerprint_reader = request.form.get('fingerprint_reader')
+        new_product_memory_card_reader = request.form.get('memory_card_reader')
+        new_product_usb_c_charging = request.form.get('usb_c_charging')
+
+        new_product_audio_jack = request.form.get('audio_jack')
+        new_product_usb_3_0 = request.form.get('usb_3_0')
+        new_product_usb_2_0 = request.form.get('usb_2_0')
+        new_product_cd_dvd_drive = request.form.get('cd_dvd_drive')
+
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(product_name=new_product_name).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash('Produkt s tímto názvem již existuje.', category='error')
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+
+                product.subheading = new_product_subheading
+                product.description = new_product_description
+
+                product.color = new_product_color
+                product.brand_id = new_product_brand
+                product.category_id = new_product_category
+
+                product.price = new_product_price
+                product.discount = new_product_discount
+
+                product.height = new_product_height
+                product.height_units = new_product_height_units
+                product.width = new_product_width
+                product.width_units = new_product_width_units
+                product.depth = new_product_depth
+                product.depth_units = new_product_depth_units
+                product.weight = new_product_weight
+                product.weight_units = new_product_weight_units
+
+                product.display_size = new_product_display_size
+                product.display_resolution = new_product_display_resolution
+                product.display_frequency = new_product_display_frequency
+                product.display_nits = new_product_display_nits
+                product.display_type = new_product_display_type
+
+                product.processor = new_product_processor
+                product.processor_cores = new_product_processor_cores
+
+                product.operating_memory = new_product_operating_memory
+                product.graphics_card = new_product_graphics_card
+                product.graphics_memory = new_product_graphics_memory
+
+                product.operating_system = new_product_operating_system
+                product.battery_capacity = new_product_battery_capacity
+
+                product.construction = new_product_construction
+                product.usb_ports = new_product_usb_ports
+                product.hdmi_ports = new_product_hdmi_ports
+
+                product.hdd = new_product_hdd == 'y'
+                product.ssd = new_product_ssd == 'y'
+                product.hdd_capacity = new_product_hdd_capacity
+                product.ssd_capacity = new_product_ssd_capacity
+
+                product.light_keyboard = new_product_light_keyboard == 'y'
+                product.num_keyboard = new_product_num_keyboard == 'y'
+                product.touch_screen = new_product_touch_screen == 'y'
+                product.fingerprint_reader = new_product_fingerprint_reader == 'y'
+                product.memory_card_reader = new_product_memory_card_reader
+                product.usb_c_charging = new_product_usb_c_charging == 'y'
+
+                product.audio_jack = new_product_audio_jack == 'y'
+                product.usb_3_0 = new_product_usb_3_0 == 'y'
+                product.usb_2_0 = new_product_usb_2_0 == 'y'
+                product.cd_dvd_drive = new_product_cd_dvd_drive == 'y'
+
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ''
+                flash('Produkt byl aktualizován.', category='success')
+                return redirect(url_for('products.product_page_preview', product_id=product.id))
+
+    return render_template('edit_notebook_product.html', product=product, form=form)
