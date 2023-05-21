@@ -22,9 +22,11 @@
   border: 1px solid black;
   margin-top: 5%; }
 
+.add-notebook-product-description-validation-text,
 .add-notebook-product-check-red-color-text,
 .add-mobile-product-check-red-color-text,
 .add-product-validation-text,
+.add-notebook-product-subheading-validation-text,
 .add-product-subheading-validation-text,
 .add-product-description-validation-text,
 .add-category-validation-text,
