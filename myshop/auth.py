@@ -210,6 +210,7 @@ def create_test_data():
             product.brand_id = row["brand_id"]
             product.category_id = row["category_id"]
             product.product_image = row["product_image"]
+            product.product_type = row["product_type"]
 
             db.session.add(product)
             db.session.commit()

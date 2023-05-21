@@ -45,7 +45,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -92,7 +93,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -139,7 +141,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -186,7 +189,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
 {
@@ -233,10 +237,11 @@ products = [
     "brand_id": 1,
     "category_id": 1,
     "visit_count": 900,
-    "product_image": "test_image_iphone_13_pro_1.jpeg"
-},
+    "product_image": "test_image_iphone_13_pro_1.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "iPhone 13 Pro 256 GB černá",
     "price": 31299,
     "discount": 0,
@@ -280,10 +285,11 @@ products = [
     "brand_id": 1,
     "category_id": 1,
     "visit_count": 900,
-    "product_image": "test_image_iphone_13_pro_1.jpeg"
-},
+    "product_image": "test_image_iphone_13_pro_1.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "iPhone 13 Pro 128 GB černá",
     "price": 28389,
     "discount": 0,
@@ -327,10 +333,11 @@ products = [
     "brand_id": 1,
     "category_id": 1,
     "visit_count": 900,
-    "product_image": "test_image_iphone_13_pro_1.jpeg"
-},
+    "product_image": "test_image_iphone_13_pro_1.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "iPhone 13 512 GB černá",
     "price": 26490,
     "discount": 0,
@@ -375,10 +382,11 @@ products = [
     "brand_id": 1,
     "category_id": 1,
     "visit_count": 899,
-    "product_image": "test_image_iphone_13_1.jpeg"
-},
+    "product_image": "test_image_iphone_13_1.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "iPhone 13 256 GB černá",
     "price": 21490,
     "discount": 0,
@@ -423,10 +431,11 @@ products = [
     "brand_id": 1,
     "category_id": 1,
     "visit_count": 899,
-    "product_image": "test_image_iphone_13_1.jpeg"
-},
+    "product_image": "test_image_iphone_13_1.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "iPhone 13 128 GB černá",
     "price": 21490,
     "discount": 0,
@@ -471,8 +480,9 @@ products = [
     "brand_id": 1,
     "category_id": 1,
     "visit_count": 899,
-    "product_image": "test_image_iphone_13_1.jpeg"
-},
+    "product_image": "test_image_iphone_13_1.jpeg",
+    'product_type': "Mobile",
+    },
 
     {
         "product_name": "iPhone 13 Pro Max 1T modrá",
@@ -518,7 +528,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -565,7 +576,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -612,7 +624,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -659,7 +672,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -706,7 +720,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 900,
-        "product_image": "test_image_iphone_13_pro_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -753,7 +768,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 900,
-        "product_image": "test_image_iphone_13_pro_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -800,7 +816,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 900,
-        "product_image": "test_image_iphone_13_pro_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -848,7 +865,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 899,
-        "product_image": "test_image_iphone_13_1.jpeg"
+        "product_image": "test_image_iphone_13_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -896,7 +914,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 899,
-        "product_image": "test_image_iphone_13_1.jpeg"
+        "product_image": "test_image_iphone_13_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -944,7 +963,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 899,
-        "product_image": "test_image_iphone_13_1.jpeg"
+        "product_image": "test_image_iphone_13_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -991,7 +1011,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1038,7 +1059,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1085,7 +1107,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1132,7 +1155,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 1358,
-        "product_image": "test_image_iphone_13_pro_max_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_max_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1179,7 +1203,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 900,
-        "product_image": "test_image_iphone_13_pro_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1226,7 +1251,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 900,
-        "product_image": "test_image_iphone_13_pro_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1273,7 +1299,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 900,
-        "product_image": "test_image_iphone_13_pro_1.jpeg"
+        "product_image": "test_image_iphone_13_pro_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1321,7 +1348,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 899,
-        "product_image": "test_image_iphone_13_1.jpeg"
+        "product_image": "test_image_iphone_13_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1369,7 +1397,8 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 899,
-        "product_image": "test_image_iphone_13_1.jpeg"
+        "product_image": "test_image_iphone_13_1.jpeg",
+        'product_type': "Mobile",
     },
 
     {
@@ -1417,10 +1446,11 @@ products = [
         "brand_id": 1,
         "category_id": 1,
         "visit_count": 899,
-        "product_image": "test_image_iphone_13_1.jpeg"
+        "product_image": "test_image_iphone_13_1.jpeg",
+        'product_type': "Mobile",
     },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 512GB/12GB černá",
     "price": 41849,
     "discount": 0,
@@ -1463,10 +1493,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_black.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_black.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 256GB/12GB černá",
     "price": 35299,
     "discount": 0,
@@ -1509,10 +1540,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_black.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_black.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 512GB/8GB černá",
     "price": 26999,
     "discount": 0,
@@ -1555,10 +1587,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_black.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_black.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 256GB/8GB černá",
     "price": 26999,
     "discount": 0,
@@ -1601,10 +1634,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_black.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_black.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Flip3 5G 8GB/512GB černá",
     "price": 26999,
     "discount": 0,
@@ -1651,10 +1685,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 740,
-    "product_image": "test_image_samsung_galaxy_z_flip_balck.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_balck.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Flip3 5G 8GB/256GB černá",
     "price": 24999,
     "discount": 0,
@@ -1701,11 +1736,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 740,
-    "product_image": "test_image_samsung_galaxy_z_flip_balck.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_balck.jpeg",
+    'product_type': "Mobile",
+    },
 
-
-{
+    {
     "product_name": "Samsung Galaxy Z Flip3 5G 8GB/128GB černá",
     "price": 21999,
     "discount": 0,
@@ -1752,10 +1787,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 740,
-    "product_image": "test_image_samsung_galaxy_z_flip_balck.jpeg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_balck.jpeg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 512GB/12GB fialová",
     "price": 41849,
     "discount": 0,
@@ -1798,10 +1834,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 256GB/12GB fialová",
     "price": 35299,
     "discount": 0,
@@ -1844,10 +1881,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 512GB/8GB fialová",
     "price": 26999,
     "discount": 0,
@@ -1890,10 +1928,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Fold3 5G 256GB/8GB fialová",
     "price": 26999,
     "discount": 0,
@@ -1936,10 +1975,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 977,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Flip3 5G 8GB/512GB fialová",
     "price": 26999,
     "discount": 0,
@@ -1986,10 +2026,11 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 740,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
+    },
 
-{
+    {
     "product_name": "Samsung Galaxy Z Flip3 5G 8GB/256GB fialová",
     "price": 24999,
     "discount": 0,
@@ -2036,11 +2077,12 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 740,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
+    },
 
 
-{
+    {
     "product_name": "Samsung Galaxy Z Flip3 5G 8GB/128GB fialová",
     "price": 21999,
     "discount": 0,
@@ -2087,203 +2129,208 @@ products = [
     "brand_id": 2,
     "category_id": 1,
     "visit_count": 740,
-    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg"
-},
-
-{
-        "product_name": "Xiaomi Mi 13 256GB/8GB černá",
-        "price": 19499,
-        "discount": 0,
-        "stock": 50,
-        "display_size": 6.81,
-        "display_resolution": "3200 x 1440",
-        "operating_system": "Android",
-        "operating_memory": 8,
-        "memory": 256,
-        "height": 164.3,
-        "height_units": "mm",
-        "width": 74.6,
-        "width_units": "mm",
-        "depth": 7.8,
-        "depth_units": "mm",
-        "weight": 187,
-        "weight_units": "g",
-        "battery_capacity": 4800,
-        "memory_card_slot": False,
-        "face_id": True,
-        "touch_screen": True,
-        "front_camera": 20,
-        "back_camera": 108,
-        "convertible": False,
-        "wifi": True,
-        "bluetooth": True,
-        "nfc": True,
-        "processor": "Qualcomm Snapdragon 8",
-        "processor_cores": 8,
-        "esim": True,
-        "color": "černá",
-        "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
-        "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
-                        "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
-                       " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
-                       "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
-                       "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
-                       "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
-                       "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
-                       "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
-                       "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
-                        "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
-        "brand_id": 3,
-        "category_id": 1,
-        "visit_count": 587,
-        "product_image": "test_image_xiaomi_13_black.jpeg"
+    "product_image": "test_image_samsung_galaxy_z_flip_purple.jpg",
+    'product_type': "Mobile",
     },
 
-{
-        "product_name": "Xiaomi Mi 13 256GB/12GB černá",
-        "price": 27499,
-        "discount": 0,
-        "stock": 50,
-        "display_size": 6.81,
-        "display_resolution": "3200 x 1440",
-        "operating_system": "Android",
-        "operating_memory": 12,
-        "memory": 256,
-        "height": 164.3,
-        "height_units": "mm",
-        "width": 74.6,
-        "width_units": "mm",
-        "depth": 7.8,
-        "depth_units": "mm",
-        "weight": 187,
-        "weight_units": "g",
-        "battery_capacity": 4800,
-        "memory_card_slot": False,
-        "face_id": True,
-        "touch_screen": True,
-        "front_camera": 20,
-        "back_camera": 108,
-        "convertible": False,
-        "wifi": True,
-        "bluetooth": True,
-        "nfc": True,
-        "processor": "Qualcomm Snapdragon 8",
-        "processor_cores": 8,
-        "esim": True,
-        "color": "černá",
-        "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
-        "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
-                        "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
-                       " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
-                       "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
-                       "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
-                       "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
-                       "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
-                       "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
-                       "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
-                        "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
-        "brand_id": 3,
-        "category_id": 1,
-        "visit_count": 587,
-        "product_image": "test_image_xiaomi_13_black.jpeg"
+    {
+    "product_name": "Xiaomi Mi 13 256GB/8GB černá",
+    "price": 19499,
+    "discount": 0,
+    "stock": 50,
+    "display_size": 6.81,
+    "display_resolution": "3200 x 1440",
+    "operating_system": "Android",
+    "operating_memory": 8,
+    "memory": 256,
+    "height": 164.3,
+    "height_units": "mm",
+    "width": 74.6,
+    "width_units": "mm",
+    "depth": 7.8,
+    "depth_units": "mm",
+    "weight": 187,
+    "weight_units": "g",
+    "battery_capacity": 4800,
+    "memory_card_slot": False,
+    "face_id": True,
+    "touch_screen": True,
+    "front_camera": 20,
+    "back_camera": 108,
+    "convertible": False,
+    "wifi": True,
+    "bluetooth": True,
+    "nfc": True,
+    "processor": "Qualcomm Snapdragon 8",
+    "processor_cores": 8,
+    "esim": True,
+    "color": "černá",
+    "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
+    "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
+                    "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
+                   " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
+                   "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
+                   "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
+                   "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
+                   "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
+                   "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
+                   "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
+                    "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
+    "brand_id": 3,
+    "category_id": 1,
+    "visit_count": 587,
+    "product_image": "test_image_xiaomi_13_black.jpeg",
+    'product_type': "Mobile",
     },
 
-{
-        "product_name": "Xiaomi Mi 13 256GB/8GB zelená",
-        "price": 19499,
-        "discount": 0,
-        "stock": 50,
-        "display_size": 6.81,
-        "display_resolution": "3200 x 1440",
-        "operating_system": "Android",
-        "operating_memory": 8,
-        "memory": 256,
-        "height": 164.3,
-        "height_units": "mm",
-        "width": 74.6,
-        "width_units": "mm",
-        "depth": 7.8,
-        "depth_units": "mm",
-        "weight": 187,
-        "weight_units": "g",
-        "battery_capacity": 4800,
-        "memory_card_slot": False,
-        "face_id": True,
-        "touch_screen": True,
-        "front_camera": 20,
-        "back_camera": 108,
-        "convertible": False,
-        "wifi": True,
-        "bluetooth": True,
-        "nfc": True,
-        "processor": "Qualcomm Snapdragon 8",
-        "processor_cores": 8,
-        "esim": True,
-        "color": "zelená",
-        "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
-        "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
-                        "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
-                       " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
-                       "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
-                       "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
-                       "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
-                       "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
-                       "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
-                       "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
-                        "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
-        "brand_id": 3,
-        "category_id": 1,
-        "visit_count": 587,
-        "product_image": "test_image_xiaomi_13_green.jpeg"
+    {
+    "product_name": "Xiaomi Mi 13 256GB/12GB černá",
+    "price": 27499,
+    "discount": 0,
+    "stock": 50,
+    "display_size": 6.81,
+    "display_resolution": "3200 x 1440",
+    "operating_system": "Android",
+    "operating_memory": 12,
+    "memory": 256,
+    "height": 164.3,
+    "height_units": "mm",
+    "width": 74.6,
+    "width_units": "mm",
+    "depth": 7.8,
+    "depth_units": "mm",
+    "weight": 187,
+    "weight_units": "g",
+    "battery_capacity": 4800,
+    "memory_card_slot": False,
+    "face_id": True,
+    "touch_screen": True,
+    "front_camera": 20,
+    "back_camera": 108,
+    "convertible": False,
+    "wifi": True,
+    "bluetooth": True,
+    "nfc": True,
+    "processor": "Qualcomm Snapdragon 8",
+    "processor_cores": 8,
+    "esim": True,
+    "color": "černá",
+    "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
+    "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
+                    "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
+                   " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
+                   "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
+                   "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
+                   "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
+                   "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
+                   "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
+                   "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
+                    "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
+    "brand_id": 3,
+    "category_id": 1,
+    "visit_count": 587,
+    "product_image": "test_image_xiaomi_13_black.jpeg",
+    'product_type': "Mobile",
     },
 
-{
-        "product_name": "Xiaomi Mi 13 256GB/12GB zelená",
-        "price": 27499,
-        "discount": 0,
-        "stock": 50,
-        "display_size": 6.81,
-        "display_resolution": "3200 x 1440",
-        "operating_system": "Android",
-        "operating_memory": 12,
-        "memory": 256,
-        "height": 164.3,
-        "height_units": "mm",
-        "width": 74.6,
-        "width_units": "mm",
-        "depth": 7.8,
-        "depth_units": "mm",
-        "weight": 187,
-        "weight_units": "g",
-        "battery_capacity": 4800,
-        "memory_card_slot": False,
-        "face_id": True,
-        "touch_screen": True,
-        "front_camera": 20,
-        "back_camera": 108,
-        "convertible": False,
-        "wifi": True,
-        "bluetooth": True,
-        "nfc": True,
-        "processor": "Qualcomm Snapdragon 8",
-        "processor_cores": 8,
-        "esim": True,
-        "color": "zelená",
-        "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
-        "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
-                        "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
-                       " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
-                       "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
-                       "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
-                       "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
-                       "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
-                       "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
-                       "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
-                        "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
-        "brand_id": 3,
-        "category_id": 1,
-        "visit_count": 587,
-        "product_image": "test_image_xiaomi_13_green.jpeg"
+    {
+    "product_name": "Xiaomi Mi 13 256GB/8GB zelená",
+    "price": 19499,
+    "discount": 0,
+    "stock": 50,
+    "display_size": 6.81,
+    "display_resolution": "3200 x 1440",
+    "operating_system": "Android",
+    "operating_memory": 8,
+    "memory": 256,
+    "height": 164.3,
+    "height_units": "mm",
+    "width": 74.6,
+    "width_units": "mm",
+    "depth": 7.8,
+    "depth_units": "mm",
+    "weight": 187,
+    "weight_units": "g",
+    "battery_capacity": 4800,
+    "memory_card_slot": False,
+    "face_id": True,
+    "touch_screen": True,
+    "front_camera": 20,
+    "back_camera": 108,
+    "convertible": False,
+    "wifi": True,
+    "bluetooth": True,
+    "nfc": True,
+    "processor": "Qualcomm Snapdragon 8",
+    "processor_cores": 8,
+    "esim": True,
+    "color": "zelená",
+    "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
+    "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
+                    "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
+                   " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
+                   "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
+                   "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
+                   "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
+                   "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
+                   "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
+                   "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
+                    "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
+    "brand_id": 3,
+    "category_id": 1,
+    "visit_count": 587,
+    "product_image": "test_image_xiaomi_13_green.jpeg",
+    'product_type': "Mobile",
+    },
+
+    {
+    "product_name": "Xiaomi Mi 13 256GB/12GB zelená",
+    "price": 27499,
+    "discount": 0,
+    "stock": 50,
+    "display_size": 6.81,
+    "display_resolution": "3200 x 1440",
+    "operating_system": "Android",
+    "operating_memory": 12,
+    "memory": 256,
+    "height": 164.3,
+    "height_units": "mm",
+    "width": 74.6,
+    "width_units": "mm",
+    "depth": 7.8,
+    "depth_units": "mm",
+    "weight": 187,
+    "weight_units": "g",
+    "battery_capacity": 4800,
+    "memory_card_slot": False,
+    "face_id": True,
+    "touch_screen": True,
+    "front_camera": 20,
+    "back_camera": 108,
+    "convertible": False,
+    "wifi": True,
+    "bluetooth": True,
+    "nfc": True,
+    "processor": "Qualcomm Snapdragon 8",
+    "processor_cores": 8,
+    "esim": True,
+    "color": "zelená",
+    "subheading": "Xiaomi Mi 13 s neuvěřitelným výkonem",
+    "description": "Xiaomi Mi 13 přináší neuvěřitelný výkon, který zaručí skvělou zkušenost s chytrým telefonem. "
+                    "Má velký 6,81palcový AMOLED displej s rozlišením 3200 x 1440, který poskytuje křišťálově"
+                   " čisté vizuální zážitky. S poháněním od procesoru Qualcomm Snapdragon 8 Gen 1 a 8 GB operační "
+                   "paměti můžete užívat rychlý a plynulý výkon s operačním systémem MIUI 13 "
+                   "(založený na Androidu 13) předinstalovaným. Zachyťte úchvatné fotografie a videa s "
+                   "trojitým fotoaparátem 108 MP a natočte nádherná selfie s předním fotoaparátem 20 MP. Telefon "
+                   "má interní úložiště o velikosti 256 GB, které poskytuje dostatek místa pro ukládání všech "
+                   "aplikací, fotografií a videí. S baterií o kapacitě 4800 mAh můžete být připojeni celý den "
+                   "bez nutnosti nabíjení. Xiaomi Mi 13 má také podporu Wi-Fi, "
+                    "Bluetooth, NFC a eSIM, což z něj dělá kompletní balíček chytrého telefonu.",
+    "brand_id": 3,
+    "category_id": 1,
+    "visit_count": 587,
+    "product_image": "test_image_xiaomi_13_green.jpeg",
+    'product_type': "Mobile",
     },
 ]
 

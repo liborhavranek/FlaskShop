@@ -268,6 +268,8 @@ def create_mobile_product():
             'stock': request.form.get('stock'),
             'sold': request.form.get('sold'),
 
+            'product_type': "Mobile",
+
             'height': float(request.form.get('height')),
             'height_units': request.form.get('height_units'),
             'width': float(request.form.get('width')),
@@ -455,6 +457,24 @@ def delete_mobile_product(id):
     return redirect('/products/products-list')
 
 
+@products.route('/delete-notebook-product/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_notebook_product(id):
+    product = Product.query.filter_by(id=id).first_or_404()
+
+    product_images = ProductImage.query.filter_by(product_id=product.id).all()
+    main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
+    os.remove(main_image)
+    for image in product_images:
+        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image.image_name)
+        os.remove(image_path)
+        db.session.delete(image)
+    db.session.delete(product)
+    db.session.commit()
+    flash('Produkt byl smazán.', category='success')
+    return redirect('/products/products-list')
+
+
 @products.route('/create-notebook-product', methods=['GET', 'POST'])
 @login_required
 def create_notebook_product():
@@ -469,6 +489,8 @@ def create_notebook_product():
 
             'subheading': request.form.get('subheading'),
             'description': request.form.get('description'),
+
+            'product_type': "Notebook",
 
             'height': float(request.form.get('height')),
             'height_units': request.form.get('height_units'),
