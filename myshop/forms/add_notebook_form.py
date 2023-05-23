@@ -73,6 +73,7 @@ class NotebookForm(FlaskForm):
         ('AMD Ryzen 5', 'AMD Ryzen 5'),
         ('AMD Ryzen 7', 'AMD Ryzen 7'),
         ('AMD Ryzen 9', 'AMD Ryzen 9'),
+        ('Apple M1', 'Apple M1'),
     ], validators=[Optional()])
     processor_cores = IntegerField('Počet jader:', validators=[NumberRange(min=0)], default=0)
 
@@ -146,7 +147,8 @@ class NotebookForm(FlaskForm):
         ('Intel HD Graphics 620', 'Intel HD Graphics 620'),
         ('Intel HD Graphics 630', 'Intel HD Graphics 630'),
         ('AMD Radeon RX 5500M', 'AMD Radeon RX 5500M'),
-        ('AMD Radeon RX 5600M', 'AMD Radeon RX 5600M')
+        ('AMD Radeon RX 5600M', 'AMD Radeon RX 5600M'),
+        ('Apple M1', 'Apple M1')
     ])
     graphics_memory = IntegerField('Velikost grafické paměti:', validators=[NumberRange(min=0)], default=0)
 

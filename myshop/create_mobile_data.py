@@ -2332,6 +2332,7 @@ products = [
     "product_image": "test_image_xiaomi_13_green.jpeg",
     'product_type': "Mobile",
     },
+
 ]
 
 # open the file in 'w' mode (write mode)
