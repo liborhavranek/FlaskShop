@@ -26,7 +26,7 @@
                   {% for product in products %}
                     <tr>
                       <td><img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class=" img-fluid product-list-product-image"></td>
-                      <td>{{ product.product_name }}</td>
+                      <td><a href="/products/product-preview/{{ product.id }}">{{ product.product_name }}</a></td>
                       <td>{{ product.date_created|custom_date_format }}</td>
 
                         {% if product.edited == False %}
@@ -40,9 +40,21 @@
                         {% else %}
                         <td>{{ product.date_edited|custom_date_format }}</td>
                         {% endif %}
-                        <td><a class="btn btn-info btn-sm" href="/products/edit-mobile-product/{{ product.id }}">Upravit</a></td>
 
-                        <td><a class="btn btn-danger btn-sm" href="/products/delete-mobile-product/{{ product.id }}">Smazat</a></td>
+        {% if product.product_type == 'Mobile' %}
+            <td><a class="btn btn-info btn-sm" href="/products/edit-mobile-product/{{ product.id }}">Upravit</a></td>
+        {% elif product.product_type == 'Notebook' %}
+            <td><a class="btn btn-info btn-sm" href="/products/edit-notebook-product/{{ product.id }}">Upravit</a></td>
+        {% endif %}
+
+
+        <!-- Existing columns... -->
+        {% if product.product_type == 'Mobile' %}
+            <td><a class="btn btn-danger btn-sm" href="/products/delete-mobile-product/{{ product.id }}">Smazat</a></td>
+        {% elif product.product_type == 'Notebook' %}
+            <td><a class="btn btn-danger btn-sm" href="/products/delete-notebook-product/{{ product.id }}">Smazat</a></td>
+        {% endif %}
+
                     </tr>
                   {% endfor %}
                 </tbody>

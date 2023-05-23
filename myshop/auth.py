@@ -1,4 +1,5 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
+import ast
 import csv
 
 from flask import Blueprint, render_template, request, flash, redirect
@@ -12,6 +13,7 @@ from myshop.models.customer_model import Customer
 from .models.brand_model import Brand
 from .models.category_model import Category
 from .models.mobile_model import Mobile
+from .models.notebook_model import Notebook
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
@@ -163,7 +165,7 @@ def create_test_data():
         db.session.add(category)
         db.session.commit()
 
-    with open('myshop/products.csv', newline='') as csvfile:
+    with open('myshop/mobile_products.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             product = Mobile()
@@ -193,24 +195,98 @@ def create_test_data():
             product.weight_units = row["weight_units"]
 
             product.battery_capacity = row["battery_capacity"]
-            product.memory_card_slot = bool(row['memory_card_slot'])
-            product.face_id = bool(row["face_id"])
-            product.touch_screen = bool(row["touch_screen"])
+            product.memory_card_slot = ast.literal_eval(row['memory_card_slot'])
+            product.face_id = ast.literal_eval(row["face_id"])
+            product.touch_screen = ast.literal_eval(row["touch_screen"])
             product.front_camera = row["front_camera"]
             product.back_camera = row["back_camera"]
-            product.convertible = bool(row["convertible"])
-            product.wifi = bool(row["wifi"])
-            product.bluetooth = bool(row["bluetooth"])
-            product.nfc = bool(row["nfc"])
+            product.convertible = ast.literal_eval(row["convertible"])
+            product.wifi = ast.literal_eval(row["wifi"])
+            product.bluetooth = ast.literal_eval(row["bluetooth"])
+            product.nfc = ast.literal_eval(row["nfc"])
             product.processor = row["processor"]
             product.processor_cores = row["processor_cores"]
-            product.esim = bool(row["esim"])
+            product.esim = ast.literal_eval(row["esim"])
 
             product.color = row["color"]
             product.brand_id = row["brand_id"]
             product.category_id = row["category_id"]
             product.product_image = row["product_image"]
+            product.product_type = row["product_type"]
 
             db.session.add(product)
             db.session.commit()
+
+    with open('myshop/notebook_products.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            product = Notebook()
+            product.product_name = row["product_name"]
+            product.price = row["price"]
+            product.discount = row["discount"]
+            product.stock = row["stock"]
+
+            product.display_size = row["display_size"]
+            product.display_resolution = row["display_resolution"]
+            product.display_frequency = row["display_frequency"]
+            product.display_nits = row["display_nits"]
+            product.display_type = row["display_type"]
+
+            product.processor = row["processor"]
+            product.processor_cores = row["processor_cores"]
+
+            product.operating_system = row["operating_system"]
+
+            product.graphics_card = row["graphics_card"]
+            product.graphics_memory = row["graphics_memory"]
+
+            product.operating_memory = row["operating_memory"]
+
+            product.ssd_capacity = row["ssd_capacity"]
+            product.hdd_capacity = row["hdd_capacity"]
+            product.ssd = ast.literal_eval(row["ssd"])
+            product.hdd = ast.literal_eval(row["hdd"])
+
+            product.description = row["description"]
+            product.subheading = row["subheading"]
+
+            product.light_keyboard = ast.literal_eval(row["light_keyboard"])
+            product.num_keyboard = ast.literal_eval(row["num_keyboard"])
+            product.touch_screen = ast.literal_eval(row["touch_screen"])
+            product.fingerprint_reader = ast.literal_eval(row["fingerprint_reader"])
+            product.memory_card_reader = ast.literal_eval(row["memory_card_reader"])
+            product.usb_c_charging = ast.literal_eval(row["usb_c_charging"])
+
+            product.battery_capacity = row["battery_capacity"]
+            product.construction = row["construction"]
+
+            product.height = row["height"]
+            product.height_units = row["height_units"]
+            product.width = row["width"]
+            product.width_units = row["width_units"]
+            product.depth = row["depth"]
+            product.depth_units = row["depth_units"]
+            product.weight = row["weight"]
+            product.weight_units = row["weight_units"]
+
+            product.color = row["color"]
+            product.brand_id = row["brand_id"]
+            product.category_id = row["category_id"]
+
+            product.audio_jack = ast.literal_eval(row["audio_jack"])
+            product.usb_3_0 = ast.literal_eval(row["usb_3_0"])
+            product.usb_2_0 = ast.literal_eval(row["usb_2_0"])
+            product.cd_dvd_drive = ast.literal_eval(row["cd_dvd_drive"])
+
+            product.usb_ports = row["usb_ports"]
+            product.hdmi_ports = row["hdmi_ports"]
+
+            product.visit_count = row["visit_count"]
+            product.product_type = row["product_type"]
+
+            product.product_image = row["product_image"]
+
+            db.session.add(product)
+            db.session.commit()
+
     return render_template("auth.html", customer=current_user)

@@ -111,8 +111,9 @@ class TestProductTemplateOnlyEditProductTemplate(TestMixin, unittest.TestCase):
         self.client.post('/products/create-mobile-product', data=product_data, follow_redirects=True)
 
     def test_edit_product_form_have_closed_form_tag(self):
+        self.create_product()
         response = self.client.get('/products/edit-mobile-product/1', follow_redirects=True)
-        self.assertIn(b'<form method="POST"', response.data)
+        self.assertIn(b'<form method="POST" autocomplete="off" enctype=multipart/form-data>', response.data)
         self.assertIn(b'</form>', response.data)
 
     def test_product_form_have_all_input_fields(self):
