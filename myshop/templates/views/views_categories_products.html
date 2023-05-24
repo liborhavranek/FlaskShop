@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div>
+                <img src="{{ url_for('static', filename='images/elektro_board1.jpg') }}" class="img-fluid rounded shadow-lg">
+            </div>
+
+            <div class="py-5 text-center"><h1>{{ category.category_name }}</h1></div>
+
+
+
+        </div>
+    </div>
+</div>
+{%endblock content %}
