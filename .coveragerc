@@ -4,7 +4,8 @@ omit =
     myshop/tests/*
     app.py
     myshop/products.py
-    myshop/create_product_data.py
+    myshop/create_mobile_data.py
+    myshop/create_notebook_data.py
 
 [report]
 exclude_lines =

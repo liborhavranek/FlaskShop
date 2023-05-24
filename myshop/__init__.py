@@ -64,7 +64,12 @@ def create_app(config=None):
             'SCSS/product.scss',
             filters='libsass',
             output='Gen/product.css',
-        )
+        ),
+        'view_style': Bundle(
+            'SCSS/view.scss',
+            filters='libsass',
+            output='Gen/view.css',
+        ),
     }
     assets.register(bundles)
 
