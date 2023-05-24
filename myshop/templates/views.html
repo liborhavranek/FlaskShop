@@ -11,58 +11,24 @@
                 <img src="{{ url_for('static', filename='images/elektro_board1.jpg') }}" class="img-fluid rounded shadow-lg">
             </div>
 
-            <div class="py-5 text-center"><h1>Nejnovější produkty</h1></div>
+            <div class="py-3 text-center"><h1>Nejnovější produkty</h1></div>
 
+            <div class="row">
 
-<div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
-    {% for product in newest_products %}
-<div class="card col-xl-3 col-lg-3 col-12 shadow-lg" style="transform: scale(0.97);">
-    <a href="/products/product-preview/{{ product.id }}" class="card-link">
-        <div class="card-img-container my-1">
-            <img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class="card-img-top">
-        </div>
+            {% for product in newest_products %}
+    <div class="card col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 mx-2">
+        <img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class="card-img-top">
         <div class="card-body">
-            <h5 class="card-title product-name-product-card pb-2">
-                <a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.product_name }}</a>
-            </h5>
-            <p class="card-text product-description-product-card"><a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.description[:100] }}
-            {% if product.description|length > 100 %}...{% endif %}</a></p>
-            <h3 class="card-text">{{ product.price|round }} Kč</h3>
+            <h5 class="card-title pb-2">{{ product.product_name }}</h5>
+            <p class="card-text">{{ product.description[:100] }}</p>
+            <p class="card-text">Price: ${{ product.price }}</p>
+            <!-- Add any other product information you want to display -->
         </div>
-    </a>
-        <div class="card-body">
-            <button class="btn btn-warning">Přidat do košíku</button>
-        </div>
-
     </div>
-    {% endfor %}
-</div>
+{% endfor %}
+  </div>
 
-<div class="py-5 text-center"><h1>Nejnavštěvovanější produkty</h1></div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
-    {% for product in most_visit_products %}
-<div class="card col-xl-3 col-lg-3 col-12 shadow-lg" style="transform: scale(0.97);">
-    <a href="/products/product-preview/{{ product.id }}" class="card-link">
-        <div class="card-img-container my-1">
-            <img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class="card-img-top">
-        </div>
-        <div class="card-body">
-            <h5 class="card-title product-name-product-card pb-2">
-                <a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.product_name }}</a>
-            </h5>
-            <p class="card-text product-description-product-card"><a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.description[:100] }}
-            {% if product.description|length > 100 %}...{% endif %}</a></p>
-            <h3 class="card-text">{{ product.price|round }} Kč</h3>
-        </div>
-    </a>
-        <div class="card-body">
-            <button class="btn btn-warning">Přidat do košíku</button>
-        </div>
-
-    </div>
-    {% endfor %}
-</div>
 
         </div>
     </div>
