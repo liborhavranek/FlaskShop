@@ -10,7 +10,9 @@
       <ul class="navbar-nav flex-column w-100 justify-content-center">
 
           {% for category in categories %}
-            <p>{{ category[0] }}</p>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.get_products_by_category', category_name=category[0]) }}">{{ category[0] }}</a>
+                </li>
           {% endfor %}
       </ul>
     </div>
