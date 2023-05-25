@@ -23,5 +23,4 @@ def get_products_by_category(category_name):
     categories = db.session.query(Category.category_name.distinct()).all()
     category = Category.query.filter_by(category_name=category_name).first_or_404()
     products = Product.query.filter_by(category_id=category.id).order_by(Product.date_created.desc()).all()
-
     return render_template('views_categories_products.html', products=products, category=category, categories=categories)
