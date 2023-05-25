@@ -1,6 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 from myshop import db
 from myshop.models.category_model import Category
@@ -21,6 +21,8 @@ def view() -> str:
 @views.route('/<string:category_name>')
 def get_products_by_category(category_name):
     categories = db.session.query(Category.category_name.distinct()).all()
+    # that line code show only categories what have product
+    # categories = db.session.query(Category.category_name.distinct()).join(Product).all()
     category = Category.query.filter_by(category_name=category_name).first_or_404()
     products = Product.query.filter_by(category_id=category.id).order_by(Product.date_created.desc()).all()
     return render_template('views_categories_products.html', products=products, category=category, categories=categories)
