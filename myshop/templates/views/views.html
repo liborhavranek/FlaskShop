@@ -27,7 +27,17 @@
             </h5>
             <p class="card-text product-description-product-card"><a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.description[:100] }}
             {% if product.description|length > 100 %}...{% endif %}</a></p>
+
+            {% if product.discount == 0 %}
+
             <h3 class="card-text">{{ product.price|round }} Kč</h3>
+
+            {% else %}
+  <h2 class="discount">- {{ product.discount }} %</h2>
+  <h5 class="card-text price-crossed"><del>{{ product.price|round }} Kč</del></h5>
+  <h3 class="card-text price-discounted">{{ product.price|round - (product.price|round * product.discount / 100) }} Kč</h3>
+            {% endif %}
+
         </div>
     </a>
         <div class="card-body">
@@ -53,7 +63,16 @@
             </h5>
             <p class="card-text product-description-product-card"><a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.description[:100] }}
             {% if product.description|length > 100 %}...{% endif %}</a></p>
+
+            {% if product.discount == 0 %}
+
             <h3 class="card-text">{{ product.price|round }} Kč</h3>
+
+            {% else %}
+              <h2 class="discount">- {{ product.discount }} %</h2>
+              <h5 class="card-text price-crossed"><del>{{ product.price|round }} Kč</del></h5>
+              <h3 class="card-text price-discounted">{{ product.price|round - (product.price|round * product.discount / 100) }} Kč</h3>
+            {% endif %}
         </div>
     </a>
         <div class="card-body">

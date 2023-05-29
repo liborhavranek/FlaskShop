@@ -22,13 +22,13 @@
 
             {% endfor %}
             </div>
-
+<hr>
 <form class="sort-form" method="GET" action="{{ request.path }}">
-  <label>Sort by:</label>
-  <button type="submit" name="sort_by" value="price_low">Price: Low to High</button>
-  <button type="submit" name="sort_by" value="price_high">Price: High to Low</button>
-  <button type="submit" name="sort_by" value="most_views">Most Views</button>
-  <button type="submit" name="sort_by" value="highest_discount">Highest Discount</button>
+  <label>Seřadit:</label>
+  <button class="btn shadow-lg mx-2" type="submit" name="sort_by" value="price_low">Cena: od nejnižší po nejvyšší</button>
+  <button class="btn shadow-lg mx-2" type="submit" name="sort_by" value="price_high">Cena: od nejvyšší po nejnižší</button>
+  <button class="btn shadow-lg mx-2" type="submit" name="sort_by" value="most_views">TOP</button>
+  <button class="btn shadow-lg mx-2" type="submit" name="sort_by" value="highest_discount">Největší sleva</button>
 </form>
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
@@ -44,7 +44,17 @@
             </h5>
             <p class="card-text product-description-product-card"><a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.description[:100] }}
             {% if product.description|length > 100 %}...{% endif %}</a></p>
+
+
+            {% if product.discount == 0 %}
+
             <h3 class="card-text">{{ product.price|round }} Kč</h3>
+
+            {% else %}
+              <h2 class="discount">- {{ product.discount }} %</h2>
+              <h5 class="card-text price-crossed"><del>{{ product.price|round }} Kč</del></h5>
+              <h3 class="card-text price-discounted">{{ product.price|round - (product.price|round * product.discount / 100) }} Kč</h3>
+            {% endif %}
         </div>
     </a>
         <div class="card-body">
