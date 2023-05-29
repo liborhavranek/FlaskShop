@@ -108,10 +108,12 @@ def add_to_cart(product_id):
 
     return redirect(url_for('views.cart'))
 
+
 @views.route('/cart')
 def cart():
     cart = session.get('cart', [])
     return render_template('cart.html', cart=cart, customer=current_user)
+
 
 def get_product_by_id(product_id):
     product = Product.query.get(product_id)
