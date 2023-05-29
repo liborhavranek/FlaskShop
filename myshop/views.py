@@ -1,6 +1,7 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
 from flask import Blueprint, render_template, request
+from flask_login import current_user
 
 from myshop import db
 from myshop.models.brand_model import Brand
@@ -41,7 +42,7 @@ def view() -> str:
     products = Product.query.order_by(Product.date_created.desc()).all()
     newest_products = Product.query.order_by(Product.date_created.desc()).limit(4).all()
     most_visit_products = Product.query.order_by(Product.visit_count.desc()).limit(4).all()
-    return render_template('views.html', categories=categories, products=products, newest_products=newest_products, most_visit_products=most_visit_products)
+    return render_template('views.html', categories=categories, products=products, newest_products=newest_products, most_visit_products=most_visit_products, customer=current_user)
 
 
 @views.route('/<string:category_name>/<string:brand_name>')
@@ -58,7 +59,7 @@ def get_products_by_category_and_brand(category_name, brand_name):
     sorted_products_query = sort_products(products_query, sort_by)
     products = sorted_products_query.all()
 
-    return render_template('views_categories_products.html', products=products, category=category, brand=brand, categories=categories, brands=brands)
+    return render_template('views_categories_products.html', products=products, category=category, brand=brand, categories=categories, brands=brands, customer=current_user)
 
 
 @views.route('/category/<string:category_name>')
@@ -74,7 +75,7 @@ def get_products_by_category(category_name):
     sorted_products_query = sort_products(products_query, sort_by)
     products = sorted_products_query.all()
 
-    return render_template('views_categories_products.html', products=products, category=category, categories=categories, brands=brands)
+    return render_template('views_categories_products.html', products=products, category=category, categories=categories, brands=brands, customer=current_user)
 
 
 @views.route('/search', methods=['GET', 'POST'])
@@ -89,4 +90,4 @@ def search_products():
         # If no query is provided, display all products
         products = Product.query.all()
 
-    return render_template('search_results.html', products=products, query=query, categories=categories)
+    return render_template('search_results.html', products=products, query=query, categories=categories, customer=current_user)

@@ -20,7 +20,7 @@ auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
 @auth.route('/')
 def authenticate() -> str:
-    return render_template('auth.html')
+    return render_template('auth.html', customer=current_user)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -59,7 +59,7 @@ def register():
         login_user(new_customer, remember=True)
         flash('Profil byl úspěšně vytvořen.', category='success')
         return redirect("/auth/")
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, customer=current_user)
 
 
 @auth.route('/check-email', methods=['POST'])
@@ -107,7 +107,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect("/")
+    return redirect("/", customer=current_user)
 
 
 @auth.route('/create-customers')
