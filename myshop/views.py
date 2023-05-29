@@ -3,10 +3,23 @@
 from flask import Blueprint, render_template, request
 
 from myshop import db
+from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.mobile_model import Mobile
+from myshop.models.notebook_model import Notebook
 from myshop.models.product_model import Product
 
 views = Blueprint('views', __name__, template_folder='templates/views')
+
+
+def sorting_category(category_name):
+    if category_name == 'Mobily':
+        brands = Brand.query.join(Mobile).filter(Mobile.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
+    elif category_name == 'Notebooky':
+        brands = Brand.query.join(Notebook).filter(Notebook.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
+    else:
+        brands = Brand.query.order_by(Brand.brand_name).distinct().all()
+    return brands
 
 
 @views.route('/')
@@ -18,11 +31,26 @@ def view() -> str:
     return render_template('views.html', categories=categories, products=products, newest_products=newest_products, most_visit_products=most_visit_products)
 
 
-@views.route('/<string:category_name>')
+@views.route('/<string:category_name>/<string:brand_name>')
+def get_products_by_category_and_brand(category_name, brand_name):
+    categories = db.session.query(Category.category_name.distinct()).all()
+    category = Category.query.filter_by(category_name=category_name).first_or_404()
+    brand = Brand.query.filter_by(brand_name=brand_name).first_or_404()
+    brands = sorting_category(category_name)
+
+    products = Product.query.filter_by(category_id=category.id, brand_id=brand.id).order_by(
+        Product.date_created.desc()).all()
+
+    return render_template('views_categories_products.html', products=products, category=category, brand=brand, categories=categories, brands=brands)
+
+
+@views.route('/category/<string:category_name>')
 def get_products_by_category(category_name):
     categories = db.session.query(Category.category_name.distinct()).all()
-    # that line code show only categories what have product
-    # categories = db.session.query(Category.category_name.distinct()).join(Product).all()
     category = Category.query.filter_by(category_name=category_name).first_or_404()
+    brands = sorting_category(category_name)
+
     products = Product.query.filter_by(category_id=category.id).order_by(Product.date_created.desc()).all()
-    return render_template('views_categories_products.html', products=products, category=category, categories=categories)
+
+    return render_template('views_categories_products.html', products=products, category=category,
+                           categories=categories, brands=brands)

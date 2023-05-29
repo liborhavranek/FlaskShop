@@ -13,6 +13,13 @@
 
             <div class="py-5 text-center"><h1>{{ category.category_name }}</h1></div>
 
+            {% for brand in brands %}
+
+            <a href="/{{ category.category_name }}/{{ brand.brand_name }}">{{ brand.brand_name }}</a>
+
+
+            {% endfor %}
+
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
     {% for product in products %}
 <div class="card col-xl-3 col-lg-3 col-12 shadow-lg" style="transform: scale(0.97);">
