@@ -108,7 +108,7 @@ def delete_brand(id):
     db.session.delete(brand)
     db.session.commit()
     flash('Značka byla smazána.', category='success')
-    return redirect('/products/create-brand', customer=current_user)
+    return redirect('/products/create-brand')
 
 
 @products.route('/create-category', methods=['GET', 'POST'])
@@ -161,7 +161,7 @@ def delete_category(id):
     db.session.delete(category)
     db.session.commit()
     flash('Kategorie byla smazána.', category='success')
-    return redirect('/products/create-category', customer=current_user)
+    return redirect('/products/create-category')
 
 
 @products.route('/product-preview/<int:product_id>')
@@ -460,7 +460,7 @@ def delete_mobile_product(id):
     db.session.delete(product)
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
-    return redirect('/products/products-list', customer=current_user)
+    return redirect('/products/products-list')
 
 
 @products.route('/delete-notebook-product/<int:id>', methods=['GET', 'POST'])
@@ -478,7 +478,7 @@ def delete_notebook_product(id):
     db.session.delete(product)
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
-    return redirect('/products/products-list', customer=current_user)
+    return redirect('/products/products-list')
 
 
 @products.route('/create-notebook-product', methods=['GET', 'POST'])

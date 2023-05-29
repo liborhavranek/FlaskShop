@@ -88,14 +88,14 @@ def login():
     if form.validate_on_submit():
         email = form.email.data
         user_password = form.password.data
-        costumer = Customer.query.filter_by(email=email).first()
-        if costumer:
-            if check_password_hash(costumer.user_password, user_password):
+        customer = Customer.query.filter_by(email=email).first()
+        if customer:
+            if check_password_hash(customer.user_password, user_password):
                 print(user_password)
-                print(costumer.user_password)
+                print(customer.user_password)
                 flash("Úspěšně jsi se přihlásil.", category='success')
-                login_user(costumer, remember=True)
-                return render_template("index.html", costumer=current_user)
+                login_user(customer, remember=True)
+                return redirect("/")
             else:
                 flash('Zadal jsi nesprávné heslo.', category='error')
         else:
@@ -107,7 +107,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect("/", customer=current_user)
+    return redirect("/")
 
 
 @auth.route('/create-customers')
