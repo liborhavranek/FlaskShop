@@ -1991,3 +1991,4 @@ class TestAddNotebook(TestMixin, unittest.TestCase):
         }
         response = self.client.post('/products/create-notebook-product', data=data, follow_redirects=True)
         self.assertIn(bytes("Podnadpis musí mít alespoň dvacet znaků.", "utf-8"), response.data)
+
