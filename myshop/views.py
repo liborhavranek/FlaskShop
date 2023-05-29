@@ -1,6 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import current_user
 
 from myshop import db
@@ -91,3 +91,37 @@ def search_products():
         products = Product.query.all()
 
     return render_template('search_results.html', products=products, query=query, categories=categories, customer=current_user)
+
+
+@views.route('/add_to_cart/<int:product_id>')
+def add_to_cart(product_id):
+    # Retrieve the product based on the given ID
+    product = get_product_by_id(product_id)
+
+    if product:
+        if 'cart' not in session:
+            session['cart'] = []
+
+        cart = session['cart']
+        cart.append(product)
+        session['cart'] = cart
+
+    return redirect(url_for('views.cart'))
+
+@views.route('/cart')
+def cart():
+    cart = session.get('cart', [])
+    return render_template('cart.html', cart=cart, customer=current_user)
+
+def get_product_by_id(product_id):
+    product = Product.query.get(product_id)
+    if product:
+        product_dict = {
+            'id': product.id,
+            'name': product.product_name,
+            'price': product.price,
+            'quantity': product.stock,
+            # Include other attributes as needed
+        }
+        return product_dict
+    return None
