@@ -52,3 +52,8 @@
 /* Discount text */
 .discount {
   color: #FF0000; }
+
+.search-bar-top-navbar {
+  padding-left: 30%;
+  width: 60%;
+  min-width: 500px; }
