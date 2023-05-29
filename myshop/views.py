@@ -22,6 +22,19 @@ def sorting_category(category_name):
     return brands
 
 
+def sort_products(products_query, sort_by):
+    if sort_by == 'price_low':
+        return products_query.order_by(Product.price)
+    elif sort_by == 'price_high':
+        return products_query.order_by(Product.price.desc())
+    elif sort_by == 'most_views':
+        return products_query.order_by(Product.visit_count.desc())
+    elif sort_by == 'highest_discount':
+        return products_query.order_by(Product.discount.desc())
+    else:
+        return products_query
+
+
 @views.route('/')
 def view() -> str:
     categories = db.session.query(Category.category_name.distinct()).all()
@@ -42,17 +55,8 @@ def get_products_by_category_and_brand(category_name, brand_name):
     sort_by = request.args.get('sort_by')
 
     products_query = Product.query.filter_by(category_id=category.id, brand_id=brand.id)
-
-    if sort_by == 'price_low':
-        products_query = products_query.order_by(Product.price)
-    elif sort_by == 'price_high':
-        products_query = products_query.order_by(Product.price.desc())
-    elif sort_by == 'most_views':
-        products_query = products_query.order_by(Product.visit_count.desc())
-    elif sort_by == 'highest_discount':
-        products_query = products_query.order_by(Product.discount.desc())
-
-    products = products_query.all()
+    sorted_products_query = sort_products(products_query, sort_by)
+    products = sorted_products_query.all()
 
     return render_template('views_categories_products.html', products=products, category=category, brand=brand, categories=categories, brands=brands)
 
@@ -67,16 +71,7 @@ def get_products_by_category(category_name):
     sort_by = request.args.get('sort_by')
 
     products_query = Product.query.filter_by(category_id=category.id)
-
-    if sort_by == 'price_low':
-        products_query = products_query.order_by(Product.price)
-    elif sort_by == 'price_high':
-        products_query = products_query.order_by(Product.price.desc())
-    elif sort_by == 'most_views':
-        products_query = products_query.order_by(Product.visit_count.desc())
-    elif sort_by == 'highest_discount':
-        products_query = products_query.order_by(Product.discount.desc())
-
-    products = products_query.all()
+    sorted_products_query = sort_products(products_query, sort_by)
+    products = sorted_products_query.all()
 
     return render_template('views_categories_products.html', products=products, category=category, categories=categories, brands=brands)
