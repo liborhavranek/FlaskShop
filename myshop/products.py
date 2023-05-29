@@ -4,7 +4,7 @@ import os
 import uuid
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
-from flask_login import login_required
+from flask_login import login_required, current_user
 from datetime import datetime
 
 from werkzeug.utils import secure_filename
@@ -28,7 +28,7 @@ products = Blueprint('products', __name__, template_folder='templates/products')
 
 @products.route('/')
 def product() -> str:
-    return render_template('products.html')
+    return render_template('products.html', customer=current_user)
 
 
 path = 'myshop/static/images/uploads'
@@ -55,7 +55,7 @@ def save_image(image, upload_folder):
 
 @products.errorhandler(404)
 def page_not_found(error):
-    return render_template('errors/404.html'), 404
+    return render_template('errors/404.html', customer=current_user), 404
 
 
 @products.route('/create-brand', methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def create_brand():
         form.brand_name.data = ''
         brands = Brand.query.order_by(Brand.date_created.desc()).all()
         flash('Značka byla vytvořena.', category='success')
-    return render_template('add_brand.html', form=form, brands=brands)
+    return render_template('add_brand.html', form=form, brands=brands, customer=current_user)
 
 
 @products.route('/check-brand', methods=['POST'])
@@ -98,7 +98,7 @@ def edit_brand(id):
         db.session.commit()
         form.brand_name.data = ''
         flash('Značka byla aktualizována.', category='success')
-    return render_template('edit_brand.html', brand=brand, form=form)
+    return render_template('edit_brand.html', brand=brand, form=form, customer=current_user)
 
 
 @products.route('/delete-brand/<int:id>', methods=['GET', 'POST'])
@@ -126,7 +126,7 @@ def create_category():
         form.category_name.data = ''
         categories = Category.query.order_by(Category.date_created.desc()).all()
         flash('Kategorie byla vytvořena.', category='success')
-    return render_template('add_category.html', form=form, categories=categories)
+    return render_template('add_category.html', form=form, categories=categories, customer=current_user)
 
 
 @products.route('/edit-category/<int:id>', methods=['GET', 'POST'])
@@ -141,7 +141,7 @@ def edit_category(id):
         db.session.commit()
         form.category_name.data = ''
         flash('Značka byla aktualizována.', category='success')
-    return render_template('edit_category.html', category=category, form=form)
+    return render_template('edit_category.html', category=category, form=form, customer=current_user)
 
 
 @products.route('/check-category', methods=['POST'])
@@ -172,9 +172,9 @@ def product_page_preview(product_id):
     product.visit_count += 1
     db.session.commit()
     if isinstance(mobile, Product):
-        return render_template('mobile_product_page.html', product=mobile)
+        return render_template('mobile_product_page.html', product=mobile, customer=current_user)
     elif isinstance(notebook, Product):
-        return render_template('notebook_product_page.html', product=notebook)
+        return render_template('notebook_product_page.html', product=notebook, customer=current_user)
 
 
 @products.route('/check-product', methods=['POST'])
@@ -190,7 +190,7 @@ def check_product():
 @products.route('/products-list')
 def product_list():
     products = Product.query.order_by(Product.date_created.desc()).all()
-    return render_template('product-list.html', products=products)
+    return render_template('product-list.html', products=products, customer=current_user)
 
 
 @products.route('/edit-product-images/<int:product_id>', methods=['POST', 'GET'])
@@ -212,7 +212,7 @@ def edit_product_images(product_id):
             product.product_image = new_image_filename
             db.session.commit()
             flash('Produktová fotka byla aktualizována.', category='success')
-            return redirect(url_for('products.edit_product_images', product_id=product_id))
+            return redirect(url_for('products.edit_product_images', product_id=product_id, customer=current_user))
 
     if additional_images_form.validate_on_submit():
         additional_images = additional_images_form.additional_images.data
@@ -232,10 +232,10 @@ def edit_product_images(product_id):
         db.session.commit()
 
         flash('Další fotky byly přidány.', category='success')
-        return redirect(url_for('products.edit_product_images', product_id=product_id))
+        return redirect(url_for('products.edit_product_images', product_id=product_id, customer=current_user))
 
     return render_template('edit_product_images.html', product=product, main_image_form=main_image_form,
-                           additional_images_form=additional_images_form)
+                           additional_images_form=additional_images_form, customer=current_user)
 
 
 @products.route('/delete-product-image/<int:image_id>', methods=['GET', 'POST'])
@@ -244,16 +244,16 @@ def delete_product_image(image_id):
     image = ProductImage.query.filter_by(id=image_id).first()
     if not image:
         flash('Fotka neexistuje.', category='error')
-        return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+        return redirect(url_for('products.edit_product_images', product_id=image.product_id, customer=current_user))
     try:
         os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], image.image_name))
     except OSError as e:
         flash(f'Nepodařilo se smazat fotku: {e}', category='error')
-        return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+        return redirect(url_for('products.edit_product_images', product_id=image.product_id, customer=current_user))
     db.session.delete(image)
     db.session.commit()
     flash('Fotka byla smazána.', category='success')
-    return redirect(url_for('products.edit_product_images', product_id=image.product_id))
+    return redirect(url_for('products.edit_product_images', product_id=image.product_id, customer=current_user))
 
 
 @products.route('/create-mobile-product', methods=['GET', 'POST'])
@@ -330,9 +330,9 @@ def create_mobile_product():
         db.session.commit()
 
         flash('Produkt byl přidán.', category='success')
-        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id, customer=current_user))
 
-    return render_template('add_mobile_product.html', form=form)
+    return render_template('add_mobile_product.html', form=form, customer=current_user)
 
 
 @products.route('/edit-mobile-product/<int:product_id>', methods=['POST', 'GET'])
@@ -440,9 +440,9 @@ def edit_product(product_id):
                 db.session.commit()
                 form.product_name.data = ''
                 flash('Produkt byl aktualizován.', category='success')
-                return redirect(url_for('products.product_page_preview', product_id=product.id))
+                return redirect(url_for('products.product_page_preview', product_id=product.id, customer=current_user))
 
-    return render_template('edit_mobile_product.html', product=product, form=form)
+    return render_template('edit_mobile_product.html', product=product, form=form, customer=current_user)
 
 
 @products.route('/delete-mobile-product/<int:id>', methods=['GET', 'POST'])
@@ -577,8 +577,8 @@ def create_notebook_product():
         db.session.commit()
 
         flash('Produkt byl přidán.', category='success')
-        return redirect(url_for('products.product_page_preview', product_id=new_product.id))
-    return render_template('add_notebook_product.html', form=form)
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id, customer=current_user))
+    return render_template('add_notebook_product.html', form=form, customer=current_user)
 
 
 @products.route('/edit-notebook-product/<int:product_id>', methods=['POST', 'GET'])
@@ -720,6 +720,6 @@ def edit_notebook_product(product_id):
                 db.session.commit()
                 form.product_name.data = ''
                 flash('Produkt byl aktualizován.', category='success')
-                return redirect(url_for('products.product_page_preview', product_id=product.id))
+                return redirect(url_for('products.product_page_preview', product_id=product.id, customer=current_user))
 
-    return render_template('edit_notebook_product.html', product=product, form=form)
+    return render_template('edit_notebook_product.html', product=product, form=form, customer=current_user)

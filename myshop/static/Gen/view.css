@@ -38,3 +38,22 @@
 
 .product-card-link:hover {
   color: inherit; }
+
+/* Price crossed out */
+.price-crossed {
+  text-decoration: line-through;
+  color: #999999; }
+
+/* Discounted price */
+.price-discounted {
+  font-weight: bold;
+  color: #FF0000; }
+
+/* Discount text */
+.discount {
+  color: #FF0000; }
+
+.search-bar-top-navbar {
+  padding-left: 30%;
+  width: 60%;
+  min-width: 500px; }

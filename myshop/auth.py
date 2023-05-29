@@ -20,7 +20,7 @@ auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
 @auth.route('/')
 def authenticate() -> str:
-    return render_template('auth.html')
+    return render_template('auth.html', customer=current_user)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -59,7 +59,7 @@ def register():
         login_user(new_customer, remember=True)
         flash('Profil byl úspěšně vytvořen.', category='success')
         return redirect("/auth/")
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, customer=current_user)
 
 
 @auth.route('/check-email', methods=['POST'])
@@ -88,14 +88,14 @@ def login():
     if form.validate_on_submit():
         email = form.email.data
         user_password = form.password.data
-        costumer = Customer.query.filter_by(email=email).first()
-        if costumer:
-            if check_password_hash(costumer.user_password, user_password):
+        customer = Customer.query.filter_by(email=email).first()
+        if customer:
+            if check_password_hash(customer.user_password, user_password):
                 print(user_password)
-                print(costumer.user_password)
+                print(customer.user_password)
                 flash("Úspěšně jsi se přihlásil.", category='success')
-                login_user(costumer, remember=True)
-                return render_template("index.html", costumer=current_user)
+                login_user(customer, remember=True)
+                return redirect("/")
             else:
                 flash('Zadal jsi nesprávné heslo.', category='error')
         else:

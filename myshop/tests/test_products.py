@@ -1612,3 +1612,383 @@ class TestEditProduct(TestMixin, unittest.TestCase):
 
         # check that the product name has been updated in the database
         self.assertIn(bytes("Produkt s tímto názvem již existuje.", "utf-8"), response.data)
+
+
+class TestAddNotebook(TestMixin, unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_name = cls.__name__
+
+    def setUp(self):
+        self.app = create_app(config={'TESTING': True})
+        self.app.testing = True
+        self.client = self.app.test_client()
+        app_context = self.app.app_context()
+        app_context.push()
+        self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.secret_key = 'test_secret_key'
+        super().setUp()
+
+    def login_user(self):
+        user_password = "password"
+        customer = Customer()
+        customer.username = "testuser"
+        customer.email = "testuser@example.com"
+        customer.user_password = generate_password_hash(user_password, method='sha256')
+        db.session.add(customer)
+        db.session.commit()
+        data = {
+            "email": "testuser@example.com",
+            "password": "password"
+        }
+        self.client.post('/auth/login', data=data, follow_redirects=True)
+
+    def create_product(self):
+        self.login_user()
+
+        brand_data = {
+            "brand_name": "Apple",
+        }
+        self.client.post('/products/create-brand', data=brand_data, follow_redirects=True)
+
+        category_data = {
+            "category_name": "Notebook",
+        }
+        self.client.post('/products/create-category', data=category_data, follow_redirects=True)
+
+        product_data = {
+            "product_name": "Macbook Pro 512GB Šedý",
+            "price": 25896,
+            "discount": 0,
+            "stock": 10,
+            "display_size": 13.3,
+            "display_resolution": "2560 x 1600",
+            "operating_system": "macOS",
+            "operating_memory": 8,
+            "description": "Macbook Pro je výkonný a univerzální notebook navržený pro profesionály a náročné uživatele. "
+                           "S jeho špičkovým výkonem a ohromujícím vizuálním zážitkem si můžete být jistí, že zvládnete "
+                           "jakýkoli úkol a projdete se plynule nejnovějšími aplikacemi a programy. Díky Retina displeji "
+                           "si užijete nádherné podrobnosti a živé barvy ve vysokém rozlišení. Přesné a ostré obrazy vás přenáší "
+                           "do světa, kde se každý detail zobrazuje s ohromující jasností. Procesor Intel Core i7 a 4 jádra "
+                           "vám poskytují dostatečnou sílu pro plynulý běh náročných aplikací a multitasking. Spoléhejte na "
+                           "rychlé odezvy a plynulé přepínání mezi různými úkoly bez zbytečných prodlev. Grafická karta AMD "
+                           "Radeon Pro 5500M s 4 GB paměti vám umožňuje vytvářet a upravovat grafiku a videa s precizností. "
+                           "Prohlížejte si své projekty ve vysokém rozlišení a sledujte, jak se vám tvorba stává živou.SSD "
+                           "kapacitou 512 GB poskytuje rychlé načítání systému a aplikací, a to vše s dostatečným úložným "
+                           "prostorem pro vaše soubory a dokumenty. Můžete se spolehnout na rychlý a efektivní přístup k vašim"
+                           " datům. Macbook Pro je vyroben z odolného hliníku, který zajišťuje dlouhodobou spolehlivost a "
+                           "odolnost. Jeho kompaktní a lehký design vám umožňuje snadné přenášení notebooku a využití při práci"
+                           " nebo na cestách. S Macbook Pro získáte výkonný a spolehlivý notebook, který vám umožní realizovat"
+                           " vaše profesionální ambice a těšit se z kvalitního multimediálního zážitku.",
+            "subheading": "Prožijte prvotřídní výkon a úžasné vizuální efekty s Macbook Pro.",
+            "visit_count": 14560,
+            "product_type": "Notebook",
+            "brand_id": 1,
+            "category_id": 4,
+            "display_frequency": 144,
+            "display_nits": 1600,
+            "display_type": "Retina",
+            "processor": "Intel Core i7",
+            "processor_cores": 4,
+            "graphics_card": "AMD Radeon Pro 5500M",
+            "graphics_memory": 4,
+            "ssd_capacity": 512,
+            "hdd_capacity": 0,
+            "ssd": True,
+            "hdd": False,
+            "light_keyboard": True,
+            "num_keyboard": False,
+            "touch_screen": False,
+            "fingerprint_reader": False,
+            "memory_card_reader": False,
+            "usb_c_charging": True,
+            "battery_capacity": 58,
+            "construction": "celokovový",
+            "height": 0.61,
+            "height_units": "mm",
+            "width": 11.97,
+            "width_units": "mm",
+            "depth": 8.36,
+            "depth_units": "mm",
+            "weight": 3.02,
+            "weight_units": "kg",
+            "color": "šedá",
+            "usb_ports": 4,
+            "hdmi_ports": 1,
+            "audio_jack": True,
+            "usb_3_0": True,
+            "usb_2_0": False,
+            "cd_dvd_drive": False,
+            "product_image": "test_image_mac_book_pro.jpeg",
+        }
+
+        self.client.post('/products/create-notebook-product', data=product_data, follow_redirects=True)
+
+    def test_create_product_return_correct_message_when_short_name(self):
+        self.login_user()
+        data = {
+            "product_name": "M",
+            "price": 25896,
+            "discount": 0,
+            "stock": 10,
+            "display_size": 13.3,
+            "display_resolution": "2560 x 1600",
+            "operating_system": "macOS",
+            "operating_memory": 8,
+            "description": "Macbook Pro je výkonný a univerzální notebook navržený pro profesionály a náročné uživatele. "
+                           "S jeho špičkovým výkonem a ohromujícím vizuálním zážitkem si můžete být jistí, že zvládnete "
+                           "jakýkoli úkol a projdete se plynule nejnovějšími aplikacemi a programy. Díky Retina displeji "
+                           "si užijete nádherné podrobnosti a živé barvy ve vysokém rozlišení. Přesné a ostré obrazy vás přenáší "
+                           "do světa, kde se každý detail zobrazuje s ohromující jasností. Procesor Intel Core i7 a 4 jádra "
+                           "vám poskytují dostatečnou sílu pro plynulý běh náročných aplikací a multitasking. Spoléhejte na "
+                           "rychlé odezvy a plynulé přepínání mezi různými úkoly bez zbytečných prodlev. Grafická karta AMD "
+                           "Radeon Pro 5500M s 4 GB paměti vám umožňuje vytvářet a upravovat grafiku a videa s precizností. "
+                           "Prohlížejte si své projekty ve vysokém rozlišení a sledujte, jak se vám tvorba stává živou.SSD "
+                           "kapacitou 512 GB poskytuje rychlé načítání systému a aplikací, a to vše s dostatečným úložným "
+                           "prostorem pro vaše soubory a dokumenty. Můžete se spolehnout na rychlý a efektivní přístup k vašim"
+                           " datům. Macbook Pro je vyroben z odolného hliníku, který zajišťuje dlouhodobou spolehlivost a "
+                           "odolnost. Jeho kompaktní a lehký design vám umožňuje snadné přenášení notebooku a využití při práci"
+                           " nebo na cestách. S Macbook Pro získáte výkonný a spolehlivý notebook, který vám umožní realizovat"
+                           " vaše profesionální ambice a těšit se z kvalitního multimediálního zážitku.",
+            "subheading": "Prožijte prvotřídní výkon a úžasné vizuální efekty s Macbook Pro.",
+            "visit_count": 14560,
+            "product_type": "Notebook",
+            "brand_id": 1,
+            "category_id": 4,
+            "display_frequency": 144,
+            "display_nits": 1600,
+            "display_type": "Retina",
+            "processor": "Intel Core i7",
+            "processor_cores": 4,
+            "graphics_card": "AMD Radeon Pro 5500M",
+            "graphics_memory": 4,
+            "ssd_capacity": 512,
+            "hdd_capacity": 0,
+            "ssd": True,
+            "hdd": False,
+            "light_keyboard": True,
+            "num_keyboard": False,
+            "touch_screen": False,
+            "fingerprint_reader": False,
+            "memory_card_reader": False,
+            "usb_c_charging": True,
+            "battery_capacity": 58,
+            "construction": "celokovový",
+            "height": 0.61,
+            "height_units": "mm",
+            "width": 11.97,
+            "width_units": "mm",
+            "depth": 8.36,
+            "depth_units": "mm",
+            "weight": 3.02,
+            "weight_units": "kg",
+            "color": "šedá",
+            "usb_ports": 4,
+            "hdmi_ports": 1,
+            "audio_jack": True,
+            "usb_3_0": True,
+            "usb_2_0": False,
+            "cd_dvd_drive": False,
+            "product_image": "test_image_mac_book_pro.jpeg",
+        }
+        response = self.client.post('/products/create-notebook-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Produkt musí mít alespoň dva znaky.", "utf-8"), response.data)
+
+    def test_create_product_return_correct_message_when_price_is_zero(self):
+        self.login_user()
+        data = {
+            "product_name": "Macbook Pro 512GB Šedý",
+            "price": 0,
+            "discount": 0,
+            "stock": 10,
+            "display_size": 13.3,
+            "display_resolution": "2560 x 1600",
+            "operating_system": "macOS",
+            "operating_memory": 8,
+            "description": "Macbook Pro je výkonný a univerzální notebook navržený pro profesionály a náročné uživatele. "
+                           "S jeho špičkovým výkonem a ohromujícím vizuálním zážitkem si můžete být jistí, že zvládnete "
+                           "jakýkoli úkol a projdete se plynule nejnovějšími aplikacemi a programy. Díky Retina displeji "
+                           "si užijete nádherné podrobnosti a živé barvy ve vysokém rozlišení. Přesné a ostré obrazy vás přenáší "
+                           "do světa, kde se každý detail zobrazuje s ohromující jasností. Procesor Intel Core i7 a 4 jádra "
+                           "vám poskytují dostatečnou sílu pro plynulý běh náročných aplikací a multitasking. Spoléhejte na "
+                           "rychlé odezvy a plynulé přepínání mezi různými úkoly bez zbytečných prodlev. Grafická karta AMD "
+                           "Radeon Pro 5500M s 4 GB paměti vám umožňuje vytvářet a upravovat grafiku a videa s precizností. "
+                           "Prohlížejte si své projekty ve vysokém rozlišení a sledujte, jak se vám tvorba stává živou.SSD "
+                           "kapacitou 512 GB poskytuje rychlé načítání systému a aplikací, a to vše s dostatečným úložným "
+                           "prostorem pro vaše soubory a dokumenty. Můžete se spolehnout na rychlý a efektivní přístup k vašim"
+                           " datům. Macbook Pro je vyroben z odolného hliníku, který zajišťuje dlouhodobou spolehlivost a "
+                           "odolnost. Jeho kompaktní a lehký design vám umožňuje snadné přenášení notebooku a využití při práci"
+                           " nebo na cestách. S Macbook Pro získáte výkonný a spolehlivý notebook, který vám umožní realizovat"
+                           " vaše profesionální ambice a těšit se z kvalitního multimediálního zážitku.",
+            "subheading": "Prožijte prvotřídní výkon a úžasné vizuální efekty s Macbook Pro.",
+            "visit_count": 14560,
+            "product_type": "Notebook",
+            "brand_id": 1,
+            "category_id": 4,
+            "display_frequency": 144,
+            "display_nits": 1600,
+            "display_type": "Retina",
+            "processor": "Intel Core i7",
+            "processor_cores": 4,
+            "graphics_card": "AMD Radeon Pro 5500M",
+            "graphics_memory": 4,
+            "ssd_capacity": 512,
+            "hdd_capacity": 0,
+            "ssd": True,
+            "hdd": False,
+            "light_keyboard": True,
+            "num_keyboard": False,
+            "touch_screen": False,
+            "fingerprint_reader": False,
+            "memory_card_reader": False,
+            "usb_c_charging": True,
+            "battery_capacity": 58,
+            "construction": "celokovový",
+            "height": 0.61,
+            "height_units": "mm",
+            "width": 11.97,
+            "width_units": "mm",
+            "depth": 8.36,
+            "depth_units": "mm",
+            "weight": 3.02,
+            "weight_units": "kg",
+            "color": "šedá",
+            "usb_ports": 4,
+            "hdmi_ports": 1,
+            "audio_jack": True,
+            "usb_3_0": True,
+            "usb_2_0": False,
+            "cd_dvd_drive": False,
+            "product_image": "test_image_mac_book_pro.jpeg",
+        }
+        response = self.client.post('/products/create-notebook-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Cena produktu nemůže být nulová.", "utf-8"), response.data)
+
+    def test_create_product_return_correct_message_when_description_is_short(self):
+        self.login_user()
+        data = {
+            "product_name": "Macbook Pro 512GB Šedý",
+            "price": 25896,
+            "discount": 0,
+            "stock": 10,
+            "display_size": 13.3,
+            "display_resolution": "2560 x 1600",
+            "operating_system": "macOS",
+            "operating_memory": 8,
+            "description": "Macbook",
+            "subheading": "Prožijte prvotřídní výkon a úžasné vizuální efekty s Macbook Pro.",
+            "visit_count": 14560,
+            "product_type": "Notebook",
+            "brand_id": 1,
+            "category_id": 4,
+            "display_frequency": 144,
+            "display_nits": 1600,
+            "display_type": "Retina",
+            "processor": "Intel Core i7",
+            "processor_cores": 4,
+            "graphics_card": "AMD Radeon Pro 5500M",
+            "graphics_memory": 4,
+            "ssd_capacity": 512,
+            "hdd_capacity": 0,
+            "ssd": True,
+            "hdd": False,
+            "light_keyboard": True,
+            "num_keyboard": False,
+            "touch_screen": False,
+            "fingerprint_reader": False,
+            "memory_card_reader": False,
+            "usb_c_charging": True,
+            "battery_capacity": 58,
+            "construction": "celokovový",
+            "height": 0.61,
+            "height_units": "mm",
+            "width": 11.97,
+            "width_units": "mm",
+            "depth": 8.36,
+            "depth_units": "mm",
+            "weight": 3.02,
+            "weight_units": "kg",
+            "color": "šedá",
+            "usb_ports": 4,
+            "hdmi_ports": 1,
+            "audio_jack": True,
+            "usb_3_0": True,
+            "usb_2_0": False,
+            "cd_dvd_drive": False,
+            "product_image": "test_image_mac_book_pro.jpeg",
+        }
+        response = self.client.post('/products/create-notebook-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Popis musí mít alespoň padesát znaků.", "utf-8"), response.data)
+
+    def test_create_product_return_correct_message_when_subheading_is_short(self):
+        self.login_user()
+        data = {
+            "product_name": "Macbook Pro 512GB Šedý",
+            "price": 25896,
+            "discount": 0,
+            "stock": 10,
+            "display_size": 13.3,
+            "display_resolution": "2560 x 1600",
+            "operating_system": "macOS",
+            "operating_memory": 8,
+            "description": "Macbook Pro je výkonný a univerzální notebook navržený pro profesionály a náročné uživatele. "
+                           "S jeho špičkovým výkonem a ohromujícím vizuálním zážitkem si můžete být jistí, že zvládnete "
+                           "jakýkoli úkol a projdete se plynule nejnovějšími aplikacemi a programy. Díky Retina displeji "
+                           "si užijete nádherné podrobnosti a živé barvy ve vysokém rozlišení. Přesné a ostré obrazy vás přenáší "
+                           "do světa, kde se každý detail zobrazuje s ohromující jasností. Procesor Intel Core i7 a 4 jádra "
+                           "vám poskytují dostatečnou sílu pro plynulý běh náročných aplikací a multitasking. Spoléhejte na "
+                           "rychlé odezvy a plynulé přepínání mezi různými úkoly bez zbytečných prodlev. Grafická karta AMD "
+                           "Radeon Pro 5500M s 4 GB paměti vám umožňuje vytvářet a upravovat grafiku a videa s precizností. "
+                           "Prohlížejte si své projekty ve vysokém rozlišení a sledujte, jak se vám tvorba stává živou.SSD "
+                           "kapacitou 512 GB poskytuje rychlé načítání systému a aplikací, a to vše s dostatečným úložným "
+                           "prostorem pro vaše soubory a dokumenty. Můžete se spolehnout na rychlý a efektivní přístup k vašim"
+                           " datům. Macbook Pro je vyroben z odolného hliníku, který zajišťuje dlouhodobou spolehlivost a "
+                           "odolnost. Jeho kompaktní a lehký design vám umožňuje snadné přenášení notebooku a využití při práci"
+                           " nebo na cestách. S Macbook Pro získáte výkonný a spolehlivý notebook, který vám umožní realizovat"
+                           " vaše profesionální ambice a těšit se z kvalitního multimediálního zážitku.",
+            "subheading": "Prožij",
+            "visit_count": 14560,
+            "product_type": "Notebook",
+            "brand_id": 1,
+            "category_id": 4,
+            "display_frequency": 144,
+            "display_nits": 1600,
+            "display_type": "Retina",
+            "processor": "Intel Core i7",
+            "processor_cores": 4,
+            "graphics_card": "AMD Radeon Pro 5500M",
+            "graphics_memory": 4,
+            "ssd_capacity": 512,
+            "hdd_capacity": 0,
+            "ssd": True,
+            "hdd": False,
+            "light_keyboard": True,
+            "num_keyboard": False,
+            "touch_screen": False,
+            "fingerprint_reader": False,
+            "memory_card_reader": False,
+            "usb_c_charging": True,
+            "battery_capacity": 58,
+            "construction": "celokovový",
+            "height": 0.61,
+            "height_units": "mm",
+            "width": 11.97,
+            "width_units": "mm",
+            "depth": 8.36,
+            "depth_units": "mm",
+            "weight": 3.02,
+            "weight_units": "kg",
+            "color": "šedá",
+            "usb_ports": 4,
+            "hdmi_ports": 1,
+            "audio_jack": True,
+            "usb_3_0": True,
+            "usb_2_0": False,
+            "cd_dvd_drive": False,
+            "product_image": "test_image_mac_book_pro.jpeg",
+        }
+        response = self.client.post('/products/create-notebook-product', data=data, follow_redirects=True)
+        self.assertIn(bytes("Podnadpis musí mít alespoň dvacet znaků.", "utf-8"), response.data)
+

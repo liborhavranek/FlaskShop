@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div>
+                <img src="{{ url_for('static', filename='images/elektro_board1.jpg') }}" class="img-fluid rounded shadow-lg">
+            </div>
+
+            <div class="py-5 text-center"><h1>Výsledek hledání: {{ query }}</h1></div>
+
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+{% if products|length == 0 %}
+                <h3>Nic nenalezeno</h3>
+                {% else %}
+    {% for product in products %}
+
+<div class="card col-xl-3 col-lg-3 col-12 shadow-lg" style="transform: scale(0.97);">
+    <a href="/products/product-preview/{{ product.id }}" class="card-link">
+        <div class="card-img-container my-1">
+            <img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class="card-img-top">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title product-name-product-card pb-2">
+                <a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.product_name }}</a>
+            </h5>
+            <p class="card-text product-description-product-card"><a href="/products/product-preview/{{ product.id }}" class="product-card-link">{{ product.description[:100] }}
+            {% if product.description|length > 100 %}...{% endif %}</a></p>
+
+
+            {% if product.discount == 0 %}
+
+            <h3 class="card-text">{{ product.price|round }} Kč</h3>
+
+            {% else %}
+              <h2 class="discount">- {{ product.discount }} %</h2>
+              <h5 class="card-text price-crossed"><del>{{ product.price|round }} Kč</del></h5>
+              <h3 class="card-text price-discounted">{{ product.price|round - (product.price|round * product.discount / 100) }} Kč</h3>
+            {% endif %}
+        </div>
+    </a>
+        <div class="card-body">
+            <button class="btn btn-warning">Přidat do košíku</button>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+
+        </div>
+    </div>
+</div>
+{%endblock content %}
