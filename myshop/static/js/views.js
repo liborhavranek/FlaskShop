@@ -17,4 +17,3 @@ descriptions.each(function() {
 
 descriptions.height(maxHeight);
 
-

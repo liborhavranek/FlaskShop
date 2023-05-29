@@ -75,3 +75,18 @@ def get_products_by_category(category_name):
     products = sorted_products_query.all()
 
     return render_template('views_categories_products.html', products=products, category=category, categories=categories, brands=brands)
+
+
+@views.route('/search', methods=['GET', 'POST'])
+def search_products():
+    categories = db.session.query(Category.category_name.distinct()).all()
+    query = request.args.get('query')  # Get the search query from the URL parameters
+
+    if query:
+        # Perform the search query
+        products = Product.query.filter(Product.product_name.ilike(f"%{query}%")).all()
+    else:
+        # If no query is provided, display all products
+        products = Product.query.all()
+
+    return render_template('search_results.html', products=products, query=query, categories=categories)
