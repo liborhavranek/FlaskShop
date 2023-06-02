@@ -1,6 +1,6 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from flask_login import current_user
 
 from myshop import db
@@ -107,16 +107,41 @@ def add_to_cart(product_id):
             session['cart'] = []
 
         cart = session['cart']
+
+        # Check if the product is already in the cart
+        for item in cart:
+            if item['id'] == product_id:
+                # Check if adding another quantity exceeds the stock
+                if item['quantity'] >= product['stock']:
+                    flash('Více produktů už není na skladě', 'error')
+                    return redirect(request.referrer)
+
+                # Increase the quantity of the existing product in the cart
+                item['quantity'] += 1
+                session['cart'] = cart
+                flash('Produkt byl přidán do košíku', 'success')
+                return redirect(request.referrer)
+
+        # Check if the product is in stock
+        if product['stock'] <= 0:
+            flash('Produkt již není na skaldě', 'error')
+            return redirect(request.referrer)
+
+        # Add the product to the cart with quantity = 1
+        product['quantity'] = 1
         cart.append(product)
         session['cart'] = cart
+        flash('Produkt byl přidán do košíku', 'success')
 
-    return redirect(url_for('views.cart'))
+    return redirect(request.referrer)
 
 
 @views.route('/cart')
 def cart():
+    categories = db.session.query(Category.category_name.distinct()).all()
     cart = session.get('cart', [])
-    return render_template('cart.html', cart=cart, customer=current_user)
+    total_price = sum(item['price'] * item['quantity'] for item in cart)
+    return render_template('cart.html', cart=cart, customer=current_user, categories=categories, total_price=total_price)
 
 
 def get_product_by_id(product_id):
@@ -124,10 +149,38 @@ def get_product_by_id(product_id):
     if product:
         product_dict = {
             'id': product.id,
-            'name': product.product_name,
-            'price': product.price,
-            'quantity': product.stock,
+            'product_name': product.product_name,
+            'price': int(product.price),
+            'stock': product.stock,
             # Include other attributes as needed
         }
         return product_dict
     return None
+
+
+@views.route('/delete_from_cart/<int:product_id>')
+def delete_from_cart(product_id):
+    cart = session.get('cart', [])
+    for item in cart:
+        if item['id'] == product_id:
+            cart.remove(item)
+            session['cart'] = cart
+            break
+
+    return redirect(request.referrer)
+
+
+@views.route('/withdraw_from_cart/<int:product_id>')
+def withdraw_from_cart(product_id):
+    cart = session.get('cart', [])
+    for item in cart:
+        if item['id'] == product_id:
+            if item['quantity'] > 1:
+                item['quantity'] -= 1
+            else:
+                cart.remove(item)
+            session['cart'] = cart
+            flash('Produkt byl odebrán z košíku', 'success')
+            break
+
+    return redirect(request.referrer)

@@ -17,6 +17,13 @@ login_manager = LoginManager()
 
 def create_app(config=None):
     app = Flask(__name__)
+
+    @app.template_filter('type')
+    def get_type(value):
+        return type(value).__name__
+
+    app.jinja_env.filters['type'] = get_type
+
     config = config or {}
     app.config['SECRET_KEY'] = 'secret_key'
     if config.get('TESTING'):
