@@ -17,3 +17,7 @@ descriptions.each(function() {
 
 descriptions.height(maxHeight);
 
+      $(".order-delivery-collapsed-section").hide();
+  $(".btn-order-collapse").click(function() {
+    $(".order-delivery-collapsed-section").slideToggle();
+  });

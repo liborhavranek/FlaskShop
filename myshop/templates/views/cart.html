@@ -51,10 +51,28 @@
 
     </tbody>
         <tfoot>
+            <tr>
+      <td colspan="4"></td>
+        <td>Cena bez daně:</td>
+      <td>{{ price_without_tax }} Kč</td>
+    </tr>
+
     <tr>
-      <td colspan="5"></td>
-        <td><strong>Konečná cena: {{ total_price }} Kč</strong></td>
-      <td></td>
+      <td colspan="4"></td>
+        <td>Daň:</td>
+      <td> {{ tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="4"></td>
+        <td><strong>Konečná cena:</strong></td>
+      <td><strong>{{ total_price }} Kč</strong></td>
+    </tr>
+
+    <tr>
+      <td colspan="6"></td>
+        <td><a href="/delivery" class="btn btn-info">Zaplatit</a></td>
+
     </tr>
   </tfoot>
   </table>

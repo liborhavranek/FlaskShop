@@ -1,9 +1,10 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, session, redirect, url_for, flash
+from flask import Blueprint, render_template, request, session, redirect, flash
 from flask_login import current_user
 
 from myshop import db
+from myshop.forms.customer_order_form import CustomerOrderForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.mobile_model import Mobile
@@ -141,7 +142,10 @@ def cart():
     categories = db.session.query(Category.category_name.distinct()).all()
     cart = session.get('cart', [])
     total_price = sum(item['price'] * item['quantity'] for item in cart)
-    return render_template('cart.html', cart=cart, customer=current_user, categories=categories, total_price=total_price)
+    price_without_tax = round(total_price * 0.79, 1)
+    tax = round(total_price * 0.21, 1)
+    return render_template('cart.html', cart=cart, customer=current_user, categories=categories,
+                           total_price=total_price, price_without_tax=price_without_tax, tax=tax)
 
 
 def get_product_by_id(product_id):
@@ -184,3 +188,31 @@ def withdraw_from_cart(product_id):
             break
 
     return redirect(request.referrer)
+
+
+@views.route('/delivery', methods=['GET', 'POST'])
+def delivery():
+    categories = db.session.query(Category.category_name.distinct()).all()
+    cart = session.get('cart', [])
+    total_price = sum(item['price'] * item['quantity'] for item in cart)
+    price_without_tax = round(total_price * 0.79, 1)
+    tax = round(total_price * 0.21, 1)
+
+    form = CustomerOrderForm()
+
+    if current_user.is_authenticated:
+        form.customer_first_name.data = current_user.faktura_first_name
+        form.customer_last_name.data = current_user.faktura_last_name
+        form.customer_email.data = current_user.email
+        form.customer_phone_code.data = current_user.phone_code
+        form.customer_phone.data = current_user.phone
+        form.customer_city.data = current_user.faktura_city
+        form.customer_street.data = current_user.faktura_street
+        form.customer_zipcode.data = current_user.faktura_zipcode
+        form.customer_info.data = current_user.dodej_info
+
+
+    if form.validate_on_submit():
+        pass
+    return render_template('delivery.html', cart=cart, customer=current_user, categories=categories,
+                           total_price=total_price, price_without_tax=price_without_tax, tax=tax, form=form)
