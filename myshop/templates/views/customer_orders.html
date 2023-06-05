@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row px-5 py-5 rounded shadow-lg">
+
+ <h1 class="pb-5">Objednávky uživatele {{ customer.username }}</h1>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Číslo objednávky</th>
+      <th>Datum objednání</th>
+      <th>Částka</th>
+      <th>Platba</th>
+        <th>Podrobnosti</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.order_date|custom_date_format }}</td>
+      <td>{{ order.total_price }}</td>
+      <td>{{ "Zaplaceno" if order.payment_status else "Čeká na zaplacení" }}</td>
+        <td><a class="btn btn-info btn-sm" href="/payment/{{ order.id }}">Podrobnosti</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
