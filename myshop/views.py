@@ -3,7 +3,7 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, request, session, redirect, flash, url_for
 from flask_login import current_user
-from sqlalchemy.orm import load_only
+
 
 import json
 from myshop import db
