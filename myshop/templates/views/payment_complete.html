@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row px-5 py-5 rounded shadow-lg">
+
+<h1>Zaplacená faktura</h1>
+  <hr>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Název</th>
+      <th>Cena za ks</th>
+      <th>Kusů</th>
+      <th>Cena</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for product in products %}
+      <tr>
+        <td>{{ product['id'] }}</td>
+        <td>{{ product['product_name'] }}</td>
+        <td>{{ product['price']|int }} Kč</td>
+        <td>{{ product['quantity'] }}</td>
+        <td>{{ product['price']|int * product['quantity'] }} Kč</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3" class="table-divider"></td>
+      <td class="table-divider">Cena bez daně:</td>
+      <td class="table-divider">{{ price_without_tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="3"></td>
+      <td>Daň:</td>
+      <td>{{ tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="3"></td>
+      <td><strong>Konečná cena:</strong></td>
+      <td><strong>{{ order.total_price }} Kč</strong></td>
+    </tr>
+
+  <tr>
+      <td colspan="4"></td>
+      {% if order.payment_status == False %}
+      <td><strong class="before-invoice-pay-text">NEZAPLACENO</strong></td>
+      {% else %}
+      <td><strong class="after-invoice-pay-text">ZAPLACENO</strong></td>
+      {% endif %}
+    </tr>
+  </tfoot>
+</table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

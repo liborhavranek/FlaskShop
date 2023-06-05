@@ -1,29 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Cart</h1>
 
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row px-5 py-5 rounded shadow-lg">
+
+<h1>Košík</h1>
+  <hr>
 {% if cart %}
-  <table>
+  <table class="table">
     <thead>
       <tr>
-        <th>Product ID</th>
-        <th>Name</th>
-        <th>Price</th>
+        <th>ID</th>
+        <th>Název</th>
+        <th>Cena za ks</th>
+          <th>Kusů</th>
+          <th>Přidat/Odebrat</th>
+          <th>Cena</th>
+          <th>Smazat</th>
+
       </tr>
     </thead>
+
     <tbody>
-      {% for product in cart %}
-        <tr>
-          <td>{{ product.id }}</td>
-          <td>{{ product.product_name }}</td>
-          <td>{{ product.price }}</td>
-        </tr>
-      {% endfor %}
+{% for product in cart %}
+  <tr>
+    <td>{{ product.id }}</td>
+    <td>{{ product.product_name }}</td>
+    <td>{{ product.price|int }} Kč</td>
+      <td>{{ product.quantity }}</td>
+    <td>
+    <div class="btn-group btn-group-sm" role="group" aria-label="Quantity Control">
+      <a href="/add_to_cart/{{ product.id }}" class="btn btn-primary">+</a>
+      <a href="/withdraw_from_cart/{{ product.id }}" class="btn btn-danger">-</a>
+    </div>
+    </td>
+    <td>{{ product.price|int * product.quantity }} Kč </td>
+    <td>
+      <a href="/delete_from_cart/{{ product.id }}">Smazat</a>
+    </td>
+
+  </tr>
+
+{% endfor %}
+
     </tbody>
+        <tfoot>
+            <tr>
+      <td colspan="4"></td>
+        <td>Cena bez daně:</td>
+      <td>{{ price_without_tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="4"></td>
+        <td>Daň:</td>
+      <td> {{ tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="4"></td>
+        <td><strong>Konečná cena:</strong></td>
+      <td><strong>{{ total_price }} Kč</strong></td>
+    </tr>
+
+    <tr>
+      <td colspan="6"></td>
+        <td><a href="/delivery" class="btn btn-info">Dodací údaje a platba</a></td>
+
+    </tr>
+  </tfoot>
   </table>
 {% else %}
-  <p>Your cart is empty.</p>
+  <p>Košík je prázdný.</p>
 {% endif %}
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}

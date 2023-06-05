@@ -2,7 +2,7 @@
 import ast
 import csv
 
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import Blueprint, render_template, request, flash, redirect, session
 from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -106,6 +106,8 @@ def login():
 @auth.route("/logout")
 @login_required
 def logout():
+    # Delete all products from the cart
+    session.pop('cart', None)
     logout_user()
     return redirect("/")
 

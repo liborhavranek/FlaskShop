@@ -166,15 +166,16 @@ def delete_category(id):
 
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
+    categories = db.session.query(Category.category_name.distinct()).all()
     product = Product.query.get(product_id)
     mobile = Mobile.query.get(product_id)
     notebook = Notebook.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
     if isinstance(mobile, Product):
-        return render_template('mobile_product_page.html', product=mobile, customer=current_user)
+        return render_template('mobile_product_page.html', product=mobile, customer=current_user, categories=categories)
     elif isinstance(notebook, Product):
-        return render_template('notebook_product_page.html', product=notebook, customer=current_user)
+        return render_template('notebook_product_page.html', product=notebook, customer=current_user, categories=categories)
 
 
 @products.route('/check-product', methods=['POST'])

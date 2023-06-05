@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row px-5 py-5 rounded shadow-lg">
+
+<h1>Objednávka a dodací údaje</h1>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Název</th>
+        <th>Cena za ks</th>
+          <th>Kusů</th>
+          <th>Cena</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+{% for product in cart %}
+  <tr>
+    <td>{{ product.id }}</td>
+    <td>{{ product.product_name }}</td>
+    <td>{{ product.price|int }} Kč</td>
+      <td>{{ product.quantity }}</td>
+    <td>{{ product.price|int * product.quantity }} Kč </td>
+
+
+  </tr>
+
+{% endfor %}
+
+
+    </tbody>
+
+        <tfoot>
+            <tr>
+      <td colspan="3" class="table-divider"></td>
+        <td class="table-divider">Cena bez daně:</td>
+      <td class="table-divider">{{ price_without_tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="3"></td>
+        <td>Daň:</td>
+      <td> {{ tax }} Kč</td>
+    </tr>
+
+    <tr>
+      <td colspan="3"></td>
+        <td><strong>Konečná cena:</strong></td>
+      <td><strong>{{ total_price }} Kč</strong></td>
+    </tr>
+
+  </tfoot>
+  </table>
+
+    <div class="text-center">
+        <button class="btn btn-info btn-block w-50 my-4 btn-order-collapse" id="toggleBtn4" type="button">Dodací údaje</button>
+    </div>
+<div class="order-delivery-collapsed-section collapse" id="collapseDiv4">
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_first_name.label }}</div>
+        <div class="col-5">{{ form.customer_first_name(class="form-control") }}</div>
+
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+
+ <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_last_name.label }}</div>
+        <div class="col-5">{{ form.customer_last_name(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_email.label }}</div>
+        <div class="col-5">{{ form.customer_email(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_phone.label }}</div>
+        <div class="col-2">{{ form.customer_phone_code(class="form-control") }}</div>
+        <div class="col-3">{{ form.customer_phone(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_city.label }}</div>
+        <div class="col-5">{{ form.customer_city(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_street.label }}</div>
+        <div class="col-5">{{ form.customer_street(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_zipcode.label }}</div>
+        <div class="col-5">{{ form.customer_zipcode(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row py-2">
+        <div class="col-3"></div>
+        <div class="col-1">{{ form.customer_info.label }}</div>
+        <div class="col-5">{{ form.customer_info(class="form-control") }}</div>
+        <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div class="form-group text-center">
+        {{ form.order_delivery_submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+</div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
