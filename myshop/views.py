@@ -46,10 +46,12 @@ def sort_products(products_query, sort_by):
 def view() -> str:
     categories = db.session.query(Category.category_name.distinct()).all()
     products = Product.query.order_by(Product.date_created.desc()).all()
-    newest_products = Product.query.order_by(Product.date_created.desc()).limit(4).all()
-    most_visit_products = Product.query.order_by(Product.visit_count.desc()).limit(4).all()
+    newest_products = Product.query.order_by(Product.date_created.desc()).limit(8).all()
+    most_visit_products = Product.query.order_by(Product.visit_count.desc()).limit(8).all()
+    most_selling_products = Product.query.order_by(Product.sold.desc()).limit(8).all()
     return render_template('views.html', categories=categories, products=products, newest_products=newest_products,
-                           most_visit_products=most_visit_products, customer=current_user)
+                           most_visit_products=most_visit_products, customer=current_user,
+                           most_selling_products=most_selling_products)
 
 
 @views.route('/<string:category_name>/<string:brand_name>')
