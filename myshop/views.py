@@ -1,9 +1,11 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
+from datetime import datetime
 
 from flask import Blueprint, render_template, request, session, redirect, flash, url_for
 from flask_login import current_user
 from sqlalchemy.orm import load_only
 
+import json
 from myshop import db
 from myshop.forms.customer_order_form import CustomerOrderForm
 from myshop.models.brand_model import Brand
@@ -202,29 +204,22 @@ def delivery():
 
     form = CustomerOrderForm(request.form)
 
-    if current_user.is_authenticated:
-        form.customer_first_name.data = current_user.faktura_first_name
-        # form.customer_last_name.data = current_user.faktura_last_name
-        # form.customer_email.data = current_user.email
-        # form.customer_phone_code.data = current_user.phone_code
-        # form.customer_phone.data = current_user.phone
-        # form.customer_city.data = current_user.faktura_city
-        # form.customer_street.data = current_user.faktura_street
-        # form.customer_zipcode.data = current_user.faktura_zipcode
-        # form.customer_info.data = current_user.dodej_info
-
     if form.validate_on_submit():
         # Create a new CustomerOrder instance
         order_data = {
+            'customer_id': current_user.id if current_user.is_authenticated else None,
             'customer_first_name': request.form.get('customer_first_name'),
-            # 'customer_last_name': request.form.get('customer_last_name'),
-            # 'customer_email': request.form.get('customer_email'),
-            # 'customer_phone_code': request.form.get('customer_phone_code'),
-            # 'customer_phone': request.form.get('customer_phone'),
-            # 'customer_city': request.form.get('customer_city'),
-            # 'customer_street': request.form.get('customer_street'),
-            # 'customer_zipcode': request.form.get('customer_zipcode'),
-            # 'customer_info': request.form.get('customer_info'),
+            'customer_last_name': request.form.get('customer_last_name'),
+            'customer_email': request.form.get('customer_email'),
+            'customer_phone_code': request.form.get('customer_phone_code'),
+            'customer_phone': request.form.get('customer_phone'),
+            'customer_city': request.form.get('customer_city'),
+            'customer_street': request.form.get('customer_street'),
+            'customer_zipcode': request.form.get('customer_zipcode'),
+            'customer_info': request.form.get('customer_info'),
+            'payment_status': False,  # Set the payment status as needed (False for pending)
+            'order_date': datetime.utcnow(),
+            'products': json.dumps(cart),  # Serialize products as JSON
 
         }
 
