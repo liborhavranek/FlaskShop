@@ -10,6 +10,7 @@ from myshop import db
 from myshop.forms.customer_order_form import CustomerOrderForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.customer_model import Customer
 from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
 from myshop.models.order_model import CustomerOrder
@@ -291,4 +292,8 @@ def payment_completed(order_id):
 
 @views.route('/orders/<int:customer_id>')
 def orders(customer_id):
-    return render_template('customer_orders.html')
+    categories = db.session.query(Category.category_name.distinct()).all()
+    customer = Customer.query.get_or_404(customer_id)
+    orders = CustomerOrder.query.filter_by(customer_id=customer_id).all()
+
+    return render_template('customer_orders.html', customer=customer, orders=orders, categories=categories)

@@ -31,7 +31,7 @@
 
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="nav-link mx-2 text-uppercase" href="/auth/logout">Odhlásit</a></li>
-            <li><a class="dropdown-item" href="/">Objednávky</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('views.orders', customer_id=current_user.id) }}">Objednávky</a></li>
             <li><a class="dropdown-item" href="#">Administrator</a></li>
           </ul>
         </li>
