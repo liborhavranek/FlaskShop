@@ -287,3 +287,8 @@ def payment_completed(order_id):
     tax = round(total_price * 0.21, 1)
     return render_template('payment_complete.html', categories=categories, customer=current_user, products=products,
                            order=order, price_without_tax=price_without_tax, tax=tax)
+
+
+@views.route('/orders/<int:customer_id>')
+def orders(customer_id):
+    return render_template('customer_orders.html')
