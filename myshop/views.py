@@ -220,10 +220,20 @@ def delivery():
             'payment_status': False,  # Set the payment status as needed (False for pending)
             'order_date': datetime.utcnow(),
             'products': json.dumps(cart),  # Serialize products as JSON
+            'total_price': total_price,
 
         }
 
         new_order = CustomerOrder(**order_data)
+
+        # Update the product quantities and sold count
+        for item in cart:
+            product = Product.query.get(item['id'])
+            if product:
+                quantity = item['quantity']
+                if quantity <= product.stock:
+                    product.stock -= quantity
+                    product.sold += quantity
 
         # Save the order to the database
         db.session.add(new_order)
@@ -232,13 +242,48 @@ def delivery():
         session.pop('cart', None)
 
         # Redirect or render a success page
-        return redirect(url_for('views.payment'))
+        return redirect(url_for('views.payment', order_id=new_order.id))
 
     return render_template('delivery.html', cart=cart, customer=current_user, categories=categories,
                            total_price=total_price, price_without_tax=price_without_tax, tax=tax, form=form)
 
 
-@views.route('/payment')
-def payment() -> str:
+@views.route('/payment/<int:order_id>', methods=['GET', 'POST'])
+def payment(order_id):
+    categories = db.session.query(Category.category_name.distinct()).all()
+    order = CustomerOrder.query.get_or_404(order_id)
+    products = json.loads(order.products)  # Parse the JSON string into a Python object
+    total_price = order.total_price
+    price_without_tax = round(total_price * 0.79, 1)
+    tax = round(total_price * 0.21, 1)
 
-    return render_template('payment.html', customer=current_user)
+    if order.payment_status:
+        # Redirect the user to a different page if the payment has already been completed
+        return redirect(url_for('views.payment_completed', order_id=order.id))
+
+    if request.method == 'POST':
+        order.payment_status = True  # Set payment_status to True
+        db.session.commit()
+        # Perform payment processing or any other necessary actions here
+        return redirect(url_for('views.thanks_for_buy'))
+
+    return render_template('payment.html', customer=current_user, products=products, order=order,
+                           categories=categories, price_without_tax=price_without_tax, tax=tax)
+
+
+@views.route('/thanks-for-buy')
+def thanks_for_buy():
+    categories = db.session.query(Category.category_name.distinct()).all()
+    return render_template('thanks_for_buy.html', categories=categories, customer=current_user)
+
+
+@views.route('/payment-completed/<int:order_id>')
+def payment_completed(order_id):
+    categories = db.session.query(Category.category_name.distinct()).all()
+    order = CustomerOrder.query.get_or_404(order_id)
+    products = json.loads(order.products)  # Parse the JSON string into a Python object
+    total_price = order.total_price
+    price_without_tax = round(total_price * 0.79, 1)
+    tax = round(total_price * 0.21, 1)
+    return render_template('payment_complete.html', categories=categories, customer=current_user, products=products,
+                           order=order, price_without_tax=price_without_tax, tax=tax)

@@ -10,7 +10,7 @@
         <div class="col-9 my-5 px-5">
             <div class="row px-5 py-5 rounded shadow-lg">
 
-<h1>Platba</h1>
+<h1>Zaplacená faktura</h1>
   <hr>
 <table class="table">
   <thead>
@@ -64,14 +64,6 @@
     </tr>
   </tfoot>
 </table>
-
-<form method="POST" action="{{ url_for('views.payment', order_id=order.id) }}">
-    <div class="text-center">
-        <button class="btn btn-info btn-block w-50 my-4 btn-order-collapse" type="submit">Simulovat platební bránu a zaplatit {{ order.total_price }}</button>
-    </div>
-</form>
-
-
 
             </div>
         </div>

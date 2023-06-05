@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row px-5 py-5 rounded shadow-lg">
+
+<h1>Děkujeme za nákup zboží</h1>
+<h3>Vaše faktura byla zaplacena</h3>
+
+        <a href="/" class="btn btn-info btn-block w-50 my-4 btn-order-collapse" type="button">Zpět do obchodu</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

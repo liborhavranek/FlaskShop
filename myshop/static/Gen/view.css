@@ -60,3 +60,11 @@
 
 .table-divider {
   border-top: 2px solid #000; }
+
+.after-invoice-pay-text{
+    color:green;
+}
+
+.before-invoice-pay-text{
+    color:red;
+}
