@@ -68,90 +68,26 @@
     </div>
 <div class="order-delivery-collapsed-section collapse" id="collapseDiv4">
 
-    <form method="POST">
+  <form method="POST">
     {{ form.csrf_token }}
 
     <div class="form-group">
         <div class="row py-2">
         <div class="col-3"></div>
         <div class="col-1">{{ form.customer_first_name.label }}</div>
-        <div class="col-5">{{ form.customer_first_name(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
+        <div class="col-5">{{ form.customer_first_name(class="form-control", id="customer_first_name") }}</div>
 
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_last_name.label }}</div>
-        <div class="col-5">{{ form.customer_last_name(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_email.label }}</div>
-        <div class="col-5">{{ form.customer_email(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_phone.label }}</div>
-        <div class="col-2">{{ form.customer_phone_code(class="form-control") }}</div>
-        <div class="col-3">{{ form.customer_phone(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_city.label }}</div>
-        <div class="col-5">{{ form.customer_city(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_street.label }}</div>
-        <div class="col-5">{{ form.customer_street(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_zipcode.label }}</div>
-        <div class="col-5">{{ form.customer_zipcode(class="form-control") }}</div>
-        <div class="col-3"></div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row py-2">
-        <div class="col-3"></div>
-        <div class="col-1">{{ form.customer_info.label }}</div>
-        <div class="col-5">{{ form.customer_info(class="form-control") }}</div>
         <div class="col-3"></div>
         </div>
     </div>
 
 
-
-    <button type="submit" class="btn btn-primary">Place Order</button>
+    <div class="form-group text-center">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
 </form>
 
 </div>
-
-
 
 
             </div>

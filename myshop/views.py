@@ -1,7 +1,8 @@
 """ Libor Havránek App Copyright (C)  23.3 2023 """
 
-from flask import Blueprint, render_template, request, session, redirect, flash
+from flask import Blueprint, render_template, request, session, redirect, flash, url_for
 from flask_login import current_user
+from sqlalchemy.orm import load_only
 
 from myshop import db
 from myshop.forms.customer_order_form import CustomerOrderForm
@@ -9,6 +10,7 @@ from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
 from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
+from myshop.models.order_model import CustomerOrder
 from myshop.models.product_model import Product
 
 views = Blueprint('views', __name__, template_folder='templates/views')
@@ -198,21 +200,50 @@ def delivery():
     price_without_tax = round(total_price * 0.79, 1)
     tax = round(total_price * 0.21, 1)
 
-    form = CustomerOrderForm()
+    form = CustomerOrderForm(request.form)
 
     if current_user.is_authenticated:
         form.customer_first_name.data = current_user.faktura_first_name
-        form.customer_last_name.data = current_user.faktura_last_name
-        form.customer_email.data = current_user.email
-        form.customer_phone_code.data = current_user.phone_code
-        form.customer_phone.data = current_user.phone
-        form.customer_city.data = current_user.faktura_city
-        form.customer_street.data = current_user.faktura_street
-        form.customer_zipcode.data = current_user.faktura_zipcode
-        form.customer_info.data = current_user.dodej_info
-
+        # form.customer_last_name.data = current_user.faktura_last_name
+        # form.customer_email.data = current_user.email
+        # form.customer_phone_code.data = current_user.phone_code
+        # form.customer_phone.data = current_user.phone
+        # form.customer_city.data = current_user.faktura_city
+        # form.customer_street.data = current_user.faktura_street
+        # form.customer_zipcode.data = current_user.faktura_zipcode
+        # form.customer_info.data = current_user.dodej_info
 
     if form.validate_on_submit():
-        pass
+        # Create a new CustomerOrder instance
+        order_data = {
+            'customer_first_name': request.form.get('customer_first_name'),
+            # 'customer_last_name': request.form.get('customer_last_name'),
+            # 'customer_email': request.form.get('customer_email'),
+            # 'customer_phone_code': request.form.get('customer_phone_code'),
+            # 'customer_phone': request.form.get('customer_phone'),
+            # 'customer_city': request.form.get('customer_city'),
+            # 'customer_street': request.form.get('customer_street'),
+            # 'customer_zipcode': request.form.get('customer_zipcode'),
+            # 'customer_info': request.form.get('customer_info'),
+
+        }
+
+        new_order = CustomerOrder(**order_data)
+
+        # Save the order to the database
+        db.session.add(new_order)
+        db.session.commit()
+
+        session.pop('cart', None)
+
+        # Redirect or render a success page
+        return redirect(url_for('views.payment'))
+
     return render_template('delivery.html', cart=cart, customer=current_user, categories=categories,
                            total_price=total_price, price_without_tax=price_without_tax, tax=tax, form=form)
+
+
+@views.route('/payment')
+def payment() -> str:
+
+    return render_template('payment.html', customer=current_user)
