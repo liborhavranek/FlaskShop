@@ -76,13 +76,75 @@
 <hr>
                 <br>
                     <br>
-                    <h3>Specifikace</h3>
-                    <p>Barva: {{ product.color|safe }}</p>
-                    <p>Kategorie: {{ product.category.category_name }}</p>
-                    <p>Značka: {{ product.brand.brand_name }}</p>
-                    <p>Návštěvnost: {{ product.visit_count }}</p>
+<div class="container px-5 pb-5">
+  <h3>Specifikace</h3>
+  <table class="table table-hover">
+    <tbody>
 
-                    Konzole stanka
+      <tr>
+        <td>Kategorie:</td>
+        <td class="text-end">{{ product.category.category_name }}</td>
+      </tr>
+      <tr>
+        <td>Značka:</td>
+        <td class="text-end">{{ product.brand.brand_name }}</td>
+      </tr>
+
+      <tr>
+        <td>Barva:</td>
+        <td class="text-end">{{ product.color|safe }}</td>
+      </tr>
+
+
+      <tr>
+        <td>SSD:</td>
+          {% if product.ssd == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">Ano</td>
+          {% endif %}
+      </tr>
+
+    <tr>
+        <td>HDD:</td>
+          {% if product.hdd == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+
+      <td>Velikost disku SSD:</td>
+        <td class="text-end">{{ product.ssd_capacity }}</td>
+      </tr>
+
+    <td>Velikost disku HDD:</td>
+        <td class="text-end">{{ product.hdd_capacity }}</td>
+      </tr>
+
+     <tr>
+        <td>Mechanika:</td>
+          {% if product.dvd_drive == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+    <tr>
+        <td>Návštěvnost:</td>
+        <td class="text-end">{{ product.visit_count }}</td>
+      </tr>
+
+
+          <tr>
+        <td>Prodáno:</td>
+        <td class="text-end">{{ product.sold }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
             </div>
 
