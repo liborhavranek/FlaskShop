@@ -1061,3 +1061,21 @@ def edit_smart_watch_product(product_id):
                 return redirect(url_for('products.product_page_preview', product_id=product.id, customer=current_user))
 
     return render_template('edit_smart_watch_product.html', product=product, form=form, customer=current_user)
+
+
+@products.route('/delete-smart-watch-product/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_smart_watch_product(id):
+    product = Product.query.filter_by(id=id).first_or_404()
+
+    product_images = ProductImage.query.filter_by(product_id=product.id).all()
+    main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
+    os.remove(main_image)
+    for image in product_images:
+        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image.image_name)
+        os.remove(image_path)
+        db.session.delete(image)
+    db.session.delete(product)
+    db.session.commit()
+    flash('Produkt byl smazán.', category='success')
+    return redirect('/products/products-list')
