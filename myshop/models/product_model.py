@@ -28,3 +28,7 @@ class Product(db.Model):
     product_image = db.Column(db.String(150), nullable=True, default='image.jpg')
 
     images = db.relationship('ProductImage', backref='product', lazy=True)
+
+    wishlist = db.relationship('Wishlist', backref='product', lazy=True)
+
+

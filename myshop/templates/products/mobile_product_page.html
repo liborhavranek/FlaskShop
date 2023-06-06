@@ -71,6 +71,16 @@
 
                     <br>
 
+<form class="text-end pb-5" action="{{ url_for('views.toggle_wishlist', product_id=product.id) }}" method="POST">
+    <button type="submit" class="btn btn-danger">
+        {% if customer.wishlist|selectattr('product_id', '==', product.id)|list %}
+            Odebrat ze seznamu
+        {% else %}
+            Přidat do seznamu
+        {% endif %}
+    </button>
+</form>
+
 
                 </div>
 <hr>

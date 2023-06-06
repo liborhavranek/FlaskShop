@@ -2,8 +2,7 @@
 from datetime import datetime
 
 from flask import Blueprint, render_template, request, session, redirect, flash, url_for
-from flask_login import current_user
-
+from flask_login import current_user, login_required
 
 import json
 from myshop import db
@@ -16,6 +15,7 @@ from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
 from myshop.models.order_model import CustomerOrder
 from myshop.models.product_model import Product
+from myshop.models.wish_list_model import Wishlist
 
 views = Blueprint('views', __name__, template_folder='templates/views')
 
@@ -324,3 +324,39 @@ def orders(customer_id):
     orders = CustomerOrder.query.filter_by(customer_id=customer_id).all()
 
     return render_template('customer_orders.html', customer=customer, orders=orders, categories=categories)
+
+
+@views.route('/toggle_wishlist/<int:product_id>', methods=['POST'])
+@login_required
+def toggle_wishlist(product_id):
+    # Retrieve the product object
+    product = Product.query.get(product_id)
+
+    # Check if the product exists
+    if product is None:
+        flash('Product not found', 'error')
+        return redirect(request.referrer)
+
+    # Get the current customer from the authenticated user
+    customer = Customer.query.get(current_user.id)
+
+    # Check if the customer exists
+    if customer is None:
+        flash('Customer not found', 'error')
+        return redirect(request.referrer)
+
+    # Check if the product is already in the customer's wishlist
+    wishlist_entry = Wishlist.query.filter_by(customer_id=customer.id, product_id=product.id).first()
+    if wishlist_entry:
+        # Remove the product from the wishlist
+        db.session.delete(wishlist_entry)
+        flash('Product removed from wishlist', 'info')
+    else:
+        # Add the product to the wishlist
+        wishlist_entry = Wishlist(customer_id=customer.id, product_id=product.id)
+        db.session.add(wishlist_entry)
+        flash('Product added to wishlist', 'success')
+
+    db.session.commit()
+
+    return redirect(request.referrer)
