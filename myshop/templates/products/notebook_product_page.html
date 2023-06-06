@@ -107,31 +107,6 @@
         <td class="text-end">{{ product.color|safe }}</td>
       </tr>
 
-
-
-
-
-
-
-     <tr>
-        <td>Mechanika:</td>
-          {% if product.dvd_drive == False %}
-        <td class="text-end">NE</td>
-          {% else %}
-          <td class="text-end">ANO</td>
-          {% endif %}
-      </tr>
-
-    <tr>
-        <td>Návštěvnost:</td>
-        <td class="text-end">{{ product.visit_count }}</td>
-      </tr>
-
-
-          <tr>
-        <td>Prodáno:</td>
-        <td class="text-end">{{ product.sold }}</td>
-      </tr>
     </tbody>
   </table>
 
@@ -268,7 +243,7 @@
 </table>
 
 
-<p class="blue-text fw-bolder">Klávesnice</p>
+<p class="blue-text fw-bolder">Klávesnice a příslušenství</p>
 <table class="table table-hover">
     <tbody>
         <tr>
@@ -295,6 +270,15 @@
             <td>USB-C nabíjení:</td>
             <td class="text-end">{{ 'ANO' if product.usb_c_charging else 'NE' }}</td>
         </tr>
+
+         <tr>
+        <td>Mechanika:</td>
+          {% if product.dvd_drive == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
     </tbody>
 </table>
 
@@ -342,6 +326,23 @@
         </tr>
     </tbody>
 </table>
+
+        <p class="blue-text fw-bolder">Prodej a návštěvnost</p>
+  <table class="table table-hover">
+    <tbody>
+
+    <tr>
+        <td>Návštěvnost:</td>
+        <td class="text-end">{{ product.visit_count }}</td>
+      </tr>
+
+
+          <tr>
+        <td>Prodáno:</td>
+        <td class="text-end">{{ product.sold }}</td>
+      </tr>
+    </tbody>
+  </table>
 
 
 

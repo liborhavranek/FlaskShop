@@ -88,6 +88,7 @@
                     <br>
 <div class="container px-5 pb-5">
   <h3>Specifikace</h3>
+     <p class="blue-text fw-bolder">Typ produktu</p>
   <table class="table table-hover">
     <tbody>
 
@@ -105,42 +106,147 @@
         <td class="text-end">{{ product.color|safe }}</td>
       </tr>
 
+    </tbody>
+  </table>
 
-      <tr>
-        <td>SSD:</td>
-          {% if product.ssd == False %}
-        <td class="text-end">NE</td>
-          {% else %}
-          <td class="text-end">Ano</td>
-          {% endif %}
-      </tr>
+<p class="blue-text fw-bolder">Displej</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Velikost displeje:</td>
+            <td class="text-end">{{ product.display_size }} palců</td>
+        </tr>
+        <tr>
+            <td>Rozlišení displeje:</td>
+            <td class="text-end">{{ product.display_resolution }}</td>
+        </tr>
 
-    <tr>
-        <td>HDD:</td>
-          {% if product.hdd == False %}
-        <td class="text-end">NE</td>
-          {% else %}
-          <td class="text-end">ANO</td>
-          {% endif %}
-      </tr>
+            <tr>
+            <td>Dotyková obrazovka:</td>
+            <td class="text-end">{{ 'ANO' if product.touch_screen else 'NE' }}</td>
+        </tr>
+        <tr>
+    </tbody>
+</table>
 
-<tr>
-      <td>Velikost disku SSD:</td>
-        <td class="text-end">{{ product.ssd_capacity }}</td>
-      </tr>
-<tr>
-    <td>Velikost disku HDD:</td>
-        <td class="text-end">{{ product.hdd_capacity }}</td>
-      </tr>
 
+        <p class="blue-text fw-bolder">Baterie a fotoaparát</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Kapacita baterie:</td>
+            <td class="text-end">{{ product.battery_capacity }} mAh</td>
+        </tr>
+
+            <td>Přední kamera:</td>
+            <td class="text-end">{{ product.front_camera }} Mpx</td>
+        </tr>
+        <tr>
+            <td>Zadní kamera:</td>
+            <td class="text-end">{{ product.back_camera }} Mpx</td>
+        </tr>
+    </tbody>
+</table>
+
+
+    <p class="blue-text fw-bolder">Operační systém a paměť</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Operační systém:</td>
+            <td class="text-end">{{ product.operating_system }}</td>
+        </tr>
+        <tr>
+            <td>Operační paměť:</td>
+            <td class="text-end">{{ product.operating_memory }} GB</td>
+        </tr>
+        <tr>
+            <td>Integrovaná paměť:</td>
+            <td class="text-end">{{ product.memory }} GB</td>
+        </tr>
+    </tbody>
+</table>
+
+            <p class="blue-text fw-bolder">Procesor</p>
+<table class="table table-hover">
+    <tbody>
      <tr>
-        <td>Mechanika:</td>
-          {% if product.dvd_drive == False %}
-        <td class="text-end">NE</td>
-          {% else %}
-          <td class="text-end">ANO</td>
-          {% endif %}
-      </tr>
+            <td>Procesor:</td>
+            <td class="text-end">{{ product.processor }}</td>
+        </tr>
+        <tr>
+            <td>Počet jader procesoru:</td>
+            <td class="text-end">{{ product.processor_cores }}</td>
+        </tr>
+    </tbody>
+</table>
+
+    <p class="blue-text fw-bolder">Rozměry a hmotnost</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Výška:</td>
+            <td class="text-end">{{ product.height }} {{ product.height_units }}</td>
+        </tr>
+        <tr>
+            <td>Šířka:</td>
+            <td class="text-end">{{ product.width }} {{ product.width_units }}</td>
+        </tr>
+        <tr>
+            <td>Hloubka:</td>
+            <td class="text-end">{{ product.depth }} {{ product.depth_units }}</td>
+        </tr>
+        <tr>
+            <td>Hmotnost:</td>
+            <td class="text-end">{{ product.weight }} {{ product.weight_units }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+    <p class="blue-text fw-bolder">Další funkce</p>
+<table class="table table-hover">
+    <tbody>
+
+        <tr>
+            <td>Ohebný:</td>
+            <td class="text-end">{{ 'ANO' if product.convertible else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Wi-Fi:</td>
+            <td class="text-end">{{ 'ANO' if product.wifi else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Bluetooth:</td>
+            <td class="text-end">{{ 'ANO' if product.bluetooth else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>NFC:</td>
+            <td class="text-end">{{ 'ANO' if product.nfc else 'NE' }}</td>
+        </tr>
+
+
+                <tr>
+            <td>eSIM:</td>
+            <td class="text-end">{{ 'ANO' if product.esim else 'NE' }}</td>
+        </tr>
+
+            <tr>
+            <td>Slot na paměťovou kartu:</td>
+            <td class="text-end">{{ 'ANO' if product.memory_card_slot else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Rozpoznávání obličeje:</td>
+            <td class="text-end">{{ 'ANO' if product.face_id else 'NE' }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+         <p class="blue-text fw-bolder">Prodej a návštěvnost</p>
+  <table class="table table-hover">
+    <tbody>
 
     <tr>
         <td>Návštěvnost:</td>
@@ -154,6 +260,7 @@
       </tr>
     </tbody>
   </table>
+
 </div>
 
             </div>

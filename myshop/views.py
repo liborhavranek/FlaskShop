@@ -15,6 +15,7 @@ from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
 from myshop.models.order_model import CustomerOrder
 from myshop.models.product_model import Product
+from myshop.models.smart_watch_model import SmartWatch
 from myshop.models.wish_list_model import Wishlist
 
 views = Blueprint('views', __name__, template_folder='templates/views')
@@ -28,6 +29,8 @@ def sorting_category(category_name):
         brands = Brand.query.join(Notebook).filter(Notebook.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
     elif category_name == 'Herní konzole':
         brands = Brand.query.join(Console).filter(Console.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
+    elif category_name == 'Hodinky':
+        brands = Brand.query.join(SmartWatch).filter(SmartWatch.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
     else:
         brands = Brand.query.order_by(Brand.brand_name).distinct().all()
     return brands

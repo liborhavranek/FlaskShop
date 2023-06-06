@@ -48,6 +48,7 @@ def create_app(config=None):
     from myshop.models.console_model import Console
     from myshop.models.order_model import CustomerOrder
     from myshop.models.wish_list_model import Wishlist
+    from myshop.models.smart_watch_model import SmartWatch
 
     create_database(app)
 

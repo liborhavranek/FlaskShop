@@ -13,6 +13,7 @@ from myshop import db
 from myshop.forms.add_console_form import ConsoleForm
 from myshop.forms.add_mobile_form import MobileForm
 from myshop.forms.add_notebook_form import NotebookForm
+from myshop.forms.add_smart_watch_form import SmartWatchForm
 from myshop.forms.brand_form import BrandForm
 from myshop.forms.category_form import CategoryForm
 from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
@@ -24,6 +25,7 @@ from myshop.models.images_model import ProductImage
 from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
 from myshop.models.product_model import Product
+from myshop.models.smart_watch_model import SmartWatch
 
 products = Blueprint('products', __name__, template_folder='templates/products')
 
@@ -174,6 +176,7 @@ def product_page_preview(product_id):
     mobile = Mobile.query.get(product_id)
     notebook = Notebook.query.get(product_id)
     console = Console.query.get(product_id)
+    smart_watch = SmartWatch.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
 
@@ -189,6 +192,9 @@ def product_page_preview(product_id):
                                notebook=notebook)
     elif isinstance(console, Product):
         return render_template('console_product_page.html', product=console, customer=current_user,
+                               categories=categories, discount_price=discount_price, discount=discount)
+    elif isinstance(smart_watch, Product):
+        return render_template('console_product_page.html', product=smart_watch, customer=current_user,
                                categories=categories, discount_price=discount_price, discount=discount)
 
 
@@ -351,6 +357,7 @@ def create_mobile_product():
 
 
 @products.route('/edit-mobile-product/<int:product_id>', methods=['POST', 'GET'])
+@login_required
 def edit_product(product_id):
     product = Mobile.query.get(product_id)
     form = MobileForm(obj=product)
@@ -863,6 +870,7 @@ def edit_console_product(product_id):
 
     return render_template('edit_console_product.html', product=product, form=form, customer=current_user)
 
+
 @products.route('/delete-console-product/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_console_product(id):
@@ -879,3 +887,177 @@ def delete_console_product(id):
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
     return redirect('/products/products-list')
+
+
+@products.route('/create-smart-watch-product', methods=['GET', 'POST'])
+@login_required
+def create_smart_watch_product():
+    form = SmartWatchForm()
+    if form.validate_on_submit():
+        product_data = {
+            'product_name': request.form.get('product_name'),
+            'price': request.form.get('price'),
+            'discount': request.form.get('discount'),
+            'stock': request.form.get('stock'),
+            'sold': request.form.get('sold'),
+
+            'product_type': "Hodinky",
+
+            'color': request.form.get('color'),
+            'subheading': request.form.get('subheading'),
+            'description': request.form.get('description'),
+
+            'display_size': request.form.get('display_size'),
+            'display_resolution': request.form.get('display_resolution'),
+
+
+            'operating_system': request.form.get('operating_system'),
+            'memory': request.form.get('memory'),
+            'battery_capacity': request.form.get('battery_capacity'),
+
+            'weight': float(request.form.get('weight')),
+            'weight_units': request.form.get('weight_units'),
+
+            'wifi': request.form.get('wifi', type=bool),
+            'bluetooth': request.form.get('bluetooth', type=bool),
+            'nfc': request.form.get('nfc', type=bool),
+            'esim': request.form.get('esim', type=bool),
+
+            'heart_rate_monitor': request.form.get('heart_rate_monitor', type=bool),
+            'step_counter': request.form.get('step_counter', type=bool),
+            'sleep_tracker': request.form.get('sleep_tracker', type=bool),
+            'gps': request.form.get('gps', type=bool),
+            'water_resistant': request.form.get('water_resistant', type=bool),
+            'music_player': request.form.get('music_player', type=bool),
+            'voice_assistant': request.form.get('voice_assistant', type=bool),
+
+            'brand_id': int(request.form.get('brand_id')),
+            'category_id': int(request.form.get('category_id')),
+            }
+
+        # Get the product image file, if any
+        product_image = request.files.get('product_image')
+        product_data['product_image'] = save_image(product_image, current_app.config['UPLOAD_FOLDER'])
+
+        new_product = SmartWatch(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist('additional_images')
+        additional_image_filenames = [save_image(image, current_app.config['UPLOAD_FOLDER']) for image in
+                                      additional_images if image.filename != '']
+
+        # Add the product to the database
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=new_product.id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash('Produkt byl přidán.', category='success')
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id, customer=current_user))
+
+    return render_template('add_smart_watch_product.html', form=form, customer=current_user)
+
+
+@products.route('/edit-smart-watch-product/<int:product_id>', methods=['POST', 'GET'])
+@login_required
+def edit_smart_watch_product(product_id):
+    product = SmartWatch.query.get(product_id)
+    form = SmartWatchForm(obj=product)
+
+    if request.method == 'POST':
+        new_product_name = request.form.get('product_name')
+        new_product_price = request.form.get('price')
+        new_product_discount = request.form.get('discount')
+
+        new_product_brand = request.form.get('brand_id')
+        new_product_category = request.form.get('category_id')
+
+        new_product_weight = request.form.get('weight')
+        new_product_weight_units = request.form.get('weight_units')
+
+        new_product_color = request.form.get('color')
+
+        new_product_subheading = request.form.get('subheading')
+        new_product_description = request.form.get('description')
+
+        new_product_display_size = request.form.get('display_size')
+        new_product_display_resolution = request.form.get('display_resolution')
+        new_product_operating_system = request.form.get('operating_system')
+        new_product_memory = request.form.get('memory')
+
+        new_product_battery_capacity = request.form.get('battery_capacity')
+
+        new_product_wifi = request.form.get('wifi')
+        new_product_bluetooth = request.form.get('bluetooth')
+        new_product_nfc = request.form.get('nfc')
+        new_product_esim = request.form.get('esim')
+
+        new_product_heart_rate_monitor = request.form.get('heart_rate_monitor')
+        new_product_step_counter = request.form.get('step_counter')
+        new_product_sleep_tracker = request.form.get('sleep_tracker')
+        new_product_gps = request.form.get('gps')
+        new_product_water_resistant = request.form.get('water_resistant')
+        new_product_music_player = request.form.get('music_player')
+        new_product_voice_assistant = request.form.get('voice_assistant')
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(product_name=new_product_name).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash('Produkt s tímto názvem již existuje.', category='error')
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+                product.price = new_product_price
+                product.discount = new_product_discount
+
+                product.weight = new_product_weight
+                product.weight_units = new_product_weight_units
+
+                product.color = new_product_color
+
+                product.subheading = new_product_subheading
+                product.description = new_product_description
+
+                product.display_size = new_product_display_size
+                product.display_resolution = new_product_display_resolution
+                product.operating_system = new_product_operating_system
+                product.memory = new_product_memory
+
+                product.brand_id = new_product_brand
+                product.category_id = new_product_category
+
+                product.battery_capacity = new_product_battery_capacity
+
+                product.wifi = new_product_wifi == 'y'
+                product.bluetooth = new_product_bluetooth == 'y'
+                product.nfc = new_product_nfc == 'y'
+                product.esim = new_product_esim == 'y'
+
+                product.heart_rate_monitor = new_product_heart_rate_monitor == 'y'
+                product.step_counter = new_product_step_counter == 'y'
+                product.sleep_tracker = new_product_sleep_tracker == 'y'
+                product.gps = new_product_gps == 'y'
+                product.water_resistant = new_product_water_resistant == 'y'
+                product.music_player = new_product_music_player == 'y'
+                product.voice_assistant = new_product_voice_assistant == 'y'
+
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ''
+                flash('Produkt byl aktualizován.', category='success')
+                return redirect(url_for('products.product_page_preview', product_id=product.id, customer=current_user))
+
+    return render_template('edit_smart_watch_product.html', product=product, form=form, customer=current_user)
