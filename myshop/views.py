@@ -360,3 +360,38 @@ def toggle_wishlist(product_id):
     db.session.commit()
 
     return redirect(request.referrer)
+
+
+@views.route('/wishlist/<int:customer_id>')
+@login_required
+def wishlist(customer_id):
+    categories = db.session.query(Category.category_name.distinct()).all()
+    customer = Customer.query.get_or_404(customer_id)
+    wishlist_products = customer.wishlist
+
+    return render_template('wishlist.html', categories=categories, customer=customer,
+                           wishlist_products=wishlist_products)
+
+
+@views.route('/wishlist/delete/<int:wishlist_id>', methods=['POST', 'DELETE'])
+@login_required
+def delete_wishlist(wishlist_id):
+    # Retrieve the wishlist entry
+    wishlist_entry = Wishlist.query.get(wishlist_id)
+
+    # Check if the wishlist entry exists
+    if wishlist_entry is None:
+        flash('Wishlist entry not found', 'error')
+        return redirect(request.referrer)
+
+    # Check if the current user is the owner of the wishlist entry
+    if wishlist_entry.customer_id != current_user.id:
+        flash('You are not authorized to delete this wishlist entry', 'error')
+        return redirect(request.referrer)
+
+    # Remove the wishlist entry from the database
+    db.session.delete(wishlist_entry)
+    db.session.commit()
+
+    flash('Wishlist entry deleted', 'info')
+    return redirect(request.referrer)
