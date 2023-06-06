@@ -181,11 +181,14 @@ def product_page_preview(product_id):
     discount = product.price - discount_price
 
     if isinstance(mobile, Product):
-        return render_template('mobile_product_page.html', product=mobile, customer=current_user, categories=categories, discount_price=discount_price, discount=discount)
+        return render_template('mobile_product_page.html', product=mobile, customer=current_user,
+                               categories=categories, discount_price=discount_price, discount=discount)
     elif isinstance(notebook, Product):
-        return render_template('notebook_product_page.html', product=notebook, customer=current_user, categories=categories, discount_price=discount_price, discount=discount)
+        return render_template('notebook_product_page.html', product=notebook, customer=current_user,
+                               categories=categories, discount_price=discount_price, discount=discount)
     elif isinstance(console, Product):
-        return render_template('console_product_page.html', product=console, customer=current_user, categories=categories, discount_price=discount_price, discount=discount)
+        return render_template('console_product_page.html', product=console, customer=current_user,
+                               categories=categories, discount_price=discount_price, discount=discount)
 
 
 @products.route('/check-product', methods=['POST'])
@@ -592,6 +595,7 @@ def create_notebook_product():
     return render_template('add_notebook_product.html', form=form, customer=current_user)
 
 
+@login_required
 @products.route('/edit-notebook-product/<int:product_id>', methods=['POST', 'GET'])
 def edit_notebook_product(product_id):
     product = Notebook.query.get(product_id)
@@ -791,3 +795,69 @@ def create_console_product():
         return redirect(url_for('products.product_page_preview', product_id=new_product.id, customer=current_user))
 
     return render_template('add_console_product.html', form=form, customer=current_user)
+
+
+@login_required
+@products.route('/edit-console-product/<int:product_id>', methods=['POST', 'GET'])
+def edit_console_product(product_id):
+    product = Console.query.get(product_id)
+    form = ConsoleForm(obj=product)
+
+    if request.method == 'POST':
+        new_product_name = request.form.get('product_name')
+
+        new_product_subheading = request.form.get('subheading')
+        new_product_description = request.form.get('description')
+
+        new_product_color = request.form.get('color')
+        new_product_brand = request.form.get('brand_id')
+        new_product_category = request.form.get('category_id')
+
+        new_product_price = request.form.get('price')
+        new_product_discount = request.form.get('discount')
+
+        new_product_hdd = request.form.get('hdd')
+        new_product_ssd = request.form.get('ssd')
+        new_product_hdd_capacity = request.form.get('hdd')
+        new_product_ssd_capacity = request.form.get('ssd')
+
+        new_product_dvd_drive = request.form.get('dvd_drive')
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(product_name=new_product_name).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash('Produkt s tímto názvem již existuje.', category='error')
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+
+                product.subheading = new_product_subheading
+                product.description = new_product_description
+
+                product.color = new_product_color
+                product.brand_id = new_product_brand
+                product.category_id = new_product_category
+
+                product.price = new_product_price
+                product.discount = new_product_discount
+
+                product.hdd = new_product_hdd == 'y'
+                product.ssd = new_product_ssd == 'y'
+                product.hdd_capacity = new_product_hdd_capacity
+                product.ssd_capacity = new_product_ssd_capacity
+
+                product.dvd_drive = new_product_dvd_drive == 'y'
+
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ''
+                flash('Produkt byl aktualizován.', category='success')
+                return redirect(url_for('products.product_page_preview', product_id=product.id, customer=current_user))
+
+    return render_template('edit_console_product.html', product=product, form=form, customer=current_user)

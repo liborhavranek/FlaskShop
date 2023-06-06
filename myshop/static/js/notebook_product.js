@@ -123,6 +123,15 @@
   });
 
 
+    $('.add-console-dvd-drive-input').change(function() {
+    if ($(this).is(':checked')) {
+      $('.add-console-product-dvd-drive-text').text('ANO').css('color', 'green')
+         } else {
+      $('.add-console-product-dvd-drive-text').text('NE').css('color', 'red');
+    }
+  });
+
+
     $('.add-notebook-light-keyboard-input').change();
     $('.add-notebook-product-num-keyboard-input').change();
     $('.add-notebook-touch-screen-input').change();
@@ -133,6 +142,7 @@
     $('.add-notebook-usb-30-input').change();
     $('.add-notebook-usb-20-input').change();
     $('.add-notebook-cd-dvd-drive-input').change();
+    $('.add-console-dvd-drive-input').change();
 
 //    add notebook input
 

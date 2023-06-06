@@ -46,6 +46,8 @@
             <td><a class="btn btn-info btn-sm" href="/products/edit-mobile-product/{{ product.id }}">Upravit</a></td>
         {% elif product.product_type == 'Notebook' %}
             <td><a class="btn btn-info btn-sm" href="/products/edit-notebook-product/{{ product.id }}">Upravit</a></td>
+        {% elif product.product_type == 'Herní konzole' %}
+            <td><a class="btn btn-info btn-sm" href="/products/edit-console-product/{{ product.id }}">Upravit</a></td>
         {% endif %}
 
 

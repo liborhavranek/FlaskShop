@@ -145,7 +145,8 @@
         </div>
     </div>
 
-  <div>
+
+<div>
         <div class="row">
             <div class="col-3">
                 {{ form.dvd_drive.label }}
@@ -160,26 +161,8 @@
     </div>
 
 
-
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.product_image.label }}
-            </div>
-            <div class="col-8">
-                {{ form.product_image(class="form-control add-notebook-product-image-input") }}
-            </div>
-        </div>
-    </div>
-    <div class="mb-3">
-        <div class="row py-2">
-            <div class="col-2">
-                {{ form.additional_images.label }}
-            </div>
-            <div class="col-8">
-                {{ form.additional_images(class="form-control add-notebook-additional-image-input") }}
-            </div>
-        </div>
+    <div class="text-center">
+        <a class="update-product-images" href="/products/edit-product-images/{{ product.id }}"><h2>Upravit fotky produktu.</h2></a>
     </div>
 
 
@@ -187,7 +170,7 @@
     <p>Všechny pole označená * musí být vyplněna.</p>
     </div>
     <div class="text-center">
-    {{ form.add_product_submit(class="btn btn-warning") }}
+    {{ form.edit_product_submit(class="btn btn-warning") }}
     </div>
 
         </form>
