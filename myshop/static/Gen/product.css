@@ -41,7 +41,9 @@
 .product_page_product_image_div img {
   max-width: 95%;
   min-width: 95%;
-  max-height: 300px; }
+  border-radius: 10px;
+  border-style: solid;
+  border-color: black; }
 
 .image-container {
   height: 100px;
@@ -74,3 +76,34 @@
 .edit_product_main_image {
   width: 85%;
   height: 85%; }
+
+.blue-text {
+  color: #2F3ECD; }
+
+.price-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; }
+
+.discount-badge {
+  background-color: #f00;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-right: 10px; }
+
+.price-details {
+  display: flex;
+  flex-direction: column; }
+
+.price-original {
+  font-size: 16px;
+  text-decoration: line-through;
+  color: #888; }
+
+.price-discounted {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000; }

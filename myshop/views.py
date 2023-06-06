@@ -152,11 +152,22 @@ def add_to_cart(product_id):
 def cart():
     categories = db.session.query(Category.category_name.distinct()).all()
     cart = session.get('cart', [])
-    total_price = sum(item['price'] * item['quantity'] for item in cart)
-    price_without_tax = round(total_price * 0.79, 1)
+    total_price = 0
+    discounted_price = 0
+
+    for item in cart:
+        if item['discount'] == 0:
+            total_price += item['price'] * item['quantity']
+        else:
+            discounted_price += item['price'] * item['quantity'] * (100 - item['discount']) / 100
+
+    price_without_tax = round((total_price + discounted_price) * 0.79, 1)
+    total_price = round(price_without_tax / 0.79, 1)
     tax = round(total_price * 0.21, 1)
+
     return render_template('cart.html', cart=cart, customer=current_user, categories=categories,
-                           total_price=total_price, price_without_tax=price_without_tax, tax=tax)
+                           total_price=total_price, price_without_tax=price_without_tax, tax=tax,
+                           discounted_price=discounted_price)
 
 
 def get_product_by_id(product_id):
@@ -167,6 +178,7 @@ def get_product_by_id(product_id):
             'product_name': product.product_name,
             'price': int(product.price),
             'stock': product.stock,
+            'discount': product.discount
             # Include other attributes as needed
         }
         return product_dict
@@ -205,8 +217,17 @@ def withdraw_from_cart(product_id):
 def delivery():
     categories = db.session.query(Category.category_name.distinct()).all()
     cart = session.get('cart', [])
-    total_price = sum(item['price'] * item['quantity'] for item in cart)
-    price_without_tax = round(total_price * 0.79, 1)
+    total_price = 0
+    discounted_price = 0
+
+    for item in cart:
+        if item['discount'] == 0:
+            total_price += item['price'] * item['quantity']
+        else:
+            discounted_price += item['price'] * item['quantity'] * (100 - item['discount']) / 100
+
+    price_without_tax = round((total_price + discounted_price) * 0.79, 1)
+    total_price = round(price_without_tax / 0.79, 1)
     tax = round(total_price * 0.21, 1)
 
     form = CustomerOrderForm(request.form)

@@ -29,9 +29,17 @@
   <tr>
     <td>{{ product.id }}</td>
     <td>{{ product.product_name }}</td>
-    <td>{{ product.price|int }} Kč</td>
+    {% if product.discount == 0 %}
+      <td>{{ product.price|int }} Kč</td>
+    {% else %}
+      <td>{{ product.price|int - (product.price|int * product.discount / 100) }} Kč</td>
+    {% endif %}
       <td>{{ product.quantity }}</td>
-    <td>{{ product.price|int * product.quantity }} Kč </td>
+    {% if product.discount == 0 %}
+    <td>{{ product.price|int * product.quantity }} Kč</td>
+{% else %}
+    <td>{{ (product.price|int - (product.price|int * product.discount / 100)) * product.quantity }} Kč</td>
+{% endif %}
 
 
   </tr>

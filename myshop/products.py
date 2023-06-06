@@ -176,12 +176,16 @@ def product_page_preview(product_id):
     console = Console.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
+
+    discount_price = product.price - (product.price * product.discount / 100)
+    discount = product.price - discount_price
+
     if isinstance(mobile, Product):
-        return render_template('mobile_product_page.html', product=mobile, customer=current_user, categories=categories)
+        return render_template('mobile_product_page.html', product=mobile, customer=current_user, categories=categories, discount_price=discount_price, discount=discount)
     elif isinstance(notebook, Product):
-        return render_template('notebook_product_page.html', product=notebook, customer=current_user, categories=categories)
+        return render_template('notebook_product_page.html', product=notebook, customer=current_user, categories=categories, discount_price=discount_price, discount=discount)
     elif isinstance(console, Product):
-        return render_template('console_product_page.html', product=console, customer=current_user, categories=categories)
+        return render_template('console_product_page.html', product=console, customer=current_user, categories=categories, discount_price=discount_price, discount=discount)
 
 
 @products.route('/check-product', methods=['POST'])

@@ -11,7 +11,7 @@
                 <img src="{{ url_for('static', filename='images/elektro_board1.jpg') }}" class="img-fluid rounded shadow-lg">
             </div>
 
-            <div class="py-5 text-center"><h1>Nejnovější produkty</h1></div>
+            <div class="py-5 text-center"><h1 class="display-3">Nejnovější produkty</h1></div>
 
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
@@ -48,7 +48,7 @@
     {% endfor %}
 </div>
 
-<div class="py-5 text-center"><h1>Nejnavštěvovanější produkty</h1></div>
+<div class="py-5 text-center"><h1 class="display-3">Nejnavštěvovanější produkty</h1></div>
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
     {% for product in most_visit_products %}
@@ -84,7 +84,7 @@
 </div>
 
 
-<div class="py-5 text-center"><h1>Nejprodávanější produkty</h1></div>
+<div class="py-5 text-center"><h1 class="display-3">Nejprodávanější produkty</h1></div>
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
     {% for product in most_selling_products %}
