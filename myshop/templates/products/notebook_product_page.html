@@ -88,6 +88,8 @@
                     <br>
 <div class="container px-5 pb-5">
   <h3>Specifikace</h3>
+
+    <p class="blue-text fw-bolder">Typ produktu</p>
   <table class="table table-hover">
     <tbody>
 
@@ -106,32 +108,10 @@
       </tr>
 
 
-      <tr>
-        <td>SSD:</td>
-          {% if product.ssd == False %}
-        <td class="text-end">NE</td>
-          {% else %}
-          <td class="text-end">Ano</td>
-          {% endif %}
-      </tr>
 
-    <tr>
-        <td>HDD:</td>
-          {% if product.hdd == False %}
-        <td class="text-end">NE</td>
-          {% else %}
-          <td class="text-end">ANO</td>
-          {% endif %}
-      </tr>
 
-<tr>
-      <td>Velikost disku SSD:</td>
-        <td class="text-end">{{ product.ssd_capacity }}</td>
-      </tr>
-<tr>
-    <td>Velikost disku HDD:</td>
-        <td class="text-end">{{ product.hdd_capacity }}</td>
-      </tr>
+
+
 
      <tr>
         <td>Mechanika:</td>
@@ -154,13 +134,219 @@
       </tr>
     </tbody>
   </table>
-</div>
 
+    <p class="blue-text fw-bolder">Displej</p>
+    <table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Velikost displeje:</td>
+            <td class="text-end">{{ product.display_size }} palců</td>
+        </tr>
+        <tr>
+            <td>Rozlišení displeje:</td>
+            <td class="text-end">{{ product.display_resolution }}</td>
+        </tr>
+        <tr>
+            <td>Frekvence displeje:</td>
+            <td class="text-end">{{ product.display_frequency }} HZ</td>
+        </tr>
+        <tr>
+            <td>Svítivost displeje:</td>
+            <td class="text-end">{{ product.display_nits }} nit</td>
+        </tr>
+        <tr>
+            <td>Typ displeje:</td>
+            <td class="text-end">{{ product.display_type }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<p class="blue-text fw-bolder">Procesor</p>
+    <table class="table table-hover">
+    <tbody>
+      <tr>
+        <td>Procesor:</td>
+        <td class="text-end">{{ product.processor}}</td>
+      </tr>
+
+      <tr>
+        <td>Počet jader procesoru:</td>
+        <td class="text-end">{{ product.processor_cores}}</td>
+      </tr>
+    </tbody>
+</table>
+
+    <p class="blue-text fw-bolder">Paměť</p>
+    <table class="table table-hover">
+    <tbody>
+     <tr>
+        <td>SSD:</td>
+          {% if product.ssd == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+    <tr>
+        <td>HDD:</td>
+          {% if product.hdd == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+<tr>
+      <td>Velikost disku SSD:</td>
+        <td class="text-end">{{ product.ssd_capacity }} GB</td>
+      </tr>
+<tr>
+    <td>Velikost disku HDD:</td>
+        <td class="text-end">{{ product.hdd_capacity }} GB</td>
+      </tr>
+
+    <tr>
+    <td>Operační paměť:</td>
+        <td class="text-end">{{ product.operating_memory }} GB</td>
+      </tr>
+    </tbody>
+</table>
+
+
+        <p class="blue-text fw-bolder">Grafika</p>
+    <table class="table table-hover">
+    <tbody>
+
+<tr>
+      <td>Grafická karta:</td>
+        <td class="text-end">{{ product.graphics_card }}</td>
+      </tr>
+<tr>
+    <td>Grafická paměť:</td>
+        <td class="text-end">{{ product.graphics_memory }} GB</td>
+      </tr>
+
+    </tbody>
+</table>
+
+            <p class="blue-text fw-bolder">Operační systém</p>
+    <table class="table table-hover">
+    <tbody>
+
+<tr>
+      <td>Grafická karta:</td>
+        <td class="text-end">{{ product.operating_system }}</td>
+      </tr>
+<tr>
+
+    </tbody>
+</table>
+
+
+    <p class="blue-text fw-bolder">Rozměry a hmotnost</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Výška:</td>
+            <td class="text-end">{{ product.height }} {{ product.height_units }}</td>
+        </tr>
+        <tr>
+            <td>Šířka:</td>
+            <td class="text-end">{{ product.width }} {{ product.width_units }}</td>
+        </tr>
+        <tr>
+            <td>Hloubka:</td>
+            <td class="text-end">{{ product.depth }} {{ product.depth_units }}</td>
+        </tr>
+        <tr>
+            <td>Hmotnost:</td>
+            <td class="text-end">{{ product.weight }} {{ product.weight_units }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<p class="blue-text fw-bolder">Klávesnice</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Podsvícená klávesnice:</td>
+            <td class="text-end">{{ 'ANO' if product.light_keyboard else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Klávesnice s čísly:</td>
+            <td class="text-end">{{ 'ANO' if product.num_keyboard else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Dotyková obrazovka:</td>
+            <td class="text-end">{{ 'ANO' if product.touch_screen else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Čtečka otisků prstů:</td>
+            <td class="text-end">{{ 'ANO' if product.fingerprint_reader else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>Čtečka paměťových karet:</td>
+            <td class="text-end">{{ 'ANO' if product.memory_card_reader else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>USB-C nabíjení:</td>
+            <td class="text-end">{{ 'ANO' if product.usb_c_charging else 'NE' }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p class="blue-text fw-bolder">Baterie a konstrukce</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>Kapacita baterie:</td>
+            <td class="text-end">{{ product.battery_capacity }}</td>
+        </tr>
+        <tr>
+            <td>Konstrukce:</td>
+            <td class="text-end">{{ product.construction }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<p class="blue-text fw-bolder">Porty a připojení</p>
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>USB porty:</td>
+            <td class="text-end">{{ product.usb_ports }}</td>
+        </tr>
+        <tr>
+            <td>HDMI porty:</td>
+            <td class="text-end">{{ product.hdmi_ports }}</td>
+        </tr>
+        <tr>
+            <td>Audiokonektor:</td>
+            <td class="text-end">{{ 'ANO' if product.audio_jack else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>USB 3.0:</td>
+            <td class="text-end">{{ 'ANO' if product.usb_3_0 else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>USB 2.0:</td>
+            <td class="text-end">{{ 'ANO' if product.usb_2_0 else 'NE' }}</td>
+        </tr>
+        <tr>
+            <td>CD/DVD mechanika:</td>
+            <td class="text-end">{{ 'ANO' if product.cd_dvd_drive else 'NE' }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+                </div>
             </div>
-
-
-
-
         </div>
     </div>
 </div>

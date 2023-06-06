@@ -185,7 +185,8 @@ def product_page_preview(product_id):
                                categories=categories, discount_price=discount_price, discount=discount)
     elif isinstance(notebook, Product):
         return render_template('notebook_product_page.html', product=notebook, customer=current_user,
-                               categories=categories, discount_price=discount_price, discount=discount)
+                               categories=categories, discount_price=discount_price, discount=discount,
+                               notebook=notebook)
     elif isinstance(console, Product):
         return render_template('console_product_page.html', product=console, customer=current_user,
                                categories=categories, discount_price=discount_price, discount=discount)
