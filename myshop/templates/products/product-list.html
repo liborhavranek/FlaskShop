@@ -56,6 +56,8 @@
             <td><a class="btn btn-danger btn-sm" href="/products/delete-mobile-product/{{ product.id }}">Smazat</a></td>
         {% elif product.product_type == 'Notebook' %}
             <td><a class="btn btn-danger btn-sm" href="/products/delete-notebook-product/{{ product.id }}">Smazat</a></td>
+        {% elif product.product_type == 'Herní konzole' %}
+            <td><a class="btn btn-danger btn-sm" href="/products/delete-console-product/{{ product.id }}">Smazat</a></td>
         {% endif %}
 
                     </tr>
