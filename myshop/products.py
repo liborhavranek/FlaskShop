@@ -471,6 +471,7 @@ def edit_product(product_id):
 @login_required
 def delete_mobile_product(id):
     product = Product.query.filter_by(id=id).first_or_404()
+    mobile = Mobile.query.filter_by(id=id).first_or_404()
 
     product_images = ProductImage.query.filter_by(product_id=product.id).all()
     main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
@@ -480,6 +481,7 @@ def delete_mobile_product(id):
         os.remove(image_path)
         db.session.delete(image)
     db.session.delete(product)
+    db.session.delete(mobile)
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
     return redirect('/products/products-list')
@@ -489,6 +491,7 @@ def delete_mobile_product(id):
 @login_required
 def delete_notebook_product(id):
     product = Product.query.filter_by(id=id).first_or_404()
+    notebook = Notebook.query.filter_by(id=id).first_or_404()
 
     product_images = ProductImage.query.filter_by(product_id=product.id).all()
     main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
@@ -498,6 +501,7 @@ def delete_notebook_product(id):
         os.remove(image_path)
         db.session.delete(image)
     db.session.delete(product)
+    db.session.delete(notebook)
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
     return redirect('/products/products-list')
@@ -875,6 +879,7 @@ def edit_console_product(product_id):
 @login_required
 def delete_console_product(id):
     product = Product.query.filter_by(id=id).first_or_404()
+    console = Console.query.filter_by(id=id).first_or_404()
 
     product_images = ProductImage.query.filter_by(product_id=product.id).all()
     main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
@@ -884,6 +889,7 @@ def delete_console_product(id):
         os.remove(image_path)
         db.session.delete(image)
     db.session.delete(product)
+    db.session.delete(console)
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
     return redirect('/products/products-list')
@@ -1067,6 +1073,7 @@ def edit_smart_watch_product(product_id):
 @login_required
 def delete_smart_watch_product(id):
     product = Product.query.filter_by(id=id).first_or_404()
+    watch = SmartWatch.query.filter_by(id=id).first_or_404()
 
     product_images = ProductImage.query.filter_by(product_id=product.id).all()
     main_image = os.path.join(current_app.config['UPLOAD_FOLDER'], product.product_image)
@@ -1076,6 +1083,7 @@ def delete_smart_watch_product(id):
         os.remove(image_path)
         db.session.delete(image)
     db.session.delete(product)
+    db.session.delete(watch)
     db.session.commit()
     flash('Produkt byl smazán.', category='success')
     return redirect('/products/products-list')
