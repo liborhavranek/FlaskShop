@@ -194,7 +194,7 @@ def product_page_preview(product_id):
         return render_template('console_product_page.html', product=console, customer=current_user,
                                categories=categories, discount_price=discount_price, discount=discount)
     elif isinstance(smart_watch, Product):
-        return render_template('console_product_page.html', product=smart_watch, customer=current_user,
+        return render_template('smart_watch_product_page.html', product=smart_watch, customer=current_user,
                                categories=categories, discount_price=discount_price, discount=discount)
 
 

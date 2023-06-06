@@ -74,7 +74,7 @@ class SmartWatchForm(FlaskForm):
     step_counter = BooleanField('Počítadlo kroků:')
     sleep_tracker = BooleanField('Sledovač spánku:')
     gps = BooleanField('GPS:')
-    water_resistant = BooleanField('Odpovídající vodě:')
+    water_resistant = BooleanField('Voděodolné:')
     music_player = BooleanField('Přehrávač hudby:')
     voice_assistant = BooleanField('Hlasový asistent:')
 
