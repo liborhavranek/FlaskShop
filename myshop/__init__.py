@@ -45,6 +45,7 @@ def create_app(config=None):
     from myshop.models.product_model import Product
     from myshop.models.mobile_model import Mobile
     from myshop.models.notebook_model import Notebook
+    from myshop.models.console_model import Console
     from myshop.models.order_model import CustomerOrder
 
     create_database(app)

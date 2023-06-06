@@ -7,6 +7,7 @@ omit =
     myshop/views.py
     myshop/create_mobile_data.py
     myshop/create_notebook_data.py
+    myshop/create_console_data.py
 
 [report]
 exclude_lines =

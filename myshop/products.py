@@ -10,6 +10,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 
 from myshop import db
+from myshop.forms.add_console_form import ConsoleForm
 from myshop.forms.add_mobile_form import MobileForm
 from myshop.forms.add_notebook_form import NotebookForm
 from myshop.forms.brand_form import BrandForm
@@ -18,6 +19,7 @@ from myshop.forms.edit_all_product_image import AddProductAdditionalImagesForm
 from myshop.forms.edit_product_image import EditProductMainImageForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.console_model import Console
 from myshop.models.images_model import ProductImage
 from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
@@ -164,18 +166,22 @@ def delete_category(id):
     return redirect('/products/create-category')
 
 
+# mark for add code if add new product
 @products.route('/product-preview/<int:product_id>')
 def product_page_preview(product_id):
     categories = db.session.query(Category.category_name.distinct()).all()
     product = Product.query.get(product_id)
     mobile = Mobile.query.get(product_id)
     notebook = Notebook.query.get(product_id)
+    console = Console.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
     if isinstance(mobile, Product):
         return render_template('mobile_product_page.html', product=mobile, customer=current_user, categories=categories)
     elif isinstance(notebook, Product):
         return render_template('notebook_product_page.html', product=notebook, customer=current_user, categories=categories)
+    elif isinstance(console, Product):
+        return render_template('console_product_page.html', product=console, customer=current_user, categories=categories)
 
 
 @products.route('/check-product', methods=['POST'])
@@ -724,3 +730,60 @@ def edit_notebook_product(product_id):
                 return redirect(url_for('products.product_page_preview', product_id=product.id, customer=current_user))
 
     return render_template('edit_notebook_product.html', product=product, form=form, customer=current_user)
+
+
+@products.route('/create-console-product', methods=['GET', 'POST'])
+@login_required
+def create_console_product():
+    form = ConsoleForm()
+    if form.validate_on_submit():
+        product_data = {
+            'product_name': request.form.get('product_name'),
+            'price': request.form.get('price'),
+            'discount': request.form.get('discount'),
+            'stock': request.form.get('stock'),
+            'sold': request.form.get('sold'),
+
+            'product_type': "Console",
+
+            'color': request.form.get('color'),
+            'subheading': request.form.get('subheading'),
+            'description': request.form.get('description'),
+
+            'ssd': request.form.get('ssd', type=bool),
+            'hdd': request.form.get('hdd', type=bool),
+            'ssd_capacity': request.form.get('ssd_capacity'),
+            'hdd_capacity': request.form.get('hdd_capacity'),
+
+            'brand_id': int(request.form.get('brand_id')),
+            'category_id': int(request.form.get('category_id')),
+            }
+
+        # Get the product image file, if any
+        product_image = request.files.get('product_image')
+        product_data['product_image'] = save_image(product_image, current_app.config['UPLOAD_FOLDER'])
+
+        new_product = Console(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist('additional_images')
+        additional_image_filenames = [save_image(image, current_app.config['UPLOAD_FOLDER']) for image in
+                                      additional_images if image.filename != '']
+
+        # Add the product to the database
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(
+                image_name=filename,
+                product_id=new_product.id
+            )
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash('Produkt byl přidán.', category='success')
+        return redirect(url_for('products.product_page_preview', product_id=new_product.id, customer=current_user))
+
+    return render_template('add_console_product.html', form=form, customer=current_user)

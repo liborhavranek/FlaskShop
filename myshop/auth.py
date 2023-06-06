@@ -12,6 +12,7 @@ from .forms.registration_form import RegistrationForm
 from myshop.models.customer_model import Customer
 from .models.brand_model import Brand
 from .models.category_model import Category
+from .models.console_model import Console
 from .models.mobile_model import Mobile
 from .models.notebook_model import Notebook
 
@@ -129,6 +130,8 @@ def create_test_data():
             {"brand_name": "HP"},
             {"brand_name": "Asus"},
             {"brand_name": "MSI"},
+            {"brand_name": "PlayStation"},
+            {"brand_name": "Xbox"},
 
     ]
     categories = [
@@ -282,6 +285,37 @@ def create_test_data():
 
             product.usb_ports = row["usb_ports"]
             product.hdmi_ports = row["hdmi_ports"]
+
+            product.visit_count = row["visit_count"]
+            product.product_type = row["product_type"]
+
+            product.product_image = row["product_image"]
+
+            db.session.add(product)
+            db.session.commit()
+
+    with open('myshop/console_products.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            product = Console()
+            product.product_name = row["product_name"]
+            product.price = row["price"]
+            product.discount = row["discount"]
+            product.stock = row["stock"]
+
+            product.ssd_capacity = row["ssd_capacity"]
+            product.hdd_capacity = row["hdd_capacity"]
+            product.ssd = ast.literal_eval(row["ssd"])
+            product.hdd = ast.literal_eval(row["hdd"])
+
+            product.description = row["description"]
+            product.subheading = row["subheading"]
+
+            product.color = row["color"]
+            product.brand_id = row["brand_id"]
+            product.category_id = row["category_id"]
+
+            product.dvd_drive = ast.literal_eval(row["dvd_drive"])
 
             product.visit_count = row["visit_count"]
             product.product_type = row["product_type"]

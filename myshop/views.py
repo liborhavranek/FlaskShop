@@ -10,6 +10,7 @@ from myshop import db
 from myshop.forms.customer_order_form import CustomerOrderForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.console_model import Console
 from myshop.models.customer_model import Customer
 from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
@@ -19,11 +20,14 @@ from myshop.models.product_model import Product
 views = Blueprint('views', __name__, template_folder='templates/views')
 
 
+# mark for add code if add new product
 def sorting_category(category_name):
     if category_name == 'Mobily':
         brands = Brand.query.join(Mobile).filter(Mobile.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
     elif category_name == 'Notebooky':
         brands = Brand.query.join(Notebook).filter(Notebook.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
+    elif category_name == 'Herní konzole':
+        brands = Brand.query.join(Console).filter(Console.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
     else:
         brands = Brand.query.order_by(Brand.brand_name).distinct().all()
     return brands

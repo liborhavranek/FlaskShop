@@ -1,0 +1,64 @@
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row bg-white mx-5 rounded shadow-lg">
+
+            <div class="col-5 product_page_product_image_div">
+              <img class="rounded mx-3 my-3 main-image shadow-lg" src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" alt="{{ product.product_name }}">
+              {% if product.images %}
+                <div class="row mt-5">
+                  <div class="col-md-3 pb-1">
+                    <div class="image-container">
+                      <img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
+                    </div>
+                  </div>
+                  {% for image in product.images %}
+                    <div class="col-md-3 pb-1">
+                      <div class="image-container">
+                        <img src="{{ url_for('static', filename='images/uploads/' + image.image_name) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+
+
+                <div class="col-7 px-5">
+
+                    <h1>{{ product.product_name }}</h1>
+                    <p>tady bude hodnoceni a pocet hodnoceni</p>
+                    <h5>{{ product.subheading }}</h5> <br>
+                    <p>{{ product.description }}</p>
+                    <h1>{{ product.price }} Kč</h1>
+                    <h1>{{ product.discount }} %</h1>
+                    <p>Barva: {{ product.color|safe }}</p>
+                    <p>Kategorie: {{ product.category.category_name }}</p>
+                    <p>Značka: {{ product.brand.brand_name }}</p>
+                    <p>Návštěvnost: {{ product.visit_count }}</p>
+
+                    Konzole stanka
+                    <p>{{ product.stock }}</p>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+{%endblock content %}
