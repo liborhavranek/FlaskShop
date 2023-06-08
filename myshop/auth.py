@@ -15,6 +15,7 @@ from .models.category_model import Category
 from .models.console_model import Console
 from .models.mobile_model import Mobile
 from .models.notebook_model import Notebook
+from .models.smart_watch_model import SmartWatch
 
 auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
 
@@ -319,6 +320,57 @@ def create_test_data():
 
             product.visit_count = row["visit_count"]
             product.product_type = row["product_type"]
+
+            product.product_image = row["product_image"]
+
+            db.session.add(product)
+            db.session.commit()
+
+    with open('myshop/watch_products.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+
+        for row in reader:
+            product = SmartWatch()
+
+            product.product_name = row["product_name"]
+            product.description = row["description"]
+            product.subheading = row["subheading"]
+
+            product.price = row["price"]
+            product.discount = row["discount"]
+            product.stock = row["stock"]
+
+            product.display_size = row["display_size"]
+            product.display_resolution = row["display_resolution"]
+
+            product.operating_system = row["operating_system"]
+            product.memory = row["memory"]
+
+            product.battery_capacity = row["battery_capacity"]
+
+            product.weight = row["weight"]
+            product.weight_units = row["weight_units"]
+
+            product.color = row["color"]
+
+            product.bluetooth = ast.literal_eval(row["bluetooth"])
+            product.wifi = ast.literal_eval(row["wifi"])
+            product.nfc = ast.literal_eval(row["nfc"])
+            product.esim = ast.literal_eval(row["esim"])
+
+            product.heart_rate_monitor = ast.literal_eval(row["heart_rate_monitor"])
+            product.step_counter = ast.literal_eval(row["step_counter"])
+            product.sleep_tracker = ast.literal_eval(row["sleep_tracker"])
+            product.gps = ast.literal_eval(row["gps"])
+            product.water_resistant = ast.literal_eval(row["water_resistant"])
+            product.music_player = ast.literal_eval(row["music_player"])
+            product.voice_assistant = ast.literal_eval(row["voice_assistant"])
+
+            product.visit_count = row["visit_count"]
+            product.product_type = row["product_type"]
+
+            product.brand_id = row["brand_id"]
+            product.category_id = row["category_id"]
 
             product.product_image = row["product_image"]
 
