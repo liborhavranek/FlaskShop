@@ -39,3 +39,7 @@ class Customer(db.Model, UserMixin):
     firma_bank_acc = db.Column(db.String(50), unique=False, nullable=True)
     firma_bank_number = db.Column(db.String(50), unique=False, nullable=True)
     firma_spec_symbol = db.Column(db.String(50), unique=False, nullable=True)
+
+    wishlist = db.relationship('Wishlist', backref='customer', lazy=True)
+
+

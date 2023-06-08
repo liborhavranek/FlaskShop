@@ -338,6 +338,7 @@ $('.add-mobile-product-bluetooth-input').change();
 $('.add-mobile-product-wifi-input').change();
 $('.add-mobile-product-memory-card-slot-input').change();
 
+
 $('.add-mobile-product-image-input').on('change', function() {
   var product_image = $(this).val();
 

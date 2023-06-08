@@ -1,0 +1,197 @@
+{% extends 'base.html'%}
+    {% block content %}
+<div class="container-fluid add-product-form-container py-5">
+    <h1 class="text-center">Přidat nový produkt konzole</h1>
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container shadow-lg">
+        <form method="POST" autocomplete="off" enctype=multipart/form-data>
+
+              {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_name.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_name(class="form-control add-notebook-product-name-input") }}
+                <div class="add-notebook-product-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control add-notebook-product-subheading-input") }}
+                <div class="add-notebook-product-subheading-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control add-notebook-product-description-input") }}
+                <div class="add-notebook-product-description-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control add-notebook-product-color-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control add-notebook-product-brand-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control add-notebook-product-category-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-2">
+                {{ form.price(class="form-control add-notebook-product-price-input") }}
+            </div>
+            <div class="col-1">
+                Kč
+            </div>
+             <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-2">
+                {{ form.discount(class="form-control add-notebook-product-discount-input") }}
+            </div>
+             <div class="col-2">
+                %
+            </div>
+
+        </div>
+    </div>
+
+   <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.stock.label }}
+            </div>
+            <div class="col-2">
+                {{ form.stock(class="form-control add-notebook-product-stock-input") }}
+            </div>
+            <div class="col-6">
+                počáteční počet kusů na skladě
+            </div>
+        </div>
+    </div>
+
+
+  <div class="mb-3">
+        <div class="row">
+            <div class="col-3">
+                {{ form.hdd.label(class="add-notebook-hdd-disk-label") }}
+            </div>
+            <div class="col-1">
+                {{ form.hdd(class="form-check-input add-notebook-hdd-disk-input") }}
+            </div>
+            <div class="col-3">
+                {{ form.hdd_capacity.label(class="add-notebook-hdd-capacity-label") }}
+            </div>
+            <div class="col-3">
+                {{ form.hdd_capacity(class="form-control add-notebook-hdd-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div class="mb-3">
+        <div class="row">
+            <div class="col-3">
+                {{ form.ssd.label(class="add-notebook-ssd-disk-label") }}
+            </div>
+            <div class="col-1">
+                {{ form.ssd(class="form-check-input add-notebook-ssd-disk-input") }}
+            </div>
+            <div class="col-3">
+                {{ form.ssd_capacity.label(class="add-notebook-ssd-capacity-label") }}
+            </div>
+            <div class="col-3">
+                {{ form.ssd_capacity(class="form-control add-notebook-ssd-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+  <div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.dvd_drive.label }}
+            </div>
+            <div class="col-1">
+                {{ form.dvd_drive(class="form-check-input add-console-dvd-drive-input") }}
+            </div>
+            <div class="col-1 add-notebook-product-check-red-color-text add-console-product-dvd-drive-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_image.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_image(class="form-control add-notebook-product-image-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.additional_images.label }}
+            </div>
+            <div class="col-8">
+                {{ form.additional_images(class="form-control add-notebook-additional-image-input") }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-start">
+    <p>Všechny pole označená * musí být vyplněna.</p>
+    </div>
+    <div class="text-center">
+    {{ form.add_product_submit(class="btn btn-warning") }}
+    </div>
+
+        </form>
+
+    </div>
+</div>
+{%endblock content %}

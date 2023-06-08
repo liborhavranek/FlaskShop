@@ -1,0 +1,163 @@
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/product_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <div class="row mx-5 rounded shadow-lg product-page-div">
+
+            <div class="col-5 product_page_product_image_div">
+              <img class="rounded mx-3 my-3 main-image shadow-lg" src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" alt="{{ product.product_name }}">
+              {% if product.images %}
+                <div class="row mt-5">
+                  <div class="col-md-3 pb-1">
+                    <div class="image-container">
+                      <img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
+                    </div>
+                  </div>
+                  {% for image in product.images %}
+                    <div class="col-md-3 pb-1">
+                      <div class="image-container">
+                        <img src="{{ url_for('static', filename='images/uploads/' + image.image_name) }}" alt="{{ product.product_name }}" onclick="updateMainImage(this)">
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+
+
+                <div class="col-7 px-5">
+
+                    <h1 class="display-5">{{ product.product_name }}</h1>
+                    <h4 class="blue-text">{{ product.subheading }}</h4>
+                                        <hr>
+                    <p class="d-block fs-5">{{ product.description }}</p>
+
+                    <br>
+                    <br>
+
+
+                    <div class="text-end price-container">
+                    {% if product.discount == 0 %}
+                    <h1>{{ product.price }} Kč</h1>
+                    {% else %}
+                    <div class="price-container">
+                      <div class="discount-badge">
+                        - {{ product.discount }}%
+                      </div>
+                      <div class="price-details">
+                        <span class="price-original">{{ product.price }} Kč</span>
+                        <span class="price-discounted">{{ discount_price }} Kč</span>
+                      </div>
+                    </div>
+                    {% endif %}
+                    </div>
+                    {% if product.stock > 0 %}
+                    <div class=" text-end">
+                        <p class="my-5 fs-4 green-text">Skladem {{ product.stock }} kusů</p>
+                        <a href="/add_to_cart/{{ product.id }}" class="btn btn-warning btn-lg">Přidat do košíku</a>
+                    </div>
+                    {% else %}
+                    <div class=" text-end">
+                    <p class="my-5 text-end fs-4 red-text">Není skladem</p>
+                    <button class="btn btn-warning btn-lg" type="button" disabled>Přidat do košíku</button>
+                    </div>
+                    {% endif %}
+
+                    <br>
+
+<form class="text-end pb-5" action="{{ url_for('views.toggle_wishlist', product_id=product.id) }}" method="POST">
+    <button type="submit" class="btn btn-danger">
+        {% if customer.wishlist|selectattr('product_id', '==', product.id)|list %}
+            Odebrat ze seznamu
+        {% else %}
+            Přidat do seznamu
+        {% endif %}
+    </button>
+</form>
+
+
+                </div>
+<hr>
+                <br>
+                    <br>
+<div class="container px-5 pb-5">
+  <h3>Specifikace</h3>
+  <table class="table table-hover">
+    <tbody>
+
+      <tr>
+        <td>Kategorie:</td>
+        <td class="text-end">{{ product.category.category_name }}</td>
+      </tr>
+      <tr>
+        <td>Značka:</td>
+        <td class="text-end">{{ product.brand.brand_name }}</td>
+      </tr>
+
+      <tr>
+        <td>Barva:</td>
+        <td class="text-end">{{ product.color|safe }}</td>
+      </tr>
+
+
+      <tr>
+        <td>SSD:</td>
+          {% if product.ssd == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+    <tr>
+        <td>HDD:</td>
+          {% if product.hdd == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+<tr>
+      <td>Velikost disku SSD:</td>
+        <td class="text-end">{{ product.ssd_capacity }}</td>
+      </tr>
+<tr>
+    <td>Velikost disku HDD:</td>
+        <td class="text-end">{{ product.hdd_capacity }}</td>
+      </tr>
+
+     <tr>
+        <td>Mechanika:</td>
+          {% if product.dvd_drive == False %}
+        <td class="text-end">NE</td>
+          {% else %}
+          <td class="text-end">ANO</td>
+          {% endif %}
+      </tr>
+
+    <tr>
+        <td>Návštěvnost:</td>
+        <td class="text-end">{{ product.visit_count }}</td>
+      </tr>
+
+
+          <tr>
+        <td>Prodáno:</td>
+        <td class="text-end">{{ product.sold }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content %}

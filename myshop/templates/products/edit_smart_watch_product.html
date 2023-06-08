@@ -1,0 +1,351 @@
+{% extends 'base.html'%}
+    {% block content %}
+<div class="container-fluid add-product-form-container py-5">
+    <h1 class="text-center">Upravit produkt chytré hodinky</h1>
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container shadow-lg">
+
+<form method="POST" autocomplete="off" enctype=multipart/form-data>
+  {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_name.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_name(class="form-control add-mobile-product-name-input") }}
+                <div class="add-mobile-product-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control add-mobile-product-subheading-input") }}
+                <div class="add-mobile-product-subheading-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control add-mobile-product-description-input") }}
+                <div class="add-mobile-product-description-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+        <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control add-mobile-product-color-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control add-mobile-product-brand-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control add-mobile-product-category-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-2">
+                {{ form.price(class="form-control add-mobile-product-price-input") }}
+            </div>
+            <div class="col-1">
+                Kč
+            </div>
+             <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-2">
+                {{ form.discount(class="form-control add-mobile-product-discount-input") }}
+            </div>
+             <div class="col-2">
+                %
+            </div>
+
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.stock.label }}
+            </div>
+            <div class="col-2">
+                {{ form.stock(class="form-control add-mobile-product-stock-input") }}
+            </div>
+            <div class="col-6">
+                počáteční počet kusů na skladě
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.weight.label }}
+            </div>
+            <div class="col-2">
+                {{ form.weight(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.weight_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_size.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_size(class="form-control add-mobile-product-display-size-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_resolution.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_resolution(class="form-control add-mobile-product-display-resolution-input") }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.memory.label }}
+            </div>
+            <div class="col-3">
+                {{ form.memory(class="form-control add-mobile-product-memory-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.operating_system.label }}
+            </div>
+            <div class="col-3">
+                {{ form.operating_system(class="form-control add-mobile-product-operating-system-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.battery_capacity.label }}
+            </div>
+            <div class="col-3">
+                {{ form.battery_capacity(class="form-control add-mobile-product-battery-capacity-input") }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.wifi.label }}
+            </div>
+            <div class="col-1">
+                {{ form.wifi(class="form-check-input add-mobile-product-wifi-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-wifi-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.bluetooth.label }}
+            </div>
+            <div class="col-1">
+                {{ form.bluetooth(class="form-check-input add-mobile-product-bluetooth-input") }}
+            </div>
+             <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-bluetooth-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.nfc.label }}
+            </div>
+            <div class="col-1">
+                {{ form.nfc(class="form-check-input add-mobile-product-nfc-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-nfc-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.esim.label }}
+            </div>
+            <div class="col-1">
+                {{ form.esim(class="form-check-input add-mobile-product-esim-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-esim-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.heart_rate_monitor.label }}
+            </div>
+            <div class="col-1">
+                {{ form.heart_rate_monitor(class="form-check-input add-smart-watch-product-heart-rate-monitor-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-heart-rate-monitor-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.step_counter.label }}
+            </div>
+            <div class="col-1">
+                {{ form.step_counter(class="form-check-input add-smart-watch-product-step-counter-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-step-counter-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.sleep_tracker.label }}
+            </div>
+            <div class="col-1">
+                {{ form.sleep_tracker(class="form-check-input add-smart-watch-product-sleep-tracker-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-sleep-tracker-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.gps.label }}
+            </div>
+            <div class="col-1">
+                {{ form.gps(class="form-check-input add-smart-watch-product-gps-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-gps-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.water_resistant.label }}
+            </div>
+            <div class="col-1">
+                {{ form.water_resistant(class="form-check-input add-smart-watch-product-water-resistant-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-water-resistant-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.music_player.label }}
+            </div>
+            <div class="col-1">
+                {{ form.music_player(class="form-check-input add-smart-watch-product-music-player-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-music-player-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.voice_assistant.label }}
+            </div>
+            <div class="col-1">
+                {{ form.voice_assistant(class="form-check-input add-smart-watch-product-voice-assistant-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-smart-watch-product-voice-assistant-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+      <div class="text-center">
+        <a class="update-product-images" href="/products/edit-product-images/{{ product.id }}"><h2>Upravit fotky produktu.</h2></a>
+    </div>
+
+
+    <div class="text-start">
+    <p>Všechny pole označená * musí být vyplněna.</p>
+    </div>
+    <div class="text-center">
+    {{ form.edit_product_submit(class="btn btn-warning") }}
+    </div>
+</form>
+
+    </div>
+</div>
+{%endblock content %}

@@ -2,28 +2,35 @@
 from datetime import datetime
 
 from flask import Blueprint, render_template, request, session, redirect, flash, url_for
-from flask_login import current_user
-
+from flask_login import current_user, login_required
 
 import json
 from myshop import db
 from myshop.forms.customer_order_form import CustomerOrderForm
 from myshop.models.brand_model import Brand
 from myshop.models.category_model import Category
+from myshop.models.console_model import Console
 from myshop.models.customer_model import Customer
 from myshop.models.mobile_model import Mobile
 from myshop.models.notebook_model import Notebook
 from myshop.models.order_model import CustomerOrder
 from myshop.models.product_model import Product
+from myshop.models.smart_watch_model import SmartWatch
+from myshop.models.wish_list_model import Wishlist
 
 views = Blueprint('views', __name__, template_folder='templates/views')
 
 
+# mark for add code if add new product
 def sorting_category(category_name):
     if category_name == 'Mobily':
         brands = Brand.query.join(Mobile).filter(Mobile.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
     elif category_name == 'Notebooky':
         brands = Brand.query.join(Notebook).filter(Notebook.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
+    elif category_name == 'Herní konzole':
+        brands = Brand.query.join(Console).filter(Console.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
+    elif category_name == 'Hodinky':
+        brands = Brand.query.join(SmartWatch).filter(SmartWatch.brand_id == Brand.id).order_by(Brand.brand_name).distinct().all()
     else:
         brands = Brand.query.order_by(Brand.brand_name).distinct().all()
     return brands
@@ -46,10 +53,12 @@ def sort_products(products_query, sort_by):
 def view() -> str:
     categories = db.session.query(Category.category_name.distinct()).all()
     products = Product.query.order_by(Product.date_created.desc()).all()
-    newest_products = Product.query.order_by(Product.date_created.desc()).limit(4).all()
-    most_visit_products = Product.query.order_by(Product.visit_count.desc()).limit(4).all()
+    newest_products = Product.query.order_by(Product.date_created.desc()).limit(8).all()
+    most_visit_products = Product.query.order_by(Product.visit_count.desc()).limit(8).all()
+    most_selling_products = Product.query.order_by(Product.sold.desc()).limit(8).all()
     return render_template('views.html', categories=categories, products=products, newest_products=newest_products,
-                           most_visit_products=most_visit_products, customer=current_user)
+                           most_visit_products=most_visit_products, customer=current_user,
+                           most_selling_products=most_selling_products)
 
 
 @views.route('/<string:category_name>/<string:brand_name>')
@@ -146,11 +155,22 @@ def add_to_cart(product_id):
 def cart():
     categories = db.session.query(Category.category_name.distinct()).all()
     cart = session.get('cart', [])
-    total_price = sum(item['price'] * item['quantity'] for item in cart)
-    price_without_tax = round(total_price * 0.79, 1)
+    total_price = 0
+    discounted_price = 0
+
+    for item in cart:
+        if item['discount'] == 0:
+            total_price += item['price'] * item['quantity']
+        else:
+            discounted_price += item['price'] * item['quantity'] * (100 - item['discount']) / 100
+
+    price_without_tax = round((total_price + discounted_price) * 0.79, 1)
+    total_price = round(price_without_tax / 0.79, 1)
     tax = round(total_price * 0.21, 1)
+
     return render_template('cart.html', cart=cart, customer=current_user, categories=categories,
-                           total_price=total_price, price_without_tax=price_without_tax, tax=tax)
+                           total_price=total_price, price_without_tax=price_without_tax, tax=tax,
+                           discounted_price=discounted_price)
 
 
 def get_product_by_id(product_id):
@@ -161,6 +181,7 @@ def get_product_by_id(product_id):
             'product_name': product.product_name,
             'price': int(product.price),
             'stock': product.stock,
+            'discount': product.discount
             # Include other attributes as needed
         }
         return product_dict
@@ -199,8 +220,17 @@ def withdraw_from_cart(product_id):
 def delivery():
     categories = db.session.query(Category.category_name.distinct()).all()
     cart = session.get('cart', [])
-    total_price = sum(item['price'] * item['quantity'] for item in cart)
-    price_without_tax = round(total_price * 0.79, 1)
+    total_price = 0
+    discounted_price = 0
+
+    for item in cart:
+        if item['discount'] == 0:
+            total_price += item['price'] * item['quantity']
+        else:
+            discounted_price += item['price'] * item['quantity'] * (100 - item['discount']) / 100
+
+    price_without_tax = round((total_price + discounted_price) * 0.79, 1)
+    total_price = round(price_without_tax / 0.79, 1)
     tax = round(total_price * 0.21, 1)
 
     form = CustomerOrderForm(request.form)
@@ -297,3 +327,74 @@ def orders(customer_id):
     orders = CustomerOrder.query.filter_by(customer_id=customer_id).all()
 
     return render_template('customer_orders.html', customer=customer, orders=orders, categories=categories)
+
+
+@views.route('/toggle_wishlist/<int:product_id>', methods=['POST'])
+@login_required
+def toggle_wishlist(product_id):
+    # Retrieve the product object
+    product = Product.query.get(product_id)
+
+    # Check if the product exists
+    if product is None:
+        flash('Product not found', 'error')
+        return redirect(request.referrer)
+
+    # Get the current customer from the authenticated user
+    customer = Customer.query.get(current_user.id)
+
+    # Check if the customer exists
+    if customer is None:
+        flash('Customer not found', 'error')
+        return redirect(request.referrer)
+
+    # Check if the product is already in the customer's wishlist
+    wishlist_entry = Wishlist.query.filter_by(customer_id=customer.id, product_id=product.id).first()
+    if wishlist_entry:
+        # Remove the product from the wishlist
+        db.session.delete(wishlist_entry)
+        flash('Product removed from wishlist', 'info')
+    else:
+        # Add the product to the wishlist
+        wishlist_entry = Wishlist(customer_id=customer.id, product_id=product.id)
+        db.session.add(wishlist_entry)
+        flash('Product added to wishlist', 'success')
+
+    db.session.commit()
+
+    return redirect(request.referrer)
+
+
+@views.route('/wishlist/<int:customer_id>')
+@login_required
+def wishlist(customer_id):
+    categories = db.session.query(Category.category_name.distinct()).all()
+    customer = Customer.query.get_or_404(customer_id)
+    wishlist_products = customer.wishlist
+
+    return render_template('wishlist.html', categories=categories, customer=customer,
+                           wishlist_products=wishlist_products)
+
+
+@views.route('/wishlist/delete/<int:wishlist_id>', methods=['POST', 'DELETE'])
+@login_required
+def delete_wishlist(wishlist_id):
+    # Retrieve the wishlist entry
+    wishlist_entry = Wishlist.query.get(wishlist_id)
+
+    # Check if the wishlist entry exists
+    if wishlist_entry is None:
+        flash('Wishlist entry not found', 'error')
+        return redirect(request.referrer)
+
+    # Check if the current user is the owner of the wishlist entry
+    if wishlist_entry.customer_id != current_user.id:
+        flash('You are not authorized to delete this wishlist entry', 'error')
+        return redirect(request.referrer)
+
+    # Remove the wishlist entry from the database
+    db.session.delete(wishlist_entry)
+    db.session.commit()
+
+    flash('Wishlist entry deleted', 'info')
+    return redirect(request.referrer)
