@@ -20,6 +20,7 @@ from werkzeug.utils import secure_filename
 from myshop import db
 from myshop.forms.add_console_form import ConsoleForm
 from myshop.forms.add_mobile_form import MobileForm
+from myshop.forms.add_monitor_form import MonitorForm
 from myshop.forms.add_notebook_form import NotebookForm
 from myshop.forms.add_smart_watch_form import SmartWatchForm
 from myshop.forms.brand_form import BrandForm
@@ -31,6 +32,7 @@ from myshop.models.category_model import Category
 from myshop.models.console_model import Console
 from myshop.models.images_model import ProductImage
 from myshop.models.mobile_model import Mobile
+from myshop.models.monitor_model import Monitor
 from myshop.models.notebook_model import Notebook
 from myshop.models.product_model import Product
 from myshop.models.smart_watch_model import SmartWatch
@@ -1222,3 +1224,80 @@ def delete_smart_watch_product(id):
     db.session.commit()
     flash("Produkt byl smazán.", category="success")
     return redirect("/products/products-list")
+
+
+@products.route("/create-monitor-product", methods=["GET", "POST"])
+@login_required
+def create_monitor_product():
+    form = MonitorForm()
+    if form.validate_on_submit():
+        product_data = {
+            "product_name": request.form.get("product_name"),
+            "price": request.form.get("price"),
+            "discount": request.form.get("discount"),
+            "stock": request.form.get("stock"),
+            "sold": request.form.get("sold"),
+            "product_type": "Monitor",
+            "color": request.form.get("color"),
+            "subheading": request.form.get("subheading"),
+            "description": request.form.get("description"),
+            "height": float(request.form.get("height")),
+            "height_units": request.form.get("height_units"),
+            "width": float(request.form.get("width")),
+            "width_units": request.form.get("width_units"),
+            "depth": float(request.form.get("depth")),
+            "depth_units": request.form.get("depth_units"),
+            "weight": float(request.form.get("weight")),
+            "weight_units": request.form.get("weight_units"),
+            "energy_efficiency": request.form.get("energy_efficiency"),
+            "display_size": request.form.get("display_size"),
+            "display_resolution": request.form.get("display_resolution"),
+            "refresh_rate": request.form.get("refresh_rate"),
+            "response_time": request.form.get("response_time"),
+            "aspect_ratio": request.form.get("aspect_ratio"),
+            "connectivity": request.form.get("connectivity"),
+            "color_depth": request.form.get("color_depth"),
+            "curvature": request.form.get("curvature", type=bool),
+            "adjustable_stand": request.form.get("adjustable_stand", type=bool),
+            "wall_mountable": request.form.get("wall_mountable", type=bool),
+            "built_in_speakers": request.form.get("built_in_speakers", type=bool),
+            "brand_id": int(request.form.get("brand_id")),
+            "category_id": int(request.form.get("category_id")),
+        }
+
+        # Get the product image file, if any
+        product_image = request.files.get("product_image")
+        product_data["product_image"] = save_image(
+            product_image, current_app.config["UPLOAD_FOLDER"]
+        )
+
+        new_product = Monitor(**product_data)
+
+        # Get the additional image files, if any
+        additional_images = request.files.getlist("additional_images")
+        additional_image_filenames = [
+            save_image(image, current_app.config["UPLOAD_FOLDER"])
+            for image in additional_images
+            if image.filename != ""
+        ]
+
+        # Add the product to the database
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Add the additional images to the database
+        for filename in additional_image_filenames:
+            product_image = ProductImage(image_name=filename, product_id=new_product.id)
+            db.session.add(product_image)
+        db.session.commit()
+
+        flash("Produkt byl přidán.", category="success")
+        return redirect(
+            url_for(
+                "products.product_page_preview",
+                product_id=new_product.id,
+                customer=current_user,
+            )
+        )
+
+    return render_template("add_monitor_product.html", form=form, customer=current_user)

@@ -44,6 +44,31 @@ class MonitorForm(FlaskForm):
         "Popis *:", validators=[InputRequired()], render_kw={"rows": 10}
     )
     subheading = TextAreaField("Podnadpis *:", validators=[InputRequired()])
+
+    color = SelectField(
+        "Barva:",
+        validators=[Optional()],
+        choices=[
+            ("cerna", "černá"),
+            ("bila", "bílá"),
+            ("seda", "šedá"),
+            ("hneda", "hnědá"),
+            ("tmava_hneda", "tmavě hnědá"),
+            ("svetla_hneda", "světle hnědá"),
+            ("modra", "modrá"),
+            ("tmava_modra", "tmavě modrá"),
+            ("svetla_modra", "světle modrá"),
+            ("zelena", "zelená"),
+            ("tmava_zelena", "tmavě zelená"),
+            ("svetla_zelena", "světle zelená"),
+            ("zluta", "žlutá"),
+            ("oranzova", "oranžová"),
+            ("cervena", "červená"),
+            ("ruzova", "růžová"),
+            ("fialova", "fialová"),
+        ],
+    )
+
     display_size = DecimalField(
         "Velikost displeje *:",
         validators=[InputRequired(), NumberRange(min=0)],
@@ -112,6 +137,27 @@ class MonitorForm(FlaskForm):
     category_id = SelectField(
         "Kategorie:", coerce=int, choices=[], validators=[Optional()]
     )
+
+    energy_efficiency = SelectField(
+        "Energetická účinnost:",
+        validators=[Optional()],
+        choices=[
+            ("A+++", "A+++"),
+            ("A++", "A++"),
+            ("A+", "A+"),
+            ("A", "A"),
+            ("B", "B"),
+            ("C", "C"),
+            ("D", "D"),
+            ("E", "E"),
+            ("F", "F"),
+            ("G", "G"),
+        ],
+    )
+
+    adjustable_stand = BooleanField("Nastavitelný stojan:")
+    wall_mountable = BooleanField("Možnost montáže na zeď:")
+    built_in_speakers = BooleanField("Vestavěné reproduktory:")
 
     product_image = FileField(
         "Foto *:",

@@ -41,6 +41,9 @@ class TestMonitorForm(TestMixin, unittest.TestCase):
     def test_product_form_have_description_field(self):
         self.assertIn("description", self.form._fields)
 
+    def test_product_form_have_color_field(self):
+        self.assertIn("color", self.form._fields)
+
     def test_product_form_have_subheading_field(self):
         self.assertIn("subheading", self.form._fields)
 
@@ -97,6 +100,18 @@ class TestMonitorForm(TestMixin, unittest.TestCase):
 
     def test_product_form_have_category_id_field(self):
         self.assertIn("category_id", self.form._fields)
+
+    def test_product_form_have_adjustable_stand_field(self):
+        self.assertIn("adjustable_stand", self.form._fields)
+
+    def test_product_form_have_energy_efficiency_field(self):
+        self.assertIn("energy_efficiency", self.form._fields)
+
+    def test_product_form_have_wall_mountable_field(self):
+        self.assertIn("wall_mountable", self.form._fields)
+
+    def test_product_form_have_built_in_speakers_field(self):
+        self.assertIn("built_in_speakers", self.form._fields)
 
     def test_product_form_have_product_image_field(self):
         self.assertIn("product_image", self.form._fields)

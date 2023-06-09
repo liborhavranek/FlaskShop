@@ -49,6 +49,7 @@ def create_app(config=None):
     from myshop.models.order_model import CustomerOrder  # noqa: F401
     from myshop.models.wish_list_model import Wishlist  # noqa: F401
     from myshop.models.smart_watch_model import SmartWatch  # noqa: F401
+    from myshop.models.monitor_model import Monitor  # noqa: F401
 
     create_database(app)
 
