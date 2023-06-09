@@ -194,6 +194,7 @@ def product_page_preview(product_id):
     notebook = Notebook.query.get(product_id)
     console = Console.query.get(product_id)
     smart_watch = SmartWatch.query.get(product_id)
+    monitor = Monitor.query.get(product_id)
     product.visit_count += 1
     db.session.commit()
 
@@ -232,6 +233,15 @@ def product_page_preview(product_id):
         return render_template(
             "smart_watch_product_page.html",
             product=smart_watch,
+            customer=current_user,
+            categories=categories,
+            discount_price=discount_price,
+            discount=discount,
+        )
+    elif isinstance(monitor, Product):
+        return render_template(
+            "smart_watch_product_page.html",
+            product=monitor,
             customer=current_user,
             categories=categories,
             discount_price=discount_price,
@@ -1237,7 +1247,7 @@ def create_monitor_product():
             "discount": request.form.get("discount"),
             "stock": request.form.get("stock"),
             "sold": request.form.get("sold"),
-            "product_type": "Monitor",
+            "product_type": "Monitory",
             "color": request.form.get("color"),
             "subheading": request.form.get("subheading"),
             "description": request.form.get("description"),

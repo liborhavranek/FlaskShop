@@ -12,6 +12,7 @@ from myshop.models.category_model import Category
 from myshop.models.console_model import Console
 from myshop.models.customer_model import Customer
 from myshop.models.mobile_model import Mobile
+from myshop.models.monitor_model import Monitor
 from myshop.models.notebook_model import Notebook
 from myshop.models.order_model import CustomerOrder
 from myshop.models.product_model import Product
@@ -51,6 +52,15 @@ def sorting_category(category_name):
         brands = (
             Brand.query.join(SmartWatch)
             .filter(SmartWatch.brand_id == Brand.id)
+            .order_by(Brand.brand_name)
+            .distinct()
+            .all()
+        )
+
+    elif category_name == "Monitory":
+        brands = (
+            Brand.query.join(Monitor)
+            .filter(Monitor.brand_id == Brand.id)
             .order_by(Brand.brand_name)
             .distinct()
             .all()
