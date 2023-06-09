@@ -7,6 +7,8 @@ from wtforms import SubmitField, HiddenField, MultipleFileField
 
 class AddProductAdditionalImagesForm(FlaskForm):
     csrf_token = HiddenField()
-    additional_images = MultipleFileField('Další fotky:', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
-                                                                      'Images only!')])
-    add_product_additional_image_submit = SubmitField('Přidat fotky')
+    additional_images = MultipleFileField(
+        "Další fotky:",
+        validators=[FileAllowed(["jpg", "png", "jpeg", "webp"], "Images only!")],
+    )
+    add_product_additional_image_submit = SubmitField("Přidat fotky")

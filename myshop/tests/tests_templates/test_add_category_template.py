@@ -6,7 +6,7 @@ from myshop.tests.my_test_mixin import TestAllTemplates
 class TestEditBrand(TestAllTemplates):
     """Test edit brand page."""
 
-    path = '/products/create-category'
+    path = "/products/create-category"
 
     @classmethod
     def setUpClass(cls):

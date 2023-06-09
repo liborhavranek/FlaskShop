@@ -17,74 +17,76 @@ from .models.mobile_model import Mobile
 from .models.notebook_model import Notebook
 from .models.smart_watch_model import SmartWatch
 
-auth = Blueprint('auth', __name__, template_folder='templates/authenticates')
+auth = Blueprint("auth", __name__, template_folder="templates/authenticates")
 
 
-@auth.route('/')
+@auth.route("/")
 def authenticate() -> str:
-    return render_template('auth.html', customer=current_user)
+    return render_template("auth.html", customer=current_user)
 
 
-@auth.route('/register', methods=['GET', 'POST'])
+@auth.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         customer_data = {
-            'username': request.form.get('username'),
-            'email': request.form.get('email'),
-            'phone_code': request.form.get('phone_code'),
-            'phone': request.form.get('phone'),
-            'user_password': generate_password_hash(request.form.get('password'), method='sha256'),
-            'faktura_first_name': request.form.get('faktura_first_name'),
-            'faktura_last_name': request.form.get('faktura_last_name'),
-            'faktura_city': request.form.get('faktura_city'),
-            'faktura_street': request.form.get('faktura_street'),
-            'faktura_zipcode': request.form.get('faktura_zipcode'),
-            'dodej_first_name': request.form.get('dodej_first_name'),
-            'dodej_last_name': request.form.get('dodej_last_name'),
-            'dodej_company': request.form.get('dodej_company'),
-            'dodej_city': request.form.get('dodej_city'),
-            'dodej_street': request.form.get('dodej_street'),
-            'dodej_zipcode': request.form.get('dodej_zipcode'),
-            'dodej_info': request.form.get('dodej_info'),
-            'dodej_phone_code': request.form.get('dodej_phone_code'),
-            'dodej_phone': request.form.get('dodej_phone'),
-            'firma_ico': request.form.get('firma_ico'),
-            'firma_dic': request.form.get('firma_dic'),
-            'firma_bank_acc': request.form.get('firma_bank_acc'),
-            'firma_bank_number': request.form.get('firma_bank_number'),
-            'firma_spec_symbol': request.form.get('firma_spec_symbol')
+            "username": request.form.get("username"),
+            "email": request.form.get("email"),
+            "phone_code": request.form.get("phone_code"),
+            "phone": request.form.get("phone"),
+            "user_password": generate_password_hash(
+                request.form.get("password"), method="sha256"
+            ),
+            "faktura_first_name": request.form.get("faktura_first_name"),
+            "faktura_last_name": request.form.get("faktura_last_name"),
+            "faktura_city": request.form.get("faktura_city"),
+            "faktura_street": request.form.get("faktura_street"),
+            "faktura_zipcode": request.form.get("faktura_zipcode"),
+            "dodej_first_name": request.form.get("dodej_first_name"),
+            "dodej_last_name": request.form.get("dodej_last_name"),
+            "dodej_company": request.form.get("dodej_company"),
+            "dodej_city": request.form.get("dodej_city"),
+            "dodej_street": request.form.get("dodej_street"),
+            "dodej_zipcode": request.form.get("dodej_zipcode"),
+            "dodej_info": request.form.get("dodej_info"),
+            "dodej_phone_code": request.form.get("dodej_phone_code"),
+            "dodej_phone": request.form.get("dodej_phone"),
+            "firma_ico": request.form.get("firma_ico"),
+            "firma_dic": request.form.get("firma_dic"),
+            "firma_bank_acc": request.form.get("firma_bank_acc"),
+            "firma_bank_number": request.form.get("firma_bank_number"),
+            "firma_spec_symbol": request.form.get("firma_spec_symbol"),
         }
         new_customer = Customer(**customer_data)
         db.session.add(new_customer)
         db.session.commit()
         login_user(new_customer, remember=True)
-        flash('Profil byl úspěšně vytvořen.', category='success')
+        flash("Profil byl úspěšně vytvořen.", category="success")
         return redirect("/auth/")
-    return render_template('register.html', form=form, customer=current_user)
+    return render_template("register.html", form=form, customer=current_user)
 
 
-@auth.route('/check-email', methods=['POST'])
+@auth.route("/check-email", methods=["POST"])
 def check_email():
-    email = request.form['email']
+    email = request.form["email"]
     user = Customer.query.filter_by(email=email).first()
     if user:
-        return 'taken'
+        return "taken"
     else:
-        return 'available'
+        return "available"
 
 
-@auth.route('/check-username', methods=['POST'])
+@auth.route("/check-username", methods=["POST"])
 def check_username():
-    username = request.form['username']
+    username = request.form["username"]
     user = Customer.query.filter_by(username=username).first()
     if user:
-        return 'taken'
+        return "taken"
     else:
-        return 'available'
+        return "available"
 
 
-@auth.route("/login", methods=['GET', 'POST'])
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -95,13 +97,13 @@ def login():
             if check_password_hash(customer.user_password, user_password):
                 print(user_password)
                 print(customer.user_password)
-                flash("Úspěšně jsi se přihlásil.", category='success')
+                flash("Úspěšně jsi se přihlásil.", category="success")
                 login_user(customer, remember=True)
                 return redirect("/")
             else:
-                flash('Zadal jsi nesprávné heslo.', category='error')
+                flash("Zadal jsi nesprávné heslo.", category="error")
         else:
-            flash('Email neexistuje.', category='error')
+            flash("Email neexistuje.", category="error")
     return render_template("login.html", form=form, customer=current_user)
 
 
@@ -109,31 +111,37 @@ def login():
 @login_required
 def logout():
     # Delete all products from the cart
-    session.pop('cart', None)
+    session.pop("cart", None)
     logout_user()
     return redirect("/")
 
 
-@auth.route('/create-customers')
+@auth.route("/create-customers")
 def create_test_data():
     password = "testtest"
     users = [
-        {"username": "admin", "email": "liborhavranek91@gmail.com", "phone": "123456789"},
-        {"username": "admin1", "email": "liborseucipython@gmail.com", "phone": "123456789"}
+        {
+            "username": "admin",
+            "email": "liborhavranek91@gmail.com",
+            "phone": "123456789",
+        },
+        {
+            "username": "admin1",
+            "email": "liborseucipython@gmail.com",
+            "phone": "123456789",
+        },
     ]
     brands = [
-
-            {"brand_name": "Apple"},
-            {"brand_name": "Samsung"},
-            {"brand_name": "Xiaomi"},
-            {"brand_name": "Acer"},
-            {"brand_name": "Dell"},
-            {"brand_name": "HP"},
-            {"brand_name": "Asus"},
-            {"brand_name": "MSI"},
-            {"brand_name": "PlayStation"},
-            {"brand_name": "Xbox"},
-
+        {"brand_name": "Apple"},
+        {"brand_name": "Samsung"},
+        {"brand_name": "Xiaomi"},
+        {"brand_name": "Acer"},
+        {"brand_name": "Dell"},
+        {"brand_name": "HP"},
+        {"brand_name": "Asus"},
+        {"brand_name": "MSI"},
+        {"brand_name": "PlayStation"},
+        {"brand_name": "Xbox"},
     ]
     categories = [
         {"category_name": "Mobily"},
@@ -151,11 +159,11 @@ def create_test_data():
         customer.username = user["username"]
         customer.email = user["email"]
         customer.phone = user["phone"]
-        customer.user_password = generate_password_hash(password, method='sha256')
+        customer.user_password = generate_password_hash(password, method="sha256")
         db.session.add(customer)
 
     # Log in the first user
-    customer = Customer.query.filter_by(username='admin').first()
+    customer = Customer.query.filter_by(username="admin").first()
     login_user(customer)
     db.session.commit()
 
@@ -171,7 +179,7 @@ def create_test_data():
         db.session.add(category)
         db.session.commit()
 
-    with open('myshop/mobile_products.csv', newline='') as csvfile:
+    with open("myshop/mobile_products.csv", newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             product = Mobile()
@@ -201,7 +209,7 @@ def create_test_data():
             product.weight_units = row["weight_units"]
 
             product.battery_capacity = row["battery_capacity"]
-            product.memory_card_slot = ast.literal_eval(row['memory_card_slot'])
+            product.memory_card_slot = ast.literal_eval(row["memory_card_slot"])
             product.face_id = ast.literal_eval(row["face_id"])
             product.touch_screen = ast.literal_eval(row["touch_screen"])
             product.front_camera = row["front_camera"]
@@ -223,7 +231,7 @@ def create_test_data():
             db.session.add(product)
             db.session.commit()
 
-    with open('myshop/notebook_products.csv', newline='') as csvfile:
+    with open("myshop/notebook_products.csv", newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             product = Notebook()
@@ -295,7 +303,7 @@ def create_test_data():
             db.session.add(product)
             db.session.commit()
 
-    with open('myshop/console_products.csv', newline='') as csvfile:
+    with open("myshop/console_products.csv", newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             product = Console()
@@ -326,7 +334,7 @@ def create_test_data():
             db.session.add(product)
             db.session.commit()
 
-    with open('myshop/watch_products.csv', newline='') as csvfile:
+    with open("myshop/watch_products.csv", newline="") as csvfile:
         reader = csv.DictReader(csvfile)
 
         for row in reader:

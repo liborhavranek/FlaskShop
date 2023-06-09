@@ -15,24 +15,26 @@ class TestConsoleModel(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app(config={'TESTING': True})
+        self.app = create_app(config={"TESTING": True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
-        self.app.config['TESTING'] = True
-        self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.secret_key = 'test_secret_key'
+        self.app.config["TESTING"] = True
+        self.app.config["WTF_CSRF_ENABLED"] = False
+        self.app.secret_key = "test_secret_key"
         super().setUp()
 
     def create_product(self):
         self.product = Console()
-        self.product.product_name = 'Play station 4'
+        self.product.product_name = "Play station 4"
         self.product.price = 999.9
         self.product.discount = 10
         self.product.stock = 100
-        self.product.description = "Play station 4: Powerful and sleek console with high-resolution display, " \
-                                   "fast processor, and ample storage."
+        self.product.description = (
+            "Play station 4: Powerful and sleek console with high-resolution display, "
+            "fast processor, and ample storage."
+        )
         self.product.subheading = "Play station 4: Powerful and sleek"
 
         self.product.ssd_capacity = 512
@@ -42,11 +44,11 @@ class TestConsoleModel(TestMixin, unittest.TestCase):
 
         self.product.dvd_drive = True
 
-        self.product.color = 'Silver'
+        self.product.color = "Silver"
 
         self.product.brand_id = 1
         self.product.category_id = 2
-        self.product.product_image = 'product_image_00002.jpg'
+        self.product.product_image = "product_image_00002.jpg"
 
         db.session.add(self.product)
         db.session.commit()
@@ -54,12 +56,12 @@ class TestConsoleModel(TestMixin, unittest.TestCase):
     def test_product_have_product_name(self):
         self.create_product()
         result = Console.query.filter_by(id=1).first()
-        self.assertEqual(result.product_name, 'Play station 4')
+        self.assertEqual(result.product_name, "Play station 4")
 
     def test_product_have_price(self):
         self.create_product()
         result = Console.query.filter_by(id=1).first()
-        self.assertEqual(result.price, Decimal('999.90'))
+        self.assertEqual(result.price, Decimal("999.90"))
 
     def test_product_have_discount(self):
         self.create_product()
@@ -79,9 +81,11 @@ class TestConsoleModel(TestMixin, unittest.TestCase):
     def test_product_have_description(self):
         self.create_product()
         result = Console.query.filter_by(id=1).first()
-        self.assertEqual(result.description,
-                         "Play station 4: Powerful and sleek console with high-resolution display, "
-                         "fast processor, and ample storage.")
+        self.assertEqual(
+            result.description,
+            "Play station 4: Powerful and sleek console with high-resolution display, "
+            "fast processor, and ample storage.",
+        )
 
     def test_product_have_subheading(self):
         self.create_product()
@@ -121,7 +125,7 @@ class TestConsoleModel(TestMixin, unittest.TestCase):
     def test_product_have_product_image(self):
         self.create_product()
         result = Console.query.filter_by(id=1).first()
-        self.assertEqual(result.product_image, 'product_image_00002.jpg')
+        self.assertEqual(result.product_image, "product_image_00002.jpg")
 
     def test_product_have_images(self):
         self.create_product()

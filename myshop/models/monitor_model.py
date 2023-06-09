@@ -5,7 +5,9 @@ from myshop.models.product_model import Product
 
 
 class Monitor(Product):
-    id = db.Column(db.Integer, db.ForeignKey('product.id', ondelete="CASCADE"), primary_key=True)
+    id = db.Column(
+        db.Integer, db.ForeignKey("product.id", ondelete="CASCADE"), primary_key=True
+    )
     display_size = db.Column(db.Float, nullable=False)
     display_resolution = db.Column(db.String(50), nullable=False)
     refresh_rate = db.Column(db.Integer, nullable=False)
