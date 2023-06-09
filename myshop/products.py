@@ -240,7 +240,7 @@ def product_page_preview(product_id):
         )
     elif isinstance(monitor, Product):
         return render_template(
-            "smart_watch_product_page.html",
+            "monitor_product_page.html",
             product=monitor,
             customer=current_user,
             categories=categories,
@@ -1311,3 +1311,115 @@ def create_monitor_product():
         )
 
     return render_template("add_monitor_product.html", form=form, customer=current_user)
+
+
+@products.route("/edit-monitor-product/<int:product_id>", methods=["POST", "GET"])
+@login_required
+def edit_monitor_product(product_id):
+    product = Monitor.query.get(product_id)
+    form = MonitorForm(obj=product)
+
+    if request.method == "POST":
+        new_product_name = request.form.get("product_name")
+        new_product_price = request.form.get("price")
+        new_product_discount = request.form.get("discount")
+
+        new_product_brand = request.form.get("brand_id")
+        new_product_category = request.form.get("category_id")
+
+        new_product_height = request.form.get("height")
+        new_product_height_units = request.form.get("height_units")
+        new_product_width = request.form.get("width")
+        new_product_width_units = request.form.get("width_units")
+        new_product_depth = request.form.get("depth")
+        new_product_depth_units = request.form.get("depth_units")
+        new_product_weight = request.form.get("weight")
+        new_product_weight_units = request.form.get("weight_units")
+
+        new_product_color = request.form.get("color")
+
+        new_product_subheading = request.form.get("subheading")
+        new_product_description = request.form.get("description")
+
+        new_product_display_size = request.form.get("display_size")
+        new_product_display_resolution = request.form.get("display_resolution")
+
+        new_product_refresh_rate = request.form.get("refresh_rate")
+        new_product_response_time = request.form.get("response_time")
+        new_product_aspect_ratio = request.form.get("aspect_ratio")
+
+        new_product_connectivity = request.form.get("connectivity")
+        new_product_color_depth = request.form.get("color_depth")
+        new_product_curvature = request.form.get("curvature")
+
+        new_product_adjustable_stand = request.form.get("adjustable_stand")
+        new_product_wall_mountable = request.form.get("wall_mountable")
+        new_product_built_in_speakers = request.form.get("built_in_speakers")
+        new_product_energy_efficiency = request.form.get("energy_efficiency")
+
+        if new_product_name == str(product.id):
+            # product name is the same as product id, so skip validation
+            form.product_name.data = product.id
+        else:
+            # check if another product with the same name already exists
+            existing_product = Product.query.filter_by(
+                product_name=new_product_name
+            ).first()
+            if existing_product and existing_product.id != product.id:
+                # another product with the same name exists, so validation fails
+                flash("Produkt s tímto názvem již existuje.", category="error")
+            else:
+                # no other product with the same name exists, so update the product name
+                product.product_name = new_product_name
+                product.price = new_product_price
+                product.discount = new_product_discount
+
+                product.height = new_product_height
+                product.height_units = new_product_height_units
+                product.width = new_product_width
+                product.width_units = new_product_width_units
+                product.depth = new_product_depth
+                product.depth_units = new_product_depth_units
+                product.weight = new_product_weight
+                product.weight_units = new_product_weight_units
+
+                product.color = new_product_color
+
+                product.subheading = new_product_subheading
+                product.description = new_product_description
+
+                product.display_size = new_product_display_size
+                product.display_resolution = new_product_display_resolution
+                product.refresh_rate = new_product_refresh_rate
+                product.response_time = new_product_response_time
+                product.aspect_ratio = new_product_aspect_ratio
+
+                product.brand_id = new_product_brand
+                product.category_id = new_product_category
+
+                product.connectivity = new_product_connectivity
+                product.color_depth = new_product_color_depth
+
+                product.energy_efficiency = new_product_energy_efficiency
+
+                product.curvature = new_product_curvature == "y"
+                product.adjustable_stand = new_product_adjustable_stand == "y"
+                product.wall_mountable = new_product_wall_mountable == "y"
+                product.built_in_speakers = new_product_built_in_speakers == "y"
+
+                product.date_edited = datetime.utcnow()
+                product.edited = True
+                db.session.commit()
+                form.product_name.data = ""
+                flash("Produkt byl aktualizován.", category="success")
+                return redirect(
+                    url_for(
+                        "products.product_page_preview",
+                        product_id=product.id,
+                        customer=current_user,
+                    )
+                )
+
+    return render_template(
+        "edit_monitor_product.html", product=product, form=form, customer=current_user
+    )
