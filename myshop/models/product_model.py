@@ -30,5 +30,3 @@ class Product(db.Model):
     images = db.relationship('ProductImage', backref='product', lazy=True)
 
     wishlist = db.relationship('Wishlist', backref='product', lazy=True)
-
-

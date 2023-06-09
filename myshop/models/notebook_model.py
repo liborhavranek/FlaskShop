@@ -55,4 +55,3 @@ class Notebook(Product):
     usb_3_0 = db.Column(db.Boolean, nullable=True, default=False)
     usb_2_0 = db.Column(db.Boolean, nullable=True, default=False)
     cd_dvd_drive = db.Column(db.Boolean, nullable=True, default=False)
-    

@@ -18,7 +18,3 @@ class CustomerOrderForm(FlaskForm):
     customer_info = StringField('Info(např. patro):')
 
     order_delivery_submit = SubmitField('Zapaltit')
-
-
-
-

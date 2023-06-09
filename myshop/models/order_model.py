@@ -24,6 +24,3 @@ class CustomerOrder(db.Model):
     customer = db.relationship('Customer', backref='orders')
 
     products = db.Column(db.String(5000), nullable=False, default="[]")  # Storing products as JSON
-
-
-
