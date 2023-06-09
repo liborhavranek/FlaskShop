@@ -1,4 +1,5 @@
-""" Libor Havránek App Copyright (C)  21.4 2023 """
+""" Libor Havránek App Copyright (C)  8.6 2023 """
+
 import unittest
 
 from bs4 import BeautifulSoup
@@ -12,14 +13,14 @@ from myshop.tests.my_test_mixin import TestAllTemplates, TestMixin
 class TestAddMobileProduct(TestAllTemplates):
     """Test edit brand page."""
 
-    path = "/products/create-mobile-product"
+    path = "/products/create-smart-watch-product"
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
 
-class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
+class TestProductTemplateOnlyAddSmartWatchProductTemplate(TestMixin, unittest.TestCase):
     """Test what are specific only for this template"""
 
     @classmethod
@@ -51,7 +52,7 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
     def test_add_product_form_have_closed_form_tag(self):
         self.login_user()
         response = self.client.get(
-            "/products/create-mobile-product", follow_redirects=True
+            "/products/create-smart-watch-product", follow_redirects=True
         )
         self.assertIn(
             b'<form method="POST" autocomplete="off" enctype=multipart/form-data>',
@@ -62,36 +63,33 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
     def test_product_form_have_all_input_fields(self):
         self.login_user()
         fields_to_test = [
+            "csrf_token",
             "product_name",
             "price",
             "discount",
             "stock",
-            "height",
-            "width",
-            "depth",
-            "weight",
             "display_size",
-            "operating_memory",
             "memory",
             "battery_capacity",
-            "memory_card_slot",
+            "weight",
             "wifi",
             "bluetooth",
             "nfc",
             "esim",
-            "processor_cores",
-            "face_id",
-            "touch_screen",
-            "convertible",
-            "back_camera",
-            "front_camera",
+            "heart_rate_monitor",
+            "step_counter",
+            "sleep_tracker",
+            "gps",
+            "water_resistant",
+            "music_player",
+            "voice_assistant",
             "product_image",
             "additional_images",
             "add_product_submit",
         ]
 
         response = self.client.get(
-            "/products/create-mobile-product", follow_redirects=True
+            "/products/create-smart-watch-product", follow_redirects=True
         )
         soup = BeautifulSoup(response.data, "html.parser")
         form_tag = soup.find("form", {"method": "POST"})
@@ -106,20 +104,16 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
     def test_product_form_have_all_select_fields(self):
         self.login_user()
         fields_to_test = [
-            "height_units",
-            "width_units",
-            "depth_units",
-            "weight_units",
-            "display_resolution",
-            "operating_system",
-            "processor",
             "color",
             "brand_id",
             "category_id",
+            "display_resolution",
+            "operating_system",
+            "weight_units",
         ]
 
         response = self.client.get(
-            "/products/create-mobile-product", follow_redirects=True
+            "/products/create-smart-watch-product", follow_redirects=True
         )
         soup = BeautifulSoup(response.data, "html.parser")
         form_tag = soup.find("form", {"method": "POST"})
@@ -136,7 +130,7 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
         fields_to_test = ["subheading", "description"]
 
         response = self.client.get(
-            "/products/create-mobile-product", follow_redirects=True
+            "/products/create-smart-watch-product", follow_redirects=True
         )
         soup = BeautifulSoup(response.data, "html.parser")
         form_tag = soup.find("form", {"method": "POST"})
@@ -152,41 +146,36 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
         self.login_user()
         expected_labels = {
             "product_name": "Název *:",
-            "subheading": "Podnadpis *:",
-            "description": "Popis *:",
             "price": "Cena *:",
             "discount": "Sleva:",
             "stock": "Počet kusů:",
-            "height": "Výška:",
-            "width": "Šířka:",
-            "depth": "Hloubka:",
-            "weight": "Váha:",
-            "color": "Barva:",
-            "brand_id": "Značka:",
-            "category_id": "Kategorie:",
-            "product_image": "Foto *:",
-            "additional_images": "Další fotky:",
+            "description": "Popis *:",
+            "subheading": "Podnadpis *:",
             "display_size": "Velikost displeje *:",
             "display_resolution": "Rozlišení displeje *:",
-            "operating_memory": "Operační paměť *:",
-            "memory": "Velikost disku *:",
             "operating_system": "Operační systém *:",
+            "memory": "Velikost disku *:",
             "battery_capacity": "Kapacita baterie:",
-            "memory_card_slot": "Slot na paměťovou kartu:",
+            "weight": "Váha:",
+            "color": "Barva:",
             "wifi": "WiFi:",
             "bluetooth": "Bluetooth:",
             "nfc": "NFC:",
             "esim": "eSIM:",
-            "processor": "Procesor:",
-            "processor_cores": "Počet jader:",
-            "face_id": "Face ID:",
-            "touch_screen": "Dotyková obrazovka:",
-            "convertible": "Ohebný:",
-            "back_camera": "Zadní kamera:",
-            "front_camera": "Přední kamera:",
+            "heart_rate_monitor": "Měřič srdečního tepu:",
+            "step_counter": "Počítadlo kroků:",
+            "sleep_tracker": "Sledovač spánku:",
+            "gps": "GPS:",
+            "water_resistant": "Voděodolné:",
+            "music_player": "Přehrávač hudby:",
+            "voice_assistant": "Hlasový asistent:",
+            "brand_id": "Značka:",
+            "category_id": "Kategorie:",
+            "product_image": "Foto *:",
+            "additional_images": "Další fotky:",
         }
         response = self.client.get(
-            "/products/create-mobile-product", follow_redirects=True
+            "/products/create-smart-watch-product", follow_redirects=True
         )
         soup = BeautifulSoup(response.data, "html.parser")
         form_labels = {
@@ -201,7 +190,7 @@ class TestProductTemplateOnlyAddProductTemplate(TestMixin, unittest.TestCase):
     def test_add_product_form_have_submit_field(self):
         self.login_user()
         response = self.client.get(
-            "/products/create-mobile-product", follow_redirects=True
+            "/products/create-smart-watch-product", follow_redirects=True
         )
         soup = BeautifulSoup(response.data, "html.parser")
 
