@@ -1,13 +1,12 @@
-""" Libor Havránek App Copyright (C)  13.4 2023 """
-
+""" Libor Havránek App Copyright (C)  18.4 2023 """
 
 from myshop.tests.my_test_mixin import TestAllTemplates
 
 
-class TestProductList(TestAllTemplates):
+class TestEditBrand(TestAllTemplates):
     """Test edit brand page."""
 
-    path = '/products/products-list'
+    path = "/products/create-category"
 
     @classmethod
     def setUpClass(cls):

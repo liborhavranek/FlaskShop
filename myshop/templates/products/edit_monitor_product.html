@@ -1,0 +1,311 @@
+{% extends 'base.html'%}
+    {% block content %}
+<div class="container-fluid add-product-form-container py-5">
+    <h1 class="text-center">Přidat nový produkt monitor</h1>
+    <div class="container w-50 rounded-3 px-5 py-5 pb-4 add-product-form-middle-container shadow-lg">
+
+<form method="POST" autocomplete="off" enctype=multipart/form-data>
+  {{ form.csrf_token }}
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.product_name.label }}
+            </div>
+            <div class="col-8">
+                {{ form.product_name(class="form-control add-mobile-product-name-input") }}
+                <div class="add-mobile-product-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.subheading.label }}
+            </div>
+            <div class="col-8">
+                {{ form.subheading(class="form-control add-mobile-product-subheading-input") }}
+                <div class="add-mobile-product-subheading-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.description.label }}
+            </div>
+            <div class="col-8">
+                {{ form.description(class="form-control add-mobile-product-description-input") }}
+                <div class="add-mobile-product-description-validation-text text-start"><small class="brand-used"></small></div>
+            </div>
+        </div>
+    </div>
+        <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.color.label }}
+            </div>
+            <div class="col-8">
+                {{ form.color(class="form-control add-mobile-product-color-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.brand_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.brand_id(class="form-control add-mobile-product-brand-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.category_id.label }}
+            </div>
+            <div class="col-8">
+                {{ form.category_id(class="form-control add-mobile-product-category-input") }}
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.price.label }}
+            </div>
+            <div class="col-2">
+                {{ form.price(class="form-control add-mobile-product-price-input") }}
+            </div>
+            <div class="col-1">
+                Kč
+            </div>
+             <div class="col-2">
+                {{ form.discount.label }}
+            </div>
+            <div class="col-2">
+                {{ form.discount(class="form-control add-mobile-product-discount-input") }}
+            </div>
+             <div class="col-2">
+                %
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.height.label }}
+            </div>
+            <div class="col-2">
+                {{ form.height(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.height_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.width.label }}
+            </div>
+            <div class="col-2">
+                {{ form.width(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.width_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.depth.label }}
+            </div>
+            <div class="col-2">
+                {{ form.depth(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.depth_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-2">
+                {{ form.weight.label }}
+            </div>
+            <div class="col-2">
+                {{ form.weight(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+            <div class="col-2">
+                {{ form.weight_units(class="form-control add-mobile-product-sizes-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_size.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_size(class="form-control add-mobile-product-display-size-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.display_resolution.label }}
+            </div>
+            <div class="col-3">
+                {{ form.display_resolution(class="form-control add-mobile-product-display-resolution-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.refresh_rate.label }}
+            </div>
+            <div class="col-3">
+                {{ form.refresh_rate(class="form-control add-monitor-product-refresh-rate-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.response_time.label }}
+            </div>
+            <div class="col-3">
+                {{ form.response_time(class="form-control add-monitor-response-time-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.aspect_ratio.label }}
+            </div>
+            <div class="col-3">
+                {{ form.aspect_ratio(class="form-control add-monitor-product-aspect-ratio-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.connectivity.label }}
+            </div>
+            <div class="col-3">
+                {{ form.connectivity(class="form-control add-monitor-product-connectivity-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.color_depth.label }}
+            </div>
+            <div class="col-3">
+                {{ form.color_depth(class="form-control add-monitor-product-color-depth-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="row py-2">
+            <div class="col-3">
+                {{ form.energy_efficiency.label }}
+            </div>
+            <div class="col-3">
+                {{ form.energy_efficiency(class="form-control add-monitor-product-color-depth-input") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.curvature.label }}
+            </div>
+            <div class="col-1">
+                {{ form.curvature(class="form-check-input add-mobile-product-curvature-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-curvature-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.adjustable_stand.label }}
+            </div>
+            <div class="col-1">
+                {{ form.adjustable_stand(class="form-check-input add-mobile-product-adjustable-stand-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-adjustable-stand-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.wall_mountable.label }}
+            </div>
+            <div class="col-1">
+                {{ form.wall_mountable(class="form-check-input add-mobile-product-wall-mountable-input") }}
+            </div>
+             <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-wall-mountable-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="row">
+            <div class="col-3">
+                {{ form.built_in_speakers.label }}
+            </div>
+            <div class="col-1">
+                {{ form.built_in_speakers(class="form-check-input add-mobile-product-nfc-input") }}
+            </div>
+            <div class="col-1 add-mobile-product-check-red-color-text add-mobile-product-built-in-speakers-text">
+                NE
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-center">
+        <a class="update-product-images" href="/products/edit-product-images/{{ product.id }}"><h2>Upravit fotky produktu.</h2></a>
+    </div>
+
+    <div class="text-start">
+    <p>Všechny pole označená * musí být vyplněna.</p>
+    </div>
+    <div class="text-center">
+    {{ form.edit_product_submit(class="btn btn-warning") }}
+    </div>
+</form>
+
+    </div>
+</div>
+{%endblock content %}

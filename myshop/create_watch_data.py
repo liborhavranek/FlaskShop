@@ -322,14 +322,14 @@ products = [
         "discount": 12,
         "stock": 40,
         "description": "Samsung Galaxy Watch 5 je pokročilé chytré hodinky s moderním designem a"
-                       " špičkovými funkcemi. S jeho inovativními technologiemi a elegantním vzhledem je "
-                       "perfektním společníkem pro váš každodenní život. Zůstaňte připojeni, sledujte svou "
-                       "kondici a získávejte přístup k různým funkcím přímo ze svého zápěstí. Samsung Galaxy "
-                       "Watch 5 disponuje jasným a barevným displejem, výkonným procesorem a dostatečnou "
-                       "kapacitou pro uložení vašich oblíbených aplikací a hudby. Měřte srdeční tep,"
-                       " monitorujte spánek, sledujte kroky a získejte přesné údaje o svých aktivitách "
-                       "pomocí vestavěného GPS. Hodinky jsou odolné vůči vodě a nabízejí rozsáhlé možnosti "
-                       "připojení. Užijte si špičkové chytré hodinky s Samsung Galaxy Watch 5.",
+        " špičkovými funkcemi. S jeho inovativními technologiemi a elegantním vzhledem je "
+        "perfektním společníkem pro váš každodenní život. Zůstaňte připojeni, sledujte svou "
+        "kondici a získávejte přístup k různým funkcím přímo ze svého zápěstí. Samsung Galaxy "
+        "Watch 5 disponuje jasným a barevným displejem, výkonným procesorem a dostatečnou "
+        "kapacitou pro uložení vašich oblíbených aplikací a hudby. Měřte srdeční tep,"
+        " monitorujte spánek, sledujte kroky a získejte přesné údaje o svých aktivitách "
+        "pomocí vestavěného GPS. Hodinky jsou odolné vůči vodě a nabízejí rozsáhlé možnosti "
+        "připojení. Užijte si špičkové chytré hodinky s Samsung Galaxy Watch 5.",
         "subheading": "Pokročilé chytré hodinky pro každodenní život.",
         "visit_count": 5241,
         "product_type": "Hodinky",
@@ -362,13 +362,13 @@ products = [
         "discount": 10,
         "stock": 30,
         "description": "Samsung Galaxy Watch 5 je pokročilé chytré hodinky s moderním designem a špičkovými funkcemi."
-                       " S jeho inovativními technologiemi a elegantním vzhledem je perfektním společníkem pro váš "
-                       "každodenní život. Zůstaňte připojeni, sledujte svou kondici a získávejte přístup k různým "
-                       "funkcím přímo ze svého zápěstí. Samsung Galaxy Watch 5 disponuje jasným a barevným displejem,"
-                       " výkonným procesorem a dostatečnou kapacitou pro uložení vašich oblíbených aplikací a hudby."
-                       " Měřte srdeční tep, monitorujte spánek, sledujte kroky a získejte přesné údaje o svých "
-                       "aktivitách pomocí vestavěného GPS. Hodinky jsou odolné vůči vodě a nabízejí rozsáhlé možnosti "
-                       "připojení. Užijte si špičkové chytré hodinky s Samsung Galaxy Watch 5.",
+        " S jeho inovativními technologiemi a elegantním vzhledem je perfektním společníkem pro váš "
+        "každodenní život. Zůstaňte připojeni, sledujte svou kondici a získávejte přístup k různým "
+        "funkcím přímo ze svého zápěstí. Samsung Galaxy Watch 5 disponuje jasným a barevným displejem,"
+        " výkonným procesorem a dostatečnou kapacitou pro uložení vašich oblíbených aplikací a hudby."
+        " Měřte srdeční tep, monitorujte spánek, sledujte kroky a získejte přesné údaje o svých "
+        "aktivitách pomocí vestavěného GPS. Hodinky jsou odolné vůči vodě a nabízejí rozsáhlé možnosti "
+        "připojení. Užijte si špičkové chytré hodinky s Samsung Galaxy Watch 5.",
         "subheading": "Pokročilé chytré hodinky pro každodenní život.",
         "visit_count": 4321,
         "product_type": "Hodinky",

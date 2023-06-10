@@ -5,7 +5,9 @@ from myshop.models.product_model import Product
 
 
 class Notebook(Product):
-    id = db.Column(db.Integer, db.ForeignKey('product.id', ondelete="CASCADE"), primary_key=True)
+    id = db.Column(
+        db.Integer, db.ForeignKey("product.id", ondelete="CASCADE"), primary_key=True
+    )
     display_size = db.Column(db.Float, nullable=False)
     display_resolution = db.Column(db.String(50), nullable=False)
     display_frequency = db.Column(db.Integer, nullable=True)
@@ -55,4 +57,3 @@ class Notebook(Product):
     usb_3_0 = db.Column(db.Boolean, nullable=True, default=False)
     usb_2_0 = db.Column(db.Boolean, nullable=True, default=False)
     cd_dvd_drive = db.Column(db.Boolean, nullable=True, default=False)
-    

@@ -16,41 +16,43 @@ class TestMobileModel(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app(config={'TESTING': True})
+        self.app = create_app(config={"TESTING": True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
-        self.app.config['TESTING'] = True
-        self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.secret_key = 'test_secret_key'
+        self.app.config["TESTING"] = True
+        self.app.config["WTF_CSRF_ENABLED"] = False
+        self.app.secret_key = "test_secret_key"
         super().setUp()
 
     def create_product(self):
         self.product = Notebook()
-        self.product.product_name = 'Notebook Model X'
+        self.product.product_name = "Notebook Model X"
         self.product.price = 999.9
         self.product.discount = 10
         self.product.stock = 100
-        self.product.description = "Notebook Model X: Powerful and sleek notebook with high-resolution display, " \
-                                   "fast processor, and ample storage."
+        self.product.description = (
+            "Notebook Model X: Powerful and sleek notebook with high-resolution display, "
+            "fast processor, and ample storage."
+        )
         self.product.subheading = "Notebook Model X: Powerful and sleek"
 
         self.product.display_size = 15.6
-        self.product.display_resolution = '1920 x 1080'
+        self.product.display_resolution = "1920 x 1080"
         self.product.display_frequency = 144
         self.product.display_nits = 300
-        self.product.display_type = 'IPS'
+        self.product.display_type = "IPS"
 
-        self.product.processor = 'Intel Core i7'
+        self.product.processor = "Intel Core i7"
         self.product.processor_cores = 6
 
         self.product.operating_memory = 16
 
-        self.product.graphics_card = 'NVIDIA GeForce GTX 1660 Ti'
+        self.product.graphics_card = "NVIDIA GeForce GTX 1660 Ti"
         self.product.graphics_memory = 6
 
-        self.product.operating_system = 'Windows 10'
+        self.product.operating_system = "Windows 10"
 
         self.product.ssd_capacity = 512
         self.product.hdd_capacity = 1_000
@@ -67,16 +69,16 @@ class TestMobileModel(TestMixin, unittest.TestCase):
         self.product.battery_capacity = 60
 
         self.product.height = 19.9
-        self.product.height_units = 'mm'
+        self.product.height_units = "mm"
         self.product.width = 360.4
-        self.product.width_units = 'mm'
+        self.product.width_units = "mm"
         self.product.depth = 252.5
-        self.product.depth_units = 'mm'
+        self.product.depth_units = "mm"
 
         self.product.weight = 1.8
-        self.product.weight_units = 'kg'
+        self.product.weight_units = "kg"
 
-        self.product.color = 'Silver'
+        self.product.color = "Silver"
 
         self.product.usb_ports = 4
         self.product.hdmi_ports = 1
@@ -87,7 +89,7 @@ class TestMobileModel(TestMixin, unittest.TestCase):
 
         self.product.brand_id = 1
         self.product.category_id = 2
-        self.product.product_image = 'product_image_00002.jpg'
+        self.product.product_image = "product_image_00002.jpg"
 
         db.session.add(self.product)
         db.session.commit()
@@ -95,12 +97,12 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_product_name(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.product_name, 'Notebook Model X')
+        self.assertEqual(result.product_name, "Notebook Model X")
 
     def test_product_have_price(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.price, Decimal('999.90'))
+        self.assertEqual(result.price, Decimal("999.90"))
 
     def test_product_have_discount(self):
         self.create_product()
@@ -120,8 +122,11 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_description(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.description,
-                         "Notebook Model X: Powerful and sleek notebook with high-resolution display, fast processor, and ample storage.")
+        self.assertEqual(
+            result.description,
+            "Notebook Model X: Powerful and sleek notebook with high-resolution display, "
+            "fast processor, and ample storage.",
+        )
 
     def test_product_have_subheading(self):
         self.create_product()
@@ -161,7 +166,7 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_product_image(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.product_image, 'product_image_00002.jpg')
+        self.assertEqual(result.product_image, "product_image_00002.jpg")
 
     def test_product_have_images(self):
         self.create_product()
@@ -176,7 +181,7 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_display_resolution(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.display_resolution, '1920 x 1080')
+        self.assertEqual(result.display_resolution, "1920 x 1080")
 
     def test_product_have_display_frequency(self):
         self.create_product()
@@ -191,12 +196,12 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_display_type(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.display_type, 'IPS')
+        self.assertEqual(result.display_type, "IPS")
 
     def test_product_have_processor(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.processor, 'Intel Core i7')
+        self.assertEqual(result.processor, "Intel Core i7")
 
     def test_product_have_processor_cores(self):
         self.create_product()
@@ -211,7 +216,7 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_graphics_card(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.graphics_card, 'NVIDIA GeForce GTX 1660 Ti')
+        self.assertEqual(result.graphics_card, "NVIDIA GeForce GTX 1660 Ti")
 
     def test_product_have_graphics_memory(self):
         self.create_product()
@@ -221,7 +226,7 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_operating_system(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.operating_system, 'Windows 10')
+        self.assertEqual(result.operating_system, "Windows 10")
 
     def test_product_have_ssd_capacity(self):
         self.create_product()
@@ -286,47 +291,47 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_height(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.height, Decimal('19.90'))
+        self.assertEqual(result.height, Decimal("19.90"))
 
     def test_product_have_height_units(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.height_units, 'mm')
+        self.assertEqual(result.height_units, "mm")
 
     def test_product_have_width(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.width, Decimal('360.40'))
+        self.assertEqual(result.width, Decimal("360.40"))
 
     def test_product_have_width_units(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.width_units, 'mm')
+        self.assertEqual(result.width_units, "mm")
 
     def test_product_have_depth(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.depth, Decimal('252.50'))
+        self.assertEqual(result.depth, Decimal("252.50"))
 
     def test_product_have_depth_units(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.depth_units, 'mm')
+        self.assertEqual(result.depth_units, "mm")
 
     def test_product_have_weight(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.weight, Decimal('1.80'))
+        self.assertEqual(result.weight, Decimal("1.80"))
 
     def test_product_have_weight_units(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.weight_units, 'kg')
+        self.assertEqual(result.weight_units, "kg")
 
     def test_product_have_color(self):
         self.create_product()
         result = Notebook.query.filter_by(id=1).first()
-        self.assertEqual(result.color, 'Silver')
+        self.assertEqual(result.color, "Silver")
 
     def test_product_have_usb_ports(self):
         self.create_product()

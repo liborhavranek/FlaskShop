@@ -13,26 +13,26 @@ class TestCustomerAddModel(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app(config={'TESTING': True})
+        self.app = create_app(config={"TESTING": True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
-        self.app.config['TESTING'] = True
-        self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.secret_key = 'test_secret_key'
+        self.app.config["TESTING"] = True
+        self.app.config["WTF_CSRF_ENABLED"] = False
+        self.app.secret_key = "test_secret_key"
         super().setUp()
 
     def create_category(self):
         self.category = Category()
-        self.category.category_name = 'Apple'
+        self.category.category_name = "Apple"
         db.session.add(self.category)
         db.session.commit()
 
     def test_brand_have_brand_name(self):
         self.create_category()
         result = Category.query.filter_by(id=1).first()
-        self.assertEqual(result.category_name, 'Apple')
+        self.assertEqual(result.category_name, "Apple")
 
     def test_brand_have_date_created(self):
         self.create_category()

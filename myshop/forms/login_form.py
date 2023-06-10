@@ -7,6 +7,6 @@ from wtforms.validators import DataRequired, Email
 
 class LoginForm(FlaskForm):
     csrf_token = HiddenField()
-    email = StringField('Email:', validators=[DataRequired(), Email()])
-    password = PasswordField('Heslo:', validators=[DataRequired()])
-    submit = SubmitField('Přihlásit')
+    email = StringField("Email:", validators=[DataRequired(), Email()])
+    password = PasswordField("Heslo:", validators=[DataRequired()])
+    submit = SubmitField("Přihlásit")

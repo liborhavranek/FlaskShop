@@ -5,7 +5,9 @@ from myshop.models.product_model import Product
 
 
 class Console(Product):
-    id = db.Column(db.Integer, db.ForeignKey('product.id', ondelete="CASCADE"), primary_key=True)
+    id = db.Column(
+        db.Integer, db.ForeignKey("product.id", ondelete="CASCADE"), primary_key=True
+    )
 
     ssd_capacity = db.Column(db.Integer, nullable=True)
     hdd_capacity = db.Column(db.Integer, nullable=True)

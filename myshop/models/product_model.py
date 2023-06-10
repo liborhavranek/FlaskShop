@@ -22,13 +22,15 @@ class Product(db.Model):
     visit_count = db.Column(db.Integer, default=0)
     product_type = db.Column(db.String(80))
 
-    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id', ondelete="CASCADE"), nullable=True)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id', ondelete="CASCADE"), nullable=True)
+    brand_id = db.Column(
+        db.Integer, db.ForeignKey("brand.id", ondelete="CASCADE"), nullable=True
+    )
+    category_id = db.Column(
+        db.Integer, db.ForeignKey("category.id", ondelete="CASCADE"), nullable=True
+    )
 
-    product_image = db.Column(db.String(150), nullable=True, default='image.jpg')
+    product_image = db.Column(db.String(150), nullable=True, default="image.jpg")
 
-    images = db.relationship('ProductImage', backref='product', lazy=True)
+    images = db.relationship("ProductImage", backref="product", lazy=True)
 
-    wishlist = db.relationship('Wishlist', backref='product', lazy=True)
-
-
+    wishlist = db.relationship("Wishlist", backref="product", lazy=True)

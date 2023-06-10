@@ -16,29 +16,31 @@ class TestMobileModel(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app(config={'TESTING': True})
+        self.app = create_app(config={"TESTING": True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
-        self.app.config['TESTING'] = True
-        self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.secret_key = 'test_secret_key'
+        self.app.config["TESTING"] = True
+        self.app.config["WTF_CSRF_ENABLED"] = False
+        self.app.secret_key = "test_secret_key"
         super().setUp()
 
     def create_product(self):
         self.product = Mobile()
-        self.product.product_name = 'Iphone 13 Pro Max'
+        self.product.product_name = "Iphone 13 Pro Max"
         self.product.price = 99.9
         self.product.discount = 0
         self.product.stock = 0
-        self.product.description = "iPhone 13 Pro Max: Powerful flagship with 120Hz ProMotion display, " \
-                                   "5G, A15 Bionic chip, and stunning camera capabilities."
+        self.product.description = (
+            "iPhone 13 Pro Max: Powerful flagship with 120Hz ProMotion display, "
+            "5G, A15 Bionic chip, and stunning camera capabilities."
+        )
         self.product.subheading = "iPhone 13 Pro Max: Powerful flagship"
 
         self.product.display_size = 7.8
-        self.product.display_resolution = '1200 x 1200'
-        self.product.operating_system = 'Android'
+        self.product.display_resolution = "1200 x 1200"
+        self.product.operating_system = "Android"
         self.product.operating_memory = 12
         self.product.memory = 12
 
@@ -50,33 +52,33 @@ class TestMobileModel(TestMixin, unittest.TestCase):
         self.product.back_camera = 12
 
         self.product.height = 11.2
-        self.product.height_units = 'mm'
+        self.product.height_units = "mm"
         self.product.weight = 1.23
-        self.product.weight_units = 'kg'
+        self.product.weight_units = "kg"
         self.product.depth = 11.8
-        self.product.depth_units = 'mm'
-        self.product.color = 'cerna'
+        self.product.depth_units = "mm"
+        self.product.color = "cerna"
         self.product.convertible = False
         self.product.wifi = True
         self.product.bluetooth = True
         self.product.nfc = True
-        self.product.processor = 'Apple A14 Bionic'
+        self.product.processor = "Apple A14 Bionic"
         self.product.processor_cores = 8
         self.product.brand_id = 1
         self.product.category_id = 1
-        self.product.product_image = 'product_image_00001.jpg'
+        self.product.product_image = "product_image_00001.jpg"
         db.session.add(self.product)
         db.session.commit()
 
     def test_product_have_product_name(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.product_name, 'Iphone 13 Pro Max')
+        self.assertEqual(result.product_name, "Iphone 13 Pro Max")
 
     def test_product_have_price(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.price, Decimal('99.90'))
+        self.assertEqual(result.price, Decimal("99.90"))
 
     def test_product_have_discount(self):
         self.create_product()
@@ -91,9 +93,11 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_description(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.description,
-                         "iPhone 13 Pro Max: Powerful flagship with 120Hz ProMotion display, 5G,"
-                         " A15 Bionic chip, and stunning camera capabilities.")
+        self.assertEqual(
+            result.description,
+            "iPhone 13 Pro Max: Powerful flagship with 120Hz ProMotion display, 5G,"
+            " A15 Bionic chip, and stunning camera capabilities.",
+        )
 
     def test_product_have_subheading(self):
         self.create_product()
@@ -108,12 +112,12 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_display_resolution(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.display_resolution, '1200 x 1200')
+        self.assertEqual(result.display_resolution, "1200 x 1200")
 
     def test_product_have_operating_system(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.operating_system, 'Android')
+        self.assertEqual(result.operating_system, "Android")
 
     def test_product_have_operating_memory(self):
         self.create_product()
@@ -158,37 +162,37 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_height(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.height, Decimal('11.20'))
+        self.assertEqual(result.height, Decimal("11.20"))
 
     def test_product_have_height_units(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.height_units, 'mm')
+        self.assertEqual(result.height_units, "mm")
 
     def test_product_have_weight(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.weight, Decimal('1.23'))
+        self.assertEqual(result.weight, Decimal("1.23"))
 
     def test_product_have_weight_units(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.weight_units, 'kg')
+        self.assertEqual(result.weight_units, "kg")
 
     def test_product_have_depth(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.depth, Decimal('11.80'))
+        self.assertEqual(result.depth, Decimal("11.80"))
 
     def test_product_have_depth_units(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.depth_units, 'mm')
+        self.assertEqual(result.depth_units, "mm")
 
     def test_product_have_color(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.color, 'cerna')
+        self.assertEqual(result.color, "cerna")
 
     def test_product_have_convertible(self):
         self.create_product()
@@ -213,7 +217,7 @@ class TestMobileModel(TestMixin, unittest.TestCase):
     def test_product_have_processor(self):
         self.create_product()
         result = Mobile.query.filter_by(id=1).first()
-        self.assertEqual(result.processor, 'Apple A14 Bionic')
+        self.assertEqual(result.processor, "Apple A14 Bionic")
 
     def test_product_have_processor_cores(self):
         self.create_product()

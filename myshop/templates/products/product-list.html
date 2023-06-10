@@ -50,6 +50,8 @@
             <td><a class="btn btn-info btn-sm" href="/products/edit-console-product/{{ product.id }}">Upravit</a></td>
         {% elif product.product_type == 'Hodinky' %}
             <td><a class="btn btn-info btn-sm" href="/products/edit-smart-watch-product/{{ product.id }}">Upravit</a></td>
+        {% elif product.product_type == 'Monitory' %}
+            <td><a class="btn btn-info btn-sm" href="/products/edit-monitor-product/{{ product.id }}">Upravit</a></td>
         {% endif %}
 
 
@@ -62,6 +64,8 @@
             <td><a class="btn btn-danger btn-sm" href="/products/delete-console-product/{{ product.id }}">Smazat</a></td>
         {% elif product.product_type == 'Hodinky' %}
             <td><a class="btn btn-danger btn-sm" href="/products/delete-smart-watch-product/{{ product.id }}">Smazat</a></td>
+        {% elif product.product_type == 'Monitory' %}
+            <td><a class="btn btn-danger btn-sm" href="/products/delete-monitor-product/{{ product.id }}">Smazat</a></td>
         {% endif %}
 
                     </tr>

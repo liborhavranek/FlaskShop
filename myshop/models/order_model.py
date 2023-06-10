@@ -6,7 +6,7 @@ from myshop import db
 
 class CustomerOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"), nullable=True)
     customer_first_name = db.Column(db.String(50), nullable=False)
     customer_last_name = db.Column(db.String(50), nullable=False)
     customer_email = db.Column(db.String(50), nullable=False)
@@ -21,9 +21,8 @@ class CustomerOrder(db.Model):
     order_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     total_price = db.Column(db.Float, nullable=False)
 
-    customer = db.relationship('Customer', backref='orders')
+    customer = db.relationship("Customer", backref="orders")
 
-    products = db.Column(db.String(5000), nullable=False, default="[]")  # Storing products as JSON
-
-
-
+    products = db.Column(
+        db.String(5000), nullable=False, default="[]"
+    )  # Storing products as JSON

@@ -12,91 +12,91 @@ class TestRegistrationForm(TestMixin, unittest.TestCase):
         cls.test_name = cls.__name__
 
     def setUp(self):
-        self.app = create_app(config={'TESTING': True})
+        self.app = create_app(config={"TESTING": True})
         self.app.testing = True
         self.client = self.app.test_client()
         app_context = self.app.app_context()
         app_context.push()
-        self.app.config['TESTING'] = True
-        self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.secret_key = 'test_secret_key'
+        self.app.config["TESTING"] = True
+        self.app.config["WTF_CSRF_ENABLED"] = False
+        self.app.secret_key = "test_secret_key"
         self.form = RegistrationForm()
         super().setUp()
 
     def test_registration_form_have_username_field(self):
-        self.assertIn('username', self.form._fields)
+        self.assertIn("username", self.form._fields)
 
     def test_registration_form_have_email_field(self):
-        self.assertIn('email', self.form._fields)
+        self.assertIn("email", self.form._fields)
 
     def test_registration_form_have_phone_code_field(self):
-        self.assertIn('phone_code', self.form._fields)
+        self.assertIn("phone_code", self.form._fields)
 
     def test_registration_from_have_phone_field(self):
-        self.assertIn('phone', self.form._fields)
+        self.assertIn("phone", self.form._fields)
 
     def test_registration_from_have_password_field(self):
-        self.assertIn('password', self.form._fields)
+        self.assertIn("password", self.form._fields)
 
     def test_registration_from_have_confirm_password_field(self):
-        self.assertIn('confirm_password', self.form._fields)
+        self.assertIn("confirm_password", self.form._fields)
 
     def test_registration_form_have_faktura_first_name_field(self):
-        self.assertIn('faktura_first_name', self.form._fields)
+        self.assertIn("faktura_first_name", self.form._fields)
 
     def test_registration_form_have_faktura_last_name_field(self):
-        self.assertIn('faktura_last_name', self.form._fields)
+        self.assertIn("faktura_last_name", self.form._fields)
 
     def test_registration_form_have_faktura_city_field(self):
-        self.assertIn('faktura_city', self.form._fields)
+        self.assertIn("faktura_city", self.form._fields)
 
     def test_registration_form_have_faktura_street_field(self):
-        self.assertIn('faktura_street', self.form._fields)
+        self.assertIn("faktura_street", self.form._fields)
 
     def test_registration_form_have_faktura_zipcode_field(self):
-        self.assertIn('faktura_zipcode', self.form._fields)
+        self.assertIn("faktura_zipcode", self.form._fields)
 
     def test_registration_form_have_dodej_first_name_field(self):
-        self.assertIn('dodej_first_name', self.form._fields)
+        self.assertIn("dodej_first_name", self.form._fields)
 
     def test_registration_form_have_dodej_last_name_field(self):
-        self.assertIn('dodej_last_name', self.form._fields)
+        self.assertIn("dodej_last_name", self.form._fields)
 
     def test_registration_form_have_dodej_companyfield(self):
-        self.assertIn('dodej_company', self.form._fields)
+        self.assertIn("dodej_company", self.form._fields)
 
     def test_registration_form_have_dodej_city_field(self):
-        self.assertIn('dodej_city', self.form._fields)
+        self.assertIn("dodej_city", self.form._fields)
 
     def test_registration_form_have_dodej_street_field(self):
-        self.assertIn('dodej_street', self.form._fields)
+        self.assertIn("dodej_street", self.form._fields)
 
     def test_registration_form_have_dodej_zipcode_field(self):
-        self.assertIn('dodej_zipcode', self.form._fields)
+        self.assertIn("dodej_zipcode", self.form._fields)
 
     def test_registration_form_have_dodej_info_field(self):
-        self.assertIn('dodej_info', self.form._fields)
+        self.assertIn("dodej_info", self.form._fields)
 
     def test_registration_form_have_dodej_phone_code_field(self):
-        self.assertIn('dodej_phone_code', self.form._fields)
+        self.assertIn("dodej_phone_code", self.form._fields)
 
     def test_registration_form_have_dodej_phone_field(self):
-        self.assertIn('dodej_phone', self.form._fields)
+        self.assertIn("dodej_phone", self.form._fields)
 
     def test_registration_form_have_firma_ico_field(self):
-        self.assertIn('firma_ico', self.form._fields)
+        self.assertIn("firma_ico", self.form._fields)
 
     def test_registration_form_have_firma_dic_field(self):
-        self.assertIn('firma_dic', self.form._fields)
+        self.assertIn("firma_dic", self.form._fields)
 
     def test_registration_form_have_firma_bank_acc_field(self):
-        self.assertIn('firma_bank_acc', self.form._fields)
+        self.assertIn("firma_bank_acc", self.form._fields)
 
     def test_registration_form_have_firma_bank_number_field(self):
-        self.assertIn('firma_bank_number', self.form._fields)
+        self.assertIn("firma_bank_number", self.form._fields)
 
     def test_registration_form_have_firma_spec_symbol_field(self):
-        self.assertIn('firma_spec_symbol', self.form._fields)
+        self.assertIn("firma_spec_symbol", self.form._fields)
 
     def test_registration_form_have_submit_field(self):
-        self.assertIn('submit', self.form._fields)
+        self.assertIn("submit", self.form._fields)

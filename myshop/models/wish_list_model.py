@@ -5,5 +5,9 @@ from myshop import db
 
 class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id', ondelete="CASCADE"), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id', ondelete="CASCADE"), nullable=False)
+    customer_id = db.Column(
+        db.Integer, db.ForeignKey("customer.id", ondelete="CASCADE"), nullable=False
+    )
+    product_id = db.Column(
+        db.Integer, db.ForeignKey("product.id", ondelete="CASCADE"), nullable=False
+    )
