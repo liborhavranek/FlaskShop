@@ -14,6 +14,7 @@ from .models.brand_model import Brand
 from .models.category_model import Category
 from .models.console_model import Console
 from .models.mobile_model import Mobile
+from .models.monitor_model import Monitor
 from .models.notebook_model import Notebook
 from .models.smart_watch_model import SmartWatch
 
@@ -142,6 +143,7 @@ def create_test_data():
         {"brand_name": "MSI"},
         {"brand_name": "PlayStation"},
         {"brand_name": "Xbox"},
+        {"brand_name": "Philips"},
     ]
     categories = [
         {"category_name": "Mobily"},
@@ -379,6 +381,57 @@ def create_test_data():
 
             product.brand_id = row["brand_id"]
             product.category_id = row["category_id"]
+
+            product.product_image = row["product_image"]
+
+            db.session.add(product)
+            db.session.commit()
+
+    with open("myshop/monitor_products.csv", newline="") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            product = Monitor()
+            product.product_name = row["product_name"]
+            product.price = row["price"]
+            product.discount = row["discount"]
+            product.stock = row["stock"]
+
+            product.display_size = row["display_size"]
+            product.display_resolution = row["display_resolution"]
+            product.refresh_rate = row["refresh_rate"]
+            product.response_time = row["response_time"]
+            product.aspect_ratio = row["aspect_ratio"]
+
+            product.connectivity = row["connectivity"]
+            product.color_depth = row["color_depth"]
+
+            product.height = row["height"]
+            product.height_units = row["height_units"]
+            product.width = row["width"]
+            product.width_units = row["width_units"]
+            product.depth = row["depth"]
+            product.depth_units = row["depth_units"]
+            product.weight = row["weight"]
+            product.weight_units = row["weight_units"]
+
+            product.curvature = ast.literal_eval(row["curvature"])
+
+            product.adjustable_stand = ast.literal_eval(row["adjustable_stand"])
+            product.wall_mountable = ast.literal_eval(row["wall_mountable"])
+
+            product.built_in_speakers = ast.literal_eval(row["built_in_speakers"])
+
+            product.energy_efficiency = row["energy_efficiency"]
+
+            product.description = row["description"]
+            product.subheading = row["subheading"]
+
+            product.color = row["color"]
+            product.brand_id = row["brand_id"]
+            product.category_id = row["category_id"]
+
+            product.visit_count = row["visit_count"]
+            product.product_type = row["product_type"]
 
             product.product_image = row["product_image"]
 

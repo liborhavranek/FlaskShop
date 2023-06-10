@@ -9,6 +9,7 @@ omit =
     myshop/create_notebook_data.py
     myshop/create_console_data.py
     myshop/create_watch_data.py
+    myshop/create_monitor_data.py
 
 [report]
 exclude_lines =
