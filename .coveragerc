@@ -5,6 +5,7 @@ omit =
     app.py
     myshop/products.py
     myshop/views.py
+    myshop/admin.py
     myshop/create_mobile_data.py
     myshop/create_notebook_data.py
     myshop/create_console_data.py
