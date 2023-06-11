@@ -1,0 +1,97 @@
+{% extends 'base.html'%}
+    {% block content %}
+
+<div class="auth-views-container container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% include 'navbars/left_navbar.html'%}
+        </div>
+        <div class="col-9 my-5 px-5">
+            <h1>Sklad</h1>
+
+
+    {% for category in categories %}
+        <a href="{{ url_for('admin.warehouse', category=category.id) }}" class="btn shadow-lg mx-2">{{ category.category_name }}</a>
+
+    {% endfor %}
+
+
+            <div class="py-5 px-5 d-flex justify-content-center">
+
+
+              <table class="table">
+                <thead>
+                  <tr>
+                      <th><h4>Fotka</h4></th>
+                      <th><h4>Jméno</h4></th>
+                      <th><h4>Počet kusů</h4></th>
+                      <th><h4>Naskladnit kusů</h4></th>
+                      <th><h4>Upravit</h4></th>
+                      <th><h4>Prodáno</h4></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product in products %}
+                    <tr>
+                      <td><img src="{{ url_for('static', filename='images/uploads/' + product.product_image) }}" class=" img-fluid product-list-product-image"></td>
+                      <td><a href="/products/product-preview/{{ product.id }}">{{ product.product_name }}</a></td>
+                      <td class="text-center">{{ product.stock }}</td>
+
+
+
+                                  <form action="{{ url_for('admin.update_stock', product_id=product.id) }}" method="POST">
+        <td><input type="number" name="stock" min="0" required></td>
+       <td> <button class="btn btn-info btn-sm" type="submit">Naskladnit</button></td>
+      </form>
+                        <td class="text-center">{{ product.sold }}</td>
+
+
+
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+
+              <!-- Pagination links -->
+    <nav>
+        <ul class="pagination justify-content-center">
+{% if products.has_prev %}
+  <li class="page-item">
+    <a class="page-link" href="{{ url_for('admin.warehouse', page=products.prev_num, category=selected_category) }}" aria-label="Previous">
+      <span aria-hidden="true">&laquo;</span>
+    </a>
+  </li>
+{% endif %}
+{% for num in products.iter_pages() %}
+  {% if num %}
+    {% if products.page == num %}
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">{{ num }}</span>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('admin.warehouse', page=num, category=selected_category) }}">{{ num }}</a>
+      </li>
+    {% endif %}
+  {% else %}
+    <li class="page-item disabled" aria-disabled="true">
+      <span class="page-link">...</span>
+    </li>
+  {% endif %}
+{% endfor %}
+{% if products.has_next %}
+  <li class="page-item">
+    <a class="page-link" href="{{ url_for('admin.warehouse', page=products.next_num, category=selected_category) }}" aria-label="Next">
+      <span aria-hidden="true">&raquo;</span>
+    </a>
+  </li>
+{% endif %}
+        </ul>
+    </nav>
+
+        </div>
+    </div>
+</div>
+{%endblock content %}

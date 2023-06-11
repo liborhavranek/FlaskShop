@@ -12,9 +12,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link mx-2 active" aria-current="page" href="/auth">Data</a>
-        </li>
+
 
         {% if customer.is_authenticated %}
 
@@ -33,6 +31,10 @@
             <li><a class="nav-link mx-2 text-uppercase" href="/auth/logout">Odhlásit</a></li>
             <li><a class="dropdown-item" href="{{ url_for('views.orders', customer_id=current_user.id) }}">Objednávky</a></li>
             <li><a class="dropdown-item" href="{{ url_for('views.wishlist', customer_id=current_user.id) }}">Seznam Přání</a></li>
+
+            {% if current_user.username == 'admin'  %}
+    <li><a class="dropdown-item" href="{{ url_for('admin.warehouse', customer_id=current_user.id) }}">Administrace</a></li>
+{% endif %}
           </ul>
         </li>
         {% else %}

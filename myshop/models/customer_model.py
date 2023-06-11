@@ -41,3 +41,5 @@ class Customer(db.Model, UserMixin):
     firma_spec_symbol = db.Column(db.String(50), unique=False, nullable=True)
 
     wishlist = db.relationship("Wishlist", backref="customer", lazy=True)
+
+    role = db.Column(db.String(20), default="user")
