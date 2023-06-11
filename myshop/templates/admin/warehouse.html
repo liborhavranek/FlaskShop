@@ -27,6 +27,7 @@
                       <th><h4>Počet kusů</h4></th>
                       <th><h4>Naskladnit kusů</h4></th>
                       <th><h4>Upravit</h4></th>
+                      <th><h4>Prodáno</h4></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,7 @@
         <td><input type="number" name="stock" min="0" required></td>
        <td> <button class="btn btn-info btn-sm" type="submit">Naskladnit</button></td>
       </form>
+                        <td class="text-center">{{ product.sold }}</td>
 
 
 

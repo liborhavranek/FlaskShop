@@ -125,11 +125,13 @@ def create_test_data():
             "username": "admin",
             "email": "liborhavranek91@gmail.com",
             "phone": "123456789",
+            "role": "admin",
         },
         {
             "username": "admin1",
             "email": "liborseucipython@gmail.com",
             "phone": "123456789",
+            "role": "user",
         },
     ]
     brands = [
@@ -161,6 +163,7 @@ def create_test_data():
         customer.username = user["username"]
         customer.email = user["email"]
         customer.phone = user["phone"]
+        customer.role = user["role"]
         customer.user_password = generate_password_hash(password, method="sha256")
         db.session.add(customer)
 

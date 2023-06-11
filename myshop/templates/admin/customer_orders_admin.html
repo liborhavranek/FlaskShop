@@ -5,12 +5,12 @@
 <div class="auth-views-container container-fluid">
     <div class="row">
         <div class="col-3">
-            {% include 'navbars/product_navbar.html'%}
+            {% include 'navbars/left_navbar.html'%}
         </div>
         <div class="col-9 my-5 px-5">
             <div class="row px-5 py-5 rounded shadow-lg">
 
- <h1 class="pb-5">Objednávky uživatele {{ customer.username }}</h1>
+ <h1 class="pb-5">Všechny objednávky</h1>
 
 
 <table class="table">
@@ -31,7 +31,15 @@
       <td>{{ order.total_price }}</td>
       <td>{{ "Zaplaceno" if order.payment_status else "Čeká na zaplacení" }}</td>
         <td>{{ "Odesláno" if order.delivery_status else "Čeká na odelsání" }}</td>
-        <td><a class="btn btn-info btn-sm" href="/payment/{{ order.id }}">Podrobnosti</a></td>
+
+        {% if order.delivery_status == True %}
+        <td><button class="btn btn-success btn-sm" type="button" disabled>Odesláno</button></td>
+        {% elif order.payment_status == True %}
+        <td><a class="btn btn-info btn-sm" href="/admin/send-order/{{ order.id }}">Odeslat</a></td>
+        {% else %}
+        <td><button class="btn btn-info btn-sm" type="button" disabled>Odesláno</button></td>
+        {% endif %}
+
     </tr>
     {% endfor %}
   </tbody>

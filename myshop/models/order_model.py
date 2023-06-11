@@ -20,6 +20,7 @@ class CustomerOrder(db.Model):
     payment_status = db.Column(db.Boolean, nullable=False, default=False)
     order_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     total_price = db.Column(db.Float, nullable=False)
+    delivery_status = db.Column(db.Boolean, nullable=False, default=False)
 
     customer = db.relationship("Customer", backref="orders")
 
