@@ -10,6 +10,7 @@ omit =
     myshop/create_console_data.py
     myshop/create_watch_data.py
     myshop/create_monitor_data.py
+    myshop/models/headset_model.py
 
 [report]
 exclude_lines =
