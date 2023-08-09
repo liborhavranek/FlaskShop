@@ -1,5 +1,6 @@
 """ Libor Havránek App Copyright (C)  8.6. 2023 """
 
+
 import unittest
 
 from wtforms.validators import InputRequired
